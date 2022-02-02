@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum State {
+  Finished
+  on_going
+  on_pause
+}
+
+model User {
+  id          String  @id @default(uuid())
+  name        String
+  username    String  @unique
+  password    String // revisar el tipo por algo como Cypher
+  coins       Int     @default(0)
+  creatorMode Boolean @default(false)
+  email       String  @unique
+  library     Int[]
+  favorites   Int[]
+  wishList    Int[]
+  created     Manga[] // A user can have many mangas
+}
+
+model Manga {
+  id        Int       @id @default(autoincrement())
+  title     String    @unique
+  synopsis  String
+  author    User      @relation(fields: [authorId], references: [id]) //A manga can have one User
+  authorId  String
+  images    String[] // type Byte probar
+  createdAt DateTime  @default(now())
+  uptadedAt DateTime  @updatedAt
+  genre     String[]
+  rating    Float
+  chapter   Int
+  chapters  Chapter[]
+  state     String
+}
+
+model Chapter {
+  id      Int      @id @default(autoincrement())
+  title   String    
+  points  Int
+  images  String[] // type Byte probar
+  manga   Manga    @relation(fields: [mangaId], references: [id]) // A manga can have one User
+  mangaId Int
+  usersId  String[]
+}
+
+model Link {
+  id   Int    @id @default(autoincrement())
+  name String
+}
