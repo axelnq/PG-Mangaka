@@ -56,7 +56,3 @@ model Chapter {
   usersId  String[]
 }
 
-model Link {
-  id   Int    @id @default(autoincrement())
-  name String
-}

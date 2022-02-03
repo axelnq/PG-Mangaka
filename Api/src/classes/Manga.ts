@@ -10,13 +10,13 @@ export default class Manga {
     id: number | undefined;
     title: string;
     synopsis: string;
-    images: [string, string];
+    images: string[];
     genre: string[];
     rating: number;
     state: string;
     authorId: string;
     chapter: number;
-    chapters: number[] | undefined;
+    chapters?: number[] | undefined;
   
 
     constructor(title: string, synopsis: string, images: [string, string], genre: string[],authorId:string, rating?: number, chapter?:number, chapters?:number[], state?: string, id?:number) {

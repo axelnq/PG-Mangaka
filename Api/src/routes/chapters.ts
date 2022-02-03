@@ -3,6 +3,8 @@ import { db } from "../app";
 import Chapter from "../classes/Chapter";
 export const chaptersRouter = Router();
 
+
+// Creacion de un chapter
 chaptersRouter.post<{}, {}>("/", async (req, res, next) => {
   const { title, images, mangaId } = req.body;
   const chapter = new Chapter(title, images, mangaId);
