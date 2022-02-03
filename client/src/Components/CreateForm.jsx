@@ -1,64 +1,112 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { FormControl } from '@mui/material';
+import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
+
 
 const CreateForm = () => {
 
   const [input,setInput] = useState({
     title: '',
     synopsis:'',
-    images:'',
-    authorId:'',
-    genere:'',
+    image:'',
+    genre:'',
   })
+
+  function handleChange(e) {
+    setInput({
+        ...input,
+        [e.target.name]: e.target.value,
+    });
+}
+
+// function handleSelect(e) {
+//     setInput({
+//         ...input,
+//         genre: [...input.genre, e.target.value],
+//     });
+// }
+
+// function handleSubmit(e) {
+//     e.preventDefault();
+
+//     const { name,  synopsis,image , genre } = input;
+        
     return (
-      <form>
-             <div>
-               <h1>Crea tu manga</h1>
-                        <label>Title:</label>
+        <Box 
+        paddingTop={'8%'}
+        sx={{ display: 'flex' }}
+        sx={{mt:'15%'}}
+        sx={{md:{xs:'20%', md:'40%', lg:'100%' }}}>
+        <div>
+      <FormControl 
+      sx={{ width: 300,
+        height: 400,
+        borderRadius:'5px',
+        backgroundColor: '#192A45',
+        color:'#357DED',
+      }}>
+      <h1 >CREA TU MANGA</h1>
+                        <label>TITLE :</label>
+                        <div>
                         <input
                             type="text"
                             value={input.title}
                             name="title"
-                            // onChange={(e) => handleChange(e)}
+                            // placeholder='TITLE'
+                            onChange={(e) => handleChange(e)}
                         />
-                    </div>
-                    <div>
-                        <label>Synopsis:</label>
+                        </div>
+                        <Box sx={{mt:'1rem'}}>
+                        <label >SYNOPSIS :</label>
+                        <div>
                         <input
                             type="text"
                             value={input.synopsis}
                             name="synposis"
-                            // onChange={(e) => handleChange(e)}
+                            // placeholder='SYNOPSIS'
+                            onChange={(e) => handleChange(e)}
                         />
-                    </div>
-                    <div>
-                        <label>Imagen:</label>
+                       
+                        </div>
+                        </Box>
+                        <Box sx={{mt:'1rem'}}>
+                        <label>IMAGEN :</label>
+                        <div>
                         <input
                             type="text"
                             value={input.image}
                             name="image"
-                            // onChange={(e) => handleChange(e)}
+                            // placeholder='IMAGEN'
+                            onChange={(e) => handleChange(e)}
                        />
-                    </div>
-                   
-                        <label>Author:</label>
+                       </div>
+                       </Box>
+                       <Box sx={{mt:'1rem'}}>
+                        <label>GENERO :</label>
+                        <div>
                         <input
                             type="text"
-                            value={input.authorId}
-                            name="author"
+                            value={input.genre}
+                            name="genre"
+                            // placeholder='GENERO'
                             // onChange={(e) => handleSelect(e)}
                         />
-                          <div/>
-            
-                    <button className="btnCreate" type="submit">
-                        Crear Manga
-                    </button>
-                    <Link to="/home">
-                    <button className="btnCreate">Home</button>
-                </Link>
-        </form>
+                        </div>
+                        </Box>
+                        <div>
+                  <Box sx={{width:'100%', py:'1rem'}}>
+                    <Button  type="submit" size="small" className='btnCreate' variant="contained">Crear Manga</Button></Box>
+                      <Box sx={{width:'100%', py:'0.2rem'}}>
+                    <Button  size="small" variant="contained" href="/home">
+                    Home
+                    </Button>  </Box>
+                   </div>                     
+        </FormControl>
+        </div>
+        </Box>
     )
 }
 
-export default CreateForm
+export default CreateForm;
