@@ -95,9 +95,16 @@ mangasRouter.get<{}, {}>("/Search", async (req, res, next) => {
   const { title } = req.query;
   const dato = title as string;
   const result: any = await db.manga.findMany({
-    where: { title: { contains: title as string } },
+    where: {
+      title: {
+        contains: title as string,
+        mode: "insensitive",
+      },
+    },
   });
-  console.log(JSON.stringify(title));
+  // let filter = result.filter((e:{}) =>
+  //   e.title.toLowerCase().includes(dato.toLowerCase())
+  // );
   return res.json(result);
 });
 
