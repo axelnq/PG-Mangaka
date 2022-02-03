@@ -1,26 +1,34 @@
-import { Router } from "express"
-import { db } from "../app"
-import Manga from '../classes/Manga'
-import User from '../classes/User'
+import { Router } from "express";
+import { db } from "../app";
+import Manga from '../classes/Manga';
+import User from '../classes/User';
 export const mangasRouter = Router();
 import axios from "axios";
-import { sort } from '../utils/sorts'
+import { sort } from '../utils/sorts';
+import paginated from '../utils/paginated';
 
 
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>('/directory', async (req, res, next) => {
-    const allMangas = await db.manga.findMany();
+    const { page } = req.query;
+    let mangasResponse: [Manga[], number]
+    try{
+        mangasResponse = await paginated(Number(page));
+    } catch(e:any) {
+        return res.status(404).send({message: e.message});
+    }
+    let paginatedMangas: Manga[] = mangasResponse[0];
     const order: any = req.query.order;
     const tags: any = req.query.tags;
+
    
     if (order && tags) {
         
-        const mangaOrder = sort(allMangas, order.toLowerCase(), tags.toLowerCase());
-
-        return res.json(mangaOrder);
+        paginatedMangas = sort(paginatedMangas, order.toLowerCase(), tags.toLowerCase());
+        mangasResponse = [paginatedMangas, mangasResponse[1]];
     }
 
-    res.json(allMangas);
+    res.json(mangasResponse);
 })
 
 // Obtener los 10 mangas mas populares por rating
