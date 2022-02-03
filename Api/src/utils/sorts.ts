@@ -1,7 +1,7 @@
 import Manga from '../classes/Manga';
 
 
-export function sort(mangas:Manga[], order:string, tag:string):{}[] {
+export function sort(mangas:Manga[], order:string, tag:string):Manga[] {
     let sortMangas:Manga[] = [...mangas];
     let typeKey = tag as keyof Manga;
     // si type se puede castear a la interface;
