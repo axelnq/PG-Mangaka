@@ -8,7 +8,7 @@ import bleach from '../img/bleach.png'
 import komi from '../img/komi.png'
 import blackC from '../img/black.png'
 import saitama from '../img/saitama.png'
-
+// comentario para subir
 import './styleBanner.css'
 
 const Banner = (props) => {
