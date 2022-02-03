@@ -10,7 +10,10 @@ import paginated from '../utils/paginated';
 
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>('/directory', async (req, res, next) => {
-    const { page } = req.query;
+    let { page } = req.query;
+    if (!page) {
+        page = '1';
+    }
     let mangasResponse: [Manga[], number]
     try{
         mangasResponse = await paginated(Number(page));
