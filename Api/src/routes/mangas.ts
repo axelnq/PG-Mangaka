@@ -10,6 +10,7 @@ import paginated from "../utils/paginated";
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
   let { page, order, tags } = req.query;
+  if (!page) page = '1';
   let filter:string = req.query.filter as string; //Page number > 0, order emun [asc, desc],
   // tags enum [title, chapter, rating, createdAt, updatedAt]
   // filter string "Action-Adventure"
