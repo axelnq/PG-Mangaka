@@ -40,7 +40,7 @@ export let getAllMangas = () => {
 export let getMangaDetail = (payload) => {
     return async (dispatch) => {
         try {
-            let mangaDetail = await axios.get(`http://localhost:3001/api/mangas/allMangas`)
+            let mangaDetail = await axios.get(`http://localhost:3001/api/mangas/manga/` + payload)
             return dispatch({
                 type: GET_DETAIL,
                 payload: mangaDetail.data

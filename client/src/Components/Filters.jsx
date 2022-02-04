@@ -69,56 +69,56 @@ const Filters = () => {
         // </div>
         <div>
             <Box sx={{ backgroundColor: '#192A45' }}>
-                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2}}>
-                    <InputLabel id="demo-simple-select-label" sx={{color: '#357DED'}}>Géneros populares</InputLabel>
+                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>Géneros populares</InputLabel>
                     <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Géneros populares"
-                    sx={{color: '#357DED', backgroundColor: '#000'}}
-                    onChange={handleFilterGenre}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Géneros populares"
+                        sx={{ color: '#357DED', backgroundColor: '#000' }}
+                        onChange={handleFilterGenre}
                     >
-                    <MenuItem value='' sx={{color: '#357DED'}}></MenuItem>
-                    <MenuItem value={'comedy'} sx={{color: '#357DED'}}>Comedia</MenuItem>
-                    <MenuItem value={'drama'} sx={{color: '#357DED'}}>Drama</MenuItem>
-                    <MenuItem value={'romance'} sx={{color: '#357DED'}}>Romance</MenuItem>
-                    <MenuItem value={'thriller'} sx={{color: '#357DED'}}>Thriller</MenuItem>
-                    <MenuItem value={'horror'} sx={{color: '#357DED'}}>Horror</MenuItem>
-                    <MenuItem value={'fantasy'} sx={{color: '#357DED'}}>Fantasia</MenuItem>
-                    <MenuItem value={'adventure'} sx={{color: '#357DED'}}>Aventura</MenuItem>
+                        <MenuItem value='' sx={{ color: '#357DED' }}></MenuItem>
+                        <MenuItem value={'comedy'} sx={{ color: '#357DED' }}>Comedia</MenuItem>
+                        <MenuItem value={'drama'} sx={{ color: '#357DED' }}>Drama</MenuItem>
+                        <MenuItem value={'romance'} sx={{ color: '#357DED' }}>Romance</MenuItem>
+                        <MenuItem value={'thriller'} sx={{ color: '#357DED' }}>Thriller</MenuItem>
+                        <MenuItem value={'horror'} sx={{ color: '#357DED' }}>Horror</MenuItem>
+                        <MenuItem value={'fantasy'} sx={{ color: '#357DED' }}>Fantasia</MenuItem>
+                        <MenuItem value={'adventure'} sx={{ color: '#357DED' }}>Aventura</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2}}>
-                     <InputLabel id="demo-simple-select-label" sx={{color: '#357DED'}}>Autores</InputLabel>
+                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>Autores</InputLabel>
                     <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Autores"
-                    sx={{color: '#357DED'}}
-                    onChange={handleFilterAuthor}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Autores"
+                        sx={{ color: '#357DED' }}
+                        onChange={handleFilterAuthor}
                     >
-                    <MenuItem value='' sx={{color: '#357DED'}}></MenuItem>
-                    <MenuItem value={'aster-noriko'} sx={{color: '#357DED'}}>Aster Noriko</MenuItem>
+                        <MenuItem value='' sx={{ color: '#357DED' }}></MenuItem>
+                        <MenuItem value={'aster-noriko'} sx={{ color: '#357DED' }}>Aster Noriko</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2}}>
-                    <InputLabel id="demo-simple-select-label" sx={{color: '#357DED'}}>Orden</InputLabel>
+                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>Orden</InputLabel>
                     <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Autores"
-                    sx={{color: '#357DED'}}
-                    onChange={handleOrder}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Autores"
+                        sx={{ color: '#357DED' }}
+                        onChange={handleOrder}
                     >
-                    <MenuItem value='' sx={{color: '#357DED'}}></MenuItem>
-                    <MenuItem value={'asc'} sx={{color: '#357DED'}}>A-Z</MenuItem>
-                    <MenuItem value={'desc'} sx={{color: '#357DED'}}>Z-A</MenuItem>
-                    <MenuItem value={'nuevos'} sx={{color: '#357DED'}}>Nuevos</MenuItem>
+                        <MenuItem value='' sx={{ color: '#357DED' }}></MenuItem>
+                        <MenuItem value={'asc'} sx={{ color: '#357DED' }}>A-Z</MenuItem>
+                        <MenuItem value={'desc'} sx={{ color: '#357DED' }}>Z-A</MenuItem>
+                        <MenuItem value={'nuevos'} sx={{ color: '#357DED' }}>Nuevos</MenuItem>
                     </Select>
                 </FormControl>
             </Box>
         </div>
-        
+
     )
 }
 
