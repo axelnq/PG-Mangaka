@@ -10,7 +10,10 @@ import paginated from '../utils/paginated';
 
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>('/directory', async (req, res, next) => {
-    const { page } = req.query;
+    let { page } = req.query;
+    if (!page) {
+        page = "1";
+    }
     let mangasResponse: [Manga[], number]
     try{
         mangasResponse = await paginated(Number(page));
@@ -140,4 +143,34 @@ mangasRouter.get<{}, {}>('/allMangas', async (req, res, next) => {
 
     return res.json(allMangas.data.data);
 
+})
+
+mangasRouter.get<{},{}>('/recentMangas', async (req, res, next) => {
+    try {
+        const recentMangas = await db.manga.findMany({
+            orderBy: {
+                uptadedAt: "desc"
+            },
+            take: 10
+        })
+        return res.json(recentMangas);
+    } catch (error) {
+        console.log("Error recentMangas: ", error)
+        next(new Error("recentMangas Error"));
+    }
+})
+
+mangasRouter.get<{}, {}>("/listOfGenres", async (req, res, next) => {
+  const mangas = await db.manga.findMany();
+  
+  let arrayGenres:string[] = [];
+ 
+  mangas.forEach(manga => {
+       manga.genre.forEach(genre => arrayGenres.push(genre))
+  })
+  const deleteDuplicates = new Set(arrayGenres);
+  
+  let genres = [...deleteDuplicates];
+
+  res.send(genres)
 })
