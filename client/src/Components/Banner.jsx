@@ -1,14 +1,14 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
 import { Link } from 'react-router-dom';
-// import Container from '@mui/material/Container';
+
 
 import Box from '@mui/material/Box';
 import bleach from '../img/bleach.png'
 import komi from '../img/komi.png'
 import blackC from '../img/black.png'
 import saitama from '../img/saitama.png'
-// comentario para subir
+
 import './styleBanner.css'
 
 const Banner = (props) => {
