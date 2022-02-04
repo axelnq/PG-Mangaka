@@ -3,15 +3,24 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { React } from 'react'; // hooks
-import { useDispatch } from 'react-redux'; // hooks
-import { orderMangas, filterMangasByAuthor, filterMangasByGenre } from '../Actions';
+import { React, useEffect } from 'react'; // hooks
+import { useDispatch, useSelector } from 'react-redux'; // hooks
+import { orderMangas, filterMangasByAuthor, filterMangasByGenre, getAllMangas, recomendatedMangas, getGenres } from '../Actions';
+import Button from '@mui/material/Button';
 
 const Filters = () => {
     const dispatch = useDispatch()
-    // let [order, setOrder] = useState('')
-    // let [author, setAuthor] = useState('')
-    // let [genre, setGenre] = useState('')
+    let { genres } = useSelector(state => state)
+
+    let handleGetAll = (e) => {
+        e.preventDefault()
+        dispatch(getAllMangas())
+    }
+
+    let handleRecomendation = (e) => {
+        e.preventDefault()
+        dispatch(recomendatedMangas())
+    }
 
     let handleOrder = (e) => {
         e.preventDefault()
@@ -29,48 +38,17 @@ const Filters = () => {
         dispatch(filterMangasByGenre(e.target.value))
     }
 
+    useEffect(() => {
+        dispatch(recomendatedMangas())
+        // dispatch(getGenres())
+    })
+
     return (
-        // <div id='heather'>
-        //     <ul class='nav'>
-        //         <li>
-        //         <p>Géneros populares</p>
-        //         <ul>
-        //             <li><a href='#comedia'>Comedia</a></li>
-        //             <li><a href='#romance'>Romance</a></li>
-        //             <li><a href='#aventura'>Aventura</a></li>
-        //             <li><a href='#drama'>Drama</a></li>
-        //             <li><a href='#supernatural'>Supernatural</a></li>
-        //         </ul>
-        //         </li>
-        //         <li>
-        //         <a href='#tendencias'>Tendencias</a>
-        //         </li>
-        //         <li>
-        //         <p>Autores</p>
-        //         <ul>
-        //             <li><a href='#aster-noriko'>Aster Noriko</a></li>
-        //             <li><a href='#daichi-matsuse'>Daichi Matsuse</a></li>
-        //             <li><a href='#fumino-hayashi'>Fumino Hayashi</a></li>
-        //             <li><a href='#gato aso'>Gato Aso</a></li>
-        //             <li><a href='#katsu aki'>Katsu Aki</a></li>
-        //             <li><a href='#kyo shirodaira'>Kyo Shirodaira</a></li>
-        //             <li><a href='#mitsuba takanashi'>Mitsuba Takanashi</a></li>
-        //         </ul>
-        //         </li>
-        //         <li>
-        //         <p>Order</p>
-        //         <ul>
-        //             <li><a href='#a-z'>A-Z</a></li>
-        //             <li><a href='#z-a'>Z-A</a></li>
-        //             <li><a href='#nuevos-lanzamientos'>Nuevos lanzamientos</a></li>
-        //         </ul>  
-        //         </li>
-        //     </ul>
-        // </div>
         <div>
             <Box sx={{ backgroundColor: '#192A45' }}>
-                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
-                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>Géneros populares</InputLabel>
+                <Button variant="contained" onClick={handleRecomendation} sx={{ color: '#357DED', width: '15%', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>Recomendaciones</Button>
+                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>GÉNEROS POPULARES</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -78,18 +56,26 @@ const Filters = () => {
                         sx={{ color: '#357DED', backgroundColor: '#000' }}
                         onChange={handleFilterGenre}
                     >
-                        <MenuItem value='' sx={{ color: '#357DED' }}></MenuItem>
-                        <MenuItem value={'comedy'} sx={{ color: '#357DED' }}>Comedia</MenuItem>
-                        <MenuItem value={'drama'} sx={{ color: '#357DED' }}>Drama</MenuItem>
-                        <MenuItem value={'romance'} sx={{ color: '#357DED' }}>Romance</MenuItem>
-                        <MenuItem value={'thriller'} sx={{ color: '#357DED' }}>Thriller</MenuItem>
-                        <MenuItem value={'horror'} sx={{ color: '#357DED' }}>Horror</MenuItem>
-                        <MenuItem value={'fantasy'} sx={{ color: '#357DED' }}>Fantasia</MenuItem>
-                        <MenuItem value={'adventure'} sx={{ color: '#357DED' }}>Aventura</MenuItem>
+                        {/* {
+                        genres && genres.map(g => <MenuItem value={g} sx={{color: '#357DED'}}>{g}</MenuItem>)
+                    } */}
+                        <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
+                        <MenuItem value={'Action'} sx={{ color: '#357DED' }}>ACCIÓN</MenuItem>
+                        <MenuItem value={'Comedy'} sx={{ color: '#357DED' }}>COMEDIA</MenuItem>
+                        <MenuItem value={'Supernatural'} sx={{ color: '#357DED' }}>SUPERNATURAL</MenuItem>
+                        <MenuItem value={'Drama'} sx={{ color: '#357DED' }}>DRAMA</MenuItem>
+                        <MenuItem value={'Romance'} sx={{ color: '#357DED' }}>ROMANCE</MenuItem>
+                        <MenuItem value={'Sci-Fi'} sx={{ color: '#357DED' }}>SCI-FI</MenuItem>
+                        <MenuItem value={'Slice of Life'} sx={{ color: '#357DED' }}>SLICE OF LIFE</MenuItem>
+                        <MenuItem value={'Sports'} sx={{ color: '#357DED' }}>DEPORTE</MenuItem>
+                        <MenuItem value={'Mystery'} sx={{ color: '#357DED' }}>MISTERIO</MenuItem>
+                        <MenuItem value={'Ecchi'} sx={{ color: '#357DED' }}>ECCHI</MenuItem>
+                        <MenuItem value={'Fantasy'} sx={{ color: '#357DED' }}>FANTASIA</MenuItem>
+                        <MenuItem value={'Adventure'} sx={{ color: '#357DED' }}>AVENTURA</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
-                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>Autores</InputLabel>
+                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>AUTORES</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -97,12 +83,12 @@ const Filters = () => {
                         sx={{ color: '#357DED' }}
                         onChange={handleFilterAuthor}
                     >
-                        <MenuItem value='' sx={{ color: '#357DED' }}></MenuItem>
-                        <MenuItem value={'aster-noriko'} sx={{ color: '#357DED' }}>Aster Noriko</MenuItem>
+                        <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
+                        <MenuItem value={'aster-noriko'} sx={{ color: '#357DED' }}>ASTER NORIKO</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: '25%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
-                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>Orden</InputLabel>
+                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>ORDEN</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -110,12 +96,13 @@ const Filters = () => {
                         sx={{ color: '#357DED' }}
                         onChange={handleOrder}
                     >
-                        <MenuItem value='' sx={{ color: '#357DED' }}></MenuItem>
-                        <MenuItem value={'asc'} sx={{ color: '#357DED' }}>A-Z</MenuItem>
-                        <MenuItem value={'desc'} sx={{ color: '#357DED' }}>Z-A</MenuItem>
-                        <MenuItem value={'nuevos'} sx={{ color: '#357DED' }}>Nuevos</MenuItem>
+                        <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
+                        <MenuItem value={'ASC'} sx={{ color: '#357DED' }}>A-Z</MenuItem>
+                        <MenuItem value={'DESC'} sx={{ color: '#357DED' }}>Z-A</MenuItem>
+                        <MenuItem value={'nuevos'} sx={{ color: '#357DED' }}>NUEVOS</MenuItem>
                     </Select>
                 </FormControl>
+                <Button variant="contained" onClick={handleGetAll} sx={{ color: '#357DED', width: '15%', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>Todos</Button>
             </Box>
         </div>
 
