@@ -1,44 +1,31 @@
 import { db } from "../app";
 import Manga from "../classes/Manga";
 
-<<<<<<< HEAD
-export default async function paginated(numPaged: number): Promise<[Manga[], number]> {
-    let mangas: Manga[] = [];
-    let mangasPerPage: number = 25;
-    let totalMangas: number = await db.manga.count();
-    let totalPages: number = Math.ceil(totalMangas / mangasPerPage);
-    let page: number = numPaged;
-    if (page > totalPages) throw new Error("Page not found");
-    let offset: number = (page - 1) * mangasPerPage;
-    let mangasPaginated: Manga[] = await db.manga.findMany({
-        take: mangasPerPage,
-        skip: offset,
-        include: {
-            author: {
-                select: {
-                    name: true,
-                },
-            },
-        },
-        orderBy: {
-            rating: "desc"
-        }
-    });
-    mangas = mangasPaginated;
-    return [mangas, totalPages];
-}
-=======
-export default async function paginated(
-  numPaged: number
-): Promise<[Manga[], number]> {
+export default async function paginated(numPaged: number = 1, order:string = "asc", tag:string = "createdAt", filter:string[]= [] ): Promise<[Manga[], number, number]> {
   let mangas: Manga[] = [];
   let mangasPerPage: number = 25;
-  let totalMangas: number = await db.manga.count();
+  let totalMangas: number = await db.manga.count({where: {
+    genre: {
+      hasEvery: filter,
+    }}
+  });
   let totalPages: number = Math.ceil(totalMangas / mangasPerPage);
   let page: number = numPaged;
   if (page > totalPages) throw new Error("Page not found");
   let offset: number = (page - 1) * mangasPerPage;
-  let mangasPaginated: Manga[] = await db.manga.findMany({
+  try{
+     mangas = await getMangas(mangasPerPage, offset, order, tag, filter);
+    } catch (e: any) {
+      throw new Error(e.message);
+    }
+  return [mangas, totalPages, totalMangas];
+
+}
+
+async function getMangas (mangasPerPage:number, offset:number, order:string, tag:string, filter:string[]): Promise<Manga[]> {
+  let mangasPaginated: Manga[] = [];
+  try{
+  mangasPaginated = await db.manga.findMany({
     take: mangasPerPage,
     skip: offset,
     include: {
@@ -49,10 +36,16 @@ export default async function paginated(
       },
     },
     orderBy: {
-      rating: "desc",
+      [tag]: order,
+    },
+    where: {
+      genre: {
+        hasEvery: filter,
+      },
     },
   });
-  mangas = mangasPaginated;
-  return [mangas, totalPages];
+  } catch (e: any) {
+    throw new Error(e.message);
+  }
+  return mangasPaginated;
 }
->>>>>>> e793438bab02d09fbacb522d9e0e0b7d2fc9c778

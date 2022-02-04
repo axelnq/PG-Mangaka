@@ -3,10 +3,16 @@ import { db } from "../app";
 import User from "../classes/User";
 export const usersRouter = Router();
 
-usersRouter.get("/", (req, res) => {
-  res.send({ message: "Soy un get de Users" });
-});
+usersRouter.get("/", async (req, res) => {
+  const users = await db.user.findMany({
+    where: { created: { some: {} } },
+    include: {
+      created: true,
+    }
+  })
 
+  res.send(users);
+});
 // Creacion de un user
 usersRouter.post<{},{},{ name: string; username: string; password: string; email: string }>
   ("/", async (req, res) => {
