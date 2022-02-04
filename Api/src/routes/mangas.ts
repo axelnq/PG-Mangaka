@@ -9,28 +9,30 @@ import paginated from "../utils/paginated";
 
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
-  const { page } = req.query;
-  let mangasResponse: [Manga[], number];
-  try {
-    mangasResponse = await paginated(Number(page));
-  } catch (e: any) {
-    return res.status(404).send({ message: e.message });
-  }
-  let paginatedMangas: Manga[] = mangasResponse[0];
-  const order: any = req.query.order;
-  const tags: any = req.query.tags;
+    let { page } = req.query;
+    if (!page) {
+        page = '1';
+    }
+    let mangasResponse: [Manga[], number]
+    try{
+        mangasResponse = await paginated(Number(page));
+    } catch(e:any) {
+        return res.status(404).send({message: e.message});
+    }
+    let paginatedMangas: Manga[] = mangasResponse[0];
+    const order: any = req.query.order;
+    const tags: any = req.query.tags;
 
-  if (order && tags) {
-    paginatedMangas = sort(
-      paginatedMangas,
-      order.toLowerCase(),
-      tags.toLowerCase()
-    );
-    mangasResponse = [paginatedMangas, mangasResponse[1]];
-  }
+   
+    if (order && tags) {
+        
+        paginatedMangas = sort(paginatedMangas, order.toLowerCase(), tags.toLowerCase());
+        mangasResponse = [paginatedMangas, mangasResponse[1]];
+    }
 
-  res.json(mangasResponse);
-});
+    res.json(mangasResponse);
+})
+
 
 // Obtener los 10 mangas mas populares por rating
 mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
