@@ -10,6 +10,7 @@ import paginated from "../utils/paginated";
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
   let { page, order, tags } = req.query;
+  if (!page) page = '1';
   let filter:string = req.query.filter as string; //Page number > 0, order emun [asc, desc],
   // tags enum [title, chapter, rating, createdAt, updatedAt]
   // filter string "Action-Adventure"
@@ -23,7 +24,7 @@ mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
   }
   let paginatedMangas: Manga[] = mangasResponse[0];
 
-  res.json({ data: mangasResponse[0], totalPages: mangasResponse[1], totalMangas: mangasResponse[2] });
+  res.json({ data: mangasResponse[0], total: mangasResponse[1], totalMangas: mangasResponse[2] });
 });
 
 // Obtener los 10 mangas mas populares por rating
@@ -198,3 +199,33 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
   }
   return res.json(allMangas.data.data);
 });
+
+mangasRouter.get<{},{}>('/recentMangas', async (req, res, next) => {
+  try {
+      const recentMangas = await db.manga.findMany({
+          orderBy: {
+              uptadedAt: "desc"
+          },
+          take: 10
+      })
+      return res.json(recentMangas);
+  } catch (error) {
+      console.log("Error recentMangas: ", error)
+      next(new Error("recentMangas Error"));
+  }
+})
+
+mangasRouter.get<{}, {}>("/listOfGenres", async (req, res, next) => {
+  const mangas = await db.manga.findMany();
+
+  let arrayGenres:string[] = [];
+ 
+  mangas.forEach(manga => {
+       manga.genre.forEach(genre => arrayGenres.push(genre))
+  })
+  const deleteDuplicates = new Set(arrayGenres);
+
+  let genres = [...deleteDuplicates];
+
+  res.send(genres)
+})

@@ -1,57 +1,66 @@
-import User from './User'
+import User from "./User";
 
 enum State {
-    Finished,
-    on_going,
-    on_pause
+  Finished,
+  on_going,
+  on_pause,
 }
 
 export default class Manga {
-    id: number | undefined;
-    title: string;
-    synopsis: string;
-    images: string[];
-    genre: string[];
-    rating: number;
-    state: string;
-    authorId: string;
-    chapter: number;
-    chapters?: number[] | undefined;
-  
+  id: number | undefined;
+  title: string;
+  synopsis: string;
+  images: string[];
+  genre: string[];
+  rating: number;
+  state: string;
+  authorId: string;
+  chapter: number;
+  chapters?: number[] | undefined;
 
-    constructor(title: string, synopsis: string, images: [string, string], genre: string[],authorId:string, rating?: number, chapter?:number, chapters?:number[], state?: string, id?:number) {
-        this.title = title;
-        this.synopsis = synopsis;
-        this.images = images;
-        this.genre = genre;
-        this.rating = rating || 0;
-        this.state = state || "on_going"
-        this.id = id || undefined;
-        this.authorId = authorId;
-        this.chapter = chapter || 0;
-        this.chapters = chapters || undefined;
-    }
-
+  constructor(
+    title: string,
+    synopsis: string,
+    images: [string, string],
+    genre: string[],
+    authorId: string,
+    rating?: number,
+    chapter?: number,
+    chapters?: number[],
+    state?: string,
+    id?: number
+  ) {
+    this.title = title;
+    this.synopsis = synopsis;
+    this.images = images;
+    this.genre = genre;
+    this.rating = rating || 0;
+    this.state = state || "on_going";
+    this.id = id || undefined;
+    this.authorId = authorId;
+    this.chapter = chapter || 0;
+    this.chapters = chapters || undefined;
+  }
 }
 
 export function setTitle(manga: Manga, title: string): void {
-    manga.title = title;
+  manga.title = title;
 }
 
 export function setSynopsis(manga: Manga, synopsis: string): void {
-    manga.synopsis = synopsis;
+  manga.synopsis = synopsis;
 }
 
 export function setCover(manga: Manga, coverimage: string): void {
-    manga.images[0] = coverimage;
+  manga.images[0] = coverimage;
 }
 
 export function setBackCover(manga: Manga, backImage: string): void {
-    manga.images[1] = backImage;
+  manga.images[1] = backImage;
 }
 
-export function setRating(manga:Manga, rating:number):void {
-    manga.rating = rating;
+export function setRating(manga: Manga, rating: number): void {
+  manga.rating = rating;
 }
 /*
 export function setState(manga: Manga, state: State): void {

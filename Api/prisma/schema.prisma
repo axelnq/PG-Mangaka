@@ -21,6 +21,7 @@ model User {
   name        String
   username    String  @unique
   password    String // revisar el tipo por algo como Cypher
+  about       String
   coins       Int     @default(0)
   creatorMode Boolean @default(false)
   email       String  @unique
