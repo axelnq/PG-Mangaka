@@ -27,10 +27,9 @@ mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
     if (order && tags) {
         
         paginatedMangas = sort(paginatedMangas, order.toLowerCase(), tags.toLowerCase());
-        mangasResponse = [paginatedMangas, mangasResponse[1]];
     }
 
-    res.json(mangasResponse);
+    res.json({data: paginatedMangas, total: mangasResponse[1]});
 })
 
 
