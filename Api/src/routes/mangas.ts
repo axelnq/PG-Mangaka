@@ -9,29 +9,21 @@ import paginated from "../utils/paginated";
 
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
-  let { page } = req.query;
-  if (!page) {
-    page = "1";
-  }
-  let mangasResponse: [Manga[], number];
+  let { page, order, tags } = req.query;
+  let filter:string = req.query.filter as string; //Page number > 0, order emun [asc, desc],
+  // tags enum [title, chapter, rating, createdAt, updatedAt]
+  // filter string "Action-Adventure"
+  let filterArray: string[] = [];
+  if(filter) filterArray = filter.split("-");
+  let mangasResponse: [Manga[], number, number];
   try {
-    mangasResponse = await paginated(Number(page));
+    mangasResponse = await paginated(Number(page), order as string, tags as string, filterArray);
   } catch (e: any) {
     return res.status(404).send({ message: e.message });
   }
   let paginatedMangas: Manga[] = mangasResponse[0];
-  const order: any = req.query.order;
-  const tags: any = req.query.tags;
 
-  if (order && tags) {
-    paginatedMangas = sort(
-      paginatedMangas,
-      order.toLowerCase(),
-      tags.toLowerCase()
-    );
-  }
-
-  res.json({ data: paginatedMangas, total: mangasResponse[1] });
+  res.json({ data: mangasResponse[0], totalPages: mangasResponse[1], totalMangas: mangasResponse[2] });
 });
 
 // Obtener los 10 mangas mas populares por rating
