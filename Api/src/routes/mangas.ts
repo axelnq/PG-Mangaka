@@ -11,9 +11,15 @@ import paginated from "../utils/paginated";
 mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
   let { page } = req.query;
   if (!page) {
+<<<<<<< HEAD
     page = '1';
   }
   let mangasResponse: [Manga[], number]
+=======
+    page = "1";
+  }
+  let mangasResponse: [Manga[], number];
+>>>>>>> e793438bab02d09fbacb522d9e0e0b7d2fc9c778
   try {
     mangasResponse = await paginated(Number(page));
   } catch (e: any) {
@@ -22,6 +28,7 @@ mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
   let paginatedMangas: Manga[] = mangasResponse[0];
   const order: any = req.query.order;
   const tags: any = req.query.tags;
+<<<<<<< HEAD
 
 
   if (order && tags) {
@@ -31,7 +38,19 @@ mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
 
   res.json({ data: paginatedMangas, total: mangasResponse[1] });
 })
+=======
 
+  if (order && tags) {
+    paginatedMangas = sort(
+      paginatedMangas,
+      order.toLowerCase(),
+      tags.toLowerCase()
+    );
+  }
+>>>>>>> e793438bab02d09fbacb522d9e0e0b7d2fc9c778
+
+  res.json({ data: paginatedMangas, total: mangasResponse[1] });
+});
 
 // Obtener los 10 mangas mas populares por rating
 mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
@@ -67,9 +86,15 @@ mangasRouter.get<{ idManga: string }, {}>(
         chapters: true,
         author: {
           select: {
+<<<<<<< HEAD
             name: true
           }
         }
+=======
+            name: true,
+          },
+        },
+>>>>>>> e793438bab02d09fbacb522d9e0e0b7d2fc9c778
       },
     });
     console.log(Manga);
