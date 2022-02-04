@@ -8,7 +8,7 @@ import { sort } from "../utils/sorts";
 import paginated from "../utils/paginated";
 
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
-mangasRouter.get<{}, {}>('/directory', async (req, res, next) => {
+mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
     let { page } = req.query;
     if (!page) {
         page = '1';
@@ -29,8 +29,9 @@ mangasRouter.get<{}, {}>('/directory', async (req, res, next) => {
         paginatedMangas = sort(paginatedMangas, order.toLowerCase(), tags.toLowerCase());
     }
 
-    res.json({data: paginatedMangas, totalPages: mangasResponse[1]});
+    res.json({data: paginatedMangas, total: mangasResponse[1]});
 })
+
 
 // Obtener los 10 mangas mas populares por rating
 mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
