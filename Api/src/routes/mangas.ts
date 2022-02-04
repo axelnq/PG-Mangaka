@@ -206,3 +206,18 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
   }
   return res.json(allMangas.data.data);
 });
+// Ruta que trae los 10 mangas mas recientes
+mangasRouter.get<{},{}>('/recentMangas', async (req, res, next) => {
+    try {
+        const recentMangas = await db.manga.findMany({
+            orderBy: {
+                uptadedAt: "desc"
+            },
+            take: 10
+        })
+        return res.json(recentMangas);
+    } catch (error) {
+        console.log("Error recentMangas: ", error)
+        next(new Error("recentMangas Error"));
+    }
+})
