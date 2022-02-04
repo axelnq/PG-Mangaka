@@ -1,8 +1,9 @@
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
-import { PrismaClient } from "@prisma/client";
-import { routes } from "./routes/index";
-import cors from "cors";
+
+import { PrismaClient } from '@prisma/client';
+import { routes } from './routes/index'
+
 export const db = new PrismaClient();
 
 const app = express();

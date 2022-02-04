@@ -140,7 +140,6 @@ mangasRouter.get<{}, {}>('/allMangas', async (req, res, next) => {
 
         return res.json(mangaOrder)
     }
-
     return res.json(allMangas.data.data);
 
 })
