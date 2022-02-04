@@ -1,3 +1,5 @@
+import { MANGAS_TO_DB, GET_ALL_MANGAS, GET_DETAIL, POST_MANGA, FILTRO_GENERO, FILTRO_AUTOR ,ORDER } from '../Actions'
+
 const initialState = {
     allMangas: [],
     currentMangas: [],
@@ -6,10 +8,38 @@ const initialState = {
 
 const rootReducer = (state = initialState, { type, payload }) => {
     switch(type) {
-        case 'GET_MANGAS': 
+        case MANGAS_TO_DB:
+            return {
+                ...state
+            }
+        case GET_ALL_MANGAS:
             return {
                 ...state,
                 allMangas: payload
+            }
+        case GET_DETAIL:
+            return {
+                ...state,
+                mangaDetail: payload
+            }
+        case POST_MANGA:
+            return {
+                ...state
+            }
+        case FILTRO_GENERO:
+            return {
+                ...state,
+                currentMangas: payload
+            }
+        case FILTRO_AUTOR:
+            return {
+                ...state,
+                currentMangas: payload
+            }
+        case ORDER:
+            return {
+                ...state,
+                currentMangas: payload
             }
         default:
             return state
