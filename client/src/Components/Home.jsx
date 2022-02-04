@@ -12,6 +12,8 @@ const Home = () => {
             <Link to='/create'>
                 <button>Anda a Crear tu Manga 😎</button>
             </Link>
+            {/* <Navbar/>
+            <Banner/> */}
             <Filters/>
             <Card/>
         </div>
