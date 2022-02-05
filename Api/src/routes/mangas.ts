@@ -74,7 +74,15 @@ mangasRouter.get<{ idManga: string }, {}>(
 // Para la creacion de mangas hardcodeamos el usuario para el authorID.
 mangasRouter.post<{}, {}>("/", async (req, res, next) => {
   const { title, synopsis, images, authorId, genre } = req.body;
-  const createdManga = new Manga(title, synopsis, images, genre, authorId);
+  //Las lineas de abajo son para hardcodear el authorId
+  const Author = await db.user.findUnique({
+    where: { username: "SuperAdmin" },
+  });
+  let createdManga = new Manga(title, synopsis, images, authorId, genre);
+  if(Author) {
+  createdManga = new Manga(title, synopsis, images, genre, Author.id);
+  }
+  
 
   try {
     const newManga = await db.manga.create({
@@ -229,3 +237,30 @@ mangasRouter.get<{}, {}>("/listOfGenres", async (req, res, next) => {
 
   res.send(genres)
 })
+
+// Devuelve los mangas según el autor buscado
+mangasRouter.get<{},{}>("/byAuthor",async (req, res) => {
+  const {author} = req.query;
+  const query = author as string;
+  try {
+      const searchResults = await db.user.findMany({
+          where: {
+              name: {
+                  contains: query as string,
+                  mode: "insensitive"
+              }
+          },
+          select: {
+              created: true
+          },
+  
+      });
+      let mangasByAuthor: any = []
+      searchResults.forEach(elto => elto.created?.forEach((manga: any) => mangasByAuthor.push(manga)))
+      res.json(mangasByAuthor)
+
+  } catch (error) {
+      console.log("Filter by author error: ", error)
+  }
+
+});
