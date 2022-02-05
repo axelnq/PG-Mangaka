@@ -7,7 +7,8 @@ import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import InputBase from "@mui/material/InputBase";
-
+import {useDispatch} from 'react-redux';
+import {searchManga} from '../Actions/index';
 const Input = styled(InputBase)`
   width: 100%;
   border-radius: 3px 0 0 3px;
@@ -22,6 +23,7 @@ const SearchButton = styled(Button)`
   background-color: #357ded;
 `;
 export default function NavBar() {
+  const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const handleChange = (e)=>{
     setSearch(e.target.value);
@@ -29,8 +31,7 @@ export default function NavBar() {
 
   const handleSubmit=(e)=>{
     e.preventDefault()
-    //dispatch action
-    alert(search)
+    dispatch(searchManga(search));
     setSearch("")
   }
   return (
