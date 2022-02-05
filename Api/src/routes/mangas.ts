@@ -237,3 +237,30 @@ mangasRouter.get<{}, {}>("/listOfGenres", async (req, res, next) => {
 
   res.send(genres)
 })
+
+// Devuelve los mangas según el autor buscado
+mangasRouter.get<{},{}>("/byAuthor",async (req, res) => {
+  const {author} = req.query;
+  const query = author as string;
+  try {
+      const searchResults = await db.user.findMany({
+          where: {
+              name: {
+                  contains: query as string,
+                  mode: "insensitive"
+              }
+          },
+          select: {
+              created: true
+          },
+  
+      });
+      let mangasByAuthor: any = []
+      searchResults.forEach(elto => elto.created?.forEach((manga: any) => mangasByAuthor.push(manga)))
+      res.json(mangasByAuthor)
+
+  } catch (error) {
+      console.log("Filter by author error: ", error)
+  }
+
+});
