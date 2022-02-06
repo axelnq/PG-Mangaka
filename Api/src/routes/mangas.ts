@@ -10,21 +10,30 @@ import paginated from "../utils/paginated";
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
   let { page, order, tags } = req.query;
-  if (!page) page = '1';
-  let filter:string = req.query.filter as string; //Page number > 0, order emun [asc, desc],
+  if (!page) page = "1";
+  let filter: string = req.query.filter as string; //Page number > 0, order emun [asc, desc],
   // tags enum [title, chapter, rating, createdAt, updatedAt]
   // filter string "Action-Adventure"
   let filterArray: string[] = [];
-  if(filter) filterArray = filter.split("-");
+  if (filter) filterArray = filter.split("-");
   let mangasResponse: [Manga[], number, number];
   try {
-    mangasResponse = await paginated(Number(page), order as string, tags as string, filterArray);
+    mangasResponse = await paginated(
+      Number(page),
+      order as string,
+      tags as string,
+      filterArray
+    );
   } catch (e: any) {
     return res.status(404).send({ message: e.message });
   }
   let paginatedMangas: Manga[] = mangasResponse[0];
 
-  res.json({ data: mangasResponse[0], total: mangasResponse[1], totalMangas: mangasResponse[2] });
+  res.json({
+    data: mangasResponse[0],
+    total: mangasResponse[1],
+    totalMangas: mangasResponse[2],
+  });
 });
 
 // Obtener los 10 mangas mas populares por rating
@@ -67,7 +76,7 @@ mangasRouter.get<{ idManga: string }, {}>(
       },
     });
     console.log(Manga);
-    return res.send(Manga);
+    return res.json({ data: Manga });
   }
 );
 
@@ -79,10 +88,9 @@ mangasRouter.post<{}, {}>("/", async (req, res, next) => {
     where: { username: "SuperAdmin" },
   });
   let createdManga = new Manga(title, synopsis, images, authorId, genre);
-  if(Author) {
-  createdManga = new Manga(title, synopsis, images, genre, Author.id);
+  if (Author) {
+    createdManga = new Manga(title, synopsis, images, genre, Author.id);
   }
-  
 
   try {
     const newManga = await db.manga.create({
@@ -208,59 +216,58 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
   return res.json(allMangas.data.data);
 });
 
-mangasRouter.get<{},{}>('/recentMangas', async (req, res, next) => {
+mangasRouter.get<{}, {}>("/recentMangas", async (req, res, next) => {
   try {
-      const recentMangas = await db.manga.findMany({
-          orderBy: {
-              uptadedAt: "desc"
-          },
-          take: 10
-      })
-      return res.json(recentMangas);
+    const recentMangas = await db.manga.findMany({
+      orderBy: {
+        uptadedAt: "desc",
+      },
+      take: 10,
+    });
+    return res.json(recentMangas);
   } catch (error) {
-      console.log("Error recentMangas: ", error)
-      next(new Error("recentMangas Error"));
+    console.log("Error recentMangas: ", error);
+    next(new Error("recentMangas Error"));
   }
-})
+});
 
 mangasRouter.get<{}, {}>("/listOfGenres", async (req, res, next) => {
   const mangas = await db.manga.findMany();
 
-  let arrayGenres:string[] = [];
- 
-  mangas.forEach(manga => {
-       manga.genre.forEach(genre => arrayGenres.push(genre))
-  })
+  let arrayGenres: string[] = [];
+
+  mangas.forEach((manga) => {
+    manga.genre.forEach((genre) => arrayGenres.push(genre));
+  });
   const deleteDuplicates = new Set(arrayGenres);
 
   let genres = [...deleteDuplicates];
 
-  res.send(genres)
-})
+  res.send(genres);
+});
 
 // Devuelve los mangas según el autor buscado
-mangasRouter.get<{},{}>("/byAuthor",async (req, res) => {
-  const {author} = req.query;
+mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
+  const { author } = req.query;
   const query = author as string;
   try {
-      const searchResults = await db.user.findMany({
-          where: {
-              name: {
-                  contains: query as string,
-                  mode: "insensitive"
-              }
-          },
-          select: {
-              created: true
-          },
-  
-      });
-      let mangasByAuthor: any = []
-      searchResults.forEach(elto => elto.created?.forEach((manga: any) => mangasByAuthor.push(manga)))
-      res.json(mangasByAuthor)
-
+    const searchResults = await db.user.findMany({
+      where: {
+        name: {
+          contains: query as string,
+          mode: "insensitive",
+        },
+      },
+      select: {
+        created: true,
+      },
+    });
+    let mangasByAuthor: any = [];
+    searchResults.forEach((elto) =>
+      elto.created?.forEach((manga: any) => mangasByAuthor.push(manga))
+    );
+    res.json(mangasByAuthor);
   } catch (error) {
-      console.log("Filter by author error: ", error)
+    console.log("Filter by author error: ", error);
   }
-
 });
