@@ -19,7 +19,6 @@ const Paginado = ({total}) => {
             setPage(page+1)
             dispatch(paginado(page))
         }
-        
     }
     
     return (

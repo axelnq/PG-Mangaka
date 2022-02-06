@@ -49,7 +49,6 @@ const Home = () => {
                     })
                 }
             </Container>
-            <Paginado total={allMangas.total}/>
         </div>
     )
 }
