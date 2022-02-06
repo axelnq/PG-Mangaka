@@ -123,7 +123,7 @@ mangasRouter.get<{}, {}>("/Search", async (req, res, next) => {
   // let filter = result.filter((e:{}) =>
   //   e.title.toLowerCase().includes(dato.toLowerCase())
   // );
-  return res.json(result);
+  return res.json({ data: result });
 });
 
 // Ruta de testeo , crea 25 mangas  y un usuario admin como autor y los guarda en la base de datos
