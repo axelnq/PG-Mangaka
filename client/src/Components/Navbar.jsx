@@ -30,13 +30,13 @@ const MoneyButton = styled('button')`
     height: 32px;
     width: 32px;
     border: none;
+    cursor: pointer;
     margin-top: 5px;
     background-color: #DAA520;
     border-radius: 50px;
-    padding-left: 5px;
     transition: 0.2;
     &:hover{
-      background-color: #DAA500;
+      background-color: #F0E68C;
     }
 `;
 export default function NavBar() {
@@ -90,7 +90,7 @@ export default function NavBar() {
             {showAvatar ? (
               <Stack direction="row" spacing={2} justifyContent="center">
                 <MoneyButton>
-                  <AttachMoneyIcon />
+                  <AttachMoneyIcon/>
                 </MoneyButton>
                 <PerfilNavbar />
               </Stack>

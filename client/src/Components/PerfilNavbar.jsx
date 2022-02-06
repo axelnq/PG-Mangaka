@@ -9,6 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+
 import { Link } from "react-router-dom";
 export default function PerfilNavbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -30,7 +32,11 @@ export default function PerfilNavbar() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar
+              src="https://ca.slack-edge.com/TPRS7H4PN-U01RN1MNA14-4dbff6bf3c0d-512"
+              alt="perfil"
+              sx={{ width: 32, height: 32 }}
+            />
           </IconButton>
         </Tooltip>
       </Box>
@@ -72,15 +78,23 @@ export default function PerfilNavbar() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-          <Avatar /> Perfil
+          <Avatar
+            src="https://ca.slack-edge.com/TPRS7H4PN-U01RN1MNA14-4dbff6bf3c0d-512"
+            alt="perfil"
+            sx={{ width: 32, height: 32 }}
+          />{" "}
+          Perfil
         </MenuItem>
         <Divider sx={{ backgroundColor: "#357ded" }} />
-        <ListItemIcon>
-          <Link to="/create" style={{ textDecoration: "none", color: "white" }}>
+        <Link to="/create" style={{ textDecoration: "none", color: "white" }}>
+          <MenuItem>
+            <ListItemIcon>
+              <MenuBookIcon fontSize="small" color="primary" />
+            </ListItemIcon>
             Crea tu Manga!
-          </Link>
-        </ListItemIcon>
-        <Divider sx={{ backgroundColor: "#357ded" }} />
+          </MenuItem>
+        </Link>
+        <Divider sx={{ backgroundColor: "#357ded", mt: "5px" }} />
         <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" color="primary" />
