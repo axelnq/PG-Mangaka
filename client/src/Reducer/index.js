@@ -1,4 +1,4 @@
-import { MANGAS_TO_DB, GET_ALL_MANGAS,GET_GENRES, GET_DETAIL, POST_MANGA, FILTRO_GENERO, FILTRO_AUTOR ,ORDER, SEARCH_MANGA } from '../Actions'
+import { MANGAS_TO_DB, GET_ALL_MANGAS,GET_GENRES, GET_DETAIL, POST_MANGA, FILTRO_GENERO, FILTRO_AUTOR ,ORDER, SEARCH_MANGA, RECOMENDATED_MANGAS } from '../Actions'
 
 const initialState = {
     allMangas: [],
@@ -23,6 +23,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 genres: payload
             }
+        case RECOMENDATED_MANGAS:
+            return {
+                ...state,
+                allMangas: payload
+            }
         case GET_DETAIL:
             return {
                 ...state,
@@ -35,22 +40,22 @@ const rootReducer = (state = initialState, { type, payload }) => {
         case FILTRO_GENERO:
             return {
                 ...state,
-                currentMangas: payload
+                allMangas: payload
             }
         case FILTRO_AUTOR:
             return {
                 ...state,
-                currentMangas: payload
+                allMangas: payload
             }
         case ORDER:
             return {
                 ...state,
-                currentMangas: payload
+                allMangas: payload
             }
         case SEARCH_MANGA:
             return {
                 ...state,
-                currentMangas: payload
+                allMangas: payload
             }
         default:
             return state

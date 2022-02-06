@@ -5,12 +5,11 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { React, useEffect } from 'react'; // hooks
 import { useDispatch, useSelector } from 'react-redux'; // hooks
-import { orderMangas, filterMangasByAuthor, filterMangasByGenre, getAllMangas, recomendatedMangas, getGenres } from '../Actions';
+import { orderMangas, filterMangasByAuthor, filterMangasByGenre, getAllMangas, recomendatedMangas } from '../Actions';
 import Button from '@mui/material/Button';
 
 const Filters = () => {
     const dispatch = useDispatch()
-    let { genres } = useSelector(state => state)
 
     let handleGetAll = (e) => {
         e.preventDefault()
@@ -30,18 +29,12 @@ const Filters = () => {
     let handleFilterAuthor = (e) => {
         e.preventDefault()
         dispatch(filterMangasByAuthor(e.target.value))
-
     }
 
     let handleFilterGenre = (e) => {
         e.preventDefault()
         dispatch(filterMangasByGenre(e.target.value))
     }
-
-    useEffect(() => {
-        dispatch(recomendatedMangas())
-        // dispatch(getGenres())
-    })
 
     return (
         <div>
@@ -56,9 +49,6 @@ const Filters = () => {
                         sx={{ color: '#357DED', backgroundColor: '#000' }}
                         onChange={handleFilterGenre}
                     >
-                        {/* {
-                        genres && genres.map(g => <MenuItem value={g} sx={{color: '#357DED'}}>{g}</MenuItem>)
-                    } */}
                         <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
                         <MenuItem value={'Action'} sx={{ color: '#357DED' }}>ACCIÓN</MenuItem>
                         <MenuItem value={'Comedy'} sx={{ color: '#357DED' }}>COMEDIA</MenuItem>
@@ -84,7 +74,7 @@ const Filters = () => {
                         onChange={handleFilterAuthor}
                     >
                         <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
-                        <MenuItem value={'aster-noriko'} sx={{ color: '#357DED' }}>ASTER NORIKO</MenuItem>
+                        <MenuItem value={'Admin'} sx={{ color: '#357DED' }}>ADMIN</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
@@ -97,8 +87,8 @@ const Filters = () => {
                         onChange={handleOrder}
                     >
                         <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
-                        <MenuItem value={'ASC'} sx={{ color: '#357DED' }}>A-Z</MenuItem>
-                        <MenuItem value={'DESC'} sx={{ color: '#357DED' }}>Z-A</MenuItem>
+                        <MenuItem value={'asc'} sx={{ color: '#357DED' }}>A-Z</MenuItem>
+                        <MenuItem value={'desc'} sx={{ color: '#357DED' }}>Z-A</MenuItem>
                         <MenuItem value={'nuevos'} sx={{ color: '#357DED' }}>NUEVOS</MenuItem>
                     </Select>
                 </FormControl>

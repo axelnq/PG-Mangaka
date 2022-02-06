@@ -102,7 +102,7 @@ export let postManga = (payload) => {
 export let filterMangasByGenre = (payload) => {
     return async (dispatch) => {
         try {
-            let filteredMangas = await axios.get(`http://localhost:3001/api/mangas/allMangas`)
+            let filteredMangas = await axios.get(`http://localhost:3001/api/mangas/directory?filter=${payload}`)
             return dispatch({
                 type: FILTRO_GENERO,
                 payload: filteredMangas.data
@@ -117,7 +117,7 @@ export let filterMangasByGenre = (payload) => {
 export let filterMangasByAuthor = (payload) => {
     return async (dispatch) => {
         try {
-            let filteredMangas = await axios.get(`http://localhost:3001/api/mangas/allMangas`)
+            let filteredMangas = await axios.get(`http://localhost:3001/api/mangas/byAuthor?author=${payload}`)
             return dispatch({
                 type: FILTRO_AUTOR,
                 payload: filteredMangas.data
