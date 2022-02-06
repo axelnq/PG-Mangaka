@@ -31,14 +31,14 @@ const Home = () => {
             <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                 {
                     allMangas.data?.map(m => {
-                        console.log(m.authors)
+                        console.log(m)
                         return (
                             <div>
                                 <MangaCard
                                     id={m.id}
                                     title={m.title}
                                     image={m.images[0]}
-                                    author={m.author.name}
+                                    author={m.author?.name}
                                     genre={m.genre}
                                 />
                             </div>
