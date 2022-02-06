@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 export default function PerfilNavbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -75,7 +75,11 @@ export default function PerfilNavbar() {
           <Avatar /> Perfil
         </MenuItem>
         <Divider sx={{ backgroundColor: "#357ded" }} />
-        <Link to="/create">Crea tu Manga!</Link>
+        <ListItemIcon>
+          <Link to="/create" style={{ textDecoration: "none", color: "white" }}>
+            Crea tu Manga!
+          </Link>
+        </ListItemIcon>
         <Divider sx={{ backgroundColor: "#357ded" }} />
         <MenuItem>
           <ListItemIcon>
