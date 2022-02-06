@@ -8,6 +8,7 @@ export const FILTRO_GENERO = 'FILTRO_GENERO'
 export const FILTRO_AUTOR = 'FILTRO_AUTOR'
 export const ORDER = 'ORDER'
 export const SEARCH_MANGA = 'SEARCH_MANGA' 
+export const PAGINADO_PAGE = 'PAGINADO_PAGE'
 
 const axios = require('axios')
 
@@ -153,6 +154,20 @@ export let searchManga = (payload) => {
                 payload: search.data
             })
         } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export let paginado = (payload) => {
+    return async (dispatch) => {
+        try {
+            let mangas = await axios.get(`http://localhost:3001/api/mangas/directory?page=${payload}`)
+            return dispatch({
+                type: PAGINADO_PAGE,
+                payload: mangas.data
+            })
+        } catch(error) {
             console.log(error)
         }
     }
