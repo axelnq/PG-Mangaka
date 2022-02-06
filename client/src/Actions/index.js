@@ -72,7 +72,7 @@ export let recomendatedMangas = () => {
 export let getMangaDetail = (payload) => {
     return async (dispatch) => {
         try {
-            let mangaDetail = await axios.get(`http://localhost:3001/api/mangas/manga/24`)
+            let mangaDetail = await axios.get(`http://localhost:3001/api/mangas/manga/${payload}`)
             return dispatch({
                 type: GET_DETAIL,
                 payload: mangaDetail.data
@@ -147,7 +147,7 @@ export let orderMangas = (payload) => {
 export let searchManga = (payload) => {
     return async (dispatch) => {
         try {
-            let search = await axios.get(`http:localhost:3001/api/mangas/Search?title=${payload}`)
+            let search = await axios.get(`http://localhost:3001/api/mangas/Search?title=${payload}`)
             return dispatch({
                 type: SEARCH_MANGA,
                 payload: search.data

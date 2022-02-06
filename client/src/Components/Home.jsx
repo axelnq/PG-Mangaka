@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 //components
 import Filters from './Filters';
 import MangaCard from './MangaCard';
-// import Navbar from './Navbar';
-// import Banner from './Banner';
+import Navbar from './Navbar';
+import Banner from './Banner';
 //actions
 import { getAllMangas } from '../Actions'
 import { useEffect } from 'react';
@@ -22,10 +22,11 @@ const Home = () => {
 
     return (
         <div>
-            <h1>Estas en Home 👍!</h1>
-            <Link to='/create'>
+            <Navbar/>
+            <Banner/>
+            {/* <Link to='/create'>
                 <button>Anda a Crear tu Manga 😎</button>
-            </Link>
+            </Link> */}
             <Filters />
             <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                 {

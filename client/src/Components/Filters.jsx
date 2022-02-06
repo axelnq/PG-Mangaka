@@ -89,7 +89,7 @@ const Filters = () => {
                         <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
                         <MenuItem value={'asc'} sx={{ color: '#357DED' }}>A-Z</MenuItem>
                         <MenuItem value={'desc'} sx={{ color: '#357DED' }}>Z-A</MenuItem>
-                        <MenuItem value={'nuevos'} sx={{ color: '#357DED' }}>NUEVOS</MenuItem>
+                        {/* <MenuItem value={'createdAt'} sx={{ color: '#357DED' }}>NUEVOS</MenuItem> */}
                     </Select>
                 </FormControl>
                 <Button variant="contained" onClick={handleGetAll} sx={{ color: '#357DED', width: '15%', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>Todos</Button>
