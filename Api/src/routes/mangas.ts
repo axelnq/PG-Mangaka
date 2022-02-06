@@ -51,7 +51,7 @@ mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
       take: 10,
     });
 
-    return res.json(popularMangas);
+    return res.json({ data: popularMangas });
   } catch (err) {
     console.log(err);
   }
@@ -224,7 +224,7 @@ mangasRouter.get<{}, {}>("/recentMangas", async (req, res, next) => {
       },
       take: 10,
     });
-    return res.json(recentMangas);
+    return res.json({ data: recentMangas });
   } catch (error) {
     console.log("Error recentMangas: ", error);
     next(new Error("recentMangas Error"));
@@ -266,7 +266,7 @@ mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
     searchResults.forEach((elto) =>
       elto.created?.forEach((manga: any) => mangasByAuthor.push(manga))
     );
-    res.json(mangasByAuthor);
+    res.json({ data: mangasByAuthor });
   } catch (error) {
     console.log("Filter by author error: ", error);
   }
