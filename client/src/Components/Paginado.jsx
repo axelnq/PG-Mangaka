@@ -1,31 +1,22 @@
 import { React, useState } from 'react'
 import { paginado } from '../Actions'
 import { useDispatch } from 'react-redux';
+import Pagination from '@mui/material/Pagination';
+
 
 const Paginado = ({total}) => {
     const dispatch = useDispatch()
     let [page, setPage] = useState(1)
 
-    let handlePaginadoAtras = (e) => {
+    let handlePaginado = (e) => {
         e.preventDefault()
-        if(page > 1) {
-           setPage(page-1)
-            dispatch(paginado(page)) 
-        }
-    }
-    let handlePaginadoSiguiente = (e) => {
-        e.preventDefault()
-        if(page < total) {
-            setPage(page+1)
-            dispatch(paginado(page))
-        }
+        setPage(e.target.textContent)
+        dispatch(paginado(page))
     }
     
     return (
         <div>
-            <button onClick={handlePaginadoAtras}>Atras</button>
-            <p>{page}</p>
-            <button onClick={handlePaginadoSiguiente}>Siguiente</button>
+            <Pagination count={total} onClick={handlePaginado} sx={{ mx: "auto", width: 300}}/>
         </div>
     )
 }
