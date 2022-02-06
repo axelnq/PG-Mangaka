@@ -1,4 +1,5 @@
-import { MANGAS_TO_DB, GET_ALL_MANGAS,GET_GENRES, GET_DETAIL, POST_MANGA, FILTRO_GENERO, FILTRO_AUTOR ,ORDER, SEARCH_MANGA, RECOMENDATED_MANGAS } from '../Actions'
+import AttachMoney from '@mui/icons-material/AttachMoney'
+import { MANGAS_TO_DB, GET_ALL_MANGAS,GET_GENRES, GET_DETAIL, POST_MANGA, FILTRO_GENERO, FILTRO_AUTOR ,ORDER, SEARCH_MANGA, RECOMENDATED_MANGAS, PAGINADO_PAGE } from '../Actions'
 
 const initialState = {
     allMangas: [],
@@ -53,6 +54,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 allMangas: payload
             }
         case SEARCH_MANGA:
+            return {
+                ...state,
+                allMangas: payload
+            }
+        case PAGINADO_PAGE:
             return {
                 ...state,
                 allMangas: payload
