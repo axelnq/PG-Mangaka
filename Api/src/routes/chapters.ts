@@ -2,12 +2,13 @@ import { Router } from "express";
 import { db } from "../app";
 import Chapter from "../classes/Chapter";
 export const chaptersRouter = Router();
+import Manga from "../classes/Manga";
 
 // Creacion de un chapter
 chaptersRouter.post<{}, {}>("/", async (req, res, next) => {
   const { title, images, mangaId } = req.body;
   const chapter = new Chapter(title, images, mangaId);
-  console.log(chapter);
+  
   try {
     const newChapter = await db.chapter.create({ data: chapter });
     res.status(201).json(newChapter);
@@ -26,7 +27,28 @@ chaptersRouter.get<{ idChapter: string }, {}>(
     const Manga: any = await db.chapter.findUnique({
       where: { id: Number(idChapter) },
     });
-    console.log(Manga);
+   
     return res.send(Manga);
   }
 );
+
+
+chaptersRouter.post<{}, {}>("/testChapters", async (req, res, next) => {
+  const { title, images, mangaId } = req.body;
+  try {
+  const popularMangas = await db.manga.findMany({})
+
+  popularMangas.forEach(async manga => {
+    let chapter = new Chapter(`${manga.title} chapter 1`, [`The beginning of ${manga.title}`], manga.id);
+    let chapter2 = new Chapter(`${manga.title} chapter 2`, [`The end of ${manga.title}`], manga.id);
+   
+    let newChapters = await db.chapter.createMany({
+      data: [chapter,chapter2]
+    })
+  })
+    
+    res.status(201).json({message: 'Chapters Created'});
+  } catch (error) {
+    next(new Error(`Chapter Post Error`));
+  }
+});
