@@ -11,12 +11,12 @@ const Paginado = ({total}) => {
     let handlePaginado = (e) => {
         e.preventDefault()
         setPage(e.target.textContent)
-        dispatch(paginado(page))
+        dispatch(paginado(e.target.textContent))
     }
     
     return (
         <div>
-            <Pagination count={total} onClick={handlePaginado} sx={{ mx: "auto", width: 300}}/>
+            <Pagination count={total} hidePrevButton hideNextButton page={page}onClick={handlePaginado} sx={{ mx: "auto", width: 300}}/>
         </div>
     )
 }

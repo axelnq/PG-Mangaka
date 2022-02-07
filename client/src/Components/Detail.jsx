@@ -73,7 +73,7 @@ const Detail = () => {
                                 <Avatar alt={mangaDetail.title} src={mangaDetail?.images[1]} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
                             <ListItemText
-                                primary={"#1 Título del capítulo"}
+                                primary={mangaDetail.chapters[0].title}
                                 secondary={
                                     <React.Fragment>
                                         <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
@@ -97,6 +97,36 @@ const Detail = () => {
                                 }
                             />
                         </ListItem>
+                        <ListItem alignItems="flex-start">
+                            <ListItemAvatar>
+                                <Avatar alt={mangaDetail.title} src={mangaDetail?.images[1]} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={mangaDetail.chapters[1].title}
+                                secondary={
+                                    <React.Fragment>
+                                        <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                                            <Typography variant="body2" color="text.secondary">Score: 87%</Typography>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex', justifyContent: 'flex-end', mt: '0.5rem'
+                                                }}
+                                            >
+                                                <Rating
+                                                    name="simple-controlled"
+                                                    value={valueChapter}
+                                                    onChange={(event, newValue) => {
+                                                        setValueChapter(newValue);
+                                                    }}
+                                                />
+                                            </Box>
+                                        </Box>
+                                    </React.Fragment>
+                                }
+                            />
+                        </ListItem>
+                        
                         {/* <Divider variant="inset" component="li" /> */}
                     </List>
                 </Container>
