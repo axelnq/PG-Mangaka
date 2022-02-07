@@ -1,71 +1,89 @@
-import AttachMoney from '@mui/icons-material/AttachMoney'
-import { MANGAS_TO_DB, GET_ALL_MANGAS,GET_GENRES, GET_DETAIL, POST_MANGA, FILTRO_GENERO, FILTRO_AUTOR ,ORDER, SEARCH_MANGA, RECOMENDATED_MANGAS, PAGINADO_PAGE } from '../Actions'
+import {
+    MANGAS_TO_DB,
+    GET_ALL_MANGAS,
+    GET_GENRES,
+    GET_DETAIL,
+    POST_MANGA,
+    FILTRO_GENERO,
+    FILTRO_AUTOR,
+    ORDER,
+    SEARCH_MANGA,
+    RECOMENDATED_MANGAS,
+    PAGINADO_PAGE,
+    GET_MANGAS_PREVIEW,
+} from "../Actions";
 
 const initialState = {
     allMangas: [],
     currentMangas: [],
     mangaDetail: {},
-    genres: []
-}
+    genres: [],
+    mangasPreview: [],
+};
 
 const rootReducer = (state = initialState, { type, payload }) => {
-    switch(type) {
+    switch (type) {
         case MANGAS_TO_DB:
             return {
-                ...state
-            }
+                ...state,
+            };
         case GET_ALL_MANGAS:
             return {
                 ...state,
-                allMangas: payload
-            }
-        case GET_GENRES: 
+                allMangas: payload,
+            };
+        case GET_GENRES:
             return {
                 ...state,
-                genres: payload
-            }
+                genres: payload,
+            };
         case RECOMENDATED_MANGAS:
             return {
                 ...state,
-                allMangas: payload
-            }
+                allMangas: payload,
+            };
         case GET_DETAIL:
             return {
                 ...state,
-                mangaDetail: payload
-            }
+                mangaDetail: payload,
+            };
+        case GET_MANGAS_PREVIEW:
+            return {
+                ...state,
+                mangasPreview: payload,
+            };
         case POST_MANGA:
             return {
-                ...state
-            }
+                ...state,
+            };
         case FILTRO_GENERO:
             return {
                 ...state,
-                allMangas: payload
-            }
+                allMangas: payload,
+            };
         case FILTRO_AUTOR:
             return {
                 ...state,
-                allMangas: payload
-            }
+                allMangas: payload,
+            };
         case ORDER:
             return {
                 ...state,
-                allMangas: payload
-            }
+                allMangas: payload,
+            };
         case SEARCH_MANGA:
             return {
                 ...state,
-                allMangas: payload
-            }
+                allMangas: payload,
+            };
         case PAGINADO_PAGE:
             return {
                 ...state,
-                allMangas: payload
-            }
+                allMangas: payload,
+            };
         default:
-            return state
+            return state;
     }
-}
+};
 
-export default rootReducer
+export default rootReducer;
