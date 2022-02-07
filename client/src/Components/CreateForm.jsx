@@ -5,12 +5,13 @@ import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postManga, getAllMangas } from '../Actions/index';
+import { postManga, getAllMangas, getGenres } from '../Actions/index';
 
 
 export default function CreateForm() {
   const dispatch = useDispatch();
   const generos = useSelector((state) => state.allMangas);
+  const genres = useSelector(state => state.genres)
 
   const [input, setInput] = useState({
     title: '',
@@ -74,6 +75,7 @@ export default function CreateForm() {
   
   useEffect(() =>{
     dispatch(getAllMangas());
+    dispatch(getGenres)
   },[dispatch])
 
   return (
@@ -129,7 +131,10 @@ export default function CreateForm() {
             <label>GENERO :</label>
             <div>
               <select  onChange={(e) => handleSelect(e)}>
-                <option value="Action">Acción</option>
+                {
+                  genres && genres.map((g, i) => <option key={i} value={g}>{g}</option>)
+                }
+                {/* <option value="Action">Acción</option>
                 <option value="Adventure">Aventura</option>
                 <option value="Comedy">Comedia</option>
                 <option value="Drama">Drama</option>
@@ -140,7 +145,7 @@ export default function CreateForm() {
                 <option value="Sci-Fi">Ciencia Ficción</option>
                 <option value="Slice of Life">Historia de Vida</option>
                 <option value="Supernatural">Sobrenatural</option>
-                <option value="Sports">Deporte</option>
+                <option value="Sports">Deporte</option> */}
               </select>
             </div>
           </Box>

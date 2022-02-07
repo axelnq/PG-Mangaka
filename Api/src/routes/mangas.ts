@@ -82,14 +82,14 @@ mangasRouter.get<{ idManga: string }, {}>(
 
 // Para la creacion de mangas hardcodeamos el usuario para el authorID.
 mangasRouter.post<{}, {}>("/", async (req, res, next) => {
-  const { title, synopsis, images, authorId, genre } = req.body;
+  const { title, synopsis, images, authorId, genres } = req.body;
   //Las lineas de abajo son para hardcodear el authorId
   const Author = await db.user.findUnique({
     where: { username: "SuperAdmin" },
   });
-  let createdManga = new Manga(title, synopsis, images, authorId, genre);
+  let createdManga = new Manga(title, synopsis, images, authorId, genres);
   if (Author) {
-    createdManga = new Manga(title, synopsis, images, genre, Author.id);
+    createdManga = new Manga(title, synopsis, images, genres, Author.id);
   }
 
   try {

@@ -5,11 +5,14 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { React, useEffect } from 'react'; // hooks
 import { useDispatch, useSelector } from 'react-redux'; // hooks
-import { orderMangas, filterMangasByAuthor, filterMangasByGenre, getAllMangas, recomendatedMangas } from '../Actions';
+import { orderMangas, filterMangasByAuthor, filterMangasByGenre, getAllMangas, recomendatedMangas, paginado, getGenres } from '../Actions';
 import Button from '@mui/material/Button';
+import { useSelect } from '@mui/base';
 
 const Filters = () => {
     const dispatch = useDispatch()
+    let filters = useSelector(state => state.filters)
+    let genres = useSelector(state => state.genres)
 
     let handleGetAll = (e) => {
         e.preventDefault()
@@ -24,6 +27,7 @@ const Filters = () => {
     let handleOrder = (e) => {
         e.preventDefault()
         dispatch(orderMangas(e.target.value))
+        dispatch(paginado({page: 1, order: e.target.value, genre: filters.genre}))
     }
 
     let handleFilterAuthor = (e) => {
@@ -34,7 +38,12 @@ const Filters = () => {
     let handleFilterGenre = (e) => {
         e.preventDefault()
         dispatch(filterMangasByGenre(e.target.value))
+        dispatch(paginado({page: 1, genre: e.target.value, order: filters.order}))
     }
+
+    useEffect(() => {
+        dispatch(getGenres())
+    }, [])
 
     return (
         <div>
@@ -49,7 +58,10 @@ const Filters = () => {
                         sx={{ color: '#357DED', backgroundColor: '#000' }}
                         onChange={handleFilterGenre}
                     >
-                        <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
+                        {
+                            genres && genres.map((g, i) => <MenuItem key={i} value={g} sx={{ color: '#357DED' }}>{g}</MenuItem>)
+                        }
+                        {/* <MenuItem value={''} sx={{ color: '#357DED' }}></MenuItem>
                         <MenuItem value={'Action'} sx={{ color: '#357DED' }}>ACCIÓN</MenuItem>
                         <MenuItem value={'Comedy'} sx={{ color: '#357DED' }}>COMEDIA</MenuItem>
                         <MenuItem value={'Supernatural'} sx={{ color: '#357DED' }}>SUPERNATURAL</MenuItem>
@@ -61,7 +73,7 @@ const Filters = () => {
                         <MenuItem value={'Mystery'} sx={{ color: '#357DED' }}>MISTERIO</MenuItem>
                         <MenuItem value={'Ecchi'} sx={{ color: '#357DED' }}>ECCHI</MenuItem>
                         <MenuItem value={'Fantasy'} sx={{ color: '#357DED' }}>FANTASIA</MenuItem>
-                        <MenuItem value={'Adventure'} sx={{ color: '#357DED' }}>AVENTURA</MenuItem>
+                        <MenuItem value={'Adventure'} sx={{ color: '#357DED' }}>AVENTURA</MenuItem> */}
                     </Select>
                 </FormControl>
                 <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>

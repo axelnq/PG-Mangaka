@@ -73,7 +73,7 @@ const Detail = () => {
                                 <Avatar alt={mangaDetail.title} src={mangaDetail?.images[1]} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
                             <ListItemText
-                                primary={mangaDetail.chapters[0].title}
+                                primary={mangaDetail.chapters[0]?.title}
                                 secondary={
                                     <React.Fragment>
                                         <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
@@ -102,7 +102,7 @@ const Detail = () => {
                                 <Avatar alt={mangaDetail.title} src={mangaDetail?.images[1]} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
                             <ListItemText
-                                primary={mangaDetail.chapters[1].title}
+                                primary={mangaDetail.chapters[1]?.title}
                                 secondary={
                                     <React.Fragment>
                                         <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>

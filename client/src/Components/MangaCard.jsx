@@ -24,7 +24,7 @@ const MangaCard = ({ id, title, author, image, genre }) => {
                                 </Typography>
                             </Box>
                             <Typography variant="body2" sx={{ fontSize: "0.6rem" }} color="text.secondary">
-                                {genre.join(',')}
+                                {genre.join(', ')}
                             </Typography>
                         </CardContent>
                     </Card>
