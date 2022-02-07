@@ -10,7 +10,7 @@ export default class Manga {
   id: number | undefined;
   title: string;
   synopsis: string;
-  images: string[];
+  image: Buffer;
   genre: string[];
   rating: number;
   state: string;
@@ -21,7 +21,7 @@ export default class Manga {
   constructor(
     title: string,
     synopsis: string,
-    images: [string, string],
+    image: Buffer,
     genre: string[],
     authorId: string,
     rating?: number,
@@ -32,7 +32,7 @@ export default class Manga {
   ) {
     this.title = title;
     this.synopsis = synopsis;
-    this.images = images;
+    this.image = image;
     this.genre = genre;
     this.rating = rating || 0;
     this.state = state || "on_going";
@@ -51,13 +51,13 @@ export function setSynopsis(manga: Manga, synopsis: string): void {
   manga.synopsis = synopsis;
 }
 
-export function setCover(manga: Manga, coverimage: string): void {
-  manga.images[0] = coverimage;
-}
+// export function setCover(manga: Manga, coverimage: string): void {
+//   manga.images[0] = coverimage;
+// }
 
-export function setBackCover(manga: Manga, backImage: string): void {
-  manga.images[1] = backImage;
-}
+// export function setBackCover(manga: Manga, backImage: string): void {
+//   manga.images[1] = backImage;
+// }
 
 export function setRating(manga: Manga, rating: number): void {
   manga.rating = rating;

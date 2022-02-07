@@ -75,8 +75,12 @@ mangasRouter.get<{ idManga: string }, {}>(
         },
       },
     });
+<<<<<<< Updated upstream
     console.log(Manga);
     return res.json({ data: Manga });
+=======
+    res.send(Manga);
+>>>>>>> Stashed changes
   }
 );
 
@@ -134,12 +138,14 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
 
   let userDb = await db.user.findUnique({ where: { username: "SuperAdmin" } });
   let user: any;
-
   if (!userDb) {
+    let image = await axios.get("https://static.wikia.nocookie.net/memes-pedia/images/0/04/Soy_admin.jpeg/revision/latest?cb=20210127042455&path-prefix=es", {responseType: 'arraybuffer'});
+    let buffer = Buffer.from(image.data, "utf-8");
     const adminTest = new User(
       "Admin",
       "SuperAdmin",
       "soyElAdmin",
+      buffer,
       "soyeladmin@gmail.com"
     );
 
@@ -155,38 +161,13 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
     manga.genres.map((tag: any) => {
       genre.push(tag.name);
     });
-
+    console.log(manga.images.jpg.image_url);
+    let image = await axios.get(manga.images.jpg.image_url, {responseType: 'arraybuffer'});
+    let buffer = Buffer.from(image.data, "utf-8");
     const createdManga = new Manga(
       manga.title,
       manga.synopsis,
-      [manga.images.jpg.image_url, manga.images.jpg.small_image_url],
-      genre,
-      user.id,
-      manga.scored,
-      manga.chapters
-    );
-
-    try {
-      await db.manga.upsert({
-        where: { title: createdManga.title },
-        update: {},
-        create: createdManga,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  allMangas.data.data.forEach(async (manga: any) => {
-    let genre: any = [];
-    manga.genres.map((tag: any) => {
-      genre.push(tag.name);
-    });
-
-    const createdManga = new Manga(
-      manga.title,
-      manga.synopsis,
-      [manga.images.jpg.image_url, manga.images.jpg.small_image_url],
+      buffer,
       genre,
       user.id,
       manga.scored,

@@ -20,6 +20,7 @@ model User {
   id          String  @id @default(uuid())
   name        String
   username    String  @unique
+  avatar      Bytes
   password    String // revisar el tipo por algo como Cypher
   about       String
   coins       Int     @default(0)
@@ -37,7 +38,7 @@ model Manga {
   synopsis  String
   author    User      @relation(fields: [authorId], references: [id]) //A manga can have one User
   authorId  String
-  images    String[] // type Byte probar
+  image    Bytes
   createdAt DateTime  @default(now())
   uptadedAt DateTime  @updatedAt
   genre     String[]
@@ -51,7 +52,7 @@ model Chapter {
   id      Int      @id @default(autoincrement())
   title   String    
   points  Int
-  images  String[] // type Byte probar
+  images  Bytes[]
   manga   Manga    @relation(fields: [mangaId], references: [id]) // A manga can have one User
   mangaId Int
   usersId  String[]

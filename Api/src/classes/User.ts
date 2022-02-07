@@ -3,6 +3,7 @@ export default class User {
   name: string;
   username: string;
   password: string;
+  avatar: Buffer;
   about: string;
   coins: number;
   creatorMode: boolean;
@@ -15,6 +16,7 @@ export default class User {
     name: string,
     username: string,
     password: string,
+    avatar: Buffer,
     email: string,
     about?: string,
     coins?: number,
@@ -28,6 +30,7 @@ export default class User {
     this.username = username;
     this.password = password;
     this.email = email;
+    this.avatar = avatar || undefined;
     this.about = about || "This is my Profile!";
     this.coins = coins || 0;
     this.creatorMode = creatorMode || false;

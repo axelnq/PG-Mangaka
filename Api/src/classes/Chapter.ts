@@ -3,12 +3,12 @@ import Manga from './Manga';
 export default class Chapter {
     id: number | undefined;
     title: string;
-    images: string[];
+    images: Buffer[];
     points: number;
     mangaId: number;
     usersId: string[]
 
-    constructor(title: string,images: string[],mangaId:number,points?: number,usersId?: string[],id?:number) {
+    constructor(title: string,images: Buffer[],mangaId:number,points?: number,usersId?: string[],id?:number) {
         this.title = title;
         this.images = images;
         this.points = points || 0;
@@ -23,9 +23,9 @@ export function setTitle(chapter: Chapter, title: string): void {
     chapter.title = title;
 }
 
-export function setImages(chapter: Chapter, images: string[]): void {
-    chapter.images = [...chapter.images, ...images]
-}
+// export function setImages(chapter: Chapter, images: Buffer): void {
+//     chapter.images = [...chapter.images.to, ...images]
+// }
 
 // averiguar para guardar tanto el usuario que vota con su valor para despues buscarlo y reemplazar si vota de nuevo.
 export function setPoints(chapter:Chapter, points:number,userId:string):void {
