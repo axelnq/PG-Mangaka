@@ -3,7 +3,7 @@ import Manga from "../classes/Manga";
 
 export default async function paginated(numPaged: number = 1, order:string = "asc", tag:string = "createdAt", filter:string[]= [] ): Promise<[Manga[], number, number]> {
   let mangas: Manga[] = [];
-  let mangasPerPage: number = 25;
+  let mangasPerPage: number = 8;
   let totalMangas: number = await db.manga.count({where: {
     genre: {
       hasEvery: filter,
