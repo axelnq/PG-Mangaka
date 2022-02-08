@@ -13,7 +13,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InputBase from "@mui/material/InputBase";
-
+ 
 //styles
 const Input = styled(InputBase)`
   width: 100%;
@@ -75,7 +75,7 @@ export default function NavBar() {
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
-  }, []);
+  }, [mangasPreview]);
 
   //local state
   const [filteredData, setFilteredData] = useState([]);
