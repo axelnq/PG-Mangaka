@@ -75,7 +75,7 @@ export default function NavBar() {
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
-  }, [mangasPreview]);
+  }, []);
 
   //local state
   const [filteredData, setFilteredData] = useState([]);

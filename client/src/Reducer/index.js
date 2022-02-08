@@ -19,6 +19,10 @@ const initialState = {
     mangaDetail: {},
     genres: [],
     mangasPreview: [],
+    filters: {
+        genre: '',
+        order: '',
+    },
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -31,6 +35,9 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 allMangas: payload,
+                // filters: { 
+                //     genre: '',
+                // }
             };
         case GET_GENRES:
             return {
@@ -60,6 +67,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 allMangas: payload,
+                filters: {
+                    genre: payload,
+                    order: state.filters.order
+                }
             };
         case FILTRO_AUTOR:
             return {
@@ -70,6 +81,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 allMangas: payload,
+                filters: {
+                    order: payload,
+                    genre: state.filters.genre
+                }
             };
         case SEARCH_MANGA:
             return {

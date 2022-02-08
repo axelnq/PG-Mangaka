@@ -5,10 +5,9 @@ import { useParams } from 'react-router-dom'
 //actions
 import { getMangaDetail } from '../Actions'
 //mui
-import { Container, Box, List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Rating } from '@mui/material';
-// import { Container, Box, List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Checkbox } from '@mui/material';
-// import StarIcon from '@mui/icons-material/Star';
-// import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { Container, Box, List, ListItem, LinearProgress, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Rating } from '@mui/material';
+// components
+import Nabvar from './Navbar'
 
 const Detail = () => {
     const { id } = useParams()
@@ -16,7 +15,7 @@ const Detail = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getMangaDetail(id))
+        setTimeout(() => dispatch(getMangaDetail(id)), 1500)
     }, [dispatch, id])
 
     const mangaDetail = useSelector((state) => state.mangaDetail.data)
@@ -26,7 +25,8 @@ const Detail = () => {
 
     return (
         <div>
-            {mangaDetail ?
+            <Nabvar />
+            {mangaDetail && mangaDetail.id == id ?
 
                 <Container fixed maxWidth="md">
                     <Box sx={{ position: "relative" }}>
@@ -73,7 +73,7 @@ const Detail = () => {
                                 <Avatar alt={mangaDetail.title} src={mangaDetail?.images[1]} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
                             <ListItemText
-                                primary={mangaDetail.chapters[0].title}
+                                primary={mangaDetail.chapters[0]?.title}
                                 secondary={
                                     <React.Fragment>
                                         <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
@@ -97,12 +97,13 @@ const Detail = () => {
                                 }
                             />
                         </ListItem>
+                        <Divider variant="inset" component="li" />
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                                 <Avatar alt={mangaDetail.title} src={mangaDetail?.images[1]} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
                             <ListItemText
-                                primary={mangaDetail.chapters[1].title}
+                                primary={mangaDetail.chapters[1]?.title}
                                 secondary={
                                     <React.Fragment>
                                         <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
@@ -126,12 +127,10 @@ const Detail = () => {
                                 }
                             />
                         </ListItem>
-                        
-                        {/* <Divider variant="inset" component="li" /> */}
                     </List>
                 </Container>
 
-                : <p>Cargando...</p>
+                : <LinearProgress sx={{ height: '0.5rem ' }} />
             }
         </div >
     )

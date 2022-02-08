@@ -3,14 +3,16 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
+import Texterea from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postManga, getAllMangas } from '../Actions/index';
+import { postManga, getAllMangas, getGenres } from '../Actions/index';
 
 
 export default function CreateForm() {
   const dispatch = useDispatch();
   const generos = useSelector((state) => state.allMangas);
+  const genres = useSelector(state => state.genres)
 
   const [input, setInput] = useState({
     title: '',
@@ -65,15 +67,11 @@ export default function CreateForm() {
     });
 
   }
-  function handleDelete(el) {
-    setInput({
-      ...input,
-        genre: input.genre.filter((generos) => generos !== el),
-      });
-  }
+
   
   useEffect(() =>{
     dispatch(getAllMangas());
+    dispatch(getGenres())
   },[dispatch])
 
   return (
@@ -86,9 +84,10 @@ export default function CreateForm() {
         <FormControl onSubmit={(e) => handleSubmit(e)}
           sx={{
             width: 300,
-            height: 400,
+            height: 450,
             borderRadius: '5px',
             backgroundColor: '#192A45',
+            borderColor:'#192A45',
             color: '#357DED',
           }}>
           <h1 >CREA TU MANGA</h1>
@@ -102,18 +101,7 @@ export default function CreateForm() {
 
             />
           </div>
-          <Box sx={{ mt: '1rem' }}>
-            <label >SYNOPSIS :</label>
-            <div>
-              <input
-                type="text"
-                value={input.synopsis}
-                name="synopsis"
-              onChange={(e) => handleChange(e)}
-              />
-
-            </div>
-          </Box>
+          
           <Box sx={{ mt: '1rem' }}>
             <label>IMAGEN :</label>
             <div>
@@ -123,24 +111,27 @@ export default function CreateForm() {
                 name="images"
               onChange={(e) => handleChange(e)}
               />
+          <Box sx={{ mt: '1rem' }}>
+            <label >SYNOPSIS :</label>
+            <div>
+              <Texterea 
+                type="text"
+                value={input.synopsis}
+                name="synopsis"
+                placeholder= ""              
+              onChange={(e) => handleChange(e)}
+              />
+            </div>
+            </Box>
             </div>
           </Box>
           <Box sx={{ mt: '1rem' }}>
             <label>GENERO :</label>
             <div>
-              <select  onChange={(e) => handleSelect(e)}>
-                <option value="Action">Acción</option>
-                <option value="Adventure">Aventura</option>
-                <option value="Comedy">Comedia</option>
-                <option value="Drama">Drama</option>
-                <option value="Ecchi">Ecchi</option>
-                <option value="Fantasy">Fantasía</option>
-                <option value="Mistery">Misterio</option>
-                <option value="Romance">Romance</option>
-                <option value="Sci-Fi">Ciencia Ficción</option>
-                <option value="Slice of Life">Historia de Vida</option>
-                <option value="Supernatural">Sobrenatural</option>
-                <option value="Sports">Deporte</option>
+              <select onChange={(e) => handleSelect(e)}>
+                {
+                  genres && genres.map((g, i) => <option key={i} value={g}>{g}</option>)
+                }         
               </select>
             </div>
           </Box>
@@ -158,4 +149,6 @@ export default function CreateForm() {
     </Box>
   )
 }
+            
+             
 
