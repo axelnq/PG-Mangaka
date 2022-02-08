@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
+import Texterea from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postManga, getAllMangas, getGenres } from '../Actions/index';
@@ -83,9 +84,10 @@ export default function CreateForm() {
         <FormControl onSubmit={(e) => handleSubmit(e)}
           sx={{
             width: 300,
-            height: 400,
+            height: 450,
             borderRadius: '5px',
             backgroundColor: '#192A45',
+            borderColor:'#192A45',
             color: '#357DED',
           }}>
           <h1 >CREA TU MANGA</h1>
@@ -99,18 +101,7 @@ export default function CreateForm() {
 
             />
           </div>
-          <Box sx={{ mt: '1rem' }}>
-            <label >SYNOPSIS :</label>
-            <div>
-              <input
-                type="text"
-                value={input.synopsis}
-                name="synopsis"
-              onChange={(e) => handleChange(e)}
-              />
-
-            </div>
-          </Box>
+          
           <Box sx={{ mt: '1rem' }}>
             <label>IMAGEN :</label>
             <div>
@@ -120,12 +111,24 @@ export default function CreateForm() {
                 name="images"
               onChange={(e) => handleChange(e)}
               />
+          <Box sx={{ mt: '1rem' }}>
+            <label >SYNOPSIS :</label>
+            <div>
+              <Texterea 
+                type="text"
+                value={input.synopsis}
+                name="synopsis"
+                placeholder= ""              
+              onChange={(e) => handleChange(e)}
+              />
+            </div>
+            </Box>
             </div>
           </Box>
           <Box sx={{ mt: '1rem' }}>
             <label>GENERO :</label>
             <div>
-              <select  onChange={(e) => handleSelect(e)}>
+              <select onChange={(e) => handleSelect(e)}>
                 {
                   genres && genres.map((g, i) => <option key={i} value={g}>{g}</option>)
                 }         
@@ -146,4 +149,6 @@ export default function CreateForm() {
     </Box>
   )
 }
+            
+             
 
