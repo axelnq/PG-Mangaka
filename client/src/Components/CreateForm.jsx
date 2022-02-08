@@ -66,16 +66,11 @@ export default function CreateForm() {
     });
 
   }
-  function handleDelete(el) {
-    setInput({
-      ...input,
-        genre: input.genre.filter((generos) => generos !== el),
-      });
-  }
+
   
   useEffect(() =>{
     dispatch(getAllMangas());
-    dispatch(getGenres)
+    dispatch(getGenres())
   },[dispatch])
 
   return (
@@ -133,19 +128,7 @@ export default function CreateForm() {
               <select  onChange={(e) => handleSelect(e)}>
                 {
                   genres && genres.map((g, i) => <option key={i} value={g}>{g}</option>)
-                }
-                {/* <option value="Action">Acción</option>
-                <option value="Adventure">Aventura</option>
-                <option value="Comedy">Comedia</option>
-                <option value="Drama">Drama</option>
-                <option value="Ecchi">Ecchi</option>
-                <option value="Fantasy">Fantasía</option>
-                <option value="Mistery">Misterio</option>
-                <option value="Romance">Romance</option>
-                <option value="Sci-Fi">Ciencia Ficción</option>
-                <option value="Slice of Life">Historia de Vida</option>
-                <option value="Supernatural">Sobrenatural</option>
-                <option value="Sports">Deporte</option> */}
+                }         
               </select>
             </div>
           </Box>
