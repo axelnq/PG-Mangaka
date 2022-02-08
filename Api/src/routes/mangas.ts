@@ -6,6 +6,18 @@ export const mangasRouter = Router();
 import axios from "axios";
 import { sort } from "../utils/sorts";
 import paginated from "../utils/paginated";
+import multer from "multer";
+const upload = multer({
+  limits: {
+  fileSize: 100000000,
+  },
+  fileFilter(req, file, cb) {
+  if (!file.originalname.match(/\.(png|jpg|jpeg)$/)){
+  cb(new Error('Please upload an image.'))
+  }
+  cb(null, true)
+  }
+});
 
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
 mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
@@ -58,9 +70,7 @@ mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
 });
 
 // Obtener el detalle de un manga
-mangasRouter.get<{ idManga: string }, {}>(
-  "/manga/:idManga",
-  async (req, res, next) => {
+mangasRouter.get<{ idManga: string }, {}>( "/manga/:idManga", async (req, res, next) => {
     const { idManga } = req.params;
 
     console.log(req.params);
@@ -75,25 +85,50 @@ mangasRouter.get<{ idManga: string }, {}>(
         },
       },
     });
-<<<<<<< Updated upstream
-    console.log(Manga);
     return res.json({ data: Manga });
-=======
-    res.send(Manga);
->>>>>>> Stashed changes
   }
 );
 
+// Ruta testing para obtener la imagen del manga
+mangasRouter.get("/testImage/:id", async function(req, res) {
+    const { id } = req.params;
+
+    console.log(req.params);
+    const Manga = await db.manga.findUnique({
+      where: { id: Number(id) },
+      include: {
+        chapters: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    //Debe devolver la imagen del manga en formato jpeg
+    res.setHeader("Content-Type", "image/jpeg");
+    //@ts-ignore
+    res.send(Manga.image)
+  });
+
 // Para la creacion de mangas hardcodeamos el usuario para el authorID.
-mangasRouter.post<{}, {}>("/", async (req, res, next) => {
-  const { title, synopsis, images, authorId, genre } = req.body;
+mangasRouter.post<{}, {}>("/", upload.single('images') ,async (req, res, next) => {
+  const { title, synopsis, authorId, genres } = req.body;
   //Las lineas de abajo son para hardcodear el authorId
   const Author = await db.user.findUnique({
     where: { username: "SuperAdmin" },
   });
-  let createdManga = new Manga(title, synopsis, images, authorId, genre);
+  let image;
+  if(req.file){
+  image = req.file.buffer;
+  }
+  else {
+    return res.status(400).send({ message: "Image is required" });
+  }
+
+  let createdManga = new Manga(title, synopsis, image, genres, authorId );
   if (Author) {
-    createdManga = new Manga(title, synopsis, images, genre, Author.id);
+    createdManga = new Manga(title, synopsis, image, genres, Author.id);
   }
 
   try {
@@ -102,6 +137,7 @@ mangasRouter.post<{}, {}>("/", async (req, res, next) => {
     });
     return res.json(newManga);
   } catch (error) {
+    console.log(error)
     next(new Error(`Manga Post Error`));
   }
 });
@@ -115,7 +151,6 @@ mangasRouter.delete<{}, {}>("/", async (req, res, next) => {
 
 mangasRouter.get<{}, {}>("/Search", async (req, res, next) => {
   const { title } = req.query;
-  const dato = title as string;
   const result: any = await db.manga.findMany({
     where: {
       title: {
@@ -135,7 +170,7 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
   const allMangas = await axios.get("https://api.jikan.moe/v4/manga?page=2");
   const order: any = req.query.order;
   const tags: any = req.query.tags;
-
+  
   let userDb = await db.user.findUnique({ where: { username: "SuperAdmin" } });
   let user: any;
   if (!userDb) {
@@ -251,7 +286,7 @@ mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
         title: manga.title,
         synopsis: manga.synopsis,
         authorId: manga.authorId,
-        images: manga.images,
+        image: manga.image,
         createdAt: manga.createdAt,
         uptadedAt: manga.uptadedAt,
         genre: manga.genre,

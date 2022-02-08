@@ -34,8 +34,12 @@ usersRouter.post<{},{},{ name: string; username: string; password: string; email
     if(req.file){
     avatar = req.file.buffer;
     }
-    else return res.status(400).send({error: "Image is required"})
-
+    else{
+      let bufferImage = await axios.get('https://w7.pngwing.com/pngs/896/495/png-transparent-one-punch-man-one-punch-man-volume-3-computer-icons-saitama-one-punch-man-face-manga-head.png',
+      {responseType: 'arraybuffer'})
+      avatar = Buffer.from(bufferImage.data, 'utf-8')
+    }
+    
     const newUser = new User(name, username, password, avatar, email);
 
     try {
@@ -51,22 +55,27 @@ usersRouter.post<{},{},{ name: string; username: string; password: string; email
     }
 });
 
-// testing autores
 
+
+//Testea el avatar del usuario
 usersRouter.get("/avatar",async (req, res, next) => {
-  const admin = await db.user.findUnique({
-    where: { username: "SuperAdmin" },
+  let { username } = req.query;
+  const user = await db.user.findUnique({
+    //@ts-ignore
+    where: { username: username },
 })
-  if(admin){
+  if(user){
     //Enviar el avatar como respuesta en formato jpeg
     res.setHeader("Content-Type", "image/jpeg");
     //@ts-ignore
-    res.send(admin.avatar);
+    res.send(user.avatar);
   }
   else{
     res.status(404).send("No se encontro el usuario");
   }
 });
+
+// testing autores
 usersRouter.post<{},{}>("/authorsTest", async (req, res) => {
 
   let image = await axios.get("https://http2.mlstatic.com/D_NQ_NP_781075-MLA48271965969_112021-O.webp", {responseType: 'arraybuffer'});
@@ -119,7 +128,6 @@ usersRouter.post<{ idManga: string , username:string },{}>("/authorsTest/:userna
   res.json(getUser);
 
 })
-
 
 usersRouter.get<{ username:string  }, {}>("/user/:username", async (req, res, next) => {
   const { username } = req.params;
