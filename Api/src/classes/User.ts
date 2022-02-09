@@ -2,7 +2,7 @@ export default class User {
   id: string | undefined;
   name: string;
   username: string;
-  password: string;
+  password: string | undefined;
   avatar: Buffer;
   about: string;
   coins: number;
@@ -11,25 +11,27 @@ export default class User {
   library: number[];
   wishList: number[];
   favorites: number[];
+  googleId: boolean
 
   constructor(
     name: string,
     username: string,
-    password: string,
     avatar: Buffer,
     email: string,
+    password?: string,
     about?: string,
     coins?: number,
     creatorMode?: boolean,
     library?: number[],
     wishList?: number[],
     favorites?: number[],
-    id?: string
+    id?: string,
+    googleId?: boolean
   ) {
     this.name = name;
     this.username = username;
-    this.password = password;
     this.email = email;
+    this.password = password || undefined;
     this.avatar = avatar || undefined;
     this.about = about || "This is my Profile!";
     this.coins = coins || 0;
@@ -38,6 +40,7 @@ export default class User {
     this.wishList = wishList || [];
     this.favorites = favorites || [];
     this.id = id || undefined;
+    this.googleId = googleId || false
   }
 }
 

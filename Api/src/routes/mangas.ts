@@ -179,7 +179,6 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
     const adminTest = new User(
       "Admin",
       "SuperAdmin",
-      "soyElAdmin",
       buffer,
       "soyeladmin@gmail.com"
     );
