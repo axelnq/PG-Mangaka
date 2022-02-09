@@ -175,6 +175,7 @@ usersRouter.get<{ username:string  }, {}>("/user/:username", async (req, res, ne
 });
 
 usersRouter.get("/currentUser", (req, res, next) => {
-  console.log(req.user);
+  // console.log(req)
+  // console.log(req.user);
   res.json(req.user)
 })

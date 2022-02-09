@@ -32,8 +32,14 @@ authRouter.post<{}, {}>("/local/login", (req, res, next) => {
 });
 
 authRouter.get("/logout", (req, res) => {
+  // console.log(req);
   if (req.user) {
+    // console.log("logout");
     req.logout();
     res.send("Logout success");
+  }
+  else {
+    // console.log("no logout");
+    res.status(400).send({msg: "User not logged in"});
   }
 });
