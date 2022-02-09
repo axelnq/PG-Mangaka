@@ -32,6 +32,14 @@ usersRouter.get("/", async (req, res) => {
 usersRouter.post<{},{},{ name: string; username: string; password: string; email: string }>
   ("/register", upload.single('avatar'), async (req, res) => {
     const { name, username, password, email } = req.body;
+
+    const regPass = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/);
+    const regEmail = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    
+    if (!regPass.test(password)) return res.status(400).json({error: "Invalid password"});
+
+    if (!regEmail.test(email)) return res.status(400).json({error: "Invalid email address"});
+
     let hashedPassword = await bcrypt.hash(password,10)
     let avatar: Buffer;
     
@@ -73,21 +81,6 @@ usersRouter.post<{},{},{ name: string; username: string; password: string; email
       console.log(error);
       res.status(400).send({error: "An error creating a user"})
     }
-});
-
-usersRouter.post<{}, {}>("/login", (req, res, next) => {
-  passport.authenticate("local",{ failureRedirect: '/login' }, (err, user, info) => {
-    if(err) throw err;
-    if(!user) res.send ("No user exists")
-    else {
-      req.logIn(user, err => {
-        if (err) throw err;
-        // res.send("Successfully Authenticated")
-        console.log(req.user)
-        res.redirect("http://localhost:3001/api/users")
-      })
-    }
-  })(req, res, next)
 });
 
 //Testea el avatar del usuario
