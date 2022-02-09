@@ -21,6 +21,9 @@ model User {
   name        String
   username    String  @unique
   password    String // revisar el tipo por algo como Cypher
+  superAdmin  Boolean
+  admin       Boolean
+  active      Boolean
   about       String
   coins       Int     @default(0)
   creatorMode Boolean @default(false)
@@ -45,15 +48,16 @@ model Manga {
   chapter   Int
   chapters  Chapter[]
   state     String
+  active    Boolean
 }
 
 model Chapter {
   id      Int      @id @default(autoincrement())
-  title   String    
+  title   String
   points  Int
   images  String[] // type Byte probar
   manga   Manga    @relation(fields: [mangaId], references: [id]) // A manga can have one User
   mangaId Int
-  usersId  String[]
+  usersId String[]
+  active  Boolean
 }
-

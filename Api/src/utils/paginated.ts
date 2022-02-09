@@ -5,6 +5,7 @@ export default async function paginated(numPaged: number = 1, order:string = "as
   let mangas: Manga[] = [];
   let mangasPerPage: number = 8;
   let totalMangas: number = await db.manga.count({where: {
+    active:true,
     genre: {
       hasEvery: filter,
     }}
@@ -39,6 +40,7 @@ async function getMangas (mangasPerPage:number, offset:number, order:string, tag
       [tag]: order,
     },
     where: {
+      active:true,
       genre: {
         hasEvery: filter,
       },

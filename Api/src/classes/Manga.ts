@@ -14,6 +14,7 @@ export default class Manga {
   genre: string[];
   rating: number;
   state: string;
+  active: boolean;
   authorId: string;
   chapter: number;
   chapters?: number[] | undefined;
@@ -28,6 +29,7 @@ export default class Manga {
     chapter?: number,
     chapters?: number[],
     state?: string,
+    active?: boolean,
     id?: number
   ) {
     this.title = title;
@@ -37,6 +39,7 @@ export default class Manga {
     this.rating = rating || 0;
     this.state = state || "on_going";
     this.id = id || undefined;
+    this.active = active || true;
     this.authorId = authorId;
     this.chapter = chapter || 0;
     this.chapters = chapters || undefined;
@@ -61,6 +64,10 @@ export function setBackCover(manga: Manga, backImage: string): void {
 
 export function setRating(manga: Manga, rating: number): void {
   manga.rating = rating;
+}
+
+export function setActive(manga: Manga, active: boolean): void {
+  manga.active = active;
 }
 /*
 export function setState(manga: Manga, state: State): void {

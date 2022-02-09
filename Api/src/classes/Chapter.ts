@@ -6,12 +6,14 @@ export default class Chapter {
     images: string[];
     points: number;
     mangaId: number;
-    usersId: string[]
+    usersId: string[];
+    active: boolean;
 
-    constructor(title: string,images: string[],mangaId:number,points?: number,usersId?: string[],id?:number) {
+    constructor(title: string,images: string[],mangaId:number, active?:boolean,points?: number,usersId?: string[],id?:number) {
         this.title = title;
         this.images = images;
         this.points = points || 0;
+        this.active = active || true;
         this.mangaId = mangaId;
         this.usersId = usersId || [];
         this.id = id || undefined;
@@ -44,4 +46,7 @@ export function getRatingChapter(chapter:Chapter):number {
     return mediaRating;
 }
 
+export function setActive(chapter: Chapter, active: boolean): void {
+    chapter.active = active;
+  }
 

@@ -3,6 +3,9 @@ export default class User {
   name: string;
   username: string;
   password: string;
+  superAdmin:boolean;
+  admin: boolean;
+  active: boolean;
   about: string;
   coins: number;
   creatorMode: boolean;
@@ -16,6 +19,9 @@ export default class User {
     username: string,
     password: string,
     email: string,
+    superAdmin?:boolean,
+    admin?:boolean,
+    active?:boolean,
     about?: string,
     coins?: number,
     creatorMode?: boolean,
@@ -28,6 +34,9 @@ export default class User {
     this.username = username;
     this.password = password;
     this.email = email;
+    this.admin = admin || false;
+    this.superAdmin = superAdmin || false;
+    this.active = active || true;
     this.about = about || "This is my Profile!";
     this.coins = coins || 0;
     this.creatorMode = creatorMode || false;
@@ -81,6 +90,12 @@ export function addWishList(user: User, mangaId: number): void {
 export function removeWishList(user: User, mangaId: number): void {
   user.wishList = user.wishList.filter((manga) => manga !== mangaId);
 }
+
+export function setActive(user: User, active: boolean): void {
+  user.active = active;
+}
+
+
 /*
 export function addCreated(user:User,mangaId:number):void {
     user.created = [...user.created, mangaId];

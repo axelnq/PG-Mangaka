@@ -14,7 +14,7 @@ usersRouter.get("/", async (req, res) => {
   res.send(users);
 });
 // Creacion de un user
-usersRouter.post<{},{},{ name: string; username: string; password: string; email: string }>
+usersRouter.post<{}, {}, { name: string; username: string; password: string; email: string }>
   ("/", async (req, res) => {
     const { name, username, password, email } = req.body;
 
@@ -31,11 +31,11 @@ usersRouter.post<{},{},{ name: string; username: string; password: string; email
     } catch (error) {
       console.log(error);
     }
-});
+  });
 
 // testing autores
 
-usersRouter.post<{},{}>("/authorsTest", async (req, res) => {
+usersRouter.post<{}, {}>("/authorsTest", async (req, res) => {
 
   const userTest2 = new User("Aster Noriko", "AsterN", "pw123", "asternoriko@gmail.com");
   const userTest3 = new User("Daichi Matsuse", "DaichiM", "pass123", "daichimatsuse@gmail.com");
@@ -47,27 +47,27 @@ usersRouter.post<{},{}>("/authorsTest", async (req, res) => {
 
   const newUsers = [userTest2, userTest3, userTest4, userTest5, userTest6, userTest7, userTest8]
   try {
-  const upsertManyPosts = newUsers.map(async (user) =>
-    await db.user.upsert({
-      where: { username: user.username },
-      update: {},
-      create: user,
-    })
-  );
+    const upsertManyPosts = newUsers.map(async (user) =>
+      await db.user.upsert({
+        where: { username: user.username },
+        update: {},
+        create: user,
+      })
+    );
 
-  const users =  await Promise.all(upsertManyPosts)
+    const users = await Promise.all(upsertManyPosts)
 
-  return res.json(users);
+    return res.json(users);
 
   } catch (error) {
     console.log(error);
   }
 
-  
+
 });
 
 // Ruta de coneccion author y manga.
-usersRouter.post<{ idManga: string , username:string },{}>("/authorsTest/:username/:idManga", async (req, res) => {
+usersRouter.post<{ idManga: string, username: string }, {}>("/authorsTest/:username/:idManga", async (req, res) => {
 
   const { username, idManga } = req.params;
 
@@ -75,9 +75,9 @@ usersRouter.post<{ idManga: string , username:string },{}>("/authorsTest/:userna
     where: {
       username: username
     },
-    data: { 
+    data: {
       created: {
-        connect: { id: Number(idManga)}
+        connect: { id: Number(idManga) }
       }
     }
   })
@@ -87,7 +87,7 @@ usersRouter.post<{ idManga: string , username:string },{}>("/authorsTest/:userna
 })
 
 
-usersRouter.get<{ username:string  }, {}>("/user/:username", async (req, res, next) => {
+usersRouter.get<{ username: string }, {}>("/user/:username", async (req, res, next) => {
   const { username } = req.params;
 
   const User: any = await db.user.findUnique({
@@ -98,5 +98,86 @@ usersRouter.get<{ username:string  }, {}>("/user/:username", async (req, res, ne
   });
   return res.send(User);
 });
+
+
+usersRouter.post<{}, {}, { name: string; username: string; password: string; email: string, admin: boolean, superAdmin: boolean }>
+  ("/superAdmin", async (req, res) => {
+    const { name, username, password, email, admin, superAdmin } = req.body;
+
+    const newUser = new User(name, username, password, email, admin, superAdmin);
+
+    try {
+      const user = await db.user.upsert({
+        where: { username: username },
+        update: {},
+        create: newUser,
+      });
+
+      return res.json(user);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+
+
+usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setAdmin/:username", async (req, res, next) => {
+  const { username } = req.params;
+ 
+  try {
+
+    const user = await db.user.findUnique({
+      where: { username: username }
+    })
+    if (!user) return res.send({ message: "User not found" })
+
+    const upsertUser = await db.user.update({
+      where: {
+        username: username,
+      },
+      data: {
+        admin: user?.admin === true ? false : true,
+      }
+    });
+    return res.send(upsertUser);
+  } catch (error) {
+    return res.sendStatus(404).json({ message: error });
+  }
+
+});
+
+
+usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:username", async (req, res, next) => {
+  const { username } = req.params;
+ 
+  try {
+
+    const user = await db.user.findUnique({
+      where: { username: username },
+      include: { created:true}
+    })
+    if (!user) return res.send({ message: "User not found" })
+    
+    user.created.forEach(manga => {
+        manga.active = true;
+    })
+    user.created.forEach(manga => console.log(manga.active));
+
+    const upsertUser = await db.user.update({
+      where: {
+        username: username,
+      },
+      data: {
+        active: user?.active === true ? false : true,
+      }
+    });
+    return res.send(upsertUser);
+  } catch (error) {
+    return res.sendStatus(404).json({ message: error });
+  }
+
+});
+
+
 
 
