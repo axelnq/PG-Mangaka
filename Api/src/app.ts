@@ -3,7 +3,17 @@ import morgan from "morgan";
 import { PrismaClient } from "@prisma/client";
 import { routes } from "./routes/index";
 import cors from "cors";
+import passport from "passport";
+import passportLocal from "passport-local";
+import cookieParser from "cookie-parser";
+import bcrypt from "bcrypt"
+import session from "express-session";
+import bodyParser from "body-parser";
+
 export const db = new PrismaClient();
+
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const localStrategy = require("passport-local").Strategy;
 
 const app = express();
 
@@ -17,10 +27,27 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
   next();
 });
-// server.use(cors());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
 
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(
+  session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(cookieParser("secretcode"))
+app.use(passport.initialize());
+app.use(passport.session());
+require("./configPassport")(passport);
+
 app.use("/api", routes);
 
 // Error catching endware.
