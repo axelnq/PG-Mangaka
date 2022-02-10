@@ -13,7 +13,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InputBase from "@mui/material/InputBase";
-
+ 
 //styles
 const Input = styled(InputBase)`
   width: 100%;
@@ -119,7 +119,7 @@ export default function NavBar() {
           }}
         >
           <Typography variant="h5" color="primary">
-            MANGAKA
+          <Link to="/">MANGAKA</Link>  
           </Typography>
 
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
@@ -189,9 +189,11 @@ export default function NavBar() {
             </Box>
             {showAvatar ? (
               <Stack direction="row" spacing={2} justifyContent="center">
+                <Link to="/coins">
                 <MoneyButton>
                   <AttachMoneyIcon />
                 </MoneyButton>
+                </Link>
                 <PerfilNavbar />
               </Stack>
             ) : (
