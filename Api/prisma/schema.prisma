@@ -58,4 +58,29 @@ model Chapter {
   manga   Manga    @relation(fields: [mangaId], references: [id]) // A manga can have one User
   mangaId Int
   usersId String[]
+  orderConstant InternalOrder[]
 }
+model InternalOrder{
+  orderId   Int @id @default(autoincrement())
+  sellerId    String
+  buyerId    String
+  product  Chapter @relation(fields: [productId], references: [id])
+  productId Int
+  
+}
+ model externalOrder{
+   orderId  Int @id @default(autoincrement())
+   adminId  String 
+   userId String
+   status String
+   productId Int
+  
+ }
+ model coinsPackage{
+   id Int @id @default(autoincrement())
+   title     String
+   sellprice Int
+   buyprice Int
+   value Int
+ }
+
