@@ -100,7 +100,7 @@ function handleSubmit(e) {
         <FormControl onSubmit={(e) => handleSubmit(e)}
           sx={{
             width: 300,
-            height: 450,
+            height:'auto',
             borderRadius: '5px',
             backgroundColor: '#192A45',
             borderColor:'#192A45',
@@ -132,6 +132,7 @@ function handleSubmit(e) {
             <div>
             <TextField
           id="filled-multiline-flexible"
+          multiline
           sx={{ backgroundColor: 'white' }}
           name="synopsis"
           value={input.synopsis}
@@ -150,7 +151,7 @@ function handleSubmit(e) {
                       id="demo-simple-select"
                         sx={{ width: '8rem',height:'1.5em',backgroundColor:'white' }}
                         value={input.genres}
-                        name='genres'
+                          name='genres'
                           label="genres"
                             onChange={(e) => handleSelect(e)}
                               >
