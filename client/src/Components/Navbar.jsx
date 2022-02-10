@@ -75,7 +75,7 @@ export default function NavBar() {
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
-  }, [mangasPreview]);
+  }, []);
 
   //local state
   const [filteredData, setFilteredData] = useState([]);
@@ -119,7 +119,7 @@ export default function NavBar() {
           }}
         >
           <Typography variant="h5" color="primary">
-            MANGAKA
+          <Link to="/">MANGAKA</Link>  
           </Typography>
 
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
@@ -189,9 +189,11 @@ export default function NavBar() {
             </Box>
             {showAvatar ? (
               <Stack direction="row" spacing={2} justifyContent="center">
+                <Link to="/coins">
                 <MoneyButton>
                   <AttachMoneyIcon />
                 </MoneyButton>
+                </Link>
                 <PerfilNavbar />
               </Stack>
             ) : (
