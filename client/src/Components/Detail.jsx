@@ -9,6 +9,18 @@ import { Container, Box, List, ListItem, LinearProgress, Divider, ListItemText, 
 // components
 import Nabvar from './Navbar'
 
+const _ArrayBufferToBase64 = (buffer) => {
+    console.log(buffer)
+    var binary = '';
+    var byte = new Uint8Array(buffer.data);
+    var length = byte.byteLength;
+
+    for (var i = 0; i < length; i++) {
+        binary += String.fromCharCode(byte[i])
+    }
+    return window.btoa(binary)
+}
+
 const Detail = () => {
     const { id } = useParams()
     console.log(id)
@@ -20,6 +32,10 @@ const Detail = () => {
 
     const mangaDetail = useSelector((state) => state.mangaDetail.data)
     console.log(mangaDetail)
+    let buffer;
+    if (mangaDetail && mangaDetail.id == id) {
+        buffer = _ArrayBufferToBase64(mangaDetail.image)
+    }
     const [valueManga, setValueManga] = React.useState(0);
     const [valueChapter, setValueChapter] = React.useState(0);
 
@@ -62,7 +78,7 @@ const Detail = () => {
                                 component="img"
                                 height="auto"
                                 width="auto"
-                                src={mangaDetail?.images[0]}
+                                src={'data:image/jpeg;base64,' + buffer}
                                 alt={mangaDetail.title}
                             />
                         </Box>
@@ -70,7 +86,7 @@ const Detail = () => {
                     <List sx={{ width: '100%', minWidth: "22.5rem", bgcolor: 'background.paper' }}>
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
-                                <Avatar alt={mangaDetail.title} src={mangaDetail?.images[1]} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
+                                <Avatar alt={mangaDetail.title} src={'data:image/jpeg;base64,' + buffer} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
                             <ListItemText
                                 primary={mangaDetail.chapters[0]?.title}
@@ -100,7 +116,7 @@ const Detail = () => {
                         <Divider variant="inset" component="li" />
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
-                                <Avatar alt={mangaDetail.title} src={mangaDetail?.images[1]} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
+                                <Avatar alt={mangaDetail.title} src={'data:image/jpeg;base64,' + buffer} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
                             <ListItemText
                                 primary={mangaDetail.chapters[1]?.title}
