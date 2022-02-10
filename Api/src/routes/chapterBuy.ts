@@ -44,3 +44,39 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
     }
   }
 });
+internalOrderRouter.post<{}, {}>("/wishlistManga", async (req, res, next) => {
+  let { mangaId, userId } = req.body;
+  let firstUser = await db.user.findUnique({
+    where: { id: userId },
+  });
+  console.log(mangaId);
+  if (firstUser && !firstUser.wishList.includes(mangaId)) {
+    const updateUser = await db.user.update({
+      where: { username: firstUser.username },
+      data: {
+        wishList: [...firstUser.wishList, mangaId],
+      },
+    });
+    res.send("Added to Wishlist");
+  } else {
+    res.send("You already have this manga in wishlist");
+  }
+});
+internalOrderRouter.post<{}, {}>("/favoritesManga", async (req, res, next) => {
+  let { mangaId, userId } = req.body;
+  let firstUser = await db.user.findUnique({
+    where: { id: userId },
+  });
+  console.log(mangaId);
+  if (firstUser && !firstUser.favorites.includes(mangaId)) {
+    const updateUser = await db.user.update({
+      where: { username: firstUser.username },
+      data: {
+        favorites: [...firstUser.favorites, mangaId],
+      },
+    });
+    res.send("Added to Favorites");
+  } else {
+    res.send("You already have this manga in Favorites");
+  }
+});
