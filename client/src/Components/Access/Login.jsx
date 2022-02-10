@@ -1,7 +1,10 @@
+import * as React from "react";
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+//MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import FilledInput from "@mui/material/FilledInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -11,19 +14,49 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button"
 import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import GoogleIcon from '@mui/icons-material/Google';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import Stack from "@mui/material/Stack";
 
-const ColorButton = styled(Button)(({ theme }) => ({
-  backgroundColor: "lightblue",
+
+const AccessButton = styled(Button)({
+  width: "47%",
+  boxShadow: 'none',
+  textTransform: 'none',
+  fontSize: 16,
+  padding: '6px 12px',
+  lineHeight: 1.5,
+  backgroundColor: '#0063cc',
+  color: "white",
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+  ].join(','),
   '&:hover': {
-    backgroundColor: "blue",
+    boxShadow: 'none',
+    backgroundColor: 'lightblue'
   },
-}));
+  '&:active': {
+    boxShadow: 'none',
+  },
+});
+
 export default function Login() {
 	const [values, setValues] = React.useState({
 		password: "",
 		email: "",
 		showPassword: false,
 	});
+	const [response, setResponse] = React.useState(null);
 	const handleChange = (prop) => (e) => {
 		setValues({ ...values, [prop]: e.target.value });
 	};
@@ -32,10 +65,16 @@ export default function Login() {
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		alert(`tu email es: ${values.email}, password: ${values.password}`);
+		axios.post('http://localhost:3001/api/auth/local/login', {...values})
+		.then(response => setResponse(response))
+		.catch(error => setResponse(error));
+		setValues("");
+		alert(response)
 	};
+
 	return (
 		<Box
+			id="login"
 			sx={{ width: "100%" }}
 			component="form"
 			onSubmit={handleSubmit}
@@ -54,8 +93,9 @@ export default function Login() {
 				label="Email"
 				variant="filled"
 				onChange={handleChange('email')}
+				required
 			/>
-			<FormControl fullWidth sx={{ my: 2, backgroundColor: "white", borderRadius: "5px 5px 0 0" }} variant="filled">
+			<FormControl required fullWidth sx={{ my: 2, backgroundColor: "white", borderRadius: "5px 5px 0 0" }} variant="filled">
 				<InputLabel htmlFor="filled-adornment-password">
 					Password
 				</InputLabel>
@@ -81,7 +121,16 @@ export default function Login() {
 					}
 				/>
 			</FormControl>
-			<ColorButton type="submit">Login</ColorButton>
+			<Stack sx={{width: "100%"}} direction="column" spacing={1}>
+			<AccessButton sx={{width: "100%"}} type="submit">Iniciar Sesión</AccessButton>
+			<AccessButton sx={{width: "100%"}} ><Link style={{color: "blue", textDecoration: "none"}}  to="/register">Registrarse</Link></AccessButton>
+			</Stack>
+			<p style={{marginBottom:"2px", color:"#357ded", textAlign:"center"}}>O inicia sesión con:</p>
+			<Divider sx={{mb: 2, backgroundColor: "#357ded"}}/>
+			<AccessButton sx={{marginRight: "3%", borderRadius: 5}} startIcon={<FacebookIcon/>}>facebook</AccessButton>
+			<a href="http://localhost:3001/api/auth/google" target="_blank">
+			<AccessButton sx={{backgroundColor: "red", color: 'white', marginLeft: "3%", borderRadius: 5, '&:hover': {backgroundColor: "#ff726f"}}}  startIcon={<GoogleIcon />}>Google</AccessButton>
+			</a>
 		</Box>
 	);
 }
