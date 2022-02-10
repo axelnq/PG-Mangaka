@@ -9,14 +9,14 @@ import paginated from "../utils/paginated";
 import multer from "multer";
 const upload = multer({
   limits: {
-  fileSize: 100000000,
+    fileSize: 100000000,
   },
   fileFilter(req, file, cb) {
-  if (!file.originalname.match(/\.(png|jpg|jpeg)$/)){
-  cb(new Error('Please upload an image.'))
-  }
-  cb(null, true)
-  }
+    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+      cb(new Error("Please upload an image."));
+    }
+    cb(null, true);
+  },
 });
 
 // obtiene todos los mangas de la DB y podes recibir por query , el orden (ASC o DESC) y el tags que seria por ejemplo , "tittle" , "chapters" , "rating"
@@ -70,7 +70,9 @@ mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
 });
 
 // Obtener el detalle de un manga
-mangasRouter.get<{ idManga: string }, {}>( "/manga/:idManga", async (req, res, next) => {
+mangasRouter.get<{ idManga: string }, {}>(
+  "/manga/:idManga",
+  async (req, res, next) => {
     const { idManga } = req.params;
 
     console.log(req.params);
@@ -90,78 +92,85 @@ mangasRouter.get<{ idManga: string }, {}>( "/manga/:idManga", async (req, res, n
 );
 
 // Ruta testing para obtener la imagen del manga
-mangasRouter.get("/testImage/:id", async function(req, res) {
-    const { id } = req.params;
+mangasRouter.get("/testImage/:id", async function (req, res) {
+  const { id } = req.params;
 
-    console.log(req.params);
-    const Manga = await db.manga.findUnique({
-      where: { id: Number(id) },
-      include: {
-        chapters: true,
-        author: {
-          select: {
-            name: true,
-          },
+  console.log(req.params);
+  const Manga = await db.manga.findUnique({
+    where: { id: Number(id) },
+    include: {
+      chapters: true,
+      author: {
+        select: {
+          name: true,
         },
       },
-    });
-    //Debe devolver la imagen del manga en formato jpeg
-    res.setHeader("Content-Type", "image/jpeg");
-    //@ts-ignore
-    res.send(Manga.image)
+    },
   });
-
-// Para la creacion de mangas hardcodeamos el usuario para el authorID.
-mangasRouter.post<{}, {}>("/", upload.single('images') ,async (req, res, next) => {
-  const { title, synopsis, authorId, genres } = req.body;
-  //Las lineas de abajo son para hardcodear el authorId
-  const Author = await db.user.findUnique({
-    where: { username: "SuperAdmin" },
-  });
-  let image;
-  if(req.file){
-  image = req.file.buffer;
-  }
-  else {
-    return res.status(400).send({ message: "Image is required" });
-  }
-
-  let createdManga = new Manga(title, synopsis, image, genres, authorId );
-  if (Author) {
-    createdManga = new Manga(title, synopsis, image, genres, Author.id);
-  }
-
-  try {
-    const newManga = await db.manga.create({
-      data: createdManga,
-    });
-    return res.json(newManga);
-  } catch (error) {
-    console.log(error)
-    next(new Error(`Manga Post Error`));
-  }
+  //Debe devolver la imagen del manga en formato jpeg
+  res.setHeader("Content-Type", "image/jpeg");
+  //@ts-ignore
+  res.send(Manga.image);
 });
 
-mangasRouter.put("/manga/updateCover/:mangaId", upload.single('image'), async (req, res, next) => {
-  let image: Buffer;
-  if(req.file){
-  image = req.file.buffer;
-  }
-  else {
-    return res.status(400).send({ message: "Image is required" });
-  }
-  const { mangaId } = req.params;
-  try {
-    await db.manga.update({
-      where: { id: Number(mangaId) },
-      data: { image },
+// Para la creacion de mangas hardcodeamos el usuario para el authorID.
+mangasRouter.post<{}, {}>(
+  "/",
+  upload.single("images"),
+  async (req, res, next) => {
+    const { title, synopsis, authorId, genres } = req.body;
+    //Las lineas de abajo son para hardcodear el authorId
+    const Author = await db.user.findUnique({
+      where: { username: "SuperAdmin" },
     });
-    return res.status(204).send();
-  } catch (error: any) {
-    console.log(error);
-    res.status(400).send({ message: "Error updating cover" });
+    let image;
+    if (req.file) {
+      image = req.file.buffer;
+    } else {
+      return res.status(400).send({ message: "Image is required" });
+    }
+
+    let createdManga = new Manga(title, synopsis, image, genres, authorId);
+    if (Author) {
+      createdManga = new Manga(title, synopsis, image, genres, Author.id);
+    }
+
+    try {
+      const newManga = await db.manga.create({
+        data: createdManga,
+      });
+      return res.json(newManga);
+    } catch (error) {
+      console.log(error);
+      next(new Error(`Manga Post Error`));
+    }
   }
-})
+);
+
+mangasRouter.put(
+  "/manga/updateCover/:mangaId",
+  upload.single("image"),
+  async (req, res, next) => {
+    let image: Buffer;
+    if (req.file) {
+      image = req.file.buffer;
+    } else {
+      return res.status(400).send({ message: "Image is required" });
+    }
+    const { mangaId } = req.params;
+    try {
+      await db.manga.update({
+        where: { id: Number(mangaId) },
+        //@ts-ignore
+        data: { image },
+      });
+      return res.status(204).send();
+    } catch (error: any) {
+      console.log(error);
+      res.status(400).send({ message: "Error updating cover" });
+    }
+  }
+);
 
 // Para borrar todos los  mangas de la DB
 mangasRouter.delete<{}, {}>("/", async (req, res, next) => {
@@ -191,11 +200,14 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
   const allMangas = await axios.get("https://api.jikan.moe/v4/manga?page=2");
   const order: any = req.query.order;
   const tags: any = req.query.tags;
-  
+
   let userDb = await db.user.findUnique({ where: { username: "SuperAdmin" } });
   let user: any;
   if (!userDb) {
-    let image = await axios.get("https://static.wikia.nocookie.net/memes-pedia/images/0/04/Soy_admin.jpeg/revision/latest?cb=20210127042455&path-prefix=es", {responseType: 'arraybuffer'});
+    let image = await axios.get(
+      "https://static.wikia.nocookie.net/memes-pedia/images/0/04/Soy_admin.jpeg/revision/latest?cb=20210127042455&path-prefix=es",
+      { responseType: "arraybuffer" }
+    );
     let buffer = Buffer.from(image.data, "utf-8");
     const adminTest = new User(
       "Admin",
@@ -205,6 +217,7 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
     );
 
     user = await db.user.create({
+      //@ts-ignore
       data: adminTest,
     });
   } else {
@@ -217,7 +230,9 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
       genre.push(tag.name);
     });
     console.log(manga.images.jpg.image_url);
-    let image = await axios.get(manga.images.jpg.image_url, {responseType: 'arraybuffer'});
+    let image = await axios.get(manga.images.jpg.image_url, {
+      responseType: "arraybuffer",
+    });
     let buffer = Buffer.from(image.data, "utf-8");
     const createdManga = new Manga(
       manga.title,
@@ -301,22 +316,24 @@ mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
     });
     let mangasByAuthor: any = [];
     searchResults.forEach((elto) =>
-      elto.created?.forEach((manga: any) => mangasByAuthor.push({
-        id: manga.id,
-        title: manga.title,
-        synopsis: manga.synopsis,
-        authorId: manga.authorId,
-        image: manga.image,
-        createdAt: manga.createdAt,
-        uptadedAt: manga.uptadedAt,
-        genre: manga.genre,
-        rating: manga.rating,
-        chapter: manga.chapter,
-        state: manga.state,
-        author:{
-          name: elto.name
-        }
-      }))
+      elto.created?.forEach((manga: any) =>
+        mangasByAuthor.push({
+          id: manga.id,
+          title: manga.title,
+          synopsis: manga.synopsis,
+          authorId: manga.authorId,
+          image: manga.image,
+          createdAt: manga.createdAt,
+          uptadedAt: manga.uptadedAt,
+          genre: manga.genre,
+          rating: manga.rating,
+          chapter: manga.chapter,
+          state: manga.state,
+          author: {
+            name: elto.name,
+          },
+        })
+      )
     );
     res.json({ data: mangasByAuthor });
   } catch (error) {
