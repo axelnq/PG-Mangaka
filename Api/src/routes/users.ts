@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { db } from "../app";
-import User from "../classes/User";
+import User  from "../classes/User";
 export const usersRouter = Router();
+import { Role } from '@prisma/client';
+
 
 usersRouter.get("/", async (req, res) => {
   const users = await db.user.findMany({
@@ -19,7 +21,7 @@ usersRouter.post<{}, {}, { name: string; username: string; password: string; ema
     const { name, username, password, email } = req.body;
 
     const newUser = new User(name, username, password, email);
-
+    
     try {
       const user = await db.user.upsert({
         where: { username: username },
@@ -100,20 +102,25 @@ usersRouter.get<{ username: string }, {}>("/user/:username", async (req, res, ne
 });
 
 
-usersRouter.post<{}, {}, { name: string; username: string; password: string; email: string, admin: boolean, superAdmin: boolean }>
+usersRouter.post<{}, {}, { name: string; username: string; password: string; email: string,role:Role}>
   ("/superAdmin", async (req, res) => {
-    const { name, username, password, email, admin, superAdmin } = req.body;
+    // const { name, username, password, email,role} = req.body;
 
-    const newUser = new User(name, username, password, email, admin, superAdmin);
+    const newUser = new User("Super Mangaka", "SuperMGK", "1234678", "supermangaka2022@gmail.com","SUPERADMIN");
 
     try {
-      const user = await db.user.upsert({
-        where: { username: username },
-        update: {},
-        create: newUser,
-      });
+      let superAdmin = await db.user.findUnique({
+        where: { username: newUser.username}
+      })
 
-      return res.json(user);
+      if(!superAdmin) {
+        superAdmin = await db.user.create({
+          data: newUser,
+        });
+  
+      }
+     
+      return res.json(superAdmin);
     } catch (error) {
       console.log(error);
     }
@@ -125,7 +132,7 @@ usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setAdmin/:usern
   const { username } = req.params;
  
   try {
-
+   
     const user = await db.user.findUnique({
       where: { username: username }
     })
@@ -136,10 +143,11 @@ usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setAdmin/:usern
         username: username,
       },
       data: {
-        admin: user?.admin === true ? false : true,
+        role: user.role === 'USER' ? 'ADMIN' : 'USER'
       }
     });
     return res.send(upsertUser);
+    
   } catch (error) {
     return res.sendStatus(404).json({ message: error });
   }
@@ -151,7 +159,7 @@ usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:user
   const { username } = req.params;
  
   try {
-
+    
     const user = await db.user.findUnique({
       where: { username: username },
       include: { created:true}
@@ -172,6 +180,7 @@ usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:user
       }
     });
     return res.send(upsertUser);
+    
   } catch (error) {
     return res.sendStatus(404).json({ message: error });
   }

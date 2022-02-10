@@ -1,11 +1,28 @@
+import { Role } from '@prisma/client';
+/*
+export enum userType {
+  superAdmin,
+  admin,
+  normalUser,
+  bannedUser,
+}
+
+enum RoleUser {
+  USER,
+  ADMIN,
+  SUPERADMIN,
+  INACTIVE_USER,
+  BANNED_USER
+}
+*/
+
 export default class User {
   id: string | undefined;
   name: string;
   username: string;
   password: string;
-  superAdmin:boolean;
-  admin: boolean;
   active: boolean;
+  role: Role;
   about: string;
   coins: number;
   creatorMode: boolean;
@@ -19,8 +36,7 @@ export default class User {
     username: string,
     password: string,
     email: string,
-    superAdmin?:boolean,
-    admin?:boolean,
+    role?: Role,
     active?:boolean,
     about?: string,
     coins?: number,
@@ -34,8 +50,7 @@ export default class User {
     this.username = username;
     this.password = password;
     this.email = email;
-    this.admin = admin || false;
-    this.superAdmin = superAdmin || false;
+    this.role = role || 'USER';
     this.active = active || true;
     this.about = about || "This is my Profile!";
     this.coins = coins || 0;

@@ -16,15 +16,22 @@ enum State {
   on_pause
 }
 
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+  INACTIVE_USER
+  BANNED_USER
+}
+
+
 model User {
   id          String  @id @default(uuid())
   name        String
   username    String  @unique
   password    String // revisar el tipo por algo como Cypher
-  superAdmin  Boolean
-  admin       Boolean
-  active      Boolean
   about       String
+  active      Boolean
   coins       Int     @default(0)
   creatorMode Boolean @default(false)
   email       String  @unique
@@ -32,6 +39,7 @@ model User {
   favorites   Int[]
   wishList    Int[]
   created     Manga[] // A user can have many mangas
+  role        Role  @default(USER)
 }
 
 model Manga {
