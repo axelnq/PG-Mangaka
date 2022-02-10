@@ -53,6 +53,7 @@ model Chapter {
   id      Int      @id @default(autoincrement())
   title   String
   points  Int
+  coverImage Bytes
   images  Bytes[]
   manga   Manga    @relation(fields: [mangaId], references: [id]) // A manga can have one User
   mangaId Int

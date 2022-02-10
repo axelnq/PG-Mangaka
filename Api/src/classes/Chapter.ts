@@ -3,13 +3,15 @@ import Manga from './Manga';
 export default class Chapter {
     id: number | undefined;
     title: string;
+    coverImage: Buffer;
     images: Buffer[];
     points: number;
     mangaId: number;
     usersId: string[]
 
-    constructor(title: string,images: Buffer[],mangaId:number,points?: number,usersId?: string[],id?:number) {
+    constructor(title: string,images: Buffer[], coverImage:Buffer, mangaId:number,points?: number,usersId?: string[],id?:number) {
         this.title = title;
+        this.coverImage = coverImage;
         this.images = images;
         this.points = points || 0;
         this.mangaId = mangaId;

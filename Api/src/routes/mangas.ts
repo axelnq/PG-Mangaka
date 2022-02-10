@@ -142,6 +142,27 @@ mangasRouter.post<{}, {}>("/", upload.single('images') ,async (req, res, next) =
   }
 });
 
+mangasRouter.put("/manga/updateCover/:mangaId", upload.single('image'), async (req, res, next) => {
+  let image: Buffer;
+  if(req.file){
+  image = req.file.buffer;
+  }
+  else {
+    return res.status(400).send({ message: "Image is required" });
+  }
+  const { mangaId } = req.params;
+  try {
+    await db.manga.update({
+      where: { id: Number(mangaId) },
+      data: { image },
+    });
+    return res.status(204).send();
+  } catch (error: any) {
+    console.log(error);
+    res.status(400).send({ message: "Error updating cover" });
+  }
+})
+
 // Para borrar todos los  mangas de la DB
 mangasRouter.delete<{}, {}>("/", async (req, res, next) => {
   await db.manga.deleteMany({});
