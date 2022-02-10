@@ -55,14 +55,37 @@ usersRouter.post<{},{},{ name: string; username: string; password: string; email
     }
 });
 
+usersRouter.put("/user/updateAvatar/:username", upload.single('avatar'), async (req, res) => {
+  let username = req.params.username;
+  let avatar: Buffer;
+  if(!(req.file)){
+      return res.status(400).send("Image is required");
+  }
+  avatar = req.file.buffer;
+  try {
+      await db.user.update({
+      where: { username: username },
+      data: { avatar: avatar },
+    });
+
+    return res.status(204).send();
+  }catch(error:any){
+    return res.status(400).send(error);
+  }
+  
+})
 
 
 //Testea el avatar del usuario
-usersRouter.get("/avatar",async (req, res, next) => {
-  let { username } = req.query;
+usersRouter.get("/avatar/:username",async (req, res, next) => {
+  let { username } = req.params;
+  if(!username){
+    return res.status(400).send({ message: "Username is required" });
+  }
   const user = await db.user.findUnique({
-    //@ts-ignore
-    where: { username: username },
+    where: {
+      username: username,
+     },
 })
   if(user){
     //Enviar el avatar como respuesta en formato jpeg
