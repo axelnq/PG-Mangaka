@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMangasPreview, searchManga } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
+import LoginModal from './Access/LoginModal';
 //MUI
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -204,7 +205,10 @@ export default function NavBar() {
                 >
                   Iniciar Sesión
                 </Button>
+                <LoginModal />
+                <Link to="/register">
                 <Button variant="outlined">Registrarse</Button>
+                </Link>
               </Stack>
             )}
           </Stack>

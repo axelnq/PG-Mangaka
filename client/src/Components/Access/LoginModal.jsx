@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Login from './Login';
 const style = {
   position: 'absolute',
@@ -12,7 +11,6 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: {xs:'70vw', md: "35vw"},
-  height: '80vh',
   bgcolor: '#192a45',
   color: "white",
   borderRadius: '7px',
@@ -21,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function TransitionsModal() {
+export default function LoginModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -42,7 +40,7 @@ export default function TransitionsModal() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Login />
+            <Login/>
           </Box>
         </Fade>
       </Modal>
