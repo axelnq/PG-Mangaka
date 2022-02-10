@@ -18,12 +18,7 @@
   },
   "homepage": "https://github.com/axelnq/PG-Back#readme",
   "dependencies": {
-<<<<<<< HEAD
     "@prisma/client": "^3.9.1",
-=======
-    "@prisma/client": "^3.8.1",
-    "bcrypt": "^5.0.1",
->>>>>>> Adri
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
