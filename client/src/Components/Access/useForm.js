@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 export function useForm(initialForm, validation) {
 	const [form, setForm] = useState(initialForm);
 	const [errors, setErrors] = useState(initialForm);
@@ -18,19 +18,30 @@ export function useForm(initialForm, validation) {
 		e.preventDefault();
 		setLoading(true);
 		const { username, name, email, password } = form;
-		axios.post('http://localhost:3001/api/users/register', {username, name, email, password})
-		.then(response =>{
-			setLoading(false);
-			setResponse(response);
-		})
-		.then(error => {
-			setLoading(false);
-			setResponse(response);
-		})
-		setForm(initialForm)
-		setErrors(initialForm)
+		//form Data
+		const formData = new FormData();
+		formData.append("name", name);
+		formData.append("username", username);
+		formData.append("email", email);
+		formData.append("password", password);
+		console.log(formData);
+
+		axios
+			.post("http://localhost:3001/api/users/register", formData)
+			.then((response) => {
+				//setLoading(false);
+				//setResponse(response);
+				console.log(response.mg);
+			})
+			.then((error) => {
+				//setLoading(false);
+				//setResponse(response);
+				alert(...error);
+			});
+		setForm(initialForm);
+		setErrors(initialForm);
 	};
-	
+
 	return {
 		form,
 		errors,
