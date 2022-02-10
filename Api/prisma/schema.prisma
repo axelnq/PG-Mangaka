@@ -58,6 +58,7 @@ model Chapter {
   manga   Manga    @relation(fields: [mangaId], references: [id]) // A manga can have one User
   mangaId Int
   usersId String[]
+  price Int
   orderConstant InternalOrder[]
 }
 model InternalOrder{
