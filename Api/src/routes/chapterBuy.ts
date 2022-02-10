@@ -5,7 +5,7 @@ import User, { addCoins } from "../classes/User";
 import internalOrder from "../classes/InternalOrder";
 export const internalOrderRouter = Router();
 
-internalOrderRouter.post<{}, {}>("/internal", async (req, res, next) => {
+internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
   const { sellerId, buyerId, productId } = req.body;
   // let tempSeller = {};
   let buyer = await db.user.findUnique({
