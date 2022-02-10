@@ -39,7 +39,7 @@ const Home = () => {
                                 <MangaCard
                                     id={m.id}
                                     title={m.title}
-                                    image={m.images[0]}
+                                    image={m.image}
                                     author={m.author?.name}
                                     genre={m.genre}
                                 />

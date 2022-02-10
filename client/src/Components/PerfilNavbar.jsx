@@ -85,6 +85,11 @@ export default function PerfilNavbar() {
           />{" "}
           Perfil
         </MenuItem>
+        <Link to="/panel" style={{ textDecoration: "none", color: "white" }}>
+        <MenuItem>
+          Panel
+        </MenuItem>
+        </Link>
         <Divider sx={{ backgroundColor: "#357ded" }} />
         <Link to="/create" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>
