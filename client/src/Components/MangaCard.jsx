@@ -1,7 +1,23 @@
 import { Link } from 'react-router-dom'
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
 
+
+const _ArrayBufferToBase64 = (buffer) => {
+    console.log(buffer)
+    var binary = '';
+    var byte = new Uint8Array(buffer.data);
+    var length = byte.byteLength;
+
+    for(var i = 0; i < length ;i++) {
+        binary += String.fromCharCode(byte[i])
+    }
+    return window.btoa(binary)
+}
+
+
 const MangaCard = ({ id, title, author, image, genre }) => {
+    let buffer = _ArrayBufferToBase64 (image)
+    
     return (
         <div>
             <Link to={'/detail/' + id}>
@@ -11,7 +27,7 @@ const MangaCard = ({ id, title, author, image, genre }) => {
                             component="img"
                             height="200"
                             sx={{ width: "100%" }}
-                            src={image}
+                            src={'data:image/jpeg;base64,' + buffer}
                             alt={title}
                         />
                         <CardContent sx={{ py: "0.5rem", }}>
