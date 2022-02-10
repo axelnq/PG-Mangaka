@@ -3,12 +3,16 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './Components/Home'
 import CreateForm from './Components/CreateForm';
 import Detail from './Components/Detail';
+import Biblioteca from './Components/Biblioteca';
+import Wishlist from './Components/Wishlist';
 // windoes + .
 
 function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path='/library' element={<Biblioteca/>}/>
+        <Route path='/wishlist' element={<Wishlist/>}/>
         <Route path='/' element={<Home/>}/>
         <Route path='/create' element={<CreateForm/>}/>
         <Route path='/detail/:id' element={<Detail/>}/>
