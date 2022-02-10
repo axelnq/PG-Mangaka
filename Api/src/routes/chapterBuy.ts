@@ -27,7 +27,7 @@ internalOrderRouter.post<{}, {}>("/internal", async (req, res, next) => {
           username: seller.username,
         },
         data: {
-          coins: seller.coins + 50,
+          coins: seller.coins + product.price,
         },
       });
       const updatebuyer = await db.user.update({
@@ -35,6 +35,7 @@ internalOrderRouter.post<{}, {}>("/internal", async (req, res, next) => {
           username: buyer.username,
         },
         data: {
+          coins: buyer.coins - product.price,
           library: [...buyer.library, productId],
         },
       });

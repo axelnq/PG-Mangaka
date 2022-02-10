@@ -39,7 +39,7 @@ chaptersRouter.post<{}, {}>(
       title,
       images,
       cover,
-      price,
+      Number(price),
       Number(mangaId)
     );
     try {
