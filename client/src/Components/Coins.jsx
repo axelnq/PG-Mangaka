@@ -1,6 +1,7 @@
 import React from 'react'
 import NavBar from './Navbar'
 import CoinsPanel from './CoinsPanel'
+import Coin from '../img/coin.png'
 //mui
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
@@ -72,8 +73,12 @@ export default function Coins() {
     return (
         <div>
             <NavBar />
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Box sx={{ mt: "2rem", mb: "1rem", width: "72px" }}>
+                    <img src={Coin} alt="" srcset="" />
+                </Box>
+            </Box>
 
-            <Box sx={{ mt: "2rem", mb: "1rem" }}>image</Box>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Box sx={{ bgcolor: 'background.paper', width: "80%" }}>
                     <Box sx={{ display: "flex", justifyContent: "right", mb: "1rem" }}>
