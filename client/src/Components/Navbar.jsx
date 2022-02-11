@@ -68,6 +68,18 @@ const List = styled("ul")`
     }
   }
 `;
+const _ArrayBufferToBase64 = (buffer) => {
+    console.log(buffer)
+    var binary = '';
+    var byte = new Uint8Array(buffer.data);
+    var length = byte.byteLength;
+
+    for(var i = 0; i < length ;i++) {
+        binary += String.fromCharCode(byte[i])
+    }
+    return window.btoa(binary)
+}
+
 
 export default function NavBar() {
   //redux
@@ -165,7 +177,7 @@ export default function NavBar() {
                             to={"/detail/" + m.id}
                           >
                             <li key={i}>
-                              <img src={m.images[0]} alt={m.title} />
+                              <img src={'data:image/jpeg;base64,' + _ArrayBufferToBase64 (m.image)}  alt={m.title}/>
                               <div
                                 style={{ display: "flex", alignSelf: "center" }}
                               >
@@ -206,7 +218,7 @@ export default function NavBar() {
                   Iniciar Sesión
                 </Button>
                 <LoginModal />
-                <Link to="/register">
+                <Link to="/register" style={{ textDecoration: "none"}}>
                 <Button variant="outlined">Registrarse</Button>
                 </Link>
               </Stack>
