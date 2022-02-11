@@ -10,6 +10,9 @@ export const ORDER = "ORDER";
 export const SEARCH_MANGA = "SEARCH_MANGA";
 export const PAGINADO_PAGE = "PAGINADO_PAGE";
 export const GET_MANGAS_PREVIEW = "GET_MANGAS_PREVIEW";
+export const POST_CHAPTERS = "POST_CHAPTERS";
+
+
 const axios = require("axios");
 
 export let mangasToDb = () => {
@@ -192,6 +195,24 @@ export let paginado = ({page, genre, order}) => {
             return dispatch({
                 type: PAGINADO_PAGE,
                 payload: mangas.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+export let postChapters = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload)
+            let chapters = await axios.post(
+                `http://localhost:3001/api/chapters`,
+                payload
+            );
+            return dispatch({
+                type: POST_CHAPTERS,
+                payload: chapters.data,
             });
         } catch (error) {
             console.log(error);
