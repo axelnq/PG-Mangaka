@@ -10,7 +10,33 @@ export const ORDER = "ORDER";
 export const SEARCH_MANGA = "SEARCH_MANGA";
 export const PAGINADO_PAGE = "PAGINADO_PAGE";
 export const GET_MANGAS_PREVIEW = "GET_MANGAS_PREVIEW";
+export const GET_DATA_USER = "GET_DATA_USER";
 const axios = require("axios");
+
+export let getDataUser = () => {
+    return async (dispatch) => {
+        try {
+            const request = axios.get("http://localhost:3001/api/users/currentUser", {
+                withCredentials: true,
+            });
+            const response = request.data;
+            if (response) {
+                console.log(response);
+                return dispatch({
+                    type: GET_DATA_USER,
+                    payload: response,
+                });
+            } else {
+                return dispatch({
+                    type: GET_DATA_USER,
+                    payload: null,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
 
 export let mangasToDb = () => {
     return async (dispatch) => {
@@ -95,7 +121,7 @@ export let getMangaDetail = (payload) => {
 export let postManga = (payload) => {
     return async (dispatch) => {
         try {
-            console.log(payload)
+            console.log(payload);
             let manga = await axios.post(
                 `http://localhost:3001/api/mangas`,
                 payload
@@ -183,11 +209,13 @@ export let getMangasPreview = () => {
         }
     };
 };
-export let paginado = ({page, genre, order}) => {
+export let paginado = ({ page, genre, order }) => {
     return async (dispatch) => {
         try {
             let mangas = await axios.get(
-                `http://localhost:3001/api/mangas/directory?page=${page}&filter=${genre ? genre : ''}&order=${order ? order : 'asc'}&tags=title`
+                `http://localhost:3001/api/mangas/directory?page=${page}&filter=${
+                    genre ? genre : ""
+                }&order=${order ? order : "asc"}&tags=title`
             );
             return dispatch({
                 type: PAGINADO_PAGE,

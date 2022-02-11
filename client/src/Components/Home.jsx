@@ -7,7 +7,7 @@ import Navbar from './Navbar';
 import Banner from './Banner';
 import Paginado from './Paginado'
 //actions
-import { getAllMangas } from '../Actions'
+import { getAllMangas, getDataUser } from '../Actions'
 import { useEffect } from 'react';
 //mui
 import { Container } from '@mui/material';
@@ -17,6 +17,7 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(getAllMangas())
+        dispatch(getDataUser())
     }, [dispatch])
 
     const allMangas = useSelector((state) => state.allMangas)
@@ -32,10 +33,10 @@ const Home = () => {
             <Paginado total={allMangas.total}/>
             <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                 {
-                    allMangas.data?.map(m => {
-                        console.log(m)
+                    allMangas.data?.map((m, i) => {
+                        //console.log(m)
                         return (
-                            <div>
+                            <div key={i}>
                                 <MangaCard
                                     id={m.id}
                                     title={m.title}

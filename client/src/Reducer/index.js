@@ -1,4 +1,5 @@
 import {
+    GET_DATA_USER,
     MANGAS_TO_DB,
     GET_ALL_MANGAS,
     GET_GENRES,
@@ -14,6 +15,7 @@ import {
 } from "../Actions";
 
 const initialState = {
+    user: null,
     allMangas: [],
     currentMangas: [],
     mangaDetail: {},
@@ -31,6 +33,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
             };
+        case GET_DATA_USER:
+            return{
+                ...state,
+                user: payload,
+            }
         case GET_ALL_MANGAS:
             return {
                 ...state,

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMangasPreview, searchManga } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
-import LoginModal from './Access/LoginModal';
+import LoginModal from "./Access/LoginModal";
 //MUI
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -14,7 +14,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InputBase from "@mui/material/InputBase";
- 
+
 //styles
 const Input = styled(InputBase)`
   width: 100%;
@@ -69,31 +69,31 @@ const List = styled("ul")`
   }
 `;
 const _ArrayBufferToBase64 = (buffer) => {
-    console.log(buffer)
-    var binary = '';
-    var byte = new Uint8Array(buffer.data);
-    var length = byte.byteLength;
+  console.log(buffer);
+  var binary = "";
+  var byte = new Uint8Array(buffer.data);
+  var length = byte.byteLength;
 
-    for(var i = 0; i < length ;i++) {
-        binary += String.fromCharCode(byte[i])
-    }
-    return window.btoa(binary)
-}
-
+  for (var i = 0; i < length; i++) {
+    binary += String.fromCharCode(byte[i]);
+  }
+  return window.btoa(binary);
+};
 
 export default function NavBar() {
   //redux
+  const user = useSelector((state) => state.user);
   const mangasPreview = useSelector((state) => state.mangasPreview);
   const dispatch = useDispatch();
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
-  }, []);
+  }, [dispatch]);
 
   //local state
   const [filteredData, setFilteredData] = useState([]);
   const [search, setSearch] = useState("");
-  const [showAvatar, setShowAvatar] = useState(false);
+  //const [showAvatar, setShowAvatar] = useState(false);
   //filtering the autocomplete
   const handleFilter = (e) => {
     const word = e.target.value;
@@ -132,7 +132,7 @@ export default function NavBar() {
           }}
         >
           <Typography variant="h5" color="primary">
-          <Link to="/">MANGAKA</Link>  
+            <Link to="/">MANGAKA</Link>
           </Typography>
 
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
@@ -177,7 +177,13 @@ export default function NavBar() {
                             to={"/detail/" + m.id}
                           >
                             <li key={i}>
-                              <img src={'data:image/jpeg;base64,' + _ArrayBufferToBase64 (m.image)}  alt={m.title}/>
+                              <img
+                                src={
+                                  "data:image/jpeg;base64," +
+                                  _ArrayBufferToBase64(m.image)
+                                }
+                                alt={m.title}
+                              />
                               <div
                                 style={{ display: "flex", alignSelf: "center" }}
                               >
@@ -200,26 +206,26 @@ export default function NavBar() {
                 </Box>
               </Stack>
             </Box>
-            {showAvatar ? (
+            {user ? (
               <Stack direction="row" spacing={2} justifyContent="center">
                 <Link to="/coins">
-                <MoneyButton>
-                  <AttachMoneyIcon />
-                </MoneyButton>
+                  <MoneyButton>
+                    <AttachMoneyIcon />
+                  </MoneyButton>
                 </Link>
                 <PerfilNavbar />
               </Stack>
             ) : (
               <Stack direction="row" spacing={2} justifyContent="center">
-                <Button
+                {/* <Button
                   variant="outlined"
                   onClick={() => setShowAvatar(!showAvatar)}
                 >
                   Iniciar Sesión
-                </Button>
+                </Button>*/}
                 <LoginModal />
-                <Link to="/register" style={{ textDecoration: "none"}}>
-                <Button variant="outlined">Registrarse</Button>
+                <Link to="/register" style={{ textDecoration: "none" }}>
+                  <Button variant="outlined">Registrarse</Button>
                 </Link>
               </Stack>
             )}
