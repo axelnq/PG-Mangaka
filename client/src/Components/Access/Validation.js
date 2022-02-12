@@ -6,10 +6,10 @@ const regEmail = new RegExp(
 );
 export default function Validation(values) {
 	let errors = {};
-	if (regEmail.test(values.email)) {
+	if (!regEmail.test(values.email)) {
 		errors.email = "Email incorrecto";
 	}
-	if (regPass.test(values.password)) {
+	if (!regPass.test(values.password)) {
 		errors.password =
 			"La contraseña debe tener  8 carácteres, al menos un número, una minúscula, una mayúscula, un símbolo";
 	}
