@@ -14,6 +14,7 @@ import {
     POST_CHAPTERS,
     GET_LIBRARY,
     GET_WISHLIST,
+    CURRENT_USER,
 } from "../Actions";
 
 const initialState = {
@@ -27,7 +28,8 @@ const initialState = {
         order: '',
     },
     library: [],
-    wishlist: []
+    wishlist: [],
+    user: '',
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -114,6 +116,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 wishlist: payload
+            }
+        case CURRENT_USER:
+            return {
+                ...state,
+                user: payload
             }
         default:
             return state;

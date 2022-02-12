@@ -18,6 +18,7 @@ import Divider from "@mui/material/Divider";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Stack from "@mui/material/Stack";
+import { useSelector } from "react-redux";
 
 const AccessButton = styled(Button)({
 	width: "47%",
@@ -52,7 +53,7 @@ const AccessButton = styled(Button)({
 export default function Login({ handleClose }) {
 	//valores del form
 	const initialForm = {
-		email: "",
+		username: "",
 		password: "",
 	};
 	const [form, setForm] = React.useState(initialForm);
@@ -75,18 +76,18 @@ export default function Login({ handleClose }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log(form);
-		if (form.email && form.password) {
+		if (form.username && form.password) {
 			try {
 				const request = await axios.post(
 					"http://localhost:3001/api/auth/local/login",
 					form
 				);
 				const response = await request.data;
-				handleClose();
+				
 				console.log(response);
 			} catch (error) {
 				console.log(error);
-			}
+			}handleClose();
 			
 		}else{
 			alert("llena todos los campos");	
@@ -113,11 +114,11 @@ export default function Login({ handleClose }) {
 					borderRadius: "5px 5px 0 0",
 					my: 2,
 				}}
-				label="Email"
+				label="username"
 				variant="filled"
-				name="email"
-				type="email"
-				value={form.email}
+				name="username"
+				type="text"
+				value={form.username}
 				onChange={handleChange}
 				required
 			/>

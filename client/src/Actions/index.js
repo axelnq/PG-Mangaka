@@ -13,7 +13,7 @@ export const GET_MANGAS_PREVIEW = "GET_MANGAS_PREVIEW";
 export const POST_CHAPTERS = "POST_CHAPTERS";
 export const GET_LIBRARY = 'GET_LIBRARY'
 export const GET_WISHLIST = 'GET_WISHLIST'
-
+export const CURRENT_USER = 'CURRENT_USER'
 
 const axios = require("axios");
 
@@ -222,30 +222,43 @@ export let postChapters = (payload) => {
     };
 };
 // falta rutas
-export let getLibrary = (payload) => {
-    return async (dispatch) => {
-        try {
-            let mangas = await axios.get(``)
-            return dispatch({
-                type: GET_LIBRARY,
-                payload: mangas.data
-            })
-        } catch(error) {
-            console.log(error)
-        }
-    }   
-}
+// export let getLibrary = (payload) => {
+//     return async (dispatch) => {
+//         try {
+//             let mangas = await axios.get(``)
+//             return dispatch({
+//                 type: GET_LIBRARY,
+//                 payload: mangas.data
+//             })
+//         } catch(error) {
+//             console.log(error)
+//         }
+//     }   
+// }
 
-export let getLibrary = (payload) => {
+// export let getLibrary = (payload) => {
+//     return async (dispatch) => {
+//         try {
+//             let mangas = await axios.get(``)
+//             return dispatch({
+//                 type: GET_WISHLIST,
+//                 payload: mangas.data
+//             })
+//         } catch(error) {
+//             console.log(error)
+//         }
+//     }   
+// }
+export let currentUser = () => {
     return async (dispatch) => {
-        try {
-            let mangas = await axios.get(``)
-            return dispatch({
-                type: GET_WISHLIST,
-                payload: mangas.data
-            })
-        } catch(error) {
-            console.log(error)
-        }
-    }   
+                try {
+                    let user = await axios.get(`http://localhost:3001/api/users/currentUser`)
+                    return dispatch({
+                        type: CURRENT_USER,
+                        payload: user.data
+                    })
+                } catch(error) {
+                    console.log(error)
+                }
+            }
 }

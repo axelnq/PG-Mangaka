@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMangasPreview, searchManga } from "../Actions/index";
+import { getMangasPreview, searchManga, currentUser } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
 import LoginModal from './Access/LoginModal';
 import Coin from '../img/coin.png'
@@ -87,6 +87,7 @@ export default function NavBar() {
   //redux
   const mangasPreview = useSelector((state) => state.mangasPreview);
   const dispatch = useDispatch();
+  let user = useSelector(state=> state.user)
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
@@ -118,12 +119,19 @@ export default function NavBar() {
       setSearch("");
     }
   };
+
+  let handleCurrentUser = (e) => {
+    e.preventDefault()
+    dispatch(currentUser())
+    console.log(user)
+  }
   return (
     <Box>
       <AppBar
         position="sticky"
         sx={{ backgroundColor: "#192a45", padding: { xs: "15px" } }}
       >
+        <button onClick={e => handleCurrentUser(e)}>CurrentUser</button>
         <Box
           sx={{
             display: "flex",

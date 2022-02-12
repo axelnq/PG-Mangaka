@@ -12,7 +12,7 @@ const Biblioteca = () => {
            <Container maxWidth="sm" sx={{backgroundColor:'#001B44'}}>
                 <Typography variant='h3' color='#357DED'>Biblioteca</Typography>
                 <List sx={{ width: '100%', maxWidth: 360, color:'#fff'}}>
-                    {
+                    {/* {
                         library && library.map(m, i => {
                             return (
                              <ListItem key={i}>
@@ -27,7 +27,7 @@ const Biblioteca = () => {
                             </ListItem>
                             )
                         })
-                    }
+                    } */}
                        
                     </List>
             </Container>

@@ -248,5 +248,8 @@ usersRouter.get<{ username: string }, {}>(
 usersRouter.get("/currentUser", (req, res, next) => {
   // console.log(req)
   // console.log(req.user);
+  if(!req.user) {
+    return res.json({msg: 'No hay un usuario logueado'})
+  }
   res.json(req.user);
 });

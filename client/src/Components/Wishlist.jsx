@@ -14,7 +14,7 @@ const Wishlist = () => {
            <Container maxWidth="sm" sx={{backgroundColor:'#001B44'}}>
                 <Typography variant='h3' color='#357DED'>My Wishlist</Typography>
                 <List sx={{ width: '100%', color:'#fff'}}>
-                    {
+                    {/* {
                         wishlist && wishlist.map(m, i => {
                             return (
                                 <ListItem key={i} sx={{width: '100%',}}>
@@ -32,7 +32,7 @@ const Wishlist = () => {
                                 </ListItem>
                             )
                         })
-                    }
+                    } */}
                         
                     </List>
             </Container>
