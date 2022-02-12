@@ -52,6 +52,7 @@ async function getMangas(
         [tag]: order,
       },
       where: {
+        active:true,
         genre: {
           hasEvery: filter,
         },

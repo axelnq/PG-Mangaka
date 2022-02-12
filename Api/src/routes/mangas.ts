@@ -53,6 +53,7 @@ mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
   try {
     const popularMangas = await db.manga.findMany({
       where: {
+        active:true,
         rating: {
           gte: 8,
         },
@@ -183,6 +184,7 @@ mangasRouter.get<{}, {}>("/Search", async (req, res, next) => {
   const { title } = req.query;
   const result: any = await db.manga.findMany({
     where: {
+      active:true,
       title: {
         contains: title as string,
         mode: "insensitive",
@@ -270,6 +272,7 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
 mangasRouter.get<{}, {}>("/recentMangas", async (req, res, next) => {
   try {
     const recentMangas = await db.manga.findMany({
+      where: { active:true },
       orderBy: {
         uptadedAt: "desc",
       },
@@ -316,27 +319,58 @@ mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
     });
     let mangasByAuthor: any = [];
     searchResults.forEach((elto) =>
-      elto.created?.forEach((manga: any) =>
-        mangasByAuthor.push({
-          id: manga.id,
-          title: manga.title,
-          synopsis: manga.synopsis,
-          authorId: manga.authorId,
-          image: manga.image,
-          createdAt: manga.createdAt,
-          uptadedAt: manga.uptadedAt,
-          genre: manga.genre,
-          rating: manga.rating,
-          chapter: manga.chapter,
-          state: manga.state,
-          author: {
-            name: elto.name,
-          },
-        })
-      )
+      elto.created?.forEach((manga: any) =>{
+
+        if(manga.active) {
+          mangasByAuthor.push({
+            id: manga.id,
+            title: manga.title,
+            synopsis: manga.synopsis,
+            authorId: manga.authorId,
+            image: manga.image,
+            createdAt: manga.createdAt,
+            uptadedAt: manga.uptadedAt,
+            genre: manga.genre,
+            rating: manga.rating,
+            chapter: manga.chapter,
+            state: manga.state,
+            author: {
+              name: elto.name,
+            },
+          })
+        }
+      }
+        )
     );
     res.json({ data: mangasByAuthor });
   } catch (error) {
     console.log("Filter by author error: ", error);
   }
 });
+
+mangasRouter.put<{ idManga:string }, {}>("/manga/setActive/:idManga", async (req, res, next) => {
+  const { idManga } = req.params;
+
+  try {
+
+    const manga = await db.manga.findUnique({
+      where: { id: Number(idManga) }
+    })
+    if (!manga) return res.send({ message: "Manga not found" })
+
+
+    const upsertManga = await db.manga.update({
+      where: {
+        id: Number(idManga),
+      },
+      data: {
+        active: manga?.active === true ? false : true,
+      }
+    });
+    return res.send(upsertManga);
+  } catch (error) {
+    return res.sendStatus(404).json({ message: error });
+  }
+
+});
+
