@@ -2,7 +2,7 @@ import React from "react";
 
 import NavBar from "./Navbar";
 import CoinsPanel from "./CoinsPanel";
-import empty from "../img/empty.png";
+// import empty from "../img/empty.png";
 import love from "../img/love.png";
 import mask from "../img/mask.png";
 import mountain from "../img/mountain.png";
