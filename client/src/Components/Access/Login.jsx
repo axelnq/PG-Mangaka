@@ -65,14 +65,20 @@ export default function Login() {
 	const googleLogin = () => {
 		window.open("http://localhost:3001/api/auth/google", "_self");
 	};
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		axios
-			.post("http://localhost:3001/api/auth/local/login", { ...values })
-			.then((response) => setResponse(response))
-			.catch((error) => setResponse(error));
+		try {
+			const request = await axios.post(
+				"http://localhost:3001/api/auth/local/login",
+				{ email: values.email, password: values.password }
+			);
+			const response = await request.data;
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+		}
+
 		setValues("");
-		alert(response);
 	};
 
 	return (
@@ -101,10 +107,16 @@ export default function Login() {
 			<FormControl
 				required
 				fullWidth
-				sx={{ my: 2, backgroundColor: "white", borderRadius: "5px 5px 0 0" }}
+				sx={{
+					my: 2,
+					backgroundColor: "white",
+					borderRadius: "5px 5px 0 0",
+				}}
 				variant="filled"
 			>
-				<InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+				<InputLabel htmlFor="filled-adornment-password">
+					Password
+				</InputLabel>
 				<FilledInput
 					id="filled-adornment-password"
 					type={values.showPassword ? "text" : "password"}
@@ -117,7 +129,11 @@ export default function Login() {
 								onClick={handleClickShowPassword}
 								edge="end"
 							>
-								{values.showPassword ? <VisibilityOff /> : <Visibility />}
+								{values.showPassword ? (
+									<VisibilityOff />
+								) : (
+									<Visibility />
+								)}
 							</IconButton>
 						</InputAdornment>
 					}
@@ -137,7 +153,11 @@ export default function Login() {
 				</AccessButton>
 			</Stack>
 			<p
-				style={{ margin: "5px 0 2px 0", color: "#357ded", textAlign: "center" }}
+				style={{
+					margin: "5px 0 2px 0",
+					color: "#357ded",
+					textAlign: "center",
+				}}
 			>
 				O inicia sesión con:
 			</p>
