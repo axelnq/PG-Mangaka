@@ -17,27 +17,24 @@ export function useForm(initialForm, validation) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		const { username, name, email, password } = form;
 		//form Data
 		const formData = new FormData();
-		formData.append("name", name);
-		formData.append("username", username);
-		formData.append("email", email);
-		formData.append("password", password);
+		formData.append("name", form.name);
+		formData.append("username", form.username);
+		formData.append("email", form.email);
+		formData.append("password", form.password);
 		console.log(formData);
+		try {
+			const request = await axios.post(
+				"http://localhost:3001/api/users/register",
+				formData
+			);
+			const response = await request.data.msg;
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+		}
 
-		axios
-			.post("http://localhost:3001/api/users/register", formData)
-			.then((response) => {
-				//setLoading(false);
-				//setResponse(response);
-				console.log(response.mg);
-			})
-			.then((error) => {
-				//setLoading(false);
-				//setResponse(response);
-				alert(...error);
-			});
 		setForm(initialForm);
 		setErrors(initialForm);
 	};

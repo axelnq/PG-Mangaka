@@ -159,7 +159,6 @@ export default function Register() {
 						value={form.password}
 						onChange={handleChange}
 						onBlur={handleBlur}
-						helperText={errors.password}
 						endAdornment={
 							<InputAdornment position="end">
 								<IconButton
@@ -185,7 +184,6 @@ export default function Register() {
 					fullWidth
 					sx={{ my: 2, backgroundColor: "white", borderRadius: "5px 5px 0 0" }}
 					variant="filled"
-					helperText={errors.repeatedPassword}
 				>
 					<InputLabel htmlFor="filled-adornment-repeated-password">
 						Repeat password
