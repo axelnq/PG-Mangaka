@@ -8,6 +8,7 @@ import Wishlist from './Components/Wishlist';
 import Panel from './Components/Panel';
 import Coins from './Components/Coins';
 import Register from './Components/Access/Register'
+
 // windoes + .
 
 function App() {

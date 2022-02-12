@@ -76,12 +76,12 @@ export default function Register() {
 	};
 
 	return (
-		<Box>
+		<Box sx={{margin: "0 auto", display: 'flex', justifyContent: "center"}}>
 			<Link to="/">
-			<Button variant="outlined">Volver</Button>
+			<Button sx={{position:"absolute", left: "20px", top:"20px"}} variant="outlined">Inicio</Button>
 			</Link>
 			<Box
-				sx={{ width: { xs: "90vw", md: "45vw" }, margin: "0 auto" }}
+				sx={{ width: { xs: "90vw", md: "45vw" }, margin:"0 auto", mt: 8}}
 				component="form"
 				onSubmit={handleSubmit}
 				autoComplete="off"

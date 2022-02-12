@@ -11,6 +11,7 @@ import {
     RECOMENDATED_MANGAS,
     PAGINADO_PAGE,
     GET_MANGAS_PREVIEW,
+    POST_CHAPTERS,
 } from "../Actions";
 
 const initialState = {
@@ -96,6 +97,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 allMangas: payload,
             };
+            case POST_CHAPTERS:
+                return {
+                    ...state,
+                };
         default:
             return state;
     }

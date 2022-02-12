@@ -123,12 +123,12 @@ export default function Login() {
 			</FormControl>
 			<Stack sx={{width: "100%"}} direction="column" spacing={1}>
 			<AccessButton sx={{width: "100%"}} type="submit">Iniciar Sesión</AccessButton>
-			<AccessButton sx={{width: "100%"}} ><Link style={{color: "blue", textDecoration: "none"}}  to="/register">Registrarse</Link></AccessButton>
+			<AccessButton sx={{width: "100%", backgroundColor:"white"}} ><Link style={{ textDecoration: "none", color:"#0063cc"}}  to="/register">Registrarse</Link></AccessButton>
 			</Stack>
-			<p style={{marginBottom:"2px", color:"#357ded", textAlign:"center"}}>O inicia sesión con:</p>
+			<p style={{margin:"5px 0 2px 0", color:"#357ded", textAlign:"center"}}>O inicia sesión con:</p>
 			<Divider sx={{mb: 2, backgroundColor: "#357ded"}}/>
 			<AccessButton sx={{marginRight: "3%", borderRadius: 5}} startIcon={<FacebookIcon/>}>facebook</AccessButton>
-			<a href="http://localhost:3001/api/auth/google" target="_blank">
+			<a href="http://localhost:3001/api/auth/google" target="_blank" rel="noreferrer" style={{textDecoration: "none"}}>
 			<AccessButton sx={{backgroundColor: "red", color: 'white', marginLeft: "3%", borderRadius: 5, '&:hover': {backgroundColor: "#ff726f"}}}  startIcon={<GoogleIcon />}>Google</AccessButton>
 			</a>
 		</Box>

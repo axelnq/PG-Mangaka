@@ -90,6 +90,16 @@ export default function PerfilNavbar() {
           Panel
         </MenuItem>
         </Link>
+        <Link to="/wishlist" style={{ textDecoration: "none", color: "white" }}>
+        <MenuItem>
+          Wishlist
+        </MenuItem>
+        </Link>
+        <Link to="/library" style={{ textDecoration: "none", color: "white" }}>
+        <MenuItem>
+          Biblioteca
+        </MenuItem>
+        </Link>
         <Divider sx={{ backgroundColor: "#357ded" }} />
         <Link to="/create" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>

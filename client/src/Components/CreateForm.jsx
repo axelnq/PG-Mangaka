@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FormControl } from '@mui/material';
@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import { Button ,Select,MenuItem , Input} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postManga, getAllMangas, getGenres } from '../Actions/index';
+import Navbar from './Navbar';
 
 
 export default function CreateForm() {
@@ -90,9 +91,11 @@ function handleSubmit(e) {
     dispatch(getGenres())
   },[dispatch])
 
-  return (
+  return ( 
+    <Fragment>
+    <Navbar/>
     <Box
-      paddingTop={'5%'}
+      paddingTop={'2%'}
       sx={{ display: 'flex' }}
       sx={{ mt: '15%' }}
       sx={{ md: { xs: '20%', md: '40%', lg: '100%' } }}>
@@ -174,6 +177,7 @@ function handleSubmit(e) {
         </FormControl>
       </div>
     </Box>
+    </Fragment>
   )
 }
             

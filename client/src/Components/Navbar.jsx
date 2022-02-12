@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMangasPreview, searchManga } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
 import LoginModal from './Access/LoginModal';
+import Coin from '../img/coin.png'
 //MUI
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -42,6 +43,7 @@ const MoneyButton = styled("button")`
     background-color: #f0e68c;
   }
 `;
+
 const List = styled("ul")`
   padding: 0;
   list-style-position: inside;
@@ -68,6 +70,18 @@ const List = styled("ul")`
     }
   }
 `;
+const _ArrayBufferToBase64 = (buffer) => {
+    console.log(buffer)
+    var binary = '';
+    var byte = new Uint8Array(buffer.data);
+    var length = byte.byteLength;
+
+    for(var i = 0; i < length ;i++) {
+        binary += String.fromCharCode(byte[i])
+    }
+    return window.btoa(binary)
+}
+
 
 export default function NavBar() {
   //redux
@@ -165,7 +179,7 @@ export default function NavBar() {
                             to={"/detail/" + m.id}
                           >
                             <li key={i}>
-                              <img src={m.images[0]} alt={m.title} />
+                              <img src={'data:image/jpeg;base64,' + _ArrayBufferToBase64 (m.image)}  alt={m.title}/>
                               <div
                                 style={{ display: "flex", alignSelf: "center" }}
                               >
@@ -191,9 +205,7 @@ export default function NavBar() {
             {showAvatar ? (
               <Stack direction="row" spacing={2} justifyContent="center">
                 <Link to="/coins">
-                <MoneyButton>
-                  <AttachMoneyIcon />
-                </MoneyButton>
+                <img width="35" height="35" src={Coin} alt="coin icon"/>
                 </Link>
                 <PerfilNavbar />
               </Stack>
@@ -206,7 +218,7 @@ export default function NavBar() {
                   Iniciar Sesión
                 </Button>
                 <LoginModal />
-                <Link to="/register">
+                <Link to="/register" style={{ textDecoration: "none"}}>
                 <Button variant="outlined">Registrarse</Button>
                 </Link>
               </Stack>
