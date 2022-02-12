@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMangasPreview, searchManga } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
 import LoginModal from './Access/LoginModal';
+import Coin from '../img/coin.png'
 //MUI
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -42,6 +43,7 @@ const MoneyButton = styled("button")`
     background-color: #f0e68c;
   }
 `;
+
 const List = styled("ul")`
   padding: 0;
   list-style-position: inside;
@@ -203,9 +205,7 @@ export default function NavBar() {
             {showAvatar ? (
               <Stack direction="row" spacing={2} justifyContent="center">
                 <Link to="/coins">
-                <MoneyButton>
-                  <AttachMoneyIcon />
-                </MoneyButton>
+                <img width="35" height="35" src={Coin} alt="coin icon"/>
                 </Link>
                 <PerfilNavbar />
               </Stack>

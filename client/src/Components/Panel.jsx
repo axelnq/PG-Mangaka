@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-
-export default function Panel() {
-    return (
-        <div>Panel</div>
-    )
-=======
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Tabs, Tab, Typography, Box } from '@mui/material';
@@ -90,5 +82,4 @@ export default function VerticalTabs() {
         </>
 
     );
->>>>>>> develop
 }

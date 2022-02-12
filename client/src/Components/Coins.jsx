@@ -1,18 +1,32 @@
-import React from 'react'
-<<<<<<< HEAD
+import React from "react";
 
-export default function Coins() {
-    return (
-        <div>Coins</div>
-=======
-import NavBar from './Navbar'
-import CoinsPanel from './CoinsPanel'
-import Coin from '../img/coin.png'
+import NavBar from "./Navbar";
+import CoinsPanel from "./CoinsPanel";
+import Coin from "../img/coin.png";
 //mui
-import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
-import { useTheme } from '@mui/material/styles';
-import { AppBar, Tabs, Tab, Typography, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, List, ListItem, ListItemButton, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import PropTypes from "prop-types";
+import SwipeableViews from "react-swipeable-views";
+import { useTheme } from "@mui/material/styles";
+import {
+    AppBar,
+    Tabs,
+    Tab,
+    Typography,
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Slide,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    ListItemAvatar,
+    Avatar,
+} from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -47,10 +61,9 @@ TabPanel.propTypes = {
 function a11yProps(index) {
     return {
         id: `full-width-tab-${index}`,
-        'aria-controls': `full-width-tabpanel-${index}`,
+        "aria-controls": `full-width-tabpanel-${index}`,
     };
 }
-
 
 export default function Coins() {
     const theme = useTheme();
@@ -75,7 +88,6 @@ export default function Coins() {
         setOpen(false);
     };
 
-
     return (
         <div>
             <NavBar />
@@ -86,8 +98,14 @@ export default function Coins() {
             </Box>
 
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Box sx={{ bgcolor: 'background.paper', width: "80%" }}>
-                    <Box sx={{ display: "flex", justifyContent: "right", mb: "1rem" }}>
+                <Box sx={{ bgcolor: "background.paper", width: "80%" }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "right",
+                            mb: "1rem",
+                        }}
+                    >
                         <Button variant="contained" onClick={handleClickOpen}>
                             Comprar monedas
                         </Button>
@@ -108,7 +126,7 @@ export default function Coins() {
                         </Tabs>
                     </AppBar>
                     <SwipeableViews
-                        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
                         index={value}
                         onChangeIndex={handleChangeIndex}
                     >
@@ -136,18 +154,31 @@ export default function Coins() {
                     {/* <DialogTitle>{"Use Google's location service?"}</DialogTitle> */}
                     <DialogContent>
                         <DialogContentText id="alert-dialog-slide-description">
-                            <List dense sx={{ width: '100%', minWidth: 500, bgcolor: 'background.paper' }}>
-
+                            <List
+                                dense
+                                sx={{
+                                    width: "100%",
+                                    minWidth: 500,
+                                    bgcolor: "background.paper",
+                                }}
+                            >
                                 <ListItem key={value} disablePadding>
                                     <ListItemButton>
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`1`}
-                                                src={`/static/images/avatar/${value + 1}.jpg`}
+                                                src={`/static/images/avatar/${
+                                                    value + 1
+                                                }.jpg`}
                                             />
                                         </ListItemAvatar>
-                                        <ListItemText id={1} primary={'1 moneda'} />
-                                        <Button variant="contained">Comprar</Button>
+                                        <ListItemText
+                                            id={1}
+                                            primary={"1 moneda"}
+                                        />
+                                        <Button variant="contained">
+                                            Comprar
+                                        </Button>
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem key={value} disablePadding>
@@ -155,11 +186,18 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`5`}
-                                                src={`/static/images/avatar/${value + 1}.jpg`}
+                                                src={`/static/images/avatar/${
+                                                    value + 1
+                                                }.jpg`}
                                             />
                                         </ListItemAvatar>
-                                        <ListItemText id={1} primary={'5 monedas'} />
-                                        <Button variant="contained">Comprar</Button>
+                                        <ListItemText
+                                            id={1}
+                                            primary={"5 monedas"}
+                                        />
+                                        <Button variant="contained">
+                                            Comprar
+                                        </Button>
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem key={value} disablePadding>
@@ -167,11 +205,18 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`10`}
-                                                src={`/static/images/avatar/${value + 1}.jpg`}
+                                                src={`/static/images/avatar/${
+                                                    value + 1
+                                                }.jpg`}
                                             />
                                         </ListItemAvatar>
-                                        <ListItemText id={1} primary={'10 monedas'} />
-                                        <Button variant="contained">Comprar</Button>
+                                        <ListItemText
+                                            id={1}
+                                            primary={"10 monedas"}
+                                        />
+                                        <Button variant="contained">
+                                            Comprar
+                                        </Button>
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem key={value} disablePadding>
@@ -179,11 +224,18 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`20`}
-                                                src={`/static/images/avatar/${value + 1}.jpg`}
+                                                src={`/static/images/avatar/${
+                                                    value + 1
+                                                }.jpg`}
                                             />
                                         </ListItemAvatar>
-                                        <ListItemText id={1} primary={'20 monedas + 1 moneda'} />
-                                        <Button variant="contained">Comprar</Button>
+                                        <ListItemText
+                                            id={1}
+                                            primary={"20 monedas + 1 moneda"}
+                                        />
+                                        <Button variant="contained">
+                                            Comprar
+                                        </Button>
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem key={value} disablePadding>
@@ -191,11 +243,18 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`50`}
-                                                src={`/static/images/avatar/${value + 1}.jpg`}
+                                                src={`/static/images/avatar/${
+                                                    value + 1
+                                                }.jpg`}
                                             />
                                         </ListItemAvatar>
-                                        <ListItemText id={1} primary={'50 monedas + 3 monedas'} />
-                                        <Button variant="contained">Comprar</Button>
+                                        <ListItemText
+                                            id={1}
+                                            primary={"50 monedas + 3 monedas"}
+                                        />
+                                        <Button variant="contained">
+                                            Comprar
+                                        </Button>
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem key={value} disablePadding>
@@ -203,11 +262,18 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`75`}
-                                                src={`/static/images/avatar/${value + 1}.jpg`}
+                                                src={`/static/images/avatar/${
+                                                    value + 1
+                                                }.jpg`}
                                             />
                                         </ListItemAvatar>
-                                        <ListItemText id={1} primary={'75 monedas + 5 monedas'} />
-                                        <Button variant="contained">Comprar</Button>
+                                        <ListItemText
+                                            id={1}
+                                            primary={"75 monedas + 5 monedas"}
+                                        />
+                                        <Button variant="contained">
+                                            Comprar
+                                        </Button>
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem key={value} disablePadding>
@@ -215,11 +281,18 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`100`}
-                                                src={`/static/images/avatar/${value + 1}.jpg`}
+                                                src={`/static/images/avatar/${
+                                                    value + 1
+                                                }.jpg`}
                                             />
                                         </ListItemAvatar>
-                                        <ListItemText id={1} primary={'100 monedas + 10 monedas'} />
-                                        <Button variant="contained">Comprar</Button>
+                                        <ListItemText
+                                            id={1}
+                                            primary={"100 monedas + 10 monedas"}
+                                        />
+                                        <Button variant="contained">
+                                            Comprar
+                                        </Button>
                                     </ListItemButton>
                                 </ListItem>
                             </List>
@@ -231,7 +304,6 @@ export default function Coins() {
                     </DialogActions> */}
                 </Dialog>
             </div>
-        </div >
->>>>>>> develop
-    )
+        </div>
+    );
 }
