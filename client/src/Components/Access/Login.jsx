@@ -49,36 +49,50 @@ const AccessButton = styled(Button)({
 	},
 });
 
-export default function Login() {
-	const [values, setValues] = React.useState({
-		password: "",
+export default function Login({ handleClose }) {
+	//valores del form
+	const initialForm = {
 		email: "",
-		showPassword: false,
-	});
-	const [response, setResponse] = React.useState(null);
-	const handleChange = (prop) => (e) => {
-		setValues({ ...values, [prop]: e.target.value });
+		password: "",
 	};
+	const [form, setForm] = React.useState(initialForm);
+	//ver contraseña
+	const [showPassword, setShowPassword] = React.useState(false);
+
 	const handleClickShowPassword = (e) => {
-		setValues({ ...values, showPassword: !values.showPassword });
+		setShowPassword(!showPassword);
 	};
+	//inicio de sesión con google (redireccionamiento)
 	const googleLogin = () => {
 		window.open("http://localhost:3001/api/auth/google", "_self");
 	};
+	//control de los input
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setForm({ ...form, [name]: value });
+	};
+	//submit del form
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const request = await axios.post(
-				"http://localhost:3001/api/auth/local/login",
-				{ email: values.email, password: values.password }
-			);
-			const response = await request.data;
-			console.log(response);
-		} catch (error) {
-			console.log(error);
+		console.log(form);
+		if (form.email && form.password) {
+			try {
+				const request = await axios.post(
+					"http://localhost:3001/api/auth/local/login",
+					form
+				);
+				const response = await request.data;
+				handleClose();
+				console.log(response);
+			} catch (error) {
+				console.log(error);
+			}
+			
+		}else{
+			alert("llena todos los campos");	
 		}
-
-		setValues("");
+		
+		setForm(initialForm);
 	};
 
 	return (
@@ -101,7 +115,10 @@ export default function Login() {
 				}}
 				label="Email"
 				variant="filled"
-				onChange={handleChange("email")}
+				name="email"
+				type="email"
+				value={form.email}
+				onChange={handleChange}
 				required
 			/>
 			<FormControl
@@ -119,9 +136,10 @@ export default function Login() {
 				</InputLabel>
 				<FilledInput
 					id="filled-adornment-password"
-					type={values.showPassword ? "text" : "password"}
-					value={values.password}
-					onChange={handleChange("password")}
+					name="password"
+					type={showPassword ? "text" : "password"}
+					value={form.password}
+					onChange={handleChange}
 					endAdornment={
 						<InputAdornment position="end">
 							<IconButton
@@ -129,7 +147,7 @@ export default function Login() {
 								onClick={handleClickShowPassword}
 								edge="end"
 							>
-								{values.showPassword ? (
+								{showPassword ? (
 									<VisibilityOff />
 								) : (
 									<Visibility />
