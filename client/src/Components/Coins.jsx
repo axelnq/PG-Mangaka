@@ -2,7 +2,13 @@ import React from "react";
 
 import NavBar from "./Navbar";
 import CoinsPanel from "./CoinsPanel";
-import Coin from "../img/coin.png";
+import empty from "../img/empty.png";
+import love from "../img/love.png";
+import mask from "../img/mask.png";
+import mountain from "../img/mountain.png";
+import tree from "../img/tree.png";
+import flower from "../img/flower.png";
+import mangaka from "../img/mangaka.png";
 //mui
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
@@ -28,10 +34,12 @@ import {
     Avatar,
 } from "@mui/material";
 
+//modal
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+//panel coins
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -51,13 +59,11 @@ function TabPanel(props) {
         </div>
     );
 }
-
 TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
 };
-
 function a11yProps(index) {
     return {
         id: `full-width-tab-${index}`,
@@ -65,6 +71,7 @@ function a11yProps(index) {
     };
 }
 
+//component
 export default function Coins() {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
@@ -88,12 +95,21 @@ export default function Coins() {
         setOpen(false);
     };
 
+    const coinImgs = [mangaka, mask, love, tree, mountain, flower];
+
+    const changeImg = () => {
+        let coinRandom = Math.floor(Math.random() * coinImgs.length)
+        document.getElementById("coinImg").src = coinImgs[coinRandom]
+    }
+
     return (
         <div>
             <NavBar />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Box sx={{ mt: "2rem", mb: "1rem", width: "72px" }}>
-                    <img src={Coin} alt="" srcset="" />
+                <Box sx={{ mt: "2rem", mb: "1rem", width: "96px" }}>
+                    <Button sx={{ borderRadius: "50%" }} onClick={changeImg}>
+                        <img id="coinImg" src={coinImgs[0]} alt="" srcset="" />
+                    </Button>
                 </Box>
             </Box>
 
@@ -167,9 +183,8 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`1`}
-                                                src={`/static/images/avatar/${
-                                                    value + 1
-                                                }.jpg`}
+                                                src={`/static/images/avatar/${value + 1
+                                                    }.jpg`}
                                             />
                                         </ListItemAvatar>
                                         <ListItemText
@@ -186,9 +201,8 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`5`}
-                                                src={`/static/images/avatar/${
-                                                    value + 1
-                                                }.jpg`}
+                                                src={`/static/images/avatar/${value + 1
+                                                    }.jpg`}
                                             />
                                         </ListItemAvatar>
                                         <ListItemText
@@ -205,9 +219,8 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`10`}
-                                                src={`/static/images/avatar/${
-                                                    value + 1
-                                                }.jpg`}
+                                                src={`/static/images/avatar/${value + 1
+                                                    }.jpg`}
                                             />
                                         </ListItemAvatar>
                                         <ListItemText
@@ -224,9 +237,8 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`20`}
-                                                src={`/static/images/avatar/${
-                                                    value + 1
-                                                }.jpg`}
+                                                src={`/static/images/avatar/${value + 1
+                                                    }.jpg`}
                                             />
                                         </ListItemAvatar>
                                         <ListItemText
@@ -243,9 +255,8 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`50`}
-                                                src={`/static/images/avatar/${
-                                                    value + 1
-                                                }.jpg`}
+                                                src={`/static/images/avatar/${value + 1
+                                                    }.jpg`}
                                             />
                                         </ListItemAvatar>
                                         <ListItemText
@@ -262,9 +273,8 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`75`}
-                                                src={`/static/images/avatar/${
-                                                    value + 1
-                                                }.jpg`}
+                                                src={`/static/images/avatar/${value + 1
+                                                    }.jpg`}
                                             />
                                         </ListItemAvatar>
                                         <ListItemText
@@ -281,9 +291,8 @@ export default function Coins() {
                                         <ListItemAvatar>
                                             <Avatar
                                                 alt={`100`}
-                                                src={`/static/images/avatar/${
-                                                    value + 1
-                                                }.jpg`}
+                                                src={`/static/images/avatar/${value + 1
+                                                    }.jpg`}
                                             />
                                         </ListItemAvatar>
                                         <ListItemText
