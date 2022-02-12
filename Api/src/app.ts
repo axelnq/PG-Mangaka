@@ -29,10 +29,10 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true
-}));
+// app.use(cors({
+//   origin: "http://localhost:3000",
+//   credentials: true
+// }));
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -47,6 +47,12 @@ app.use(cookieParser("secretcode"))
 app.use(passport.initialize());
 app.use(passport.session());
 require("./configPassport")(passport);
+
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.end();
+});
 
 app.use("/api", routes);
 

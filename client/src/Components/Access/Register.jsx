@@ -59,8 +59,8 @@ export default function Register() {
 	const {
 		form,
 		errors,
-		loading,
-		response,
+		//loading,
+		//response,
 		handleChange,
 		handleBlur,
 		handleSubmit,
@@ -76,20 +76,46 @@ export default function Register() {
 	};
 
 	return (
-		<Box sx={{margin: "0 auto", display: 'flex', justifyContent: "center"}}>
+		<Box
+			sx={{
+				width: "100vw",
+				height: "100vh",
+				margin: "0 auto",
+				display: "flex",
+				justifyContent: "center",
+				backgroundImage:
+					"url(https://wallpapercave.com/wp/wp2760731.jpg)",
+				backgroundSize: "cover",
+				backgroundPosition: "center",
+				backgroundRepeat: "no-repeat",
+			}}
+		>
 			<Link to="/">
-			<Button sx={{position:"absolute", left: "20px", top:"20px"}} variant="outlined">Inicio</Button>
+				<Button
+					sx={{ position: "absolute", left: "20px", top: "20px" }}
+					variant="outlined"
+				>
+					Inicio
+				</Button>
 			</Link>
 			<Box
-				sx={{ width: { xs: "90vw", md: "45vw" }, margin:"0 auto", mt: 8}}
+				sx={{
+					width: { xs: "90vw", md: "45vw" },
+					margin: "0 auto",
+					mt: 8,
+				}}
 				component="form"
 				onSubmit={handleSubmit}
 				autoComplete="off"
 			>
-				<Typography id="transition-modal-title" variant="h6">
+				<Typography
+					id="transition-modal-title"
+					variant="h4"
+					sx={{ color: "white", mb: 2 }}
+				>
 					Registrate para empezar a leer!
 				</Typography>
-				<Stack direction={{ md: "row" }} spacing={2}>
+				<Stack direction={{ xs: "column", md: "row" }} spacing={2}>
 					<TextField
 						fullWidth
 						name="username"
@@ -113,7 +139,7 @@ export default function Register() {
 						sx={{
 							backgroundColor: "white",
 							borderRadius: "5px 5px 0 0",
-							mt: 2,
+							mt: { sx: 2, md: 0 },
 						}}
 						label="Full Name"
 						variant="filled"
@@ -141,16 +167,30 @@ export default function Register() {
 					required
 				/>
 				{errors.email && (
-					<p style={{ color: "red", fontSize: "12px" }}>{errors.email}</p>
+					<p
+						style={{
+							color: "red",
+							fontSize: "16px",
+							fontWeight: "bold",
+						}}
+					>
+						{errors.email}
+					</p>
 				)}
 
 				<FormControl
 					required
 					fullWidth
-					sx={{ mt: 2, backgroundColor: "white", borderRadius: "5px 5px 0 0" }}
+					sx={{
+						mt: 2,
+						backgroundColor: "white",
+						borderRadius: "5px 5px 0 0",
+					}}
 					variant="filled"
 				>
-					<InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+					<InputLabel htmlFor="filled-adornment-password">
+						Password
+					</InputLabel>
 					<FilledInput
 						error={errors.password ? true : false}
 						id="filled-adornment-password"
@@ -159,15 +199,20 @@ export default function Register() {
 						value={form.password}
 						onChange={handleChange}
 						onBlur={handleBlur}
-						helperText={errors.password}
 						endAdornment={
 							<InputAdornment position="end">
 								<IconButton
 									aria-label="toggle password visibility"
-									onClick={handleClickShowPassword("showPassword")}
+									onClick={handleClickShowPassword(
+										"showPassword"
+									)}
 									edge="end"
 								>
-									{passwords.showPassword ? <VisibilityOff /> : <Visibility />}
+									{passwords.showPassword ? (
+										<VisibilityOff />
+									) : (
+										<Visibility />
+									)}
 								</IconButton>
 							</InputAdornment>
 						}
@@ -175,7 +220,12 @@ export default function Register() {
 				</FormControl>
 				{errors.password && (
 					<p
-						style={{ margin: "10px 0 10px 0", color: "red", fontSize: "12px" }}
+						style={{
+							margin: "10px 0 10px 0",
+							color: "red",
+							fontSize: "16px",
+							fontWeight: "bold",
+						}}
 					>
 						{errors.password}
 					</p>
@@ -183,9 +233,12 @@ export default function Register() {
 				<FormControl
 					required
 					fullWidth
-					sx={{ my: 2, backgroundColor: "white", borderRadius: "5px 5px 0 0" }}
+					sx={{
+						my: 2,
+						backgroundColor: "white",
+						borderRadius: "5px 5px 0 0",
+					}}
 					variant="filled"
-					helperText={errors.repeatedPassword}
 				>
 					<InputLabel htmlFor="filled-adornment-repeated-password">
 						Repeat password
@@ -195,7 +248,9 @@ export default function Register() {
 						required
 						id="filled-adornment-repeated-password"
 						name="repeatedPassword"
-						type={passwords.showRepeatedPassword ? "text" : "password"}
+						type={
+							passwords.showRepeatedPassword ? "text" : "password"
+						}
 						value={form.repeatedPassword}
 						onChange={handleChange}
 						onBlur={handleBlur}
@@ -203,7 +258,9 @@ export default function Register() {
 							<InputAdornment position="end">
 								<IconButton
 									aria-label="toggle password visibility"
-									onClick={handleClickShowPassword("showRepeatedPassword")}
+									onClick={handleClickShowPassword(
+										"showRepeatedPassword"
+									)}
 									edge="end"
 								>
 									{passwords.showRepeatedPassword ? (
@@ -217,7 +274,14 @@ export default function Register() {
 					/>
 				</FormControl>
 				{errors.repeatedPassword && (
-					<p style={{ margin: "0 0 10px 0", color: "red", fontSize: "12px" }}>
+					<p
+						style={{
+							margin: "0 0 10px 0",
+							color: "red",
+							fontSize: "16px",
+							fontWeight: "bold",
+						}}
+					>
 						{errors.repeatedPassword}
 					</p>
 				)}
@@ -237,8 +301,8 @@ export default function Register() {
 						backgroundColor: "transparent",
 						border: "none",
 						cursor: "pointer",
-						color: "#0063cc",
-						fontSize: "16px",
+						color: "white",
+						fontSize: "18px",
 						width: "100%",
 						marginTop: "8px",
 					}}

@@ -12,6 +12,9 @@ import {
     PAGINADO_PAGE,
     GET_MANGAS_PREVIEW,
     POST_CHAPTERS,
+    GET_LIBRARY,
+    GET_WISHLIST,
+    CURRENT_USER,
 } from "../Actions";
 
 const initialState = {
@@ -24,6 +27,9 @@ const initialState = {
         genre: '',
         order: '',
     },
+    library: [],
+    wishlist: [],
+    user: '',
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -101,6 +107,21 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 return {
                     ...state,
                 };
+        case GET_LIBRARY: 
+            return {
+                ...state,
+                library: payload
+            }
+        case GET_WISHLIST:
+            return {
+                ...state,
+                wishlist: payload
+            }
+        case CURRENT_USER:
+            return {
+                ...state,
+                user: payload
+            }
         default:
             return state;
     }
