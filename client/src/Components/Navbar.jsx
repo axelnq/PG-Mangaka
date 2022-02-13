@@ -131,7 +131,7 @@ export default function NavBar() {
         position="sticky"
         sx={{ backgroundColor: "#192a45", padding: { xs: "15px" } }}
       >
-        <button onClick={e => handleCurrentUser(e)}>CurrentUser</button>
+        
         <Box
           sx={{
             display: "flex",
@@ -144,7 +144,7 @@ export default function NavBar() {
           <Typography variant="h5" color="primary">
           <Link to="/">MANGAKA</Link>  
           </Typography>
-
+          <button onClick={e => handleCurrentUser(e)}>CurrentUser</button>
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
             <Box
               component="form"
