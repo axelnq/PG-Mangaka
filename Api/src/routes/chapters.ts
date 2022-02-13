@@ -135,16 +135,16 @@ chaptersRouter.put("/chapter/swapImages/:idChapter", async (req, res, next) => {
 
 //Traermos un capitulo particularl
 chaptersRouter.get<{ idChapter: string }, {}>(
-  "/:idChapter",
+  "/chapter/getchapter/:idChapter",
   async (req, res, next) => {
     const { idChapter } = req.params;
 
     console.log(req.params);
-    const Manga: any = await db.chapter.findUnique({
+    const Chapter: any = await db.chapter.findUnique({
       where: { id: Number(idChapter) },
     });
 
-    return res.send(Manga);
+    return res.send({data: Chapter, totalPages: Chapter.images.length});
   }
 );
 
