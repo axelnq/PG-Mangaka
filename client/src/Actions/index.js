@@ -265,7 +265,7 @@ export let currentUser = () => {
 }
 
 export let getChapters = () => {
-    console.log(getChapters)
+
     return async (dispatch) => {
         try {
             let allChapters = await axios.get(
