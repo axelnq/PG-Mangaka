@@ -14,6 +14,7 @@ export const POST_CHAPTERS = "POST_CHAPTERS";
 export const GET_LIBRARY = 'GET_LIBRARY'
 export const GET_WISHLIST = 'GET_WISHLIST'
 export const CURRENT_USER = 'CURRENT_USER'
+export const GET_ALL_CHAPTERS = "GET_ALL_CHAPTERS";
 
 const axios = require("axios");
 
@@ -262,3 +263,20 @@ export let currentUser = () => {
                 }
             }
 }
+
+export let getChapters = () => {
+    console.log(getChapters)
+    return async (dispatch) => {
+        try {
+            let allChapters = await axios.get(
+                `http://localhost:3001/api/chapters/chapter/getchapter/:idChapter`
+            );
+            return dispatch({
+                type: GET_ALL_CHAPTERS,
+                payload: allChapters.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};

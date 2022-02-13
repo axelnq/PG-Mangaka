@@ -5,20 +5,20 @@ import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Button ,Input} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postChapters, getAllMangas } from '../Actions/index';
+import { postChapters, getChapters } from '../Actions/index';
 import Navbar from './Navbar';
 
 
 export default function CreateForm() {
   const dispatch = useDispatch();
-  const chapters = useSelector((state) => state.allMangas);
+  const chapters = useSelector((state) => state.allChapters);
 
   const [input, setInput] = useState({
     title: '',
-    mangaId: 0,
-    portada: [],
-    chapters: [],
-    price:0,
+    mangaId: Number,
+    images: [],
+    coverImages: [],
+    price:Number,
   
 
   });
@@ -28,6 +28,7 @@ export default function CreateForm() {
     setInput({
         ...input,
         images: e.target.files[0],
+        coverImages:e.target.files[0],
 
     });
 }
@@ -36,13 +37,13 @@ function handleSubmit(e) {
     //Debe enviar un dispatch para post chapters de tipo FormData
     e.preventDefault();
 
-        const {title, mangaId,portada, chapters, price} = input;
+        const {title,images, coverImages, price} = input;
     
     if (title === undefined || title.length < 3) {
       return alert ('titulo invalido')
-    } else if(portada === undefined ) {
+    } else if(images === undefined ) {
       return alert ('ingrese imagen valida')
-    } else if (chapters === undefined) {
+    } else if (coverImages === undefined) {
       return alert('ingrese imagen valida')
     } else if (price === undefined) {
       return alert('')
@@ -51,20 +52,20 @@ function handleSubmit(e) {
 
     const formData = new FormData();
     formData.append('title', input.title);
-    formData.append('portada', input.portada);
-    formData.append('chapters', input.chapters);
+    formData.append('portada', input.coverImages);
+    formData.append('chapters', input.images);
     formData.append('mangaId', input.mangaId);
 
     formData.append('price', input.price);
 
-    console.log(formData.get('portada'));
+    console.log(formData.get('images'));
     dispatch(postChapters(formData));
     alert('Capitulo creado');
     setInput({
         title: '',
         mangaId: Number,
-        portada: [],
-        chapters: [],
+        images: [],
+        coverImages: [],
         price:Number,
        
     });
@@ -80,7 +81,7 @@ function handleSubmit(e) {
 
   
   useEffect(() =>{
-    dispatch(getAllMangas());
+    dispatch(getChapters());
   },[dispatch])
 
   return ( 

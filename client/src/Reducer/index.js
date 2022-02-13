@@ -15,6 +15,7 @@ import {
     GET_LIBRARY,
     GET_WISHLIST,
     CURRENT_USER,
+    GET_ALL_CHAPTERS,
 } from "../Actions";
 
 const initialState = {
@@ -30,6 +31,7 @@ const initialState = {
     library: [],
     wishlist: [],
     user: '',
+    allChapters:[],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -122,6 +124,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 user: payload
             }
+            case GET_ALL_CHAPTERS:
+                return {
+                    ...state,
+                    allChapters: payload,
+                    
+                };
         default:
             return state;
     }
