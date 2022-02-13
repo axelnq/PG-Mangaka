@@ -100,6 +100,11 @@ export default function PerfilNavbar() {
           Biblioteca
         </MenuItem>
         </Link>
+        <Link to="/createChapters" style={{ textDecoration: "none", color: "white" }}>
+        <MenuItem>
+          Crear Capitulos
+        </MenuItem>
+        </Link>
         <Divider sx={{ backgroundColor: "#357ded" }} />
         <Link to="/create" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>
