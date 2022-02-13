@@ -45,7 +45,7 @@ chaptersRouter.post<{}, {}>(
     try {
       //@ts-ignore
       const chapter = await db.chapter.create({ data: newChapter });
-      return res.json(chapter);
+      return res.send({data: chapter});
     } catch (error: any) {
       console.log(error);
       res.status(400).send({ error: error.message });

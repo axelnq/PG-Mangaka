@@ -1,14 +1,14 @@
 import { db } from "../app";
 import Manga from "../classes/Manga";
 
-export default async function paginated(
+let mangasPerPage = 8;
+export async function paginated(
   numPaged: number = 1,
   order: string = "asc",
   tag: string = "createdAt",
   filter: string[] = []
 ): Promise<[Manga[], number, number]> {
   let mangas: Manga[] = [];
-  let mangasPerPage: number = 8;
   let totalMangas: number = await db.manga.count({
     where: {
       genre: {
@@ -61,4 +61,54 @@ async function getMangas(
     throw new Error(e.message);
   }
   return mangasPaginated;
+}
+
+export async function paginatedByAuthor(numPaged: number, author: string): Promise<[Object[], number, number]> {
+  try {
+    var searchResults = await db.user.findMany({
+      where: {
+        name: {
+          contains: author,
+          mode: "insensitive",
+        },
+      },
+      select: {
+        name: true,
+        created: true,
+      },
+    });
+  } catch (e: any) {
+    throw new Error(e.message);
+  }
+  let mangasByAuthor: any = [];
+  searchResults.forEach((elto) =>
+  elto.created?.forEach((manga: any) =>
+    mangasByAuthor.push({
+      id: manga.id,
+      title: manga.title,
+      synopsis: manga.synopsis,
+      authorId: manga.authorId,
+      image: manga.image,
+      createdAt: manga.createdAt,
+      uptadedAt: manga.uptadedAt,
+      genre: manga.genre,
+      rating: manga.rating,
+      chapter: manga.chapter,
+      state: manga.state,
+      author: {
+        name: elto.name,
+      },
+    })
+  )
+);
+  let totalMangas = mangasByAuthor.length;
+  if(totalMangas == 0) throw new Error("Authors not found");
+  let totalPages: number = Math.ceil(totalMangas / mangasPerPage);
+  let page: number = numPaged;
+  if (page > totalPages) throw new Error("Page not found");
+  let offset: number = (page - 1) * mangasPerPage;
+  let mangas: Object[] = [];
+  mangas = mangasByAuthor.slice(offset, offset + mangasPerPage);
+  return [mangas, totalPages, totalMangas];
+
 }
