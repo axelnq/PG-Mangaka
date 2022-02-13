@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Button ,Select,MenuItem , Input} from '@mui/material';
+import { Button ,Input} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postChapters, getAllMangas } from '../Actions/index';
 import Navbar from './Navbar';
@@ -27,8 +27,8 @@ export default function CreateForm() {
     console.log(e.target.files)
     setInput({
         ...input,
-        portada: e.target.files[0],
-        chapters:e.target.files[0],
+        images: e.target.files[0],
+
     });
 }
 
@@ -40,7 +40,7 @@ function handleSubmit(e) {
     
     if (title === undefined || title.length < 3) {
       return alert ('titulo invalido')
-    } else if(portada === undefined || portada.length < 0) {
+    } else if(portada === undefined ) {
       return alert ('ingrese imagen valida')
     } else if (chapters === undefined) {
       return alert('ingrese imagen valida')
@@ -57,15 +57,15 @@ function handleSubmit(e) {
 
     formData.append('price', input.price);
 
-    console.log(formData.get('images'));
+    console.log(formData.get('portada'));
     dispatch(postChapters(formData));
     alert('Capitulo creado');
     setInput({
         title: '',
-        mangaId: 0,
+        mangaId: Number,
         portada: [],
         chapters: [],
-        price:0,
+        price:Number,
        
     });
 }
@@ -77,16 +77,6 @@ function handleSubmit(e) {
       [e.target.name]: e.target.value,
     }); 
   }
-  
-  function handleSelect(e) {
-    console.log(e.target.value)
-    setInput({
-        ...input,
-        chapters: [...input.chapters, e.target.value],
-
-    });
-  }
-  
 
   
   useEffect(() =>{
@@ -136,7 +126,9 @@ function handleSubmit(e) {
             <label>CAPITULO :</label>
             <div>
                 <label htmlFor="contained-button-file">
+             
                   <Input onChange={(e) => handleChangeFile (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
+                  
                     <Button onClick={(e) => handleChangeFile (e)} variant="contained" component="span">
                           Cargar
                     </Button>
