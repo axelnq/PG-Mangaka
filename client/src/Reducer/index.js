@@ -11,6 +11,11 @@ import {
     RECOMENDATED_MANGAS,
     PAGINADO_PAGE,
     GET_MANGAS_PREVIEW,
+    POST_CHAPTERS,
+    GET_LIBRARY,
+    GET_WISHLIST,
+    CURRENT_USER,
+    GET_ALL_CHAPTERS,
 } from "../Actions";
 
 const initialState = {
@@ -20,13 +25,23 @@ const initialState = {
     genres: [],
     mangasPreview: [],
     filters: {
-        genre: '',
-        order: '',
+        genre: "",
+        order: "",
     },
+    library: [],
+    wishlist: [],
+    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
+    allChapters:[],
+
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
     switch (type) {
+        case CURRENT_USER:
+            return {
+                ...state,
+                user: payload,
+            };
         case MANGAS_TO_DB:
             return {
                 ...state,
@@ -35,7 +50,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 allMangas: payload,
-                // filters: { 
+                // filters: {
                 //     genre: '',
                 // }
             };
@@ -69,8 +84,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 allMangas: payload,
                 filters: {
                     genre: payload,
-                    order: state.filters.order
-                }
+                    order: state.filters.order,
+                },
             };
         case FILTRO_AUTOR:
             return {
@@ -83,8 +98,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 allMangas: payload,
                 filters: {
                     order: payload,
-                    genre: state.filters.genre
-                }
+                    genre: state.filters.genre,
+                },
             };
         case SEARCH_MANGA:
             return {
@@ -96,6 +111,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 allMangas: payload,
             };
+        case POST_CHAPTERS:
+            return {
+                ...state,
+            };
+        case GET_LIBRARY:
+            return {
+                ...state,
+                library: payload,
+            };
+        case GET_WISHLIST:
+            return {
+                ...state,
+                wishlist: payload,
+            };
+            case GET_ALL_CHAPTERS:
+                return {
+                    ...state,
+                    allChapters: payload,
+                    
+                };
         default:
             return state;
     }

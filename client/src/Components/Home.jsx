@@ -32,10 +32,10 @@ const Home = () => {
             <Paginado total={allMangas.total}/>
             <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                 {
-                    allMangas.data?.map(m => {
-                        console.log(m)
+                    allMangas.data?.map((m, i) => {
+                        //console.log(m)
                         return (
-                            <div>
+                            <div key={i}>
                                 <MangaCard
                                     id={m.id}
                                     title={m.title}

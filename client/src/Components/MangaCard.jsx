@@ -3,7 +3,7 @@ import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
 
 
 const _ArrayBufferToBase64 = (buffer) => {
-    console.log(buffer)
+    //console.log(buffer)
     var binary = '';
     var byte = new Uint8Array(buffer.data);
     var length = byte.byteLength;
