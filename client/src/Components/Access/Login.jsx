@@ -1,6 +1,7 @@
 import * as React from "react";
-import {Link} from 'react-router-dom';
-import axios from 'axios';
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getCurrentUser } from "../../Actions/index";
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -12,64 +13,79 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Button from "@mui/material/Button"
+import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
-import GoogleIcon from '@mui/icons-material/Google';
-import FacebookIcon from '@mui/icons-material/Facebook';
+import GoogleIcon from "@mui/icons-material/Google";
+//import FacebookIcon from "@mui/icons-material/Facebook";
 import Stack from "@mui/material/Stack";
 
-
 const AccessButton = styled(Button)({
-  width: "47%",
-  boxShadow: 'none',
-  textTransform: 'none',
-  fontSize: 16,
-  padding: '6px 12px',
-  lineHeight: 1.5,
-  backgroundColor: '#0063cc',
-  color: "white",
-  fontFamily: [
-    '-apple-system',
-    'BlinkMacSystemFont',
-    '"Segoe UI"',
-    'Roboto',
-    '"Helvetica Neue"',
-    'Arial',
-    'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Segoe UI Symbol"',
-  ].join(','),
-  '&:hover': {
-    boxShadow: 'none',
-    backgroundColor: 'lightblue'
-  },
-  '&:active': {
-    boxShadow: 'none',
-  },
+	width: "47%",
+	boxShadow: "none",
+	textTransform: "none",
+	fontSize: 16,
+	padding: "6px 12px",
+	lineHeight: 1.5,
+	backgroundColor: "#0063cc",
+	color: "white",
+	fontFamily: [
+		"-apple-system",
+		"BlinkMacSystemFont",
+		'"Segoe UI"',
+		"Roboto",
+		'"Helvetica Neue"',
+		"Arial",
+		"sans-serif",
+		'"Apple Color Emoji"',
+		'"Segoe UI Emoji"',
+		'"Segoe UI Symbol"',
+	].join(","),
+	"&:hover": {
+		boxShadow: "none",
+		backgroundColor: "lightblue",
+	},
+	"&:active": {
+		boxShadow: "none",
+	},
 });
 
-export default function Login() {
-	const [values, setValues] = React.useState({
-		password: "",
-		email: "",
-		showPassword: false,
-	});
-	const [response, setResponse] = React.useState(null);
-	const handleChange = (prop) => (e) => {
-		setValues({ ...values, [prop]: e.target.value });
-	};
+//valores del form
+const initialForm = {
+	username: "",
+	password: "",
+};
+
+export default function Login({ handleClose }) {
+	const dispatch = useDispatch();
+	const [form, setForm] = React.useState(initialForm);
+	//ver contraseña
+	const [showPassword, setShowPassword] = React.useState(false);
+
 	const handleClickShowPassword = (e) => {
-		setValues({ ...values, showPassword: !values.showPassword });
+		setShowPassword(!showPassword);
 	};
+	//inicio de sesión con google (redireccionamiento)
+	const googleLogin = () => {
+		window.open("http://localhost:3001/api/auth/google", "_self");
+	};
+	//control de los input
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setForm({ ...form, [name]: value });
+	};
+	//submit del form
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		axios.post('http://localhost:3001/api/auth/local/login', {...values})
-		.then(response => setResponse(response))
-		.catch(error => setResponse(error));
-		setValues("");
-		alert(response)
+		console.log(form);
+		if (form.username && form.password) {
+			dispatch(getCurrentUser(form));
+			handleClose();
+		} else {
+			alert("llena todos los campos");
+		}
+
+		setForm(initialForm);
 	};
 
 	return (
@@ -90,20 +106,33 @@ export default function Login() {
 					borderRadius: "5px 5px 0 0",
 					my: 2,
 				}}
-				label="Email"
+				label="Username"
 				variant="filled"
-				onChange={handleChange('email')}
+				name="username"
+				type="text"
+				value={form.username}
+				onChange={handleChange}
 				required
 			/>
-			<FormControl required fullWidth sx={{ my: 2, backgroundColor: "white", borderRadius: "5px 5px 0 0" }} variant="filled">
+			<FormControl
+				required
+				fullWidth
+				sx={{
+					my: 2,
+					backgroundColor: "white",
+					borderRadius: "5px 5px 0 0",
+				}}
+				variant="filled"
+			>
 				<InputLabel htmlFor="filled-adornment-password">
 					Password
 				</InputLabel>
 				<FilledInput
 					id="filled-adornment-password"
-					type={values.showPassword ? "text" : "password"}
-					value={values.password}
-					onChange={handleChange("password")}
+					name="password"
+					type={showPassword ? "text" : "password"}
+					value={form.password}
+					onChange={handleChange}
 					endAdornment={
 						<InputAdornment position="end">
 							<IconButton
@@ -111,7 +140,7 @@ export default function Login() {
 								onClick={handleClickShowPassword}
 								edge="end"
 							>
-								{values.showPassword ? (
+								{showPassword ? (
 									<VisibilityOff />
 								) : (
 									<Visibility />
@@ -121,16 +150,50 @@ export default function Login() {
 					}
 				/>
 			</FormControl>
-			<Stack sx={{width: "100%"}} direction="column" spacing={1}>
-			<AccessButton sx={{width: "100%"}} type="submit">Iniciar Sesión</AccessButton>
-			<AccessButton sx={{width: "100%", backgroundColor:"white"}} ><Link style={{ textDecoration: "none", color:"#0063cc"}}  to="/register">Registrarse</Link></AccessButton>
+			<Stack sx={{ width: "100%" }} direction="column" spacing={1}>
+				<AccessButton sx={{ width: "100%" }} type="submit">
+					Iniciar Sesión
+				</AccessButton>
+				<AccessButton sx={{ width: "100%", backgroundColor: "white" }}>
+					<Link
+						style={{ textDecoration: "none", color: "#0063cc" }}
+						to="/register"
+					>
+						Registrarse
+					</Link>
+				</AccessButton>
 			</Stack>
-			<p style={{margin:"5px 0 2px 0", color:"#357ded", textAlign:"center"}}>O inicia sesión con:</p>
-			<Divider sx={{mb: 2, backgroundColor: "#357ded"}}/>
-			<AccessButton sx={{marginRight: "3%", borderRadius: 5}} startIcon={<FacebookIcon/>}>facebook</AccessButton>
-			<a href="http://localhost:3001/api/auth/google" target="_blank" rel="noreferrer" style={{textDecoration: "none"}}>
-			<AccessButton sx={{backgroundColor: "red", color: 'white', marginLeft: "3%", borderRadius: 5, '&:hover': {backgroundColor: "#ff726f"}}}  startIcon={<GoogleIcon />}>Google</AccessButton>
-			</a>
+			<p
+				style={{
+					margin: "5px 0 2px 0",
+					color: "#357ded",
+					textAlign: "center",
+				}}
+			>
+				O inicia sesión con:
+			</p>
+			<Divider sx={{ mb: 2, backgroundColor: "#357ded" }} />
+			{/*
+			<AccessButton
+				sx={{ marginRight: "3%", borderRadius: 5 }}
+				startIcon={<FacebookIcon />}
+			>
+				facebook
+			</AccessButton>*/}
+
+			<AccessButton
+				sx={{
+					backgroundColor: "red",
+					color: "white",
+					marginLeft: "3%",
+					borderRadius: 5,
+					"&:hover": { backgroundColor: "#ff726f" },
+				}}
+				onClick={googleLogin}
+				startIcon={<GoogleIcon />}
+			>
+				Google
+			</AccessButton>
 		</Box>
 	);
 }

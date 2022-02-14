@@ -58,7 +58,7 @@ export default function LoginModal() {
           >
             x
           </button>
-            <Login />
+            <Login handleClose={handleClose}/>
           </Box>
         </Fade>
       </Modal>
