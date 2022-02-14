@@ -102,12 +102,12 @@ export default function PerfilNavbar() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-          <Avatar
-            src="https://ca.slack-edge.com/TPRS7H4PN-U01RN1MNA14-4dbff6bf3c0d-512"
-            alt="perfil"
-            sx={{ width: 32, height: 32 }}
-          />{" "}
-          Perfil
+        <Avatar
+              src={"data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)}
+              alt="perfil"
+              sx={{ width: 32, height: 32 }}
+            />{" "}
+          {user.username}
         </MenuItem>
         <Link to="/panel" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Panel</MenuItem>
