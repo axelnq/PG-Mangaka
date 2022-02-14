@@ -59,8 +59,8 @@ export default function Register() {
 	const {
 		form,
 		errors,
-		loading,
-		response,
+		//loading,
+		//response,
 		handleChange,
 		handleBlur,
 		handleSubmit,
@@ -77,7 +77,18 @@ export default function Register() {
 
 	return (
 		<Box
-			sx={{ margin: "0 auto", display: "flex", justifyContent: "center" }}
+			sx={{
+				width: "100vw",
+				height: "100vh",
+				margin: "0 auto",
+				display: "flex",
+				justifyContent: "center",
+				backgroundImage:
+					"url(https://wallpapercave.com/wp/wp2760731.jpg)",
+				backgroundSize: "cover",
+				backgroundPosition: "center",
+				backgroundRepeat: "no-repeat",
+			}}
 		>
 			<Link to="/">
 				<Button
@@ -97,7 +108,11 @@ export default function Register() {
 				onSubmit={handleSubmit}
 				autoComplete="off"
 			>
-				<Typography id="transition-modal-title" variant="h6">
+				<Typography
+					id="transition-modal-title"
+					variant="h4"
+					sx={{ color: "white", mb: 2 }}
+				>
 					Registrate para empezar a leer!
 				</Typography>
 				<Stack direction={{ xs: "column", md: "row" }} spacing={2}>
@@ -152,7 +167,13 @@ export default function Register() {
 					required
 				/>
 				{errors.email && (
-					<p style={{ color: "red", fontSize: "12px" }}>
+					<p
+						style={{
+							color: "red",
+							fontSize: "16px",
+							fontWeight: "bold",
+						}}
+					>
 						{errors.email}
 					</p>
 				)}
@@ -202,7 +223,8 @@ export default function Register() {
 						style={{
 							margin: "10px 0 10px 0",
 							color: "red",
-							fontSize: "12px",
+							fontSize: "16px",
+							fontWeight: "bold",
 						}}
 					>
 						{errors.password}
@@ -256,7 +278,8 @@ export default function Register() {
 						style={{
 							margin: "0 0 10px 0",
 							color: "red",
-							fontSize: "12px",
+							fontSize: "16px",
+							fontWeight: "bold",
 						}}
 					>
 						{errors.repeatedPassword}
@@ -278,8 +301,8 @@ export default function Register() {
 						backgroundColor: "transparent",
 						border: "none",
 						cursor: "pointer",
-						color: "#0063cc",
-						fontSize: "16px",
+						color: "white",
+						fontSize: "18px",
 						width: "100%",
 						marginTop: "8px",
 					}}
