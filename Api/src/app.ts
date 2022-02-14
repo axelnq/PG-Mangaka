@@ -18,7 +18,7 @@ const localStrategy = require("passport-local").Strategy;
 const app = express();
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
     "Access-Control-Allow-Headers",
@@ -48,12 +48,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./configPassport")(passport);
 
-app.options("*", (req, res) => {
+/*app.options("*", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.end();
 });
-
+*/
 app.use("/api", routes);
 
 // Error catching endware.

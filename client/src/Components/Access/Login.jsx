@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { getCurrentUser } from "../../Actions/index";
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -16,7 +17,7 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+//import FacebookIcon from "@mui/icons-material/Facebook";
 import Stack from "@mui/material/Stack";
 
 const AccessButton = styled(Button)({
@@ -50,13 +51,13 @@ const AccessButton = styled(Button)({
 });
 
 //valores del form
-	const initialForm = {
-		username: "",
-		password: "",
-	};
+const initialForm = {
+	username: "",
+	password: "",
+};
 
 export default function Login({ handleClose }) {
-	
+	const dispatch = useDispatch();
 	const [form, setForm] = React.useState(initialForm);
 	//ver contraseña
 	const [showPassword, setShowPassword] = React.useState(false);
@@ -74,26 +75,16 @@ export default function Login({ handleClose }) {
 		setForm({ ...form, [name]: value });
 	};
 	//submit del form
-	const handleSubmit = async (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(form);
 		if (form.username && form.password) {
-			try {
-				const request = await axios.post(
-					"http://localhost:3001/api/auth/local/login",
-					form
-				);
-				const response = await request.data;
-				
-				console.log(response);
-			} catch (error) {
-				console.log(error);
-			}
+			dispatch(getCurrentUser(form));
 			handleClose();
-		}else{
-			alert("llena todos los campos");	
+		} else {
+			alert("llena todos los campos");
 		}
-		
+
 		setForm(initialForm);
 	};
 
@@ -182,12 +173,13 @@ export default function Login({ handleClose }) {
 				O inicia sesión con:
 			</p>
 			<Divider sx={{ mb: 2, backgroundColor: "#357ded" }} />
+			{/*
 			<AccessButton
 				sx={{ marginRight: "3%", borderRadius: 5 }}
 				startIcon={<FacebookIcon />}
 			>
 				facebook
-			</AccessButton>
+			</AccessButton>*/}
 
 			<AccessButton
 				sx={{

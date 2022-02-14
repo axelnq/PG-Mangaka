@@ -30,7 +30,8 @@ authRouter.post<{}, {}>("/local/login", (req, res, next) => {
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          return res.send("successfully authenticated");
+          return res.send(user) 
+          //res.send("successfully authenticated");
           //res.redirect("http://localhost:3000/")
         });
       }
