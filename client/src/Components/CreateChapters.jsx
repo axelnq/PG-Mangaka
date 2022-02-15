@@ -27,8 +27,8 @@ export default function CreateForm() {
     console.log(e.target.files)
     setInput({
         ...input,
-        images: e.target.files[0],
-        coverImages:e.target.files[0],
+        coverImages: e.target.files[0],
+        // coverImages:e.target.files[0],
 
     });
 }
@@ -52,9 +52,9 @@ function handleSubmit(e) {
 
     const formData = new FormData();
     formData.append('title', input.title);
+    formData.append('mangaId', input.mangaId);
     formData.append('portada', input.coverImages);
     formData.append('chapters', input.images);
-    formData.append('mangaId', input.mangaId);
 
     formData.append('price', input.price);
 
