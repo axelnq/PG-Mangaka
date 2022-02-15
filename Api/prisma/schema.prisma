@@ -16,6 +16,14 @@ enum State {
   on_pause
 }
 
+enum Role {
+  USER
+  ADMIN
+  SUPERADMIN
+  INACTIVE_USER
+  BANNED_USER
+}
+
 model User {
   id          String  @id @default(uuid())
   name        String
@@ -23,6 +31,7 @@ model User {
   avatar      Bytes
   password    String? // revisar el tipo por algo como Cypher
   about       String
+  active      Boolean
   coins       Int     @default(0)
   creatorMode Boolean @default(false)
   email       String  @unique
@@ -31,6 +40,7 @@ model User {
   wishList    Int[]
   created     Manga[] // A user can have many mangas
   googleId    Boolean
+  role        Role  @default(USER)
 }
 
 model Manga {
@@ -47,6 +57,7 @@ model Manga {
   chapter   Int
   chapters  Chapter[]
   state     String
+  active    Boolean
 }
 
 model Chapter {
@@ -60,6 +71,7 @@ model Chapter {
   usersId String[]
   price Int
   orderConstant InternalOrder[]
+  active  Boolean
 }
 model InternalOrder{
   orderId   Int @id @default(autoincrement())

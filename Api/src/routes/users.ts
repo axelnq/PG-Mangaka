@@ -2,7 +2,9 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import { db } from "../app";
 import User from "../classes/User";
+import fs from "fs";
 import multer from "multer";
+import { Role } from '@prisma/client';
 const upload = multer({
   limits: {
     fileSize: 100000000,
@@ -20,10 +22,12 @@ export const usersRouter = Router();
 
 usersRouter.get("/", async (req, res) => {
   const users = await db.user.findMany({
+    /*
     where: { created: { some: {} } },
     include: {
       created: true,
     },
+    */
   });
 
   res.send(users);
@@ -55,11 +59,7 @@ usersRouter.post<
   if (req.file) {
     avatar = req.file.buffer;
   } else {
-    let bufferImage = await axios.get(
-      "https://w7.pngwing.com/pngs/896/495/png-transparent-one-punch-man-one-punch-man-volume-3-computer-icons-saitama-one-punch-man-face-manga-head.png",
-      { responseType: "arraybuffer" }
-    );
-    avatar = Buffer.from(bufferImage.data, "utf-8");
+    avatar = fs.readFileSync("./assets/default.png");
   }
 
   const newUser = new User(name, username, avatar, email, hashedPassword);
@@ -253,3 +253,91 @@ usersRouter.get("/currentUser", (req, res, next) => {
   }
   res.json(req.user);
 });
+
+usersRouter.post<{}, {}, { name: string; username: string; password: string; email: string,role:Role}>
+  ("/superAdmin", async (req, res) => {
+    // const { name, username, password, email,role} = req.body;
+    let image = await axios.get(
+      "https://http2.mlstatic.com/D_NQ_NP_781075-MLA48271965969_112021-O.webp",
+      { responseType: "arraybuffer" }
+    );
+    let buffer = Buffer.from(image.data, "utf-8");
+    const newUser = new User("Super Mangaka", "SuperMGK", buffer,"SUPERADMIN");
+
+    try {
+      let superAdmin = await db.user.findUnique({
+        where: { username: newUser.username}
+      })
+
+      if(!superAdmin) {
+        superAdmin = await db.user.create({
+          data: newUser,
+        });
+  
+      }
+     
+      return res.json(superAdmin);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setAdmin/:username", async (req, res, next) => {
+    const { username } = req.params;
+   
+    try {
+     
+      const user = await db.user.findUnique({
+        where: { username: username }
+      })
+      if (!user) return res.send({ message: "User not found" })
+  
+      const upsertUser = await db.user.update({
+        where: {
+          username: username,
+        },
+        data: {
+          role: user.role === 'USER' ? 'ADMIN' : 'USER'
+        }
+      });
+      return res.send(upsertUser);
+      
+    } catch (error) {
+      return res.sendStatus(404).json({ message: error });
+    }
+  
+  });
+
+
+  usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:username", async (req, res, next) => {
+    const { username } = req.params;
+   
+    try {
+      
+      const user = await db.user.findUnique({
+        where: { username: username },
+        include: { created:true}
+      })
+      if (!user) return res.send({ message: "User not found" })
+      
+      user.created.forEach(manga => {
+          manga.active = true;
+      })
+      user.created.forEach(manga => console.log(manga.active));
+  
+      const upsertUser = await db.user.update({
+        where: {
+          username: username,
+        },
+        data: {
+          active: user?.active === true ? false : true,
+        }
+      });
+      return res.send(upsertUser);
+      
+    } catch (error) {
+      return res.sendStatus(404).json({ message: error });
+    }
+  
+  });
+  
