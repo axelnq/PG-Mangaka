@@ -1,10 +1,10 @@
 import { React } from 'react'
-import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ImageIcon, ListItemText } from '@mui/material';
+import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
 import Navbar from './Navbar'
 import { useSelector } from 'react-redux';
 
 const Biblioteca = () => {
-    let library = useSelector(state => state.library)
+    let user = useSelector(state => state.user)
 
     return (
        <div>
@@ -12,10 +12,10 @@ const Biblioteca = () => {
            <Container maxWidth="sm" sx={{backgroundColor:'#001B44'}}>
                 <Typography variant='h3' color='#357DED'>Biblioteca</Typography>
                 <List sx={{ width: '100%', maxWidth: 360, color:'#fff'}}>
-                    {/* {
-                        library && library.map(m, i => {
+                    {
+                        user.library && user.library.map(m => {
                             return (
-                             <ListItem key={i}>
+                             <ListItem key={m}>
                                 <ListItemAvatar>
                                     <Avatar src='' variant="rounded" sx={{ width: 60, height: 60 }}/>
                                 </ListItemAvatar>
@@ -27,7 +27,7 @@ const Biblioteca = () => {
                             </ListItem>
                             )
                         })
-                    } */}
+                    }
                        
                     </List>
             </Container>
