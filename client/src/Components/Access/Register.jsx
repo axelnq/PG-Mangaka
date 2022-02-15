@@ -17,7 +17,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 //styles css
-import 'animate.css'
+//import 'animate.css'
 //styled button
 const RegisterButton = styled(Button)({
 	width: "100%",
