@@ -143,42 +143,49 @@ usersRouter.post<{}, {}>("/authorsTest", async (req, res) => {
     { responseType: "arraybuffer" }
   );
   let buffer = Buffer.from(image.data, "utf-8");
+  let hashedPassword = await bcrypt.hash("Testuser152022!", 10);
   const userTest2 = new User(
     "Aster Noriko",
     "AsterN",
     buffer,
-    "asternoriko@gmail.com"
+    "asternoriko@gmail.com",
+    hashedPassword
   );
   const userTest3 = new User(
     "Daichi Matsuse",
     "DaichiM",
     buffer,
-    "daichimatsuse@gmail.com"
+    "daichimatsuse@gmail.com",
+    hashedPassword
   );
   const userTest4 = new User(
     "Fumino Hayashi",
     "FuminoH",
     buffer,
-    "fuminohayashi@gmail.com"
+    "fuminohayashi@gmail.com",
+    hashedPassword
   );
-  const userTest5 = new User("Gato Aso", "GatoA", buffer, "gatoaso@gmail.com");
+  const userTest5 = new User("Gato Aso", "GatoA", buffer, "gatoaso@gmail.com",hashedPassword);
   const userTest6 = new User(
     "Katsu Aki",
     "KatsuA",
     buffer,
-    "katsuaki@gmail.com"
+    "katsuaki@gmail.com",
+    hashedPassword
   );
   const userTest7 = new User(
     "Kyo Shirodaira",
     "KyoS",
     buffer,
-    "kyoshirodaira@gmail.com"
+    "kyoshirodaira@gmail.com",
+    hashedPassword
   );
   const userTest8 = new User(
     "Mitsuba Takanashi",
     "MitsubaT",
     buffer,
-    "mitsubaTakanashi@gmail.com"
+    "mitsubaTakanashi@gmail.com",
+    hashedPassword
   );
 
   const newUsers = [
@@ -262,7 +269,8 @@ usersRouter.post<{}, {}, { name: string; username: string; password: string; ema
       { responseType: "arraybuffer" }
     );
     let buffer = Buffer.from(image.data, "utf-8");
-    const newUser = new User("Super Mangaka", "SuperMGK", buffer,"SUPERADMIN");
+    let hashedPassword = await bcrypt.hash("Manga1522022!", 10);
+    const newUser = new User("Super Mangaka", "SuperMGK", buffer,"supermangaka2022@gmail.com",hashedPassword,"SUPERADMIN");
 
     try {
       let superAdmin = await db.user.findUnique({
