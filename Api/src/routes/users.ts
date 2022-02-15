@@ -2,7 +2,6 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import { db } from "../app";
 import User from "../classes/User";
-import fs from "fs";
 import multer from "multer";
 const upload = multer({
   limits: {
@@ -21,12 +20,10 @@ export const usersRouter = Router();
 
 usersRouter.get("/", async (req, res) => {
   const users = await db.user.findMany({
-    /*
     where: { created: { some: {} } },
     include: {
       created: true,
     },
-    */
   });
 
   res.send(users);
@@ -58,7 +55,11 @@ usersRouter.post<
   if (req.file) {
     avatar = req.file.buffer;
   } else {
-    avatar = fs.readFileSync("./assets/default.png");
+    let bufferImage = await axios.get(
+      "https://w7.pngwing.com/pngs/896/495/png-transparent-one-punch-man-one-punch-man-volume-3-computer-icons-saitama-one-punch-man-face-manga-head.png",
+      { responseType: "arraybuffer" }
+    );
+    avatar = Buffer.from(bufferImage.data, "utf-8");
   }
 
   const newUser = new User(name, username, avatar, email, hashedPassword);
@@ -247,8 +248,5 @@ usersRouter.get<{ username: string }, {}>(
 usersRouter.get("/currentUser", (req, res, next) => {
   // console.log(req)
   // console.log(req.user);
-  if(!req.user) {
-    return res.json({msg: 'No hay un usuario logueado'})
-  }
   res.json(req.user);
 });
