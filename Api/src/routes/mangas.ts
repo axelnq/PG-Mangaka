@@ -319,28 +319,24 @@ mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
     });
     let mangasByAuthor: any = [];
     searchResults.forEach((elto) =>
-      elto.created?.forEach((manga: any) =>{
-
-        if(manga.active) {
-          mangasByAuthor.push({
-            id: manga.id,
-            title: manga.title,
-            synopsis: manga.synopsis,
-            authorId: manga.authorId,
-            image: manga.image,
-            createdAt: manga.createdAt,
-            uptadedAt: manga.uptadedAt,
-            genre: manga.genre,
-            rating: manga.rating,
-            chapter: manga.chapter,
-            state: manga.state,
-            author: {
-              name: elto.name,
-            },
-          })
-        }
-      }
-        )
+    elto.created?.forEach((manga: any) =>
+      mangasByAuthor.push({
+        id: manga.id,
+        title: manga.title,
+        synopsis: manga.synopsis,
+        authorId: manga.authorId,
+        image: manga.image,
+        createdAt: manga.createdAt,
+        uptadedAt: manga.uptadedAt,
+        genre: manga.genre,
+        rating: manga.rating,
+        chapter: manga.chapter,
+        state: manga.state,
+        author: {
+          name: elto.name,
+        },
+      })
+    )
     );
     res.json({ data: mangasByAuthor });
   } catch (error) {
