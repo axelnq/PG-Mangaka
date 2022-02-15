@@ -52,6 +52,7 @@ mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
   try {
     const popularMangas = await db.manga.findMany({
       where: {
+        active:true,
         rating: {
           gte: 8,
         },
@@ -182,6 +183,7 @@ mangasRouter.get<{}, {}>("/Search", async (req, res, next) => {
   const { title } = req.query;
   const result: any = await db.manga.findMany({
     where: {
+      active:true,
       title: {
         contains: title as string,
         mode: "insensitive",
@@ -269,6 +271,7 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
 mangasRouter.get<{}, {}>("/recentMangas", async (req, res, next) => {
   try {
     const recentMangas = await db.manga.findMany({
+      where: { active:true },
       orderBy: {
         uptadedAt: "desc",
       },
@@ -313,3 +316,30 @@ mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
     return res.status(400).send({ message: error.message });
   }
 });
+
+mangasRouter.put<{ idManga:string }, {}>("/manga/setActive/:idManga", async (req, res, next) => {
+  const { idManga } = req.params;
+
+  try {
+
+    const manga = await db.manga.findUnique({
+      where: { id: Number(idManga) }
+    })
+    if (!manga) return res.send({ message: "Manga not found" })
+
+
+    const upsertManga = await db.manga.update({
+      where: {
+        id: Number(idManga),
+      },
+      data: {
+        active: manga?.active === true ? false : true,
+      }
+    });
+    return res.send(upsertManga);
+  } catch (error) {
+    return res.sendStatus(404).json({ message: error });
+  }
+
+});
+
