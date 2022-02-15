@@ -16,7 +16,7 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
   let product = await db.chapter.findUnique({ where: { id: productId } });
   if (buyer && seller && product) {
     if (buyer.coins - product.price < 0) {
-      res.send("Insuficient coins");
+      res.send("Insuficient coins ");
     } else {
       let iOrder = new internalOrder(sellerId, buyerId, productId);
       //@ts-ignore
@@ -30,17 +30,29 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
           coins: seller.coins + product.price,
         },
       });
-      const updatebuyer = await db.user.update({
-        where: {
-          username: buyer.username,
-        },
-        data: {
-          coins: buyer.coins - product.price,
-          library: [...buyer.library, product.mangaId],
-        },
-      });
+      if (!buyer.library.includes(product.mangaId)) {
+        const updatebuyer = await db.user.update({
+          where: {
+            username: buyer.username,
+          },
+          data: {
+            coins: buyer.coins - product.price,
+            library: [...buyer.library, product.mangaId],
+          },
+        });
 
-      res.send([newIorder, updateseller, updatebuyer]);
+        res.send([newIorder, updateseller, updatebuyer]);
+      } else {
+        const updatebuyer = await db.user.update({
+          where: {
+            username: buyer.username,
+          },
+          data: {
+            coins: buyer.coins - product.price,
+          },
+        });
+        res.send([newIorder, updateseller, updatebuyer]);
+      }
     }
   }
 });
