@@ -17,7 +17,6 @@ const upload = multer({
   },
 });
 import axios from "axios";
-import passport from "passport";
 export const usersRouter = Router();
 
 usersRouter.get("/", async (req, res) => {
@@ -88,51 +87,6 @@ usersRouter.post<
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: "An error creating a user" });
-  }
-});
-
-usersRouter.put(
-  "/user/updateAvatar/:username",
-  upload.single("avatar"),
-  async (req, res) => {
-    let username = req.params.username;
-    let avatar: Buffer;
-    if (!req.file) {
-      return res.status(400).send("Image is required");
-    }
-    avatar = req.file.buffer;
-    try {
-      await db.user.update({
-        where: { username: username },
-        //@ts-ignore
-        data: { avatar: avatar },
-      });
-
-      return res.status(204).send();
-    } catch (error: any) {
-      return res.status(400).send(error);
-    }
-  }
-);
-
-//Testea el avatar del usuario
-usersRouter.get("/avatar/:username", async (req, res, next) => {
-  let { username } = req.params;
-  if (!username) {
-    return res.status(400).send({ message: "Username is required" });
-  }
-  const user = await db.user.findUnique({
-    where: {
-      username: username,
-    },
-  });
-  if (user) {
-    //Enviar el avatar como respuesta en formato jpeg
-    res.setHeader("Content-Type", "image/jpeg");
-    //@ts-ignore
-    res.send(user.avatar);
-  } else {
-    res.status(404).send("User not found");
   }
 });
 
