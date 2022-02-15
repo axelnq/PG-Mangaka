@@ -169,7 +169,10 @@ export default function Register() {
 				{errors.email && (
 					<p
 						style={{
-							color: "red",
+							backgroundColor: "red",
+							borderRadius: "5px",
+							margin: "10px 0 10px 0",
+							color: "white",
 							fontSize: "16px",
 							fontWeight: "bold",
 						}}
@@ -221,8 +224,10 @@ export default function Register() {
 				{errors.password && (
 					<p
 						style={{
+							backgroundColor: "red",
+							borderRadius: "5px",
 							margin: "10px 0 10px 0",
-							color: "red",
+							color: "white",
 							fontSize: "16px",
 							fontWeight: "bold",
 						}}
@@ -276,8 +281,10 @@ export default function Register() {
 				{errors.repeatedPassword && (
 					<p
 						style={{
-							margin: "0 0 10px 0",
-							color: "red",
+							backgroundColor: "red",
+							borderRadius: "5px",
+							margin: "10px 0 10px 0",
+							color: "white",
 							fontSize: "16px",
 							fontWeight: "bold",
 						}}
