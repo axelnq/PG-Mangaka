@@ -16,6 +16,7 @@ export const GET_WISHLIST = 'GET_WISHLIST'
 export const CURRENT_USER = 'CURRENT_USER'
 export const GET_ALL_CHAPTERS = "GET_ALL_CHAPTERS";
 
+
 const axios = require("axios");
 
 export let mangasToDb = () => {
@@ -101,7 +102,7 @@ export let getMangaDetail = (payload) => {
 export let postManga = (payload) => {
     return async (dispatch) => {
         try {
-            console.log(payload)
+            console.log(payload);
             let manga = await axios.post(
                 `http://localhost:3001/api/mangas`,
                 payload
@@ -189,11 +190,13 @@ export let getMangasPreview = () => {
         }
     };
 };
-export let paginado = ({page, genre, order}) => {
+export let paginado = ({ page, genre, order }) => {
     return async (dispatch) => {
         try {
             let mangas = await axios.get(
-                `http://localhost:3001/api/mangas/directory?page=${page}&filter=${genre ? genre : ''}&order=${order ? order : 'asc'}&tags=title`
+                `http://localhost:3001/api/mangas/directory?page=${page}&filter=${
+                    genre ? genre : ""
+                }&order=${order ? order : "asc"}&tags=title`
             );
             return dispatch({
                 type: PAGINADO_PAGE,
@@ -208,7 +211,7 @@ export let paginado = ({page, genre, order}) => {
 export let postChapters = (payload) => {
     return async (dispatch) => {
         try {
-            console.log(payload)
+            console.log(payload);
             let chapters = await axios.post(
                 `http://localhost:3001/api/chapters`,
                 payload
@@ -234,7 +237,7 @@ export let postChapters = (payload) => {
 //         } catch(error) {
 //             console.log(error)
 //         }
-//     }   
+//     }
 // }
 
 // export let getLibrary = (payload) => {
@@ -248,22 +251,79 @@ export let postChapters = (payload) => {
 //         } catch(error) {
 //             console.log(error)
 //         }
-//     }   
+//     }
 // }
-export let currentUser = () => {
+export let getCurrentUser = (form) => {
     return async (dispatch) => {
-                try {
-                    let user = await axios.get(`http://localhost:3001/api/users/currentUser`)
-                    return dispatch({
-                        type: CURRENT_USER,
-                        payload: user.data
-                    })
-                } catch(error) {
-                    console.log(error)
+        try {
+        
+            const request = await axios.post(
+                `http://localhost:3001/api/auth/local/login`,
+                form,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    Authorization: {
+                        username: form.username,
+                        password: form.password,
+                    },
+                    withCredentials: true,
                 }
+
+            );
+            
+            const response = await request.data;
+            localStorage.setItem("user", JSON.stringify(response));
+            const user = JSON.parse(localStorage.getItem("user"));
+            console.log(user);
+            return dispatch({ type: CURRENT_USER, payload: user });
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+};
+
+ export const UserLogout = () => {
+    return async (dispatch) => {
+        try {
+            const request = await axios({
+                method: "GET",
+                withCredentials: true,
+                url: "http://localhost:3001/api/auth/logout",
+            });
+            const response = await request.data;
+            console.log(response);
+            localStorage.clear();
+            return dispatch({
+                type: CURRENT_USER,
+                payload: null,
+            });
+        } catch (e) {
+            console.log(e.message);
+        }
+    };
+};
+
+/*
+//Traer id desde el back
+const getUser = () => {
+    return async (dispatch) => {
+        try {
+            const request = await axios({
+                method: "GET",
+                withCredentials: true,
+                url: "http://localhost:3001/api/users/currentUser",
+            });
+            const response = request.data;
+            console.log(response.data);
+            return dispatch({})
+            }catch(e){
+                console.log(e)
             }
 }
-
+}
+*/
 export let getChapters = () => {
 
     return async (dispatch) => {
@@ -275,8 +335,13 @@ export let getChapters = () => {
                 type: GET_ALL_CHAPTERS,
                 payload: allChapters.data,
             });
+
         } catch (error) {
             console.log(error);
         }
     };
+
 };
+
+
+

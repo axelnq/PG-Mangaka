@@ -26,6 +26,7 @@
     "dotenv": "^15.0.0",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
+    "heroku": "^7.59.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
     "passport": "^0.5.2",

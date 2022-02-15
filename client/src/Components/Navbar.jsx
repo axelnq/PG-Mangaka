@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMangasPreview, searchManga, currentUser } from "../Actions/index";
+import { getMangasPreview, searchManga } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
-import LoginModal from './Access/LoginModal';
-import Coin from '../img/coin.png'
+import LoginModal from "./Access/LoginModal";
+import Coin from "../img/coin.png";
 //MUI
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -13,9 +13,9 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+//import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InputBase from "@mui/material/InputBase";
- 
+
 //styles
 const Input = styled(InputBase)`
   width: 100%;
@@ -30,7 +30,7 @@ const SearchButton = styled(Button)`
   border: none;
   background-color: #357ded;
 `;
-const MoneyButton = styled("button")`
+/*const MoneyButton = styled("button")`
   height: 32px;
   width: 32px;
   border: none;
@@ -43,7 +43,7 @@ const MoneyButton = styled("button")`
     background-color: #f0e68c;
   }
 `;
-
+*/
 const List = styled("ul")`
   padding: 0;
   list-style-position: inside;
@@ -71,32 +71,31 @@ const List = styled("ul")`
   }
 `;
 const _ArrayBufferToBase64 = (buffer) => {
-    console.log(buffer)
-    var binary = '';
-    var byte = new Uint8Array(buffer.data);
-    var length = byte.byteLength;
+  
+  var binary = "";
+  var byte = new Uint8Array(buffer.data);
+  var length = byte.byteLength;
 
-    for(var i = 0; i < length ;i++) {
-        binary += String.fromCharCode(byte[i])
-    }
-    return window.btoa(binary)
-}
-
+  for (var i = 0; i < length; i++) {
+    binary += String.fromCharCode(byte[i]);
+  }
+  return window.btoa(binary);
+};
 
 export default function NavBar() {
   //redux
-  const mangasPreview = useSelector((state) => state.mangasPreview);
+  const {user, mangasPreview} = useSelector((state) => state);
   const dispatch = useDispatch();
-  let user = useSelector(state=> state.user)
+ 
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
-  }, []);
+  }, [dispatch]);
 
   //local state
   const [filteredData, setFilteredData] = useState([]);
   const [search, setSearch] = useState("");
-  const [showAvatar, setShowAvatar] = useState(false);
+  
   //filtering the autocomplete
   const handleFilter = (e) => {
     const word = e.target.value;
@@ -120,18 +119,12 @@ export default function NavBar() {
     }
   };
 
-  let handleCurrentUser = (e) => {
-    e.preventDefault()
-    dispatch(currentUser())
-    console.log(user)
-  }
   return (
     <Box>
       <AppBar
         position="sticky"
         sx={{ backgroundColor: "#192a45", padding: { xs: "15px" } }}
       >
-        
         <Box
           sx={{
             display: "flex",
@@ -142,9 +135,8 @@ export default function NavBar() {
           }}
         >
           <Typography variant="h5" color="primary">
-          <Link to="/">MANGAKA</Link>  
+            <Link to="/">MANGAKA</Link>
           </Typography>
-          <button onClick={e => handleCurrentUser(e)}>CurrentUser</button>
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
             <Box
               component="form"
@@ -187,7 +179,13 @@ export default function NavBar() {
                             to={"/detail/" + m.id}
                           >
                             <li key={i}>
-                              <img src={'data:image/jpeg;base64,' + _ArrayBufferToBase64 (m.image)}  alt={m.title}/>
+                              <img
+                                src={
+                                  "data:image/jpeg;base64," +
+                                  _ArrayBufferToBase64(m.image)
+                                }
+                                alt={m.title}
+                              />
                               <div
                                 style={{ display: "flex", alignSelf: "center" }}
                               >
@@ -210,24 +208,18 @@ export default function NavBar() {
                 </Box>
               </Stack>
             </Box>
-            {showAvatar ? (
+            {user ? (
               <Stack direction="row" spacing={2} justifyContent="center">
                 <Link to="/coins">
-                <img width="35" height="35" src={Coin} alt="coin icon"/>
+                  <img width="35" height="35" src={Coin} alt="coin icon" />
                 </Link>
                 <PerfilNavbar />
               </Stack>
             ) : (
               <Stack direction="row" spacing={2} justifyContent="center">
-                <Button
-                  variant="outlined"
-                  onClick={() => setShowAvatar(!showAvatar)}
-                >
-                  Iniciar Sesión
-                </Button>
                 <LoginModal />
-                <Link to="/register" style={{ textDecoration: "none"}}>
-                <Button variant="outlined">Registrarse</Button>
+                <Link to="/register" style={{ textDecoration: "none" }}>
+                  <Button variant="outlined">Registrarse</Button>
                 </Link>
               </Stack>
             )}

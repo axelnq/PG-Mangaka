@@ -2,7 +2,9 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import { db } from "../app";
 import User from "../classes/User";
+import fs from "fs";
 import multer from "multer";
+import { Role } from '@prisma/client';
 const upload = multer({
   limits: {
     fileSize: 100000000,
@@ -15,15 +17,16 @@ const upload = multer({
   },
 });
 import axios from "axios";
-import passport from "passport";
 export const usersRouter = Router();
 
 usersRouter.get("/", async (req, res) => {
   const users = await db.user.findMany({
+    /*
     where: { created: { some: {} } },
     include: {
       created: true,
     },
+    */
   });
 
   res.send(users);
@@ -37,7 +40,7 @@ usersRouter.post<
   const { name, username, password, email } = req.body;
 
   const regPass = new RegExp(
-    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/
+    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-._]).{8,15}$/
   );
   const regEmail = new RegExp(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -55,11 +58,7 @@ usersRouter.post<
   if (req.file) {
     avatar = req.file.buffer;
   } else {
-    let bufferImage = await axios.get(
-      "https://w7.pngwing.com/pngs/896/495/png-transparent-one-punch-man-one-punch-man-volume-3-computer-icons-saitama-one-punch-man-face-manga-head.png",
-      { responseType: "arraybuffer" }
-    );
-    avatar = Buffer.from(bufferImage.data, "utf-8");
+    avatar = fs.readFileSync("./assets/default.png");
   }
 
   const newUser = new User(name, username, avatar, email, hashedPassword);
@@ -91,51 +90,6 @@ usersRouter.post<
   }
 });
 
-usersRouter.put(
-  "/user/updateAvatar/:username",
-  upload.single("avatar"),
-  async (req, res) => {
-    let username = req.params.username;
-    let avatar: Buffer;
-    if (!req.file) {
-      return res.status(400).send("Image is required");
-    }
-    avatar = req.file.buffer;
-    try {
-      await db.user.update({
-        where: { username: username },
-        //@ts-ignore
-        data: { avatar: avatar },
-      });
-
-      return res.status(204).send();
-    } catch (error: any) {
-      return res.status(400).send(error);
-    }
-  }
-);
-
-//Testea el avatar del usuario
-usersRouter.get("/avatar/:username", async (req, res, next) => {
-  let { username } = req.params;
-  if (!username) {
-    return res.status(400).send({ message: "Username is required" });
-  }
-  const user = await db.user.findUnique({
-    where: {
-      username: username,
-    },
-  });
-  if (user) {
-    //Enviar el avatar como respuesta en formato jpeg
-    res.setHeader("Content-Type", "image/jpeg");
-    //@ts-ignore
-    res.send(user.avatar);
-  } else {
-    res.status(404).send("User not found");
-  }
-});
-
 // testing autores
 usersRouter.post<{}, {}>("/authorsTest", async (req, res) => {
   let image = await axios.get(
@@ -143,42 +97,49 @@ usersRouter.post<{}, {}>("/authorsTest", async (req, res) => {
     { responseType: "arraybuffer" }
   );
   let buffer = Buffer.from(image.data, "utf-8");
+  let hashedPassword = await bcrypt.hash("Testuser152022!", 10);
   const userTest2 = new User(
     "Aster Noriko",
     "AsterN",
     buffer,
-    "asternoriko@gmail.com"
+    "asternoriko@gmail.com",
+    hashedPassword
   );
   const userTest3 = new User(
     "Daichi Matsuse",
     "DaichiM",
     buffer,
-    "daichimatsuse@gmail.com"
+    "daichimatsuse@gmail.com",
+    hashedPassword
   );
   const userTest4 = new User(
     "Fumino Hayashi",
     "FuminoH",
     buffer,
-    "fuminohayashi@gmail.com"
+    "fuminohayashi@gmail.com",
+    hashedPassword
   );
-  const userTest5 = new User("Gato Aso", "GatoA", buffer, "gatoaso@gmail.com");
+  const userTest5 = new User("Gato Aso", "GatoA", buffer, "gatoaso@gmail.com",hashedPassword);
   const userTest6 = new User(
     "Katsu Aki",
     "KatsuA",
     buffer,
-    "katsuaki@gmail.com"
+    "katsuaki@gmail.com",
+    hashedPassword
   );
   const userTest7 = new User(
     "Kyo Shirodaira",
     "KyoS",
     buffer,
-    "kyoshirodaira@gmail.com"
+    "kyoshirodaira@gmail.com",
+    hashedPassword
   );
   const userTest8 = new User(
     "Mitsuba Takanashi",
     "MitsubaT",
     buffer,
-    "mitsubaTakanashi@gmail.com"
+    "mitsubaTakanashi@gmail.com",
+    hashedPassword
   );
 
   const newUsers = [
@@ -253,3 +214,92 @@ usersRouter.get("/currentUser", (req, res, next) => {
   }
   res.json(req.user);
 });
+
+usersRouter.post<{}, {}, { name: string; username: string; password: string; email: string,role:Role}>
+  ("/superAdmin", async (req, res) => {
+    // const { name, username, password, email,role} = req.body;
+    let image = await axios.get(
+      "https://http2.mlstatic.com/D_NQ_NP_781075-MLA48271965969_112021-O.webp",
+      { responseType: "arraybuffer" }
+    );
+    let buffer = Buffer.from(image.data, "utf-8");
+    let hashedPassword = await bcrypt.hash("Manga1522022!", 10);
+    const newUser = new User("Super Mangaka", "SuperMGK", buffer,"supermangaka2022@gmail.com",hashedPassword,"SUPERADMIN");
+
+    try {
+      let superAdmin = await db.user.findUnique({
+        where: { username: newUser.username}
+      })
+
+      if(!superAdmin) {
+        superAdmin = await db.user.create({
+          data: newUser,
+        });
+  
+      }
+     
+      return res.json(superAdmin);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setAdmin/:username", async (req, res, next) => {
+    const { username } = req.params;
+   
+    try {
+     
+      const user = await db.user.findUnique({
+        where: { username: username }
+      })
+      if (!user) return res.send({ message: "User not found" })
+  
+      const upsertUser = await db.user.update({
+        where: {
+          username: username,
+        },
+        data: {
+          role: user.role === 'USER' ? 'ADMIN' : 'USER'
+        }
+      });
+      return res.send(upsertUser);
+      
+    } catch (error) {
+      return res.sendStatus(404).json({ message: error });
+    }
+  
+  });
+
+
+  usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:username", async (req, res, next) => {
+    const { username } = req.params;
+   
+    try {
+      
+      const user = await db.user.findUnique({
+        where: { username: username },
+        include: { created:true}
+      })
+      if (!user) return res.send({ message: "User not found" })
+      
+      user.created.forEach(manga => {
+          manga.active = true;
+      })
+      user.created.forEach(manga => console.log(manga.active));
+  
+      const upsertUser = await db.user.update({
+        where: {
+          username: username,
+        },
+        data: {
+          active: user?.active === true ? false : true,
+        }
+      });
+      return res.send(upsertUser);
+      
+    } catch (error) {
+      return res.sendStatus(404).json({ message: error });
+    }
+  
+  });
+  
