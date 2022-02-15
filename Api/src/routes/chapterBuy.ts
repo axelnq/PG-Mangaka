@@ -36,7 +36,7 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
         },
         data: {
           coins: buyer.coins - product.price,
-          library: [...buyer.library, productId],
+          library: [...buyer.library, product.mangaId],
         },
       });
 
