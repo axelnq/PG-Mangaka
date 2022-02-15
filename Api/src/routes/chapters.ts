@@ -45,7 +45,7 @@ chaptersRouter.post<{}, {}>(
     try {
       //@ts-ignore
       const chapter = await db.chapter.create({ data: newChapter });
-      return res.json(chapter);
+      return res.send({data: chapter});
     } catch (error: any) {
       console.log(error);
       res.status(400).send({ error: error.message });
@@ -135,16 +135,16 @@ chaptersRouter.put("/chapter/swapImages/:idChapter", async (req, res, next) => {
 
 //Traermos un capitulo particularl
 chaptersRouter.get<{ idChapter: string }, {}>(
-  "/:idChapter",
+  "/chapter/getchapter/:idChapter",
   async (req, res, next) => {
     const { idChapter } = req.params;
 
     console.log(req.params);
-    const Manga: any = await db.chapter.findUnique({
+    const Chapter: any = await db.chapter.findUnique({
       where: { id: Number(idChapter) },
     });
 
-    return res.send(Manga);
+    return res.send({data: Chapter, totalPages: Chapter.images.length});
   }
 );
 

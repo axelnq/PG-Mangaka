@@ -5,7 +5,7 @@ import User from "../classes/User";
 export const mangasRouter = Router();
 import axios from "axios";
 import { sort } from "../utils/sorts";
-import paginated from "../utils/paginated";
+import { paginatedByAuthor, paginated } from "../utils/paginated";
 import multer from "multer";
 const upload = multer({
   limits: {
@@ -39,7 +39,6 @@ mangasRouter.get<{}, {}>("/directory", async (req, res, next) => {
   } catch (e: any) {
     return res.status(404).send({ message: e.message });
   }
-  let paginatedMangas: Manga[] = mangasResponse[0];
 
   res.json({
     data: mangasResponse[0],
@@ -302,45 +301,19 @@ mangasRouter.get<{}, {}>("/listOfGenres", async (req, res, next) => {
 
 // Devuelve los mangas según el autor buscado
 mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
-  const { author } = req.query;
-  const query = author as string;
+  let { author, page } = req.query;
+  if (!author) {
+    return res.status(400).send({ message: "Author is required" });
+  }
+  if(!page || page === "" || page === "0"){
+    page = "1";
+  }
   try {
-    const searchResults = await db.user.findMany({
-      where: {
-        name: {
-          contains: query as string,
-          mode: "insensitive",
-        },
-      },
-      select: {
-        name: true,
-        created: true,
-      },
-    });
-    let mangasByAuthor: any = [];
-    searchResults.forEach((elto) =>
-    elto.created?.forEach((manga: any) =>
-      mangasByAuthor.push({
-        id: manga.id,
-        title: manga.title,
-        synopsis: manga.synopsis,
-        authorId: manga.authorId,
-        image: manga.image,
-        createdAt: manga.createdAt,
-        uptadedAt: manga.uptadedAt,
-        genre: manga.genre,
-        rating: manga.rating,
-        chapter: manga.chapter,
-        state: manga.state,
-        author: {
-          name: elto.name,
-        },
-      })
-    )
-    );
-    res.json({ data: mangasByAuthor });
-  } catch (error) {
-    console.log("Filter by author error: ", error);
+    let mangasResponse = await paginatedByAuthor(Number(page), author as string);
+    return res.json({ data: mangasResponse[0], total: mangasResponse[1], totalMangas: mangasResponse[2] });  
+  } catch (error:any) {
+    console.log("Error byAuthor: ", error);
+    return res.status(400).send({ message: error.message });
   }
 });
 
