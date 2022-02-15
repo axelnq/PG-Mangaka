@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 export function useForm(initialForm, validation) {
+	let navigate = useNavigate();
 	const [form, setForm] = useState(initialForm);
 	const [errors, setErrors] = useState(initialForm);
 	//const [loading, setLoading] = useState(false);
@@ -34,9 +36,10 @@ export function useForm(initialForm, validation) {
 		} catch (error) {
 			console.log(error);
 		}
-
+		
 		setForm(initialForm);
 		setErrors(initialForm);
+		navigate("/");
 	};
 
 	return {

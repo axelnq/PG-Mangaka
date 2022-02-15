@@ -279,7 +279,7 @@ export let getCurrentUser = (form) => {
             console.log(user);
             return dispatch({ type: CURRENT_USER, payload: user });
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
     };
 };
@@ -292,7 +292,7 @@ export let getCurrentUser = (form) => {
                 withCredentials: true,
                 url: "http://localhost:3001/api/auth/logout",
             });
-            const response = await request.data.data;
+            const response = await request.data;
             console.log(response);
             localStorage.clear();
             return dispatch({
@@ -300,7 +300,7 @@ export let getCurrentUser = (form) => {
                 payload: null,
             });
         } catch (e) {
-            console.log(e);
+            console.log(e.message);
         }
     };
 };
