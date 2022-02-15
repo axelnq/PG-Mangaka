@@ -71,7 +71,7 @@ const List = styled("ul")`
   }
 `;
 const _ArrayBufferToBase64 = (buffer) => {
-  console.log(buffer);
+  
   var binary = "";
   var byte = new Uint8Array(buffer.data);
   var length = byte.byteLength;
@@ -90,7 +90,7 @@ export default function NavBar() {
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
-  }, []);
+  }, [dispatch]);
 
   //local state
   const [filteredData, setFilteredData] = useState([]);
