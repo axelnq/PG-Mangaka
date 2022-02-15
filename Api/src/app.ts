@@ -6,10 +6,9 @@ import cors from "cors";
 import passport from "passport";
 import passportLocal from "passport-local";
 import cookieParser from "cookie-parser";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import session from "express-session";
 import bodyParser from "body-parser";
-
 export const db = new PrismaClient();
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -29,10 +28,12 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -43,7 +44,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(cookieParser("secretcode"))
+app.use(cookieParser("secretcode"));
 app.use(passport.initialize());
 app.use(passport.session());
 require("./configPassport")(passport);

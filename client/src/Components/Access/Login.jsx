@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { getCurrentUser } from "../../Actions/index";
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -16,7 +17,7 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
+//import FacebookIcon from "@mui/icons-material/Facebook";
 import Stack from "@mui/material/Stack";
 
 const AccessButton = styled(Button)({
@@ -49,36 +50,42 @@ const AccessButton = styled(Button)({
 	},
 });
 
-export default function Login() {
-	const [values, setValues] = React.useState({
-		password: "",
-		email: "",
-		showPassword: false,
-	});
-	const [response, setResponse] = React.useState(null);
-	const handleChange = (prop) => (e) => {
-		setValues({ ...values, [prop]: e.target.value });
-	};
+//valores del form
+const initialForm = {
+	username: "",
+	password: "",
+};
+
+export default function Login({ handleClose }) {
+	const dispatch = useDispatch();
+	const [form, setForm] = React.useState(initialForm);
+	//ver contraseña
+	const [showPassword, setShowPassword] = React.useState(false);
+
 	const handleClickShowPassword = (e) => {
-		setValues({ ...values, showPassword: !values.showPassword });
+		setShowPassword(!showPassword);
 	};
+	//inicio de sesión con google (redireccionamiento)
 	const googleLogin = () => {
 		window.open("http://localhost:3001/api/auth/google", "_self");
 	};
-	const handleSubmit = async (e) => {
+	//control de los input
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setForm({ ...form, [name]: value });
+	};
+	//submit del form
+	const handleSubmit = (e) => {
 		e.preventDefault();
-		try {
-			const request = await axios.post(
-				"http://localhost:3001/api/auth/local/login",
-				{ email: values.email, password: values.password }
-			);
-			const response = await request.data;
-			console.log(response);
-		} catch (error) {
-			console.log(error);
+		console.log(form);
+		if (form.username && form.password) {
+			dispatch(getCurrentUser(form));
+			handleClose();
+		} else {
+			alert("llena todos los campos");
 		}
 
-		setValues("");
+		setForm(initialForm);
 	};
 
 	return (
@@ -99,9 +106,12 @@ export default function Login() {
 					borderRadius: "5px 5px 0 0",
 					my: 2,
 				}}
-				label="Email"
+				label="Username"
 				variant="filled"
-				onChange={handleChange("email")}
+				name="username"
+				type="text"
+				value={form.username}
+				onChange={handleChange}
 				required
 			/>
 			<FormControl
@@ -119,9 +129,10 @@ export default function Login() {
 				</InputLabel>
 				<FilledInput
 					id="filled-adornment-password"
-					type={values.showPassword ? "text" : "password"}
-					value={values.password}
-					onChange={handleChange("password")}
+					name="password"
+					type={showPassword ? "text" : "password"}
+					value={form.password}
+					onChange={handleChange}
 					endAdornment={
 						<InputAdornment position="end">
 							<IconButton
@@ -129,7 +140,7 @@ export default function Login() {
 								onClick={handleClickShowPassword}
 								edge="end"
 							>
-								{values.showPassword ? (
+								{showPassword ? (
 									<VisibilityOff />
 								) : (
 									<Visibility />
@@ -162,12 +173,13 @@ export default function Login() {
 				O inicia sesión con:
 			</p>
 			<Divider sx={{ mb: 2, backgroundColor: "#357ded" }} />
+			{/*
 			<AccessButton
 				sx={{ marginRight: "3%", borderRadius: 5 }}
 				startIcon={<FacebookIcon />}
 			>
 				facebook
-			</AccessButton>
+			</AccessButton>*/}
 
 			<AccessButton
 				sx={{

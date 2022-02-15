@@ -1,4 +1,9 @@
 import * as React from "react";
+import { useEffect } from "react";
+import { UserLogout } from "../Actions/index";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+//MUI
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
@@ -11,15 +16,34 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
-import { Link } from "react-router-dom";
+const _ArrayBufferToBase64 = (buffer) => {
+  //console.log(buffer)
+  var binary = "";
+  var byte = new Uint8Array(buffer.data);
+  var length = byte.byteLength;
+
+  for (var i = 0; i < length; i++) {
+    binary += String.fromCharCode(byte[i]);
+  }
+  return window.btoa(binary);
+};
+
 export default function PerfilNavbar() {
+  //redux
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  //local state
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleLogout = () => {
+    dispatch(UserLogout());
   };
   return (
     <React.Fragment>
@@ -33,7 +57,7 @@ export default function PerfilNavbar() {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar
-              src="https://ca.slack-edge.com/TPRS7H4PN-U01RN1MNA14-4dbff6bf3c0d-512"
+              src={"data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)}
               alt="perfil"
               sx={{ width: 32, height: 32 }}
             />
@@ -78,27 +102,27 @@ export default function PerfilNavbar() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-          <Avatar
-            src="https://ca.slack-edge.com/TPRS7H4PN-U01RN1MNA14-4dbff6bf3c0d-512"
-            alt="perfil"
-            sx={{ width: 32, height: 32 }}
-          />{" "}
-          Perfil
+        <Avatar
+              src={"data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)}
+              alt="perfil"
+              sx={{ width: 32, height: 32 }}
+            />{" "}
+          {user.username}
         </MenuItem>
         <Link to="/panel" style={{ textDecoration: "none", color: "white" }}>
-        <MenuItem>
-          Panel
-        </MenuItem>
+          <MenuItem>Panel</MenuItem>
         </Link>
         <Link to="/wishlist" style={{ textDecoration: "none", color: "white" }}>
-        <MenuItem>
-          Wishlist
-        </MenuItem>
+          <MenuItem>Wishlist</MenuItem>
         </Link>
         <Link to="/library" style={{ textDecoration: "none", color: "white" }}>
-        <MenuItem>
-          Biblioteca
-        </MenuItem>
+          <MenuItem>Biblioteca</MenuItem>
+        </Link>
+        <Link
+          to="/createChapters"
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <MenuItem>Crear Capitulos</MenuItem>
         </Link>
         <Divider sx={{ backgroundColor: "#357ded" }} />
         <Link to="/create" style={{ textDecoration: "none", color: "white" }}>
@@ -116,7 +140,7 @@ export default function PerfilNavbar() {
           </ListItemIcon>
           Ajustes
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" color="primary" />
           </ListItemIcon>

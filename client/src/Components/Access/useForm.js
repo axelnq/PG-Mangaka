@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 export function useForm(initialForm, validation) {
+	let navigate = useNavigate();
 	const [form, setForm] = useState(initialForm);
 	const [errors, setErrors] = useState(initialForm);
-	const [loading, setLoading] = useState(false);
-	const [response, setResponse] = useState(null);
+	//const [loading, setLoading] = useState(false);
+	//const [response, setResponse] = useState(null);
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setForm({ ...form, [name]: value });
@@ -16,34 +18,35 @@ export function useForm(initialForm, validation) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setLoading(true);
+		//setLoading(true);
 		//form Data
 		const formData = new FormData();
 		formData.append("name", form.name);
 		formData.append("username", form.username);
 		formData.append("email", form.email);
 		formData.append("password", form.password);
-		console.log(formData);
+		console.log(form);
 		try {
 			const request = await axios.post(
 				"http://localhost:3001/api/users/register",
 				formData
 			);
 			const response = await request.data.msg;
-			console.log(response);
+			alert(response);
 		} catch (error) {
 			console.log(error);
 		}
-
+		
 		setForm(initialForm);
 		setErrors(initialForm);
+		navigate("/");
 	};
 
 	return {
 		form,
 		errors,
-		loading,
-		response,
+		//loading,
+		//response,
 		handleChange,
 		handleBlur,
 		handleSubmit,

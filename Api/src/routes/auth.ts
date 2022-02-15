@@ -14,7 +14,7 @@ authRouter.get( "/google",
 authRouter.get( "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   function (req, res) {
-    res.redirect("http://localhost:3000"); //front
+    res.redirect("http://localhost:3001/api/mangas/directory"); //front
   }
 );
 
@@ -25,7 +25,7 @@ authRouter.post<{}, {}>("/local/login", (req, res, next) => {
     else {
       req.logIn(user, err => {
         if (err) throw err;
-        return res.redirect("http://localhost:3000/")
+        return res.redirect("http://localhost:3001/api/mangas/directory")
       })
     }
   })(req, res, next)
