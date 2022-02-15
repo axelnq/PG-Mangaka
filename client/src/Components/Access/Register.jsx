@@ -79,8 +79,8 @@ export default function Register() {
 	return (
 		<Box
 			sx={{
-				overflowY: "auto",
-				overflowX: "auto",
+				overflowY: "hidden",
+				overflowX: "hidden",
 				width: "100vw",
 				height: "100vh",
 				margin: "0 auto",
