@@ -1,24 +1,28 @@
 import { Router } from "express";
 import passport from "passport";
+import { db } from "../app";
 
 export const authRouter = Router();
 
-authRouter.get("/login", (req, res) => {
-  res.json({ msg: "login failed" });
-});
-
-authRouter.get(
-  "/google",
+authRouter.get("/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
-authRouter.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  function (req, res) {
-    res.redirect("http://localhost:3000"); //front
-  }
+authRouter.get("/google/callback",
+  passport.authenticate("google", { successRedirect: "http://localhost:3000", failureRedirect: "/login" })
 );
+
+authRouter.get("/google/response", async (req: any, res: any) => {  
+  if( req.user ) {
+    let user = await db.user.findUnique({
+      where: {
+        username: req.user
+      }
+    })
+    return res.json(user)
+  }
+  res.send({msg: "usuario no logueado"})
+});
 
 authRouter.post<{}, {}>("/local/login", (req, res, next) => {
   passport.authenticate(
