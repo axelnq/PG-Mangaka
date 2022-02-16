@@ -101,6 +101,21 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
   }
 });
 
+externalOrderRouter.get<{}, {}>("/createPackage", async (req, res) => {
+  let cP = new CoinsPackage(600, "500 Coins + 100 coins bundle", 0, 5000);
+  let cP2 = new CoinsPackage(300, "250 Coins + 50 coins bundle", 0, 2500);
+  let cP3 = new CoinsPackage(130, "100 Coins + 30 coins bundle", 0, 1000);
+  let cP4 = new CoinsPackage(60, "50 Coins + 10 coins bundle", 0, 500);
+  let cP5 = new CoinsPackage(10, "10 coins bundle", 0, 10);
+  let cP6 = new CoinsPackage(1, "Sell Order", 7, 0);
+  const newPackage = await db.coinsPackage.create({ data: cP });
+  const newPackage2 = await db.coinsPackage.create({ data: cP2 });
+  const newPackage3 = await db.coinsPackage.create({ data: cP3 });
+  const newPackage4 = await db.coinsPackage.create({ data: cP4 });
+  const newPackage5 = await db.coinsPackage.create({ data: cP5 });
+  const newPackage6 = await db.coinsPackage.create({ data: cP6 });
+  res.send("Bundle Coins Created");
+});
 externalOrderRouter.post<{}, {}>("/generatePackages", async (req, res) => {
   let { id, value, title, buyprice, sellprice } = req.body;
   let cP = new CoinsPackage(value, title, sellprice, buyprice, id);
