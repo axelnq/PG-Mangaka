@@ -4,15 +4,51 @@ import CoinsPackage from "../classes/CoinsPackage";
 
 import externalOrder from "../classes/ExternalOrder";
 export const externalOrderRouter = Router();
-externalOrderRouter.post<{}, {}>("/generatePackages", async (req, res) => {
-  let { id, value, title, buyprice, sellprice } = req.body;
-  let cP = new CoinsPackage(value, title, sellprice, buyprice, id);
-  const newPackage = await db.coinsPackage.create({ data: cP });
-  res.send("Bundle Coins Created");
-});
-externalOrderRouter.post<{}, {}>("/buy", async (req, res) => {
-  let { adminId, userId, status, productId } = req.body;
 
+const mercadopago = require("mercadopago");
+
+mercadopago.configure({
+  access_token:
+    "TEST-8507753762167920-020813-29eacfdac014e6698569e6797d9512b5-187205193",
+});
+
+externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
+  console.log(req.body);
+  let { product } = req.body;
+  let preference = {
+    items: [
+      {
+        title: product.title,
+        unit_price: product.price,
+        price: product.price,
+        quantity: 1,
+      },
+    ],
+    installments: 1,
+
+    back_urls: {
+      success: "http://localhost:3001/externalOrderRouter/pagos",
+      failure: "http://localhost:3001/externalOrderRouter/pagos",
+      pending: "http://localhost:3001/externalOrderRouter/pagos",
+    },
+    auto_return: "approved",
+
+    external_reference: product.uid,
+  };
+  mercadopago.preferences
+    .create(preference)
+    .then(function (response: any) {
+      const preferenceId = response.body.id;
+      res.send(response.body.id);
+    })
+    .catch(function (error: any) {
+      console.log(error);
+    });
+});
+
+externalOrderRouter.get<{}, {}>("/pagos", async (req, res) => {
+  let { userId, status, productId } = req.body;
+  let adminId = await db.user.findUnique({ where: { username: "SuperAdmin" } });
   let buyer = await db.user.findUnique({ where: { id: userId } });
   console.log(buyer);
 
@@ -24,16 +60,21 @@ externalOrderRouter.post<{}, {}>("/buy", async (req, res) => {
     if (status !== "aproved") {
       res.send("There´s a problem with the transaction");
     } else {
-      const Eorder = new externalOrder(adminId, userId, status, productId);
-      //@ts-ignore
-      const newEOrder = await db.externalOrder.create({ data: Eorder });
-      const updateBuyer = await db.user.update({
-        where: { username: buyer.username },
-        data: {
-          coins: buyer.coins + packageCoins.value,
-        },
-      });
-      res.send("Coins Added");
+      try {
+        //@ts-ignore
+        const Eorder = new externalOrder(adminId, userId, status, productId);
+        //@ts-ignore
+        const newEOrder = await db.externalOrder.create({ data: Eorder });
+        const updateBuyer = await db.user.update({
+          where: { username: buyer.username },
+          data: {
+            coins: buyer.coins + packageCoins.value,
+          },
+        });
+        res.redirect("http://localhost:3001/Home");
+      } catch (error) {
+        res.redirect("http://localhost:3001/Home");
+      }
     }
   }
 });
@@ -58,4 +99,11 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
       res.send("Coins Exchanged");
     }
   }
+});
+
+externalOrderRouter.post<{}, {}>("/generatePackages", async (req, res) => {
+  let { id, value, title, buyprice, sellprice } = req.body;
+  let cP = new CoinsPackage(value, title, sellprice, buyprice, id);
+  const newPackage = await db.coinsPackage.create({ data: cP });
+  res.send("Bundle Coins Created");
 });

@@ -35,7 +35,7 @@ model User {
   coins       Int     @default(0)
   creatorMode Boolean @default(false)
   email       String  @unique
-  library     Int[]
+  library     Int[] 
   favorites   Int[]
   wishList    Int[]
   created     Manga[] // A user can have many mangas
@@ -58,6 +58,7 @@ model Manga {
   chapters  Chapter[]
   state     String
   active    Boolean
+
 }
 
 model Chapter {
