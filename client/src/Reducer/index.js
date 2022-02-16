@@ -18,6 +18,7 @@ import {
     GET_ALL_CHAPTERS,
     GET_USER_INFO,
     GET_DETAIL_WISHLIST,
+    GET_DETAIL_LIBRARY
 } from "../Actions";
 
 const initialState = {
@@ -140,10 +141,14 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 userInfo: payload
             }
         case GET_DETAIL_WISHLIST:
-            
             return  {
                 ...state,
-                wishlist: payload
+                wishlist: state.wishlist.concat(payload)
+            }
+        case GET_DETAIL_LIBRARY:
+            return {
+                ...state,
+                library: state.library.concat(payload)
             }
         default:
             return state;

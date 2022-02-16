@@ -8,39 +8,36 @@ import { getUserInfo, getMangaDetailWishList } from '../Actions';
 
 const Wishlist = () => {
     let user = useSelector(state => state.user)
-    let userInfo = useSelector(state=> state.userInfo)
-    let {wishlist} = useSelector(state=>state)
+    let wishlist = useSelector(state=>state.wishlist)
 
     const dispatch = useDispatch()
 
-    useEffect( () => {
+    useEffect(() => {
         dispatch(getUserInfo(user.username))
-        // dispatch(getMangaDetailWishList())
-    }, [dispatch])
+        user.wishList.map(m => dispatch(getMangaDetailWishList(m)))
+    }, [])
 
     return (
        <div>
            <Navbar/>
            <Container maxWidth="sm" sx={{backgroundColor:'#001B44'}}>
                 <Typography variant='h3' color='#357DED'>My Wishlist</Typography>
-                <List sx={{ width: '100%', color:'#fff'}}>
-                    {
-                        userInfo.wishList && userInfo.wishList.map(m => { dispatch(getMangaDetailWishList(m))})
-                    }
-                    {   wishlist && wishlist.map(m => {
+                <List sx={{ width: '100%', color:'#fff'}} >
+                    { 
+                       wishlist && wishlist.map((m, i) => {
                              return (
-                                 <ListItem key={m} sx={{width: '100%',}}>
-                                     <ListItemAvatar sx={{ mx: '1rem'}}>
-                                     <Avatar src='' variant="rounded" sx={{ width: 65, height: 65 }}/>
-                                     </ListItemAvatar>
-                                     <ListItemText sx={{mx: '1rem'}}>
-                                         <Typography variant='h5'>One Piece</Typography>
-                                         <Typography variant='body2'>Eiichirō Oda</Typography>
-                                         <Typography variant='body2'>Action, Adventure</Typography>
-                                     </ListItemText>
-                                     <IconButton sx={{mx: '2rem', color:'#fff'}}>
-                                         <DeleteIcon />
-                                     </IconButton>
+                                 <ListItem key={i} sx={{width: '100%',}}>
+                                    <ListItemAvatar>
+                                        <Avatar src='' variant="rounded" sx={{ width: 60, height: 60 }}/>
+                                    </ListItemAvatar>
+                                    <ListItemText sx={{ mx: '1rem'}}>
+                                        <Typography variant='h5'>{m.data.title}</Typography>
+                                        <Typography variant='body2'>{m.data.author.name}</Typography>
+                                        <Typography variant='body2'>{m.genre?.join(', ')}</Typography>
+                                    </ListItemText>
+                                    <IconButton sx={{ mx: '1rem', color: '#fff'}}>
+                                        <DeleteIcon/>
+                                    </IconButton>
                                  </ListItem>
                              )
                          })
