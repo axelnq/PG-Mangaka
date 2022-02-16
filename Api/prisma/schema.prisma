@@ -40,7 +40,7 @@ model User {
   wishList    Int[]
   created     Manga[] // A user can have many mangas
   googleId    Boolean
-  role        Role  @default(USER)
+  role        Role    @default(USER)
 }
 
 model Manga {
@@ -61,39 +61,42 @@ model Manga {
 }
 
 model Chapter {
-  id      Int      @id @default(autoincrement())
-  title   String
-  points  Int
-  coverImage Bytes
-  images  Bytes[]
-  manga   Manga    @relation(fields: [mangaId], references: [id]) // A manga can have one User
-  mangaId Int
-  usersId String[]
-  price Int
+  id            Int             @id @default(autoincrement())
+  title         String
+  points        Int
+  coverImage    Bytes
+  images        Bytes[]
+  manga         Manga           @relation(fields: [mangaId], references: [id]) // A manga can have one User
+  mangaId       Int
+  usersId       String[]
+  price         Int
   orderConstant InternalOrder[]
-  active  Boolean
+  active        Boolean
+  comments      String[]
 }
-model InternalOrder{
-  orderId   Int @id @default(autoincrement())
-  sellerId    String
-  buyerId    String
-  product  Chapter @relation(fields: [productId], references: [id])
-  productId Int
-  
-}
- model externalOrder{
-   orderId  Int @id @default(autoincrement())
-   adminId  String 
-   userId String
-   status String
-   productId Int
-  
- }
- model coinsPackage{
-   id Int @id @default(autoincrement())
-   title     String
-   sellprice Int
-   buyprice Int
-   value Int
- }
 
+model InternalOrder {
+  orderId   Int     @id @default(autoincrement())
+  sellerId  String
+  buyerId   String
+  product   Chapter @relation(fields: [productId], references: [id])
+  productId Int
+
+}
+
+model externalOrder {
+  orderId   Int    @id @default(autoincrement())
+  adminId   String
+  userId    String
+  status    String
+  productId Int
+
+}
+
+model coinsPackage {
+  id        Int    @id @default(autoincrement())
+  title     String
+  sellprice Int
+  buyprice  Int
+  value     Int
+}

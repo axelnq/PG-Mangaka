@@ -5,6 +5,7 @@ import { chaptersRouter } from "./chapters";
 import { authRouter } from "./auth";
 import { internalOrderRouter } from "./chapterBuy";
 import { externalOrderRouter } from "./coins";
+import { commentsRouter } from "./comments";
 
 export const routes = Router();
 
@@ -14,3 +15,4 @@ routes.use("/chapters", chaptersRouter);
 routes.use("/auth", authRouter);
 routes.use("/buyChapter", internalOrderRouter);
 routes.use("/Coins", externalOrderRouter);
+routes.use("/comments", commentsRouter);
