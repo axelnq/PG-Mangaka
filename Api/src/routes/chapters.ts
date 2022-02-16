@@ -190,3 +190,69 @@ chaptersRouter.get("/chapter/cover/:idChapter", async (req, res, next) => {
 //     next(new Error(`Chapter Post Error`));
 //   }
 // });
+
+// Votación de un capitulo
+chaptersRouter.put<{idChapter: string}, {}>("/chapter/vote/:idChapter", async (req, res) => {
+  const {idChapter} = req.params;
+  const {points, idUser} = req.body;
+
+  try {
+
+  let chapter: any = await db.chapter.findUnique({  // Retorna un objeto con la propiedad usersId
+    where: {id: Number(idChapter)},
+    select: {id: true, usersId: true}
+  });
+
+  console.log("chapter: ", chapter)
+
+  if (!chapter) return res.status(400).send({msg: "Invalid chapter ID"})
+
+  if (chapter.usersId.includes(idUser)) return res.send({msg: "the user already voted"});
+
+  let newUsers: string[] = [...chapter.usersId, idUser];
+
+  let updatePoints = await db.chapter.update({
+    where: {
+      id: Number(idChapter)
+    },
+    data: {
+      points: {
+        increment: Number(points)
+      },
+      usersId: newUsers
+    }
+  });
+
+  res.send({msg: "Score made"})
+
+  } catch (err) {
+    console.log("Vote chapter: ", err)
+  }
+});
+
+// Obtener puntaje de un capitulo
+chaptersRouter.get<{idChapter: string}, {}>('/chapter/rating/:idChapter', async (req, res) => {
+  let {idChapter} = req.params;
+
+  try {
+    let chapter = await db.chapter.findUnique({
+    where: {
+      id: Number(idChapter)
+    },
+    select: {
+      points: true,
+      usersId: true
+    }
+  })
+  
+  if (!chapter) return res.status(400).send({msg: "Invalid chapter ID"});
+
+  let ratingChapter = Number((chapter.points / chapter.usersId.length).toFixed(2))
+
+  res.send({data: ratingChapter})
+  
+  } catch (err: any) {
+    console.log("Points: ", err);
+    res.status(400).send({error: err.message})
+  }
+});
