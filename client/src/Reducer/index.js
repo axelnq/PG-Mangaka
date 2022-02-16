@@ -16,6 +16,9 @@ import {
     GET_WISHLIST,
     CURRENT_USER,
     GET_ALL_CHAPTERS,
+    GET_USER_INFO,
+    GET_DETAIL_WISHLIST,
+    GET_DETAIL_LIBRARY
 } from "../Actions";
 
 const initialState = {
@@ -32,7 +35,7 @@ const initialState = {
     wishlist: [],
     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
     allChapters:[],
-
+    userInfo: {},
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -45,6 +48,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         case MANGAS_TO_DB:
             return {
                 ...state,
+                allMangas: payload
             };
         case GET_ALL_MANGAS:
             return {
@@ -131,6 +135,21 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     allChapters: payload,
                     
                 };
+        case GET_USER_INFO: 
+            return {
+                ...state,
+                userInfo: payload
+            }
+        case GET_DETAIL_WISHLIST:
+            return  {
+                ...state,
+                wishlist: state.wishlist.concat(payload)
+            }
+        case GET_DETAIL_LIBRARY:
+            return {
+                ...state,
+                library: state.library.concat(payload)
+            }
         default:
             return state;
     }
