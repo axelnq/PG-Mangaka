@@ -342,4 +342,55 @@ mangasRouter.put<{ idManga:string }, {}>("/manga/setActive/:idManga", async (req
   }
 
 });
+// Obtener el puntaje de un manga
+mangasRouter.get<{ idManga:string }, {}>("/manga/rating/:idManga", async (req, res) => {
+  let { idManga } = req.params;
 
+  try {
+
+    const manga: any = await db.manga.findUnique({
+      where: {
+        id: Number(idManga)
+      },
+      select: {
+        rating: true,
+        chapters: {
+          select: {
+            points: true,
+            usersId: true
+          }
+        }
+      }
+    })
+
+    if (!manga) return res.status(404).json({msg: "Invalid manga ID"})
+
+    let nUsers: number = 0;
+    let totalPoints: number = 0;
+
+    manga.chapters.map((chapter: any)=> {
+      nUsers += chapter.usersId.length;
+      totalPoints += chapter.points;
+    })
+
+    if (manga.rating !== (totalPoints/nUsers)) {
+
+      let mangaUpdate = await db.manga.update({
+        where: {
+          id: Number(idManga)
+        },
+        data: {
+          rating: totalPoints / nUsers
+        }
+      })
+
+      return res.send({data: mangaUpdate.rating})
+    }
+
+    return res.send({data: manga.rating})
+
+  } catch (err: any) {
+    console.log("Manga rating: ", err);
+    res.status(400).send({error: err.message})
+  }
+});
