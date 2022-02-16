@@ -173,19 +173,11 @@ export default function Login({ handleClose }) {
 				O inicia sesión con:
 			</p>
 			<Divider sx={{ mb: 2, backgroundColor: "#357ded" }} />
-			{/*
-			<AccessButton
-				sx={{ marginRight: "3%", borderRadius: 5 }}
-				startIcon={<FacebookIcon />}
-			>
-				facebook
-			</AccessButton>*/}
-
 			<AccessButton
 				sx={{
+					width: "100%",
 					backgroundColor: "red",
 					color: "white",
-					marginLeft: "3%",
 					borderRadius: 5,
 					"&:hover": { backgroundColor: "#ff726f" },
 				}}
