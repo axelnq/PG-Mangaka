@@ -25,6 +25,8 @@ chaptersRouter.post<{}, {}>(
   ]),
   async (req, res, next) => {
     const { title, mangaId, price } = req.body;
+    //@ts-ignore
+    console.log(`{title${title},mangaId${mangaId},portada${req.files.portada},chapters${req.files.chapters}}`)
     let images: Buffer[] = [];
     let cover: Buffer;
     if (req.files) {

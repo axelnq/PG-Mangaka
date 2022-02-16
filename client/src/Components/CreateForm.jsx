@@ -14,6 +14,7 @@ export default function CreateForm() {
   const dispatch = useDispatch();
   const generos = useSelector((state) => state.allMangas);
   const genres = useSelector(state => state.genres)
+  const user = useSelector(state => state.user)
 
   const [input, setInput] = useState({
     title: '',
@@ -50,6 +51,7 @@ function handleSubmit(e) {
 
 
     const formData = new FormData();
+    formData.append('authorId', user.id);
     formData.append('title', input.title);
     formData.append('synopsis', input.synopsis);
     formData.append('genres', input.genres);

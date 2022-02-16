@@ -351,7 +351,7 @@ export let getChapters = () => {
     return async (dispatch) => {
         try {
             let allChapters = await axios.get(
-                `http://localhost:3001/api/chapters/chapter/getchapter/:idChapter`
+                `http://localhost:3001/api/chapters/chapter/getchapter/:idChapter `
             );
             return dispatch({
                 type: GET_ALL_CHAPTERS,
