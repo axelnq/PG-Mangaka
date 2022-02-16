@@ -35,9 +35,6 @@ const Biblioteca = () => {
                                          <Typography variant='body2'>{m.data.author.name}</Typography>
                                          <Typography variant='body2'>{m.genre?.join(', ')}</Typography>
                                      </ListItemText>
-                                     <IconButton sx={{ mx: '1rem', color: '#fff'}}>
-                                         <DeleteIcon/>
-                                     </IconButton>
                                   </ListItem>
                               )
                         })
