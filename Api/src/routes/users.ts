@@ -202,7 +202,13 @@ usersRouter.get<{ username: string }, {}>(
         created: true,
       },
     });
-    return res.send(User);
+    return res.send({ data: {
+      name: User.name,
+      username: User.username,
+      avatar: User.avatar,
+      about: User.about,
+      created: User.created,
+     }, id: User.id });
   }
 );
 
