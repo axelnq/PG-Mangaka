@@ -273,7 +273,7 @@ export let getCurrentUser = (form) => {
             const response = await request.data;
             localStorage.setItem("user", JSON.stringify(response));
             const user = JSON.parse(localStorage.getItem("user"));
-            console.log(user);
+
             return dispatch({ type: CURRENT_USER, payload: user });
         } catch (error) {
             console.log(error.message);
@@ -331,16 +331,17 @@ export const getGoogleUser = () => {
                 url: "http://localhost:3001/api/auth/google/response",
             });
             const response = await request.data;
-            if(response.msg === 'usuario no logueado'){
+            if (response.msg === "usuario no logueado") {
                 return dispatch({
                     type: CURRENT_USER,
-                    payload: null
-                })
+                    payload: null,
+                });
             }
-            console.log(response);
+            localStorage.setItem("user", JSON.stringify(response));
+            const user = JSON.parse(localStorage.getItem("user"));
             return dispatch({
                 type: CURRENT_USER,
-                payload: response,
+                payload: user,
             });
         } catch (error) {
             console.log(error);
