@@ -83,6 +83,8 @@ module.exports = function (passport: any) {
               undefined,
               undefined,
               undefined,
+              undefined,
+              undefined,
               true
             );
             const user = await db.user.create({

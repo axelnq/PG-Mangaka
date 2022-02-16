@@ -16,7 +16,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-
+//styles css
+//import 'animate.css'
 //styled button
 const RegisterButton = styled(Button)({
 	width: "100%",
@@ -78,6 +79,8 @@ export default function Register() {
 	return (
 		<Box
 			sx={{
+				overflowY: "hidden",
+				overflowX: "hidden",
 				width: "100vw",
 				height: "100vh",
 				margin: "0 auto",
@@ -99,6 +102,7 @@ export default function Register() {
 				</Button>
 			</Link>
 			<Box
+			className="animate__animated animate__fadeInUp animate_slower"
 				sx={{
 					width: { xs: "90vw", md: "45vw" },
 					margin: "0 auto",
@@ -169,7 +173,10 @@ export default function Register() {
 				{errors.email && (
 					<p
 						style={{
-							color: "red",
+							backgroundColor: "red",
+							borderRadius: "5px",
+							margin: "10px 0 10px 0",
+							color: "white",
 							fontSize: "16px",
 							fontWeight: "bold",
 						}}
@@ -221,8 +228,10 @@ export default function Register() {
 				{errors.password && (
 					<p
 						style={{
+							backgroundColor: "red",
+							borderRadius: "5px",
 							margin: "10px 0 10px 0",
-							color: "red",
+							color: "white",
 							fontSize: "16px",
 							fontWeight: "bold",
 						}}
@@ -276,8 +285,10 @@ export default function Register() {
 				{errors.repeatedPassword && (
 					<p
 						style={{
-							margin: "0 0 10px 0",
-							color: "red",
+							backgroundColor: "red",
+							borderRadius: "5px",
+							margin: "10px 0 10px 0",
+							color: "white",
 							fontSize: "16px",
 							fontWeight: "bold",
 						}}
