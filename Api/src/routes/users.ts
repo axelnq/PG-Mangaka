@@ -10,7 +10,7 @@ const upload = multer({
     fileSize: 100000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+    if (!file.originalname.match(/\.(png|jpg|jpeg|jfif)$/)) {
       cb(new Error("Please upload an image."));
     }
     cb(null, true);
@@ -192,7 +192,7 @@ usersRouter.post<{ idManga: string; username: string }, {}>(
 );
 // Perfil de usuario
 usersRouter.get<{ username: string }, {}>(
-  "/user/:username",
+  "/user/:id",
   async (req, res, next) => {
     const { username } = req.params;
 
@@ -202,7 +202,13 @@ usersRouter.get<{ username: string }, {}>(
         created: true,
       },
     });
-    return res.send(User);
+    return res.send({ data: {
+      name: User.name,
+      username: User.username,
+      avatar: User.avatar,
+      about: User.about,
+      created: User.created,
+     }, id: User.id });
   }
 );
 

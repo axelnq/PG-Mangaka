@@ -8,7 +8,7 @@ const upload = multer({
     fileSize: 100000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+    if (!file.originalname.match(/\.(png|jpg|jpeg|jfif)$/)) {
       cb(new Error("Please upload an image."));
     }
     cb(null, true);
@@ -39,21 +39,20 @@ profileRouter.get("/", async (req, res) => {
 
   if (user) {
     if (user.active) {
-      const profile = new User(
-        user.name,
-        user.username,
-        user.avatar,
-        user.email,
-        user.password || undefined,
-        user.role,
-        user.active,
-        user.about,
-        user.coins,
-        user.creatorMode,
-        user.library,
-        user.wishList,
-        user.favorites
-      );
+      let profile = {
+        name: user.name,
+        username: user.username,
+        avatar: user.avatar,
+        email: user.email,
+        role: user.role,
+        about: user.about,
+        coins: user.coins,
+        creatorMode: user.creatorMode,
+        library: user.library,
+        wishlist: user.wishList,
+        favorites: user.favorites,
+        rating: user.created.reduce((acc, curr) => {return acc + curr.rating}, 0) / user.created.length,
+      };
       res.json({ profile: profile, mangasCreated: user.created });
     } else {
       res
