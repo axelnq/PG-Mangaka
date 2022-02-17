@@ -1,7 +1,7 @@
 export const MANGAS_TO_DB = "MANGAS_TO_DB";
 export const GET_ALL_MANGAS = "GET_ALL_MANGAS";
 export const GET_GENRES = "GET_GENRES";
-export const RECOMENDATED_MANGAS = "RECOMENDATED_MANGAS";
+export const RECENT_MANGAS = "RECENT_MANGAS";
 export const GET_DETAIL = "GET_DETAIL";
 export const POST_MANGA = "POST_MANGA";
 export const FILTRO_GENERO = "FILTRO_GENERO";
@@ -18,6 +18,9 @@ export const GET_ALL_CHAPTERS = "GET_ALL_CHAPTERS";
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const GET_DETAIL_WISHLIST = 'GET_DETAIL_WISHLIST'
 export const GET_DETAIL_LIBRARY = 'GET_DETAIL_LIBRARY'
+export const GET_POPULAR_MANGAS = 'GET_POPULAR_MANGAS'
+export const GET_AUTHORS = 'GET_AUTHORS'
+export const CHANGE_SHOW = 'CHANGE_SHOW'
 
 const axios = require("axios");
 
@@ -69,14 +72,14 @@ export let getGenres = () => {
     };
 };
 
-export let recomendatedMangas = () => {
+export let getRecentMangas = () => {
     return async (dispatch) => {
         try {
             let allMangas = await axios.get(
                 `http://localhost:3001/api/mangas/recentMangas`
             );
             return dispatch({
-                type: RECOMENDATED_MANGAS,
+                type: RECENT_MANGAS,
                 payload: allMangas.data,
             });
         } catch (error) {
@@ -411,3 +414,43 @@ export let getMangaDetailLibrary = (payload) => {
         }
     };
 };
+
+export let getPopularMangas = () => {
+    return async (dispatch) => {
+        try {
+            let mangas = await axios.get('http://localhost:3001/api/mangas/popularMangas')
+            return dispatch({
+                type: GET_POPULAR_MANGAS,
+                payload: mangas.data
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}
+
+export let popularAuthors = () => {
+    return async (dispatch) => {
+        try{ 
+            let authors = await axios.get()
+            return dispatch({
+                type: GET_AUTHORS,
+                payload: authors.data
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}
+
+export let changeShow = () => {
+    return async (dispatch) => {
+        try {
+            return dispatch( {
+                type: CHANGE_SHOW
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}
