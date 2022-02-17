@@ -9,14 +9,17 @@ import { postChapters, getChapters } from '../Actions/index';
 import Navbar from './Navbar';
 
 
-export default function CreateForm() {
+
+export default function CreateChapters(props) {
   const dispatch = useDispatch();
   const chapters = useSelector((state) => state.allChapters);
+
+ 
 
   const [input, setInput] = useState({
     title: '',
     mangaId: Number,
-    images: [],
+    chapters: [],
     coverImages: [],
     price:Number,
   
@@ -38,7 +41,7 @@ function handleChangeFileChapters(e) {
   console.log(e.target.files)
   setInput({
       ...input,
-      images: e.target.files[0],
+      chapters: e.target.files[0],
       
 
   });
@@ -48,11 +51,11 @@ function handleSubmit(e) {
     //Debe enviar un dispatch para post chapters de tipo FormData
     e.preventDefault();
 
-        const {title,images, coverImages, price} = input;
+        const {title,chapters, coverImages, price} = input;
     
     if (title === undefined || title.length < 3) {
       return alert ('titulo invalido')
-    } else if(images === undefined ) {
+    } else if(chapters === undefined ) {
       return alert ('ingrese imagen valida')
     } else if (coverImages === undefined) {
       return alert('ingrese imagen valida')
@@ -64,11 +67,11 @@ function handleSubmit(e) {
     const formData = new FormData();
     formData.append('title', input.title);
     console.log(input.title)
-    formData.append('mangaId', 4);
+    formData.append('mangaId', props.mangaId );
     console.log(input.mangaId)
     formData.append('portada', input.coverImages);
     console.log(input.coverImages)
-    formData.append('chapters', input.images);
+    formData.append('chapters',input.chapters);
     console.log(input.images)
 
     formData.append('price', 5);
@@ -80,7 +83,7 @@ function handleSubmit(e) {
     setInput({
         title: '',
         mangaId: Number,
-        images: [],
+        chapters: [],
         coverImages: [],
         price:Number,
        

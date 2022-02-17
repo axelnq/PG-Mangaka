@@ -1,23 +1,20 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
 import { db } from "../app";
-import User from "../classes/User";
 import multer from "multer";
+import { isAuthenticated } from "./auth";
 const upload = multer({
   limits: {
     fileSize: 100000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+    if (!file.originalname.match(/\.(png|jpg|jpeg|jfif)$/)) {
       cb(new Error("Please upload an image."));
     }
     cb(null, true);
   },
 });
 export const profileRouter = Router();
-
-// Todas las rutas de este archivo deben actualizarse para recibir el usuario autenticado
-// Apenas funcione el serialize.
 
 //
 //
@@ -26,68 +23,41 @@ export const profileRouter = Router();
 //
 
 // Obtener el perfil del usuario, todos los datos excluyendo aquellos inactivos
-profileRouter.get("/", async (req, res) => {
-  const userJSON = JSON.parse(req.user as string);
-  const user = await db.user.findUnique({
-    where: {
-      username: userJSON.username,
-    },
-    include: {
-      created: true,
-    },
-  });
-
-  if (user) {
-    if (user.active) {
-      const profile = new User(
-        user.name,
-        user.username,
-        user.avatar,
-        user.email,
-        user.password || undefined,
-        user.role,
-        user.active,
-        user.about,
-        user.coins,
-        user.creatorMode,
-        user.library,
-        user.wishList,
-        user.favorites
-      );
-      res.json({ profile: profile, mangasCreated: user.created });
-    } else {
-      res
-        .status(400)
-        .json({
-          error:
-            "This user does not exist, if you think it is an error, contact support",
-        });
-    }
+profileRouter.get("/", isAuthenticated, async (req, res, next) => {
+  //@ts-ignore
+  const { name, username, avatar, email, role, about, coins, creatorMode, library, wishList, favorites, created, active} = req.user;
+  console.log(req.user);
+  if (active) {
+    let profile = {
+      name: name,
+      username: username,
+      avatar: avatar,
+      email: email,
+      role: role,
+      about: about,
+      coins: coins,
+      creatorMode: creatorMode,
+      library: library,
+      wishlist: wishList,
+      favorites: favorites,
+      rating:
+        created.reduce((acc: any, curr: any) => {
+          return acc + curr.rating;
+        }, 0) / created.length,
+    };
+    res.json({ profile: profile, mangasCreated: created });
   } else {
-    res
-      .status(400)
-      .send({
-        msg: "An error has ocurred, if the problem persists contact support.",
-      });
+    res.status(400).json({
+      error:
+        "This user does not exist, if you think it is an error, contact support",
+    });
   }
 });
 
 // Ruta Get avatar
-profileRouter.get("/avatar/:username", async (req, res, next) => {
-  let { username } = req.params;
-  if (!username) {
-    return res.status(400).send({ message: "Username is required" });
-  }
-  const user = await db.user.findUnique({
-    where: {
-      username: username,
-    },
-  });
-  if (user) {
-    res.send(user.avatar);
-  } else {
-    res.status(404).send("User not found");
-  }
+profileRouter.get("/avatar", isAuthenticated, async (req, res, next) => {
+  //@ts-ignore
+  res.send({ avatar: req.user.avatar });
 });
 
 //
@@ -97,22 +67,17 @@ profileRouter.get("/avatar/:username", async (req, res, next) => {
 //
 
 // Actualiza el nombre del usuario
-profileRouter.put("/updateName/:username", async (req, res) => {
-  let { username } = req.params;
-  let { name } = req.body;
-  if (!username) {
-    return res.status(400).send({ message: "Username is required" });
-  }
-  if (!name) {
-    return res.status(400).send({ message: "Name is required" });
-  }
+profileRouter.put("/updateName", isAuthenticated, async (req, res) => {
+  //@ts-ignore
+  const { username } = req.user;
+  const { newName } = req.body;
   try {
     await db.user.update({
       where: {
         username: username,
       },
       data: {
-        name: name,
+        name: newName,
       },
     });
     res.send({ message: "Name updated" });
@@ -122,50 +87,29 @@ profileRouter.put("/updateName/:username", async (req, res) => {
 });
 
 // Actualiza el username
-profileRouter.put("/updateUsername/:username", async (req, res) => {
-  let { username } = req.params;
-  let { password } = req.body;
-  let { newUsername } = req.body;
-  if (!username) {
-    return res.status(400).send({ message: "Username is required" });
-  }
-  if (!newUsername) {
-    return res.status(400).send({ message: "New username is required" });
-  }
+profileRouter.put("/updateUsername", isAuthenticated, async (req, res) => {
+  //@ts-ignore
+  const { id } = req.user;
+  const { newUsername, password } = req.body;
   try {
-    const user = await db.user.findUnique({
-      where: {
-        username: username,
-      },
-    });
-    if (user) {
-      if (password && user.password) {
-        if (bcrypt.compareSync(password, user.password)) {
-          await db.user.update({
-            where: {
-              username: username,
-            },
-            data: {
-              username: newUsername,
-            },
-          });
-          res.send({ message: "Username updated" });
-        } else {
-          res.status(401).send({ message: "Password is incorrect" });
-        }
-      } else {
+    if (password) {
+      //@ts-ignore
+      if (bcrypt.compareSync(password, req.user.password)) {
         await db.user.update({
           where: {
-            username: username,
+            id: id,
           },
           data: {
             username: newUsername,
           },
         });
-        res.send({ message: "Username updated" });
+        return res.send({ message: "Username updated" });
+      } else {
+        return res.status(401).send({ message: "Password is incorrect" });
       }
-    } else {
-      res.status(404).send({ message: "User not found" });
+      //@ts-ignore
+    } else if (req.user.googleId) {
+      res.send({ message: "You can't change your username with google" });
     }
   } catch (error: any) {
     res.status(400).send({ message: error.message });
@@ -173,46 +117,33 @@ profileRouter.put("/updateUsername/:username", async (req, res) => {
 });
 
 // Actualiza el email
-profileRouter.put("/updateEmail/:username", async (req, res) => {
-  let { username } = req.params;
-  let { password } = req.body;
-  let { newEmail } = req.body;
-  if (!username) {
-    return res.status(400).send({ message: "Username is required" });
-  }
-  if (!newEmail) {
-    return res.status(400).send({ message: "New email is required" });
-  }
+profileRouter.put("/updateEmail", isAuthenticated, async (req, res) => {
+  //@ts-ignore
+  const { id } = req.user;
+  const { newEmail, password } = req.body;
   try {
-    const user = await db.user.findUnique({
-      where: {
-        username: username,
-      },
-    });
-    if (user) {
-      if (password && user.password) {
-        if (bcrypt.compareSync(password, user.password)) {
-          await db.user.update({
-            where: {
-              username: username,
-            },
-            data: {
-              email: newEmail,
-            },
-          });
-          res.send({ message: "Email updated" });
-        } else {
-          res.status(401).send({ message: "Password is incorrect" });
-        }
+    if (password) {
+      //@ts-ignore
+      if (bcrypt.compareSync(password, req.user.password)) {
+        await db.user.update({
+          where: {
+            id: id,
+          },
+          data: {
+            email: newEmail,
+          },
+        });
+        res.send({ message: "Email updated" });
       } else {
-          if (user.googleId) {
-            res.status(401).send({ message: "You can't change your email" });
-          } else {
-            res.status(401).send({ message: "Password is required" });
-          }
+        res.status(401).send({ message: "Password is incorrect" });
       }
     } else {
-      res.status(404).send({ message: "User not found" });
+      //@ts-ignore
+      if (req.user.googleId) {
+        res.status(401).send({ message: "You can't change your email" });
+      } else {
+        res.status(401).send({ message: "Password is required" });
+      }
     }
   } catch (error: any) {
     res.status(400).send({ message: error.message });
@@ -220,65 +151,50 @@ profileRouter.put("/updateEmail/:username", async (req, res) => {
 });
 
 // Actualiza el password
-profileRouter.put("/updatePassword/:username", async (req, res) => {
-  let { username } = req.params;
-  let { password } = req.body;
-  let { newPassword } = req.body;
-  if (!username) {
-    return res.status(400).send({ message: "Username is required" });
-  }
-  if (!newPassword) {
-    return res.status(400).send({ message: "New password is required" });
-  }
+profileRouter.put("/updatePassword", isAuthenticated, async (req, res) => {
+  //@ts-ignore
+  const { id } = req.user;
+  let { password, newPassword } = req.body;
   try {
-    const user = await db.user.findUnique({
-      where: {
-        username: username,
-      },
-    });
-    if (user) {
-      if (password && user.password) {
-        if (bcrypt.compareSync(password, user.password)) {
-          await db.user.update({
-            where: {
-              username: username,
-            },
-            data: {
-              password: bcrypt.hashSync(newPassword, 10),
-            },
-          });
-          res.send({ message: "Password updated" });
-        } else {
-          res.status(401).send({ message: "Password is incorrect" });
-        }
-      } else {
-        if (user.googleId) {
-          res.status(401).send({ message: "You can't change your password" });
-        }
-        res.status(401).send({ message: "Password is required" });
-      }
-    } else {
-      res.status(404).send({ message: "User not found" });
-    }
+     if (password) {
+       //@ts-ignore
+      if (bcrypt.compareSync(password, req.user.password)) {
+           await db.user.update({
+             where: {
+               id: id,
+             },
+             data: {
+               password: bcrypt.hashSync(newPassword, 10),
+             },
+           });
+           res.send({ message: "Password updated" });
+         } else {
+           res.status(401).send({ message: "Password is incorrect" });
+         }
+       } else {
+         //@ts-ignore
+         if (req.user.googleId) {
+           res.status(401).send({ message: "You can't change your password" });
+         }
+         res.status(401).send({ message: "Password is required" });
+       }
   } catch (error: any) {
     res.status(400).send({ message: error.message });
   }
 });
 
 // Actualiza el About
-profileRouter.put("/updateAbout/:username", async (req, res) => {
-  let { username } = req.params;
+profileRouter.put("/updateAbout", isAuthenticated, async (req, res) => {
+  //@ts-ignore
+  const { id } = req.user;
   let { about } = req.body;
-  if (!username) {
-    return res.status(400).send({ message: "Username is required" });
-  }
   if (!about) {
     return res.status(400).send({ message: "About is required" });
   }
   try {
     await db.user.update({
       where: {
-        username: username,
+        id: id,
       },
       data: {
         about: about,
@@ -291,11 +207,9 @@ profileRouter.put("/updateAbout/:username", async (req, res) => {
 });
 
 // Actualiza Avatar
-profileRouter.put(
-  "/user/updateAvatar/:username",
-  upload.single("avatar"),
-  async (req, res) => {
-    let username = req.params.username;
+profileRouter.put("/updateAvatar", isAuthenticated, upload.single("avatar"), async (req, res) => {
+    //@ts-ignore
+    const { id } = req.user;
     let avatar: Buffer;
     if (!req.file) {
       return res.status(400).send("Image is required");
@@ -303,12 +217,12 @@ profileRouter.put(
     avatar = req.file.buffer;
     try {
       await db.user.update({
-        where: { username: username },
+        where: { id: id },
         //@ts-ignore
         data: { avatar: avatar },
       });
 
-      return res.status(204).send();
+      return res.status(200).send({ message: "Avatar updated" });
     } catch (error: any) {
       return res.status(400).send(error);
     }

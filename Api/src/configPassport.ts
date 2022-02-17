@@ -7,17 +7,20 @@ const localStrategy = require("passport-local").Strategy;
 
 module.exports = function (passport: any) {
   passport.serializeUser((user: any, done: any) => {
-    // console.log("serialize: ", user.id)
     return done(null, user.id);
   });
 
   passport.deserializeUser((id: any, done: any) => {
-    // const response = await db.user.findUnique({
+    // db.user.findUnique({
     //   where: {
     //     id: id
-    //   }
-    // })
-    // console.log("deserialize: ", id)
+    //   },
+    //   include: {
+    //     created: true,
+    //   },
+    // }).then((user: any) => {
+    //   done(null, user);
+    // });
     return done(null, id);
   });
 
@@ -88,7 +91,6 @@ module.exports = function (passport: any) {
               true
             );
             const user = await db.user.create({
-              //@ts-ignore
               data: newUser,
             });
 

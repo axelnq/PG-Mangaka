@@ -10,6 +10,7 @@ import Coins from "./Components/Coins";
 import Register from "./Components/Access/Register";
 import CreateChapters from "./Components/CreateChapters";
 import { useSelector } from "react-redux";
+import AuthorDetail from './Components/AuthorDetail'
 // windoes + .
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/author" element={<AuthorDetail />} />
+
         {user && (
           <>
             <Route path="/library" element={<Biblioteca />} />
@@ -27,7 +30,7 @@ function App() {
             <Route path="/create" element={<CreateForm />} />
             <Route path="/panel" element={<Panel />} />
             <Route path="/coins" element={<Coins />} />
-            <Route path="/createChapters" element={<CreateChapters />} />
+            <Route path="/createChapters/:id" element={<CreateChapters />} />
           </>
         )}
         <Route path="*" element={<Navigate to="/" />} />
