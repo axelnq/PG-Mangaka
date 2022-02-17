@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Container, Tabs, Tab, Typography, Box } from '@mui/material';
 import NavBar from './Navbar';
 import UsersPanel from './UsersPanel'
+import MangasPanel from './MangasPanel';
 
 function Panel(props) {
     const { children, value, index, ...other } = props;
@@ -60,22 +61,14 @@ export default function VerticalTabs() {
                         aria-label="Vertical tabs example"
                         sx={{ borderRight: 1, borderColor: 'divider' }}
                     >
-                        <Tab label="Usuarios Activos" {...a11yProps(0)} />
-                        <Tab label="Usuarios Inactivos" {...a11yProps(1)} />
-                        <Tab label="Mangas Activos" {...a11yProps(2)} />
-                        <Tab label="Mangas Inactivos" {...a11yProps(3)} />
+                        <Tab label="Usuarios" {...a11yProps(0)} />
+                        <Tab label="Mangas" {...a11yProps(1)} />
                     </Tabs>
                     <Panel value={value} index={0}>
                         <UsersPanel />
                     </Panel>
                     <Panel value={value} index={1}>
-                        Usuarios Inactivos
-                    </Panel>
-                    <Panel value={value} index={2}>
-                        Mangas Activos
-                    </Panel>
-                    <Panel value={value} index={3}>
-                        Mangas Inactivos
+                        <MangasPanel />
                     </Panel>
                 </Box>
             </Container>
