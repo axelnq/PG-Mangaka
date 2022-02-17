@@ -1,8 +1,14 @@
-import { Router } from "express";
+import { NextFunction, Router } from "express";
 import passport from "passport";
 import { db } from "../app"
 
 export const authRouter = Router();
+export async function isAuthenticated(req: any , res: any, next: any) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.sendStatus(401);
+};
 
 authRouter.get("/login", (req, res) => {
   res.json({ msg: "login failed" });

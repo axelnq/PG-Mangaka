@@ -5,6 +5,7 @@ import User from "../classes/User";
 import fs from "fs";
 import multer from "multer";
 import { Role } from '@prisma/client';
+import { isAuthenticated } from "./auth";
 const upload = multer({
   limits: {
     fileSize: 100000000,
@@ -212,12 +213,7 @@ usersRouter.get<{ username: string }, {}>(
   }
 );
 
-usersRouter.get("/currentUser", (req, res, next) => {
-  // console.log(req)
-  // console.log(req.user);
-  if(!req.user) {
-    return res.json({msg: 'No hay un usuario logueado'})
-  }
+usersRouter.get("/currentUser", isAuthenticated, (req, res, next) => {
   res.json(req.user);
 });
 
