@@ -13,12 +13,12 @@ commentsRouter.get("/getComments/:idChapter", async (req, res) => {
 
     const comments = await db.chapter.findUnique({
         where: { id: Number(idChapter) },
-        select: { usersId: true }
+        select: { comments: true }
     });
 
     if (!comments) return res.send({ message: 'Chapter without comments' })
 
-    for (const userAndComent of comments.usersId) {
+    for (const userAndComent of comments.comments) {
 
         let [username, commentUser] = userAndComent.split('/@/')
 
@@ -52,13 +52,13 @@ commentsRouter.post("/addComent", async (req, res) => {
             id: Number(idChapter),
         },
         data: {
-            usersId: {
+            comments: {
                 push: commentUser,
             },
         },
     })
 
-    res.send(chapter);
+    res.send({message:"Comment added"});
 });
 
 
@@ -68,7 +68,7 @@ commentsRouter.put("/admin/deleteComment", async (req, res) => {
 
     const comments = await db.chapter.findUnique({
         where: { id: Number(idChapter) },
-        select: { usersId: true }
+        select: { comments: true }
     });
 
     if (!comments) return res.send({ message: 'Comments not found' })
@@ -76,14 +76,14 @@ commentsRouter.put("/admin/deleteComment", async (req, res) => {
 
     let deleteComment = `${username}/@/${comment}`
 
-    resComments = comments.usersId.filter((comment) => comment !== deleteComment)
+    resComments = comments.comments.filter((comment) => comment !== deleteComment)
 
     await db.chapter.update({
         where: {
             id: Number(idChapter),
         },
         data: {
-            usersId: resComments,
+            comments: resComments,
         },
     })
 
