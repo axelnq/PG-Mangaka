@@ -1,6 +1,6 @@
 import { NextFunction, Router } from "express";
 import passport from "passport";
-import { db } from "../app"
+import { db } from "../app";
 
 export const authRouter = Router();
 export async function isAuthenticated(req: any , res: any, next: any) {
@@ -10,20 +10,15 @@ export async function isAuthenticated(req: any , res: any, next: any) {
   res.sendStatus(401);
 };
 
-authRouter.get("/login", (req, res) => {
-  res.json({ msg: "login failed" });
-});
-
-authRouter.get(
-  "/google",
+authRouter.get("/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
 authRouter.get("/google/callback",
-  passport.authenticate("google", { successRedirect: "http://localhost:3000/", failureRedirect: "/login" })
+  passport.authenticate("google", { successRedirect: "http://localhost:3000", failureRedirect: "/login" })
 );
 
-authRouter.get("/google/response", async (req: any, res: any) => {
+authRouter.get("/google/response", async (req: any, res: any) => {  
   if( req.user ) {
     let user = await db.user.findUnique({
       where: {

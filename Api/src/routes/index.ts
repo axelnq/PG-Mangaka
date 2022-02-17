@@ -15,4 +15,4 @@ routes.use("/mangas", mangasRouter);
 routes.use("/chapters", chaptersRouter);
 routes.use("/profile", profileRouter)
 routes.use("/buyChapter", internalOrderRouter);
-routes.use("/Coins", externalOrderRouter);
+routes.use("/coins", externalOrderRouter);

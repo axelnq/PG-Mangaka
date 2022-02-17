@@ -120,7 +120,13 @@ usersRouter.post<{}, {}>("/authorsTest", async (req, res) => {
     "fuminohayashi@gmail.com",
     hashedPassword
   );
-  const userTest5 = new User("Gato Aso", "GatoA", buffer, "gatoaso@gmail.com",hashedPassword);
+  const userTest5 = new User(
+    "Gato Aso",
+    "GatoA",
+    buffer,
+    "gatoaso@gmail.com",
+    hashedPassword
+  );
   const userTest6 = new User(
     "Katsu Aki",
     "KatsuA",
@@ -191,117 +197,156 @@ usersRouter.post<{ idManga: string; username: string }, {}>(
     res.json(getUser);
   }
 );
-// Perfil de usuario
-usersRouter.get<{ username: string }, {}>(
-  "/user/:id",
-  async (req, res, next) => {
-    const { username } = req.params;
-
-    const User: any = await db.user.findUnique({
-      where: { username: username },
+// Detalles del autor
+usersRouter.get<{ id: string }, {}>("/user/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user: any = await db.user.findUnique({
+      where: { id: id },
       include: {
-        created: true,
+        created: {
+          select: {
+            id: true,
+            title: true,
+            image: true,
+            state: true,
+            rating: true,
+          },
+        },
       },
     });
-    return res.send({ data: {
-      name: User.name,
-      username: User.username,
-      avatar: User.avatar,
-      about: User.about,
-      created: User.created,
-     }, id: User.id });
+
+    if (!user) return res.status(404).json({ msg: "Invalid author ID" });
+    if (!user.creatorMode)
+      return res.status(404).json({ msg: "The user is not an author" });
+
+    let totalPoints: number = 0;
+
+    user.created.map((manga: any) => {
+      totalPoints += manga.rating;
+    });
+
+    let authorRating: number = Number(
+      (totalPoints / user.created.length).toFixed(2)
+    );
+
+    return res.send({
+      data: {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        avatar: user.avatar,
+        about: user.about,
+        created: user.created,
+        authorRating,
+      },
+    });
+  } catch (err: any) {
+    console.log("Author detail: ", err);
+    res.status(400).send({ error: err.message });
   }
-);
+});
 
 usersRouter.get("/currentUser", isAuthenticated, (req, res, next) => {
   res.json(req.user);
 });
 
-usersRouter.post<{}, {}, { name: string; username: string; password: string; email: string,role:Role}>
-  ("/superAdmin", async (req, res) => {
-    // const { name, username, password, email,role} = req.body;
-    let image = await axios.get(
-      "https://http2.mlstatic.com/D_NQ_NP_781075-MLA48271965969_112021-O.webp",
-      { responseType: "arraybuffer" }
-    );
-    let buffer = Buffer.from(image.data, "utf-8");
-    let hashedPassword = await bcrypt.hash("Manga1522022!", 10);
-    const newUser = new User("Super Mangaka", "SuperMGK", buffer,"supermangaka2022@gmail.com",hashedPassword,"SUPERADMIN");
+usersRouter.post<
+  {},
+  {},
+  {
+    name: string;
+    username: string;
+    password: string;
+    email: string;
+    role: Role;
+  }
+>("/superAdmin", async (req, res) => {
+  // const { name, username, password, email,role} = req.body;
+  let image = await axios.get(
+    "https://http2.mlstatic.com/D_NQ_NP_781075-MLA48271965969_112021-O.webp",
+    { responseType: "arraybuffer" }
+  );
+  let buffer = Buffer.from(image.data, "utf-8");
+  let hashedPassword = await bcrypt.hash("Manga1522022!", 10);
+  const newUser = new User(
+    "Super Mangaka",
+    "SuperMGK",
+    buffer,
+    "supermangaka2022@gmail.com",
+    hashedPassword,
+    "SUPERADMIN"
+  );
 
-    try {
-      let superAdmin = await db.user.findUnique({
-        where: { username: newUser.username}
-      })
+  try {
+    let superAdmin = await db.user.findUnique({
+      where: { username: newUser.username },
+    });
 
-      if(!superAdmin) {
-        superAdmin = await db.user.create({
-          data: newUser,
-        });
-  
-      }
-     
-      return res.json(superAdmin);
-    } catch (error) {
-      console.log(error);
+    if (!superAdmin) {
+      superAdmin = await db.user.create({
+        data: newUser,
+      });
     }
-  });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
-  usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setAdmin/:username", async (req, res, next) => {
+usersRouter.put<{ admin: boolean; username: string }, {}>(
+  "/user/setAdmin/:username",
+  async (req, res, next) => {
     const { username } = req.params;
-   
+
     try {
-     
       const user = await db.user.findUnique({
-        where: { username: username }
-      })
-      if (!user) return res.send({ message: "User not found" })
-  
+        where: { username: username },
+      });
+      if (!user) return res.send({ message: "User not found" });
+
       const upsertUser = await db.user.update({
         where: {
           username: username,
         },
         data: {
-          role: user.role === 'USER' ? 'ADMIN' : 'USER'
-        }
+          role: user.role === "USER" ? "ADMIN" : "USER",
+        },
       });
       return res.send(upsertUser);
-      
     } catch (error) {
       return res.sendStatus(404).json({ message: error });
     }
-  
-  });
+  }
+);
 
-
-  usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:username", async (req, res, next) => {
+usersRouter.put<{ admin: boolean; username: string }, {}>(
+  "/user/setActive/:username",
+  async (req, res, next) => {
     const { username } = req.params;
-   
+
     try {
-      
       const user = await db.user.findUnique({
         where: { username: username },
-        include: { created:true}
-      })
-      if (!user) return res.send({ message: "User not found" })
-      
-      user.created.forEach(manga => {
-          manga.active = true;
-      })
-      user.created.forEach(manga => console.log(manga.active));
-  
+        include: { created: true },
+      });
+      if (!user) return res.send({ message: "User not found" });
+
+      user.created.forEach((manga) => {
+        manga.active = true;
+      });
+      user.created.forEach((manga) => console.log(manga.active));
+
       const upsertUser = await db.user.update({
         where: {
           username: username,
         },
         data: {
           active: user?.active === true ? false : true,
-        }
+        },
       });
       return res.send(upsertUser);
-      
     } catch (error) {
       return res.sendStatus(404).json({ message: error });
     }
-  
-  });
-  
+  }
+);
