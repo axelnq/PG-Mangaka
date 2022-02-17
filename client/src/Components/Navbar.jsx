@@ -92,9 +92,11 @@ export default function NavBar() {
   useEffect(() => {
     dispatch(getMangasPreview());
   }, [dispatch]);
+  
   useEffect(()=>{
    user || dispatch(getGoogleUser())
   },[])
+  
   //local state
   const [filteredData, setFilteredData] = useState([]);
   const [search, setSearch] = useState("");

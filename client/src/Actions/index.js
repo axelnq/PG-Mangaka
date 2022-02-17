@@ -1,7 +1,7 @@
 export const MANGAS_TO_DB = "MANGAS_TO_DB";
 export const GET_ALL_MANGAS = "GET_ALL_MANGAS";
 export const GET_GENRES = "GET_GENRES";
-export const RECOMENDATED_MANGAS = "RECOMENDATED_MANGAS";
+export const RECENT_MANGAS = "RECENT_MANGAS";
 export const GET_DETAIL = "GET_DETAIL";
 export const POST_MANGA = "POST_MANGA";
 export const FILTRO_GENERO = "FILTRO_GENERO";
@@ -15,6 +15,12 @@ export const GET_LIBRARY = "GET_LIBRARY";
 export const GET_WISHLIST = "GET_WISHLIST";
 export const CURRENT_USER = "CURRENT_USER";
 export const GET_ALL_CHAPTERS = "GET_ALL_CHAPTERS";
+export const GET_USER_INFO = 'GET_USER_INFO';
+export const GET_DETAIL_WISHLIST = 'GET_DETAIL_WISHLIST'
+export const GET_DETAIL_LIBRARY = 'GET_DETAIL_LIBRARY'
+export const GET_POPULAR_MANGAS = 'GET_POPULAR_MANGAS'
+export const GET_AUTHORS = 'GET_AUTHORS'
+export const CHANGE_SHOW = 'CHANGE_SHOW'
 
 const axios = require("axios");
 
@@ -66,14 +72,14 @@ export let getGenres = () => {
     };
 };
 
-export let recomendatedMangas = () => {
+export let getRecentMangas = () => {
     return async (dispatch) => {
         try {
             let allMangas = await axios.get(
                 `http://localhost:3001/api/mangas/recentMangas`
             );
             return dispatch({
-                type: RECOMENDATED_MANGAS,
+                type: RECENT_MANGAS,
                 payload: allMangas.data,
             });
         } catch (error) {
@@ -273,7 +279,7 @@ export let getCurrentUser = (form) => {
             const response = await request.data;
             localStorage.setItem("user", JSON.stringify(response));
             const user = JSON.parse(localStorage.getItem("user"));
-            console.log(user);
+
             return dispatch({ type: CURRENT_USER, payload: user });
         } catch (error) {
             console.log(error.message);
@@ -331,16 +337,17 @@ export const getGoogleUser = () => {
                 url: "http://localhost:3001/api/auth/google/response",
             });
             const response = await request.data;
-            if(response.msg === 'usuario no logueado'){
+            if (response.msg === "usuario no logueado") {
                 return dispatch({
                     type: CURRENT_USER,
-                    payload: null
-                })
+                    payload: null,
+                });
             }
-            console.log(response);
+            localStorage.setItem("user", JSON.stringify(response));
+            const user = JSON.parse(localStorage.getItem("user"));
             return dispatch({
                 type: CURRENT_USER,
-                payload: response,
+                payload: user,
             });
         } catch (error) {
             console.log(error);
@@ -351,7 +358,7 @@ export let getChapters = () => {
     return async (dispatch) => {
         try {
             let allChapters = await axios.get(
-                `http://localhost:3001/api/chapters/chapter/getchapter/:idChapter`
+                `http://localhost:3001/api/chapters/chapter/getchapter/:idChapter `
             );
             return dispatch({
                 type: GET_ALL_CHAPTERS,
@@ -361,4 +368,89 @@ export let getChapters = () => {
             console.log(error);
         }
     };
+}
+export let getUserInfo = (payload) => {
+    return async (dispatch) => {
+        try {
+            let user = await axios.get(`http://localhost:3001/api/users/user/${payload}`)
+            return dispatch({
+                type: GET_USER_INFO,
+                payload: user.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export let getMangaDetailWishList = (payload) => {
+    return async (dispatch) => {
+        try {
+            let mangaDetail = await axios.get(
+                `http://localhost:3001/api/mangas/manga/${payload}`
+            );
+            return dispatch({
+                type: GET_DETAIL_WISHLIST,
+                payload: mangaDetail.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 };
+
+export let getMangaDetailLibrary = (payload) => {
+    return async (dispatch) => {
+        try {
+            let mangaDetail = await axios.get(
+                `http://localhost:3001/api/mangas/manga/${payload}`
+            );
+            return dispatch({
+                type: GET_DETAIL_LIBRARY,
+                payload: mangaDetail.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+export let getPopularMangas = () => {
+    return async (dispatch) => {
+        try {
+            let mangas = await axios.get('http://localhost:3001/api/mangas/popularMangas')
+            return dispatch({
+                type: GET_POPULAR_MANGAS,
+                payload: mangas.data
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}
+
+export let popularAuthors = () => {
+    return async (dispatch) => {
+        try{ 
+            let authors = await axios.get()
+            return dispatch({
+                type: GET_AUTHORS,
+                payload: authors.data
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}
+
+export let changeShow = () => {
+    return async (dispatch) => {
+        try {
+            return dispatch( {
+                type: CHANGE_SHOW
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}

@@ -7,7 +7,7 @@ const upload = multer({
     fileSize: 100000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+    if (!file.originalname.match(/\.(png|jpg|jpeg|jfif)$/)) {
       cb(new Error("Please upload an image."));
     }
     cb(null, true);
@@ -21,10 +21,12 @@ chaptersRouter.post<{}, {}>(
   "/",
   upload.fields([
     { name: "portada", maxCount: 1 },
-    { name: "chapters", maxCount: 20 },
+    { name: "chapters", maxCount: 100 },
   ]),
   async (req, res, next) => {
     const { title, mangaId, price } = req.body;
+    //@ts-ignore
+    console.log(`{title${title},mangaId${mangaId},portada${req.files.portada},chapters${req.files.chapters}}`)
     let images: Buffer[] = [];
     let cover: Buffer;
     if (req.files) {
@@ -190,3 +192,70 @@ chaptersRouter.get("/chapter/cover/:idChapter", async (req, res, next) => {
 //     next(new Error(`Chapter Post Error`));
 //   }
 // });
+
+// Votación de un capitulo
+chaptersRouter.put<{idChapter: string}, {}>("/chapter/vote/:idChapter", async (req, res) => {
+  const {idChapter} = req.params;
+  const {points, idUser} = req.body;
+
+  if (points >= 1 && points <= 5) return res.status(400).send({msg: "Points most ve between 1 and 5"})
+
+  try {
+
+  let chapter = await db.chapter.findUnique({  // Retorna un objeto con la propiedad usersId
+    where: {id: Number(idChapter)},
+    select: {id: true, usersId: true}
+  });
+
+  if (!chapter) return res.status(400).send({msg: "Invalid chapter ID"})
+
+  if (chapter.usersId.includes(idUser)) return res.send({msg: "the user already voted"});
+
+  let newUsers = [...chapter.usersId, idUser];
+
+  let updatePoints = await db.chapter.update({
+    where: {
+      id: Number(idChapter)
+    },
+    data: {
+      points: {
+        increment: Number(points)
+      },
+      usersId: newUsers
+    }
+  });
+
+  res.send({msg: "Score made"})
+
+  } catch (err:any) {
+    console.log("Vote chapter: ", err)
+    res.status(400).send({error: err.message})
+  }
+});
+
+// Obtener puntaje de un capitulo
+chaptersRouter.get<{idChapter: string}, {}>('/chapter/rating/:idChapter', async (req, res) => {
+  let {idChapter} = req.params;
+
+  try {
+    let chapter = await db.chapter.findUnique({
+    where: {
+      id: Number(idChapter)
+    },
+    select: {
+      points: true,
+      usersId: true
+    }
+  })
+  
+  if (!chapter) return res.status(400).send({msg: "Invalid chapter ID"});
+
+  let ratingChapter = Number((chapter.points / chapter.usersId.length).toFixed(2))
+
+  res.send({data: ratingChapter})
+  
+  } catch (err: any) {
+    console.log("Points: ", err);
+    res.status(400).send({error: err.message})
+  }
+});
