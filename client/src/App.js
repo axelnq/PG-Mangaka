@@ -11,6 +11,7 @@ import Register from "./Components/Access/Register";
 import CreateChapters from "./Components/CreateChapters";
 import { useSelector } from "react-redux";
 import AuthorDetail from './Components/AuthorDetail'
+import Favorite from './Components/Favoritos'
 // windoes + .
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/author" element={<AuthorDetail />} />
+        <Route path="/author/:id" element={<AuthorDetail />} />
+        <Route path="/favorite" element={<Favorite />} />
 
         {user && (
           <>

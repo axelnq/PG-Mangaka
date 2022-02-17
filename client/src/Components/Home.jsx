@@ -11,6 +11,8 @@ import { getAllMangas } from '../Actions'
 import { useEffect } from 'react';
 //mui
 import { Container } from '@mui/material';
+import {Link} from 'react-router-dom'
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const Home = () => {
                 <button>Anda a Crear tu Manga 😎</button>
             </Link> */}
             <Filters />
+            
             <Paginado total={allMangas.total}/>
             <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                 {

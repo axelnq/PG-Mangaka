@@ -15,7 +15,7 @@ export const GET_LIBRARY = "GET_LIBRARY";
 export const GET_WISHLIST = "GET_WISHLIST";
 export const CURRENT_USER = "CURRENT_USER";
 export const GET_ALL_CHAPTERS = "GET_ALL_CHAPTERS";
-
+export const GET_AUTHOR_DETAILS = "GET_AUTHOR_DETAILS";
 const axios = require("axios");
 
 export let mangasToDb = () => {
@@ -360,6 +360,22 @@ export let getChapters = () => {
             });
         } catch (error) {
             console.log(error);
+        }
+    };
+};
+
+
+//-------------------- DETALLES DE AUTOR -------------------------//
+export let getAuthorDetail = (id) => {
+    return async (dispatch) => {
+        try {
+            let authorDetail = await axios(`http://localhost:3001/api/users/user/${id}`)
+            return dispatch({
+                type: 'GET_AUTHOR_DETAILS',
+                payload: authorDetail.data
+            })
+        } catch (error){
+            console.log(error)
         }
     };
 };

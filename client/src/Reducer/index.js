@@ -16,6 +16,7 @@ import {
     GET_WISHLIST,
     CURRENT_USER,
     GET_ALL_CHAPTERS,
+    GET_AUTHOR_DETAILS,
 } from "../Actions";
 
 const initialState = {
@@ -32,6 +33,7 @@ const initialState = {
     wishlist: [],
     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
     allChapters:[],
+    authorDetail:[],
 
 };
 
@@ -131,6 +133,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     allChapters: payload,
                     
                 };
+        case GET_AUTHOR_DETAILS:
+            return {
+                ...state,
+                authorDetail: payload,
+            };
         default:
             return state;
     }
