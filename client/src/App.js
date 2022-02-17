@@ -30,7 +30,7 @@ function App() {
             <Route path="/create" element={<CreateForm />} />
             <Route path="/panel" element={<Panel />} />
             <Route path="/coins" element={<Coins />} />
-            <Route path="/createChapters" element={<CreateChapters />} />
+            <Route path="/createChapters/:id" element={<CreateChapters />} />
           </>
         )}
         <Route path="*" element={<Navigate to="/" />} />
