@@ -8,7 +8,7 @@ import {
     FILTRO_AUTOR,
     ORDER,
     SEARCH_MANGA,
-    RECOMENDATED_MANGAS,
+    RECENT_MANGAS,
     PAGINADO_PAGE,
     GET_MANGAS_PREVIEW,
     POST_CHAPTERS,
@@ -18,12 +18,16 @@ import {
     GET_ALL_CHAPTERS,
     GET_USER_INFO,
     GET_DETAIL_WISHLIST,
-    GET_DETAIL_LIBRARY
+    GET_DETAIL_LIBRARY,
+    GET_POPULAR_MANGAS,
+    GET_AUTHORS,
+    CHANGE_SHOW
 } from "../Actions";
 
 const initialState = {
     allMangas: [],
-    currentMangas: [],
+    recentMangas: [],
+    popularMangas: [],
     mangaDetail: {},
     genres: [],
     mangasPreview: [],
@@ -36,6 +40,8 @@ const initialState = {
     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
     allChapters:[],
     userInfo: {},
+    authors: [],
+    show: true
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -63,10 +69,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 genres: payload,
             };
-        case RECOMENDATED_MANGAS:
+        case RECENT_MANGAS:
             return {
                 ...state,
-                allMangas: payload,
+                recentMangas: payload,
             };
         case GET_DETAIL:
             return {
@@ -149,6 +155,21 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 library: state.library.concat(payload)
+            }
+        case GET_POPULAR_MANGAS:
+            return {
+                ...state,
+                popularMangas: payload
+            }
+        case GET_AUTHORS:
+            return {
+                ...state,
+                authors: payload
+            }
+        case CHANGE_SHOW:
+            return {
+                ...state,
+                show: !state.show
             }
         default:
             return state;
