@@ -7,10 +7,12 @@ const localStrategy = require("passport-local").Strategy;
 
 module.exports = function (passport: any) {
   passport.serializeUser((user: any, done: any) => {
+    console.log("serializeUser: " + user);
     return done(null, user.id);
   });
 
   passport.deserializeUser((id: any, done: any) => {
+    console.log("deserializeUser: " + id);
     db.user.findUnique({
       where: {
         id: id
@@ -19,6 +21,7 @@ module.exports = function (passport: any) {
         created: true,
       },
     }).then((user: any) => {
+      console.log("deserializeUser 2: " + user);
       done(null, user);
     });
   });
