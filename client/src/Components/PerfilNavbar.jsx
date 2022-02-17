@@ -107,7 +107,7 @@ export default function PerfilNavbar() {
               alt="perfil"
               sx={{ width: 32, height: 32 }}
             />{" "}
-          {user.username}
+          {user.name}
         </MenuItem>
         <Link to="/panel" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Panel</MenuItem>
