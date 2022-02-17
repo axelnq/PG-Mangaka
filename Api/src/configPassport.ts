@@ -7,21 +7,23 @@ const localStrategy = require("passport-local").Strategy;
 
 module.exports = function (passport: any) {
   passport.serializeUser((user: any, done: any) => {
+    console.log("serializeUser: " + user);
     return done(null, user.id);
   });
 
   passport.deserializeUser((id: any, done: any) => {
-    // db.user.findUnique({
-    //   where: {
-    //     id: id
-    //   },
-    //   include: {
-    //     created: true,
-    //   },
-    // }).then((user: any) => {
-    //   done(null, user);
-    // });
-    return done(null, id);
+    console.log("deserializeUser: " + id);
+    db.user.findUnique({
+      where: {
+        id: id
+      },
+      include: {
+        created: true,
+      },
+    }).then((user: any) => {
+      console.log("deserializeUser 2: " + user);
+      done(null, user);
+    });
   });
 
   passport.use(
