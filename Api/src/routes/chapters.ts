@@ -196,20 +196,20 @@ chaptersRouter.put<{idChapter: string}, {}>("/chapter/vote/:idChapter", async (r
   const {idChapter} = req.params;
   const {points, idUser} = req.body;
 
+  if (points >= 1 && points <= 5) return res.status(400).send({msg: "Points most ve between 1 and 5"})
+
   try {
 
-  let chapter: any = await db.chapter.findUnique({  // Retorna un objeto con la propiedad usersId
+  let chapter = await db.chapter.findUnique({  // Retorna un objeto con la propiedad usersId
     where: {id: Number(idChapter)},
     select: {id: true, usersId: true}
   });
-
-  console.log("chapter: ", chapter)
 
   if (!chapter) return res.status(400).send({msg: "Invalid chapter ID"})
 
   if (chapter.usersId.includes(idUser)) return res.send({msg: "the user already voted"});
 
-  let newUsers: string[] = [...chapter.usersId, idUser];
+  let newUsers = [...chapter.usersId, idUser];
 
   let updatePoints = await db.chapter.update({
     where: {
@@ -225,8 +225,9 @@ chaptersRouter.put<{idChapter: string}, {}>("/chapter/vote/:idChapter", async (r
 
   res.send({msg: "Score made"})
 
-  } catch (err) {
+  } catch (err:any) {
     console.log("Vote chapter: ", err)
+    res.status(400).send({error: err.message})
   }
 });
 

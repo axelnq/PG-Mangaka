@@ -191,20 +191,39 @@ usersRouter.post<{ idManga: string; username: string }, {}>(
   }
 );
 // Perfil de usuario
-usersRouter.get<{ username: string }, {}>(
-  "/user/:username",
-  async (req, res, next) => {
+usersRouter.get<{ username: string }, {}>("/user/:username", async (req, res, next) => {
     const { username } = req.params;
-
-    const User: any = await db.user.findUnique({
+  try {
+    const user: any = await db.user.findUnique({
       where: { username: username },
       include: {
-        created: true,
+        created: {
+          select: {
+            id: true, title: true, authorId: true, image: true, state: true, rating: true
+          },
+        },
       },
     });
-    return res.send(User);
-  }
-);
+
+    if (!user) return res.status(404).json({msg: "Invalid username"});
+    if (user.creatorMode) {
+      let totalPoints: number = 0;
+
+      user.created.map((manga: any)=> {
+        totalPoints += manga.rating;
+      });
+
+      let authorRating: number = Number((totalPoints / user.created.length).toFixed(2));
+
+      return res.send({data: {...user, authorRating}});
+    }
+    res.send({data: user});
+
+  } catch (err: any) {
+    console.log("User detail: ", err);
+    res.status(400).send({error: err.message})
+  };
+});
 
 usersRouter.get("/currentUser", (req, res, next) => {
   // console.log(req)
@@ -301,42 +320,4 @@ usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:user
       return res.sendStatus(404).json({ message: error });
     }
   
-});
-// Obtener el puntaje de autor
-usersRouter.get<{username: string},{}>("/user/rating/:username",async (req, res) => {
-  const { username } = req.params;
-
-  try {
-
-    const user: any = await db.user.findUnique({
-      where: {
-        username: username
-      },
-      select: {
-        creatorMode: true,
-        created: {
-          select: {
-            rating: true,
-          }
-        }
-      }
-    })
-
-    if (!user) return res.status(404).json({msg: "Invalid username"})
-    if (!user.creatorMode) return res.json({msg: "User is not an author"})
-    
-    let totalPoints: number = 0;
-
-    user.created.map((manga: any)=> {
-      totalPoints += manga.rating;
-    })
-
-    let authorRating: number = Number((totalPoints / user.created.length).toFixed(2));
-
-    res.json({data: authorRating})
-
-  } catch (err: any) {
-    console.log("Rating author: ", err);
-    res.status(400).send({error: err.message})
-  }
 });
