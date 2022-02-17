@@ -12,28 +12,27 @@ mercadopago.configure({
     "TEST-8507753762167920-020813-29eacfdac014e6698569e6797d9512b5-187205193",
 });
 
-externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
-  console.log(req.body);
-  let { product } = req.body;
+externalOrderRouter.get<{}, {}>("/buy", (req, res) => {
+  let product = req.body;
+  console.log(product);
   let preference = {
     items: [
       {
         title: product.title,
-        unit_price: product.price,
-        price: product.price,
+        unit_price: product.buyprice,
         quantity: 1,
       },
     ],
     installments: 1,
 
     back_urls: {
-      success: "http://localhost:3001/externalOrderRouter/pagos",
-      failure: "http://localhost:3001/externalOrderRouter/pagos",
-      pending: "http://localhost:3001/externalOrderRouter/pagos",
+      success: "http://localhost:3001/api/coins/buy",
+      failure: "http://localhost:3001/api/coins/buy",
+      pending: "http://localhost:3001/api/coins/buy",
     },
     auto_return: "approved",
 
-    external_reference: product.uid,
+    external_reference: product.id,
   };
   mercadopago.preferences
     .create(preference)
@@ -57,12 +56,18 @@ externalOrderRouter.get<{}, {}>("/pagos", async (req, res) => {
   });
 
   if (buyer) {
-    if (status !== "aproved") {
+    if (status !== "approved") {
       res.send("There´s a problem with the transaction");
     } else {
       try {
         //@ts-ignore
-        const Eorder = new externalOrder(adminId, userId, status, productId);
+        const Eorder = new externalOrder(
+          adminId,
+          userId,
+
+          status,
+          productId
+        );
         //@ts-ignore
         const newEOrder = await db.externalOrder.create({ data: Eorder });
         const updateBuyer = await db.user.update({
@@ -82,6 +87,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
   let { adminId, userId, status, value } = req.body;
   let seller = await db.user.findUnique({ where: { id: userId } });
   let base = await db.coinsPackage.findUnique({ where: { id: 6 } });
+  console.log(base);
   if (seller && base) {
     if (seller.coins - value < 0) {
       res.send("There´s a problem with the transaction");
@@ -89,7 +95,15 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
       let price = base?.sellprice * value;
       let pack = new CoinsPackage(value, base.title, price, 0);
       let newcP = await db.coinsPackage.create({ data: pack });
-      const Eorder = new externalOrder(adminId, userId, status, newcP.id);
+      console.log(pack);
+      const Eorder = new externalOrder(
+        adminId,
+        userId,
+        "Sell Order",
+        price,
+        "approved",
+        newcP.id
+      );
       //@ts-ignore
       const newEOrder = await db.externalOrder.create({ data: Eorder });
       const updateSeller = await db.user.update({

@@ -13,4 +13,4 @@ routes.use("/mangas", mangasRouter);
 routes.use("/chapters", chaptersRouter);
 routes.use("/auth", authRouter);
 routes.use("/buyChapter", internalOrderRouter);
-routes.use("/Coins", externalOrderRouter);
+routes.use("/coins", externalOrderRouter);

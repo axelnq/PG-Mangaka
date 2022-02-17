@@ -80,15 +80,18 @@ model InternalOrder{
   buyerId    String
   product  Chapter @relation(fields: [productId], references: [id])
   productId Int
+  createdAt DateTime  @default(now())
   
 }
  model externalOrder{
    orderId  Int @id @default(autoincrement())
+   title String
    adminId  String 
    userId String
    status String
+   price Int
    productId Int
-  
+  createdAt DateTime  @default(now())
  }
  model coinsPackage{
    id Int @id @default(autoincrement())
@@ -96,5 +99,6 @@ model InternalOrder{
    sellprice Int
    buyprice Int
    value Int
+   
  }
 
