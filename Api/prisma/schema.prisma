@@ -58,6 +58,7 @@ model Manga {
   chapters  Chapter[]
   state     String
   active    Boolean
+  comments  String[]
 }
 
 model Chapter {
