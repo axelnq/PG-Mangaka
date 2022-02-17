@@ -197,7 +197,7 @@ usersRouter.post<{ idManga: string; username: string }, {}>(
   }
 );
 // Detalles del autor
-usersRouter.get<{ id: string }, {}>( "/user/:id", async (req, res, next) => {
+usersRouter.get<{ id: string }, {}>("/user/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     const user: any = await db.user.findUnique({
@@ -205,38 +205,45 @@ usersRouter.get<{ id: string }, {}>( "/user/:id", async (req, res, next) => {
       include: {
         created: {
           select: {
-            id: true, title: true, image: true, state: true, rating: true
+            id: true,
+            title: true,
+            image: true,
+            state: true,
+            rating: true,
           },
         },
       },
     });
 
-    if (!user) return res.status(404).json({msg: "Invalid author ID"});
-    if (!user.creatorMode) return res.status(404).json({msg: "The user is not an author"})
+    if (!user) return res.status(404).json({ msg: "Invalid author ID" });
+    if (!user.creatorMode)
+      return res.status(404).json({ msg: "The user is not an author" });
 
     let totalPoints: number = 0;
 
-    user.created.map((manga: any)=> {
+    user.created.map((manga: any) => {
       totalPoints += manga.rating;
     });
 
-    let authorRating: number = Number((totalPoints / user.created.length).toFixed(2));
+    let authorRating: number = Number(
+      (totalPoints / user.created.length).toFixed(2)
+    );
 
-    return res.send({data: {
-      id: user.id,
-      name: user.name,
-      username: user.username,
-      avatar: user.avatar,
-      about: user.about,
-      created: user.created,
-      authorRating
-    }});
-
-
+    return res.send({
+      data: {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        avatar: user.avatar,
+        about: user.about,
+        created: user.created,
+        authorRating,
+      },
+    });
   } catch (err: any) {
     console.log("Author detail: ", err);
-    res.status(400).send({error: err.message})
-  };
+    res.status(400).send({ error: err.message });
+  }
 });
 
 usersRouter.get("/currentUser", (req, res, next) => {
@@ -285,9 +292,14 @@ usersRouter.post<
         data: newUser,
       });
     }
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setAdmin/:username", async (req, res, next) => {
+usersRouter.put<{ admin: boolean; username: string }, {}>(
+  "/user/setAdmin/:username",
+  async (req, res, next) => {
     const { username } = req.params;
 
     try {
@@ -308,11 +320,12 @@ usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setAdmin/:usern
     } catch (error) {
       return res.sendStatus(404).json({ message: error });
     }
-  
-});
+  }
+);
 
-
-usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:username", async (req, res, next) => {
+usersRouter.put<{ admin: boolean; username: string }, {}>(
+  "/user/setActive/:username",
+  async (req, res, next) => {
     const { username } = req.params;
 
     try {
@@ -339,5 +352,5 @@ usersRouter.put<{ admin: boolean, username: string }, {}>("/user/setActive/:user
     } catch (error) {
       return res.sendStatus(404).json({ message: error });
     }
-  
-});
+  }
+);
