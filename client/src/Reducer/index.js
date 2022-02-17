@@ -8,7 +8,7 @@ import {
     FILTRO_AUTOR,
     ORDER,
     SEARCH_MANGA,
-    RECOMENDATED_MANGAS,
+    RECENT_MANGAS,
     PAGINADO_PAGE,
     GET_MANGAS_PREVIEW,
     POST_CHAPTERS,
@@ -17,11 +17,23 @@ import {
     CURRENT_USER,
     GET_ALL_CHAPTERS,
     GET_AUTHOR_DETAILS,
+    GET_USER_INFO,
+    GET_DETAIL_WISHLIST,
+    GET_DETAIL_LIBRARY,
+    GET_POPULAR_MANGAS,
+    GET_AUTHORS,
+    CHANGE_SHOW,
+    GET_USERS,
+    SET_ACTIVE,
+    SET_ACTIVE_MANGA,
+    SET_ADMIN
 } from "../Actions";
 
 const initialState = {
+    mangas:[],
     allMangas: [],
-    currentMangas: [],
+    recentMangas: [],
+    popularMangas: [],
     mangaDetail: {},
     genres: [],
     mangasPreview: [],
@@ -35,6 +47,10 @@ const initialState = {
     allChapters:[],
     authorDetail:[],
 
+    userInfo: {},
+    authors: [],
+    show: true,
+    allUsers: []
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -47,6 +63,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         case MANGAS_TO_DB:
             return {
                 ...state,
+                allMangas: payload
             };
         case GET_ALL_MANGAS:
             return {
@@ -61,10 +78,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 genres: payload,
             };
-        case RECOMENDATED_MANGAS:
+        case RECENT_MANGAS:
             return {
                 ...state,
-                allMangas: payload,
+                recentMangas: payload,
             };
         case GET_DETAIL:
             return {
@@ -138,6 +155,54 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 authorDetail: payload,
             };
+        case GET_USER_INFO: 
+            return {
+                ...state,
+                userInfo: payload
+            }
+        case GET_DETAIL_WISHLIST:
+            return  {
+                ...state,
+                wishlist: state.wishlist.concat(payload)
+            }
+        case GET_DETAIL_LIBRARY:
+            return {
+                ...state,
+                library: state.library.concat(payload)
+            }
+        case GET_POPULAR_MANGAS:
+            return {
+                ...state,
+                popularMangas: payload
+            }
+        case GET_AUTHORS:
+            return {
+                ...state,
+                authors: payload
+            }
+        case CHANGE_SHOW:
+            return {
+                ...state,
+                show: !state.show
+            }
+            case GET_USERS:
+            return {
+                ...state,
+                allUsers: payload,
+                
+            };
+        case SET_ACTIVE:
+            return {
+                ...state,
+        };
+        case SET_ACTIVE_MANGA:
+            return {
+                ...state,
+        };
+        case SET_ADMIN:
+            return {
+                ...state,
+        };
         default:
             return state;
     }
