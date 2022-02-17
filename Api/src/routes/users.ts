@@ -10,7 +10,7 @@ const upload = multer({
     fileSize: 100000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+    if (!file.originalname.match(/\.(png|jpg|jpeg|jfif)$/)) {
       cb(new Error("Please upload an image."));
     }
     cb(null, true);
@@ -190,37 +190,45 @@ usersRouter.post<{ idManga: string; username: string }, {}>(
     res.json(getUser);
   }
 );
-// Perfil de usuario
-usersRouter.get<{ username: string }, {}>("/user/:username", async (req, res, next) => {
-    const { username } = req.params;
+// Detalles del autor
+usersRouter.get<{ id: string }, {}>( "/user/:id", async (req, res, next) => {
+  const { id } = req.params;
   try {
     const user: any = await db.user.findUnique({
-      where: { username: username },
+      where: { id: id },
       include: {
         created: {
           select: {
-            id: true, title: true, authorId: true, image: true, state: true, rating: true
+            id: true, title: true, image: true, state: true, rating: true
           },
         },
       },
     });
 
-    if (!user) return res.status(404).json({msg: "Invalid username"});
-    if (user.creatorMode) {
-      let totalPoints: number = 0;
+    if (!user) return res.status(404).json({msg: "Invalid author ID"});
+    if (!user.creatorMode) return res.status(404).json({msg: "The user is not an author"})
 
-      user.created.map((manga: any)=> {
-        totalPoints += manga.rating;
-      });
+    let totalPoints: number = 0;
 
-      let authorRating: number = Number((totalPoints / user.created.length).toFixed(2));
+    user.created.map((manga: any)=> {
+      totalPoints += manga.rating;
+    });
 
-      return res.send({data: {...user, authorRating}});
-    }
-    res.send({data: user});
+    let authorRating: number = Number((totalPoints / user.created.length).toFixed(2));
+
+    return res.send({data: {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      avatar: user.avatar,
+      about: user.about,
+      created: user.created,
+      authorRating
+    }});
+
 
   } catch (err: any) {
-    console.log("User detail: ", err);
+    console.log("Author detail: ", err);
     res.status(400).send({error: err.message})
   };
 });

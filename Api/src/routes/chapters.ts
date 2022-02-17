@@ -7,7 +7,7 @@ const upload = multer({
     fileSize: 100000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+    if (!file.originalname.match(/\.(png|jpg|jpeg|jfif)$/)) {
       cb(new Error("Please upload an image."));
     }
     cb(null, true);
@@ -21,10 +21,12 @@ chaptersRouter.post<{}, {}>(
   "/",
   upload.fields([
     { name: "portada", maxCount: 1 },
-    { name: "chapters", maxCount: 20 },
+    { name: "chapters", maxCount: 100 },
   ]),
   async (req, res, next) => {
     const { title, mangaId, price } = req.body;
+    //@ts-ignore
+    console.log(`{title${title},mangaId${mangaId},portada${req.files.portada},chapters${req.files.chapters}}`)
     let images: Buffer[] = [];
     let cover: Buffer;
     if (req.files) {

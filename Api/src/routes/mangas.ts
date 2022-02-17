@@ -12,7 +12,7 @@ const upload = multer({
     fileSize: 100000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+    if (!file.originalname.match(/\.(png|jpg|jpeg|jfif)$/)) {
       cb(new Error("Please upload an image."));
     }
     cb(null, true);
@@ -148,10 +148,6 @@ mangasRouter.post<{}, {}>("/",
   upload.single("images"),
   async (req, res, next) => {
     const { title, synopsis, authorId, genres } = req.body;
-    //Las lineas de abajo son para hardcodear el authorId
-    const Author = await db.user.findUnique({
-      where: { username: "SuperAdmin" },
-    });
     let image;
     if (req.file) {
       image = req.file.buffer;
@@ -160,9 +156,6 @@ mangasRouter.post<{}, {}>("/",
     }
 
     let createdManga = new Manga(title, synopsis, image, genres, authorId);
-    if (Author) {
-      createdManga = new Manga(title, synopsis, image, genres, Author.id);
-    }
 
     try {
       const newManga = await db.manga.create({
