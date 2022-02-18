@@ -7,23 +7,22 @@ const localStrategy = require("passport-local").Strategy;
 
 module.exports = function (passport: any) {
   passport.serializeUser((user: any, done: any) => {
-    console.log("serializeUser: " + user);
     return done(null, user.id);
   });
 
   passport.deserializeUser((id: any, done: any) => {
-    console.log("deserializeUser: " + id);
-    db.user.findUnique({
-      where: {
-        id: id
-      },
-      include: {
-        created: true,
-      },
-    }).then((user: any) => {
-      console.log("deserializeUser 2: " + user);
-      done(null, user);
-    });
+    db.user
+      .findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          created: true,
+        },
+      })
+      .then((user: any) => {
+        done(null, user);
+      });
   });
 
   passport.use(
@@ -69,7 +68,7 @@ module.exports = function (passport: any) {
           });
           if (user) {
             // done(null, user);
-            done(null, profile);
+            done(null, user);
           } else {
             let photo = await axios.get(profile.photos[0].value, {
               responseType: "arraybuffer",
@@ -90,6 +89,7 @@ module.exports = function (passport: any) {
               undefined,
               undefined,
               undefined,
+              undefined,
               true
             );
             const user = await db.user.create({
@@ -98,7 +98,7 @@ module.exports = function (passport: any) {
 
             // done(null, newUser);
             console.log("google register: ", profile);
-            done(null, profile);
+            done(null, user);
           }
         } catch (error) {
           done(error, null);

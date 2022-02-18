@@ -35,6 +35,7 @@ model User {
   coins       Int     @default(0)
   creatorMode Boolean @default(false)
   email       String  @unique
+  chapters    Int[]
   library     Int[] 
   favorites   Int[]
   wishList    Int[]
