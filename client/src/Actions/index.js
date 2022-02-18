@@ -225,6 +225,7 @@ export let postChapters = (payload) => {
                 `http://localhost:3001/api/chapters`,
                 payload
             );
+            
             return dispatch({
                 type: POST_CHAPTERS,
                 payload: chapters.data,

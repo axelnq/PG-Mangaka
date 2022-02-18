@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
+import { useParams } from 'react-router-dom';
 import { Button,Input, InputBase } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postChapters, getChapters } from '../Actions/index';
@@ -10,10 +11,10 @@ import Navbar from './Navbar';
 
 
 
-export default function CreateChapters(props) {
+export default function CreateChapters() {
   const dispatch = useDispatch();
   const chapters = useSelector((state) => state.allChapters);
-
+  const { id } = useParams()
  
 
   const [input, setInput] = useState({
@@ -67,7 +68,7 @@ function handleSubmit(e) {
     const formData = new FormData();
     formData.append('title', input.title);
     console.log(input.title)
-    formData.append('mangaId', props.mangaId );
+    formData.append('mangaId', id );
     console.log(input.mangaId)
     formData.append('portada', input.coverImages);
     console.log(input.coverImages)
