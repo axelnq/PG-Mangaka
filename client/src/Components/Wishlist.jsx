@@ -1,20 +1,26 @@
-import { React, useEffect } from 'react'
+import { React, useEffect, useState } from 'react'
 import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Navbar from './Navbar'
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, getMangaDetailWishList } from '../Actions';
+import { deleteWishlistManga, getMangaDetailWishList, getWishList } from '../Actions';
 
 const Wishlist = () => {
-    let user = useSelector(state => state.user)
     let wishlist = useSelector(state=>state.wishlist)
+    let [id, setId] = useState({ mangaId: 0 })
 
     const dispatch = useDispatch()
 
+    let handleDeleteManga = (e, mangaId) => {
+        setId({ mangaId: mangaId })
+        dispatch(deleteWishlistManga(id))
+        dispatch(getWishList())
+    }
+
     useEffect(() => {
-        dispatch(getUserInfo(user.username))
-        user.wishList.map(m => dispatch(getMangaDetailWishList(m)))
+        dispatch(getWishList())
+        wishlist.map(m => dispatch(getMangaDetailWishList(m)))
     }, [])
 
     return (
@@ -32,11 +38,11 @@ const Wishlist = () => {
                                     </ListItemAvatar>
                                     <ListItemText sx={{ mx: '1rem'}}>
                                         <Typography variant='h5'>{m.data.title}</Typography>
-                                        <Typography variant='body2'>{m.data.author.name}</Typography>
+                                        <Typography variant='body2'>{m.data.author}</Typography>
                                         <Typography variant='body2'>{m.genre?.join(', ')}</Typography>
                                     </ListItemText>
-                                    <IconButton sx={{ mx: '1rem', color: '#fff'}}>
-                                        <DeleteIcon/>
+                                    <IconButton sx={{ mx: '1rem', color: '#fff'}} onClick={e => handleDeleteManga(e, m.data.id)}>
+                                        <DeleteIcon />
                                     </IconButton>
                                  </ListItem>
                              )

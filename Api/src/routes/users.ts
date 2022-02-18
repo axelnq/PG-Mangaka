@@ -367,10 +367,10 @@ usersRouter.put<{ admin: boolean; username: string }, {}>(
 
 //
 //
-usersRouter.put<{id: string, list: string}, {}>("/user/lists/:id", isAuthenticated, async (req, res) => {
-  // const { id } = req.params;
+usersRouter.put<{id: string, list: string}, {}>("/user/lists/:id", async (req, res) => {
+  const { id } = req.params;
   //@ts-ignore
-  const id = req.user.id
+  // const id = req.user.id
   const { list } = req.query;
   const { mangaId } = req.body;
   

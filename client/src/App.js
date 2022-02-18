@@ -21,12 +21,24 @@ import PersonalMangas from "./Components/Configuration/PersonalMangas";
 import About from "./Components/Configuration/About";
 import IndexProfile from "./Components/Configuration/IndexProfile";
 
+const axios = require("axios");
+
 // windoes + .
 
 function App() {
   const user = useSelector((state) => state.user);
+  const handleButton = () => {
+    let current = axios.get("http://localhost:3001/api/users/currentUser", {withCredentials: true,});
+    console.log("current");
+    console.log(current);
+    console.log("   ")
+    console.log("user");
+    console.log(user);
+  };
   return (
     <div className="App">
+      <button onClick={() => localStorage.clear()}>Clear</button>
+      <button onClick={handleButton}>Current</button>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />

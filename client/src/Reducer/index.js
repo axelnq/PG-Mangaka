@@ -25,7 +25,9 @@ import {
     GET_USERS,
     SET_ACTIVE,
     SET_ACTIVE_MANGA,
-    SET_ADMIN
+    SET_ADMIN,
+    DELETE_WISHLIST_MANGA,
+    ADD_MANGA_WISHLIST,
 } from "../Actions";
 
 const initialState = {
@@ -137,6 +139,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 library: payload,
             };
         case GET_WISHLIST:
+            console.log(payload)
             return {
                 ...state,
                 wishlist: payload,
@@ -195,6 +198,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
         };
+        case DELETE_WISHLIST_MANGA:
+            return {
+                ...state,
+            }
+        case ADD_MANGA_WISHLIST: 
+            return {
+                ...state,
+                wishlist: state.wishlist.concat(payload)
+            }
         default:
             return state;
     }
