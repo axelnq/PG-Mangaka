@@ -25,6 +25,9 @@ export const GET_USERS = "GET_USERS";
 export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
 export const SET_ADMIN = "SET_ADMIN";
+export const GET_PACKS = "GET_PACKS";
+export const BUY_COINS = "BUY_COINS";
+export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
 
 const axios = require("axios");
 
@@ -526,3 +529,55 @@ export let setAdmin = (payload) => {
         }
     };
 };
+
+export let getPacks = () => {
+    return async (dispatch) => {
+        try {
+            let packs = await axios.get(
+                "http://localhost:3001/api/coins/pack"
+            );
+            return dispatch({
+                type: GET_PACKS,
+                payload: packs.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+export let buyCoins = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let buyCoins = await axios.post(
+                `http://localhost:3001/api/coins/buy`,
+                payload
+            );
+            return dispatch({
+                type: BUY_COINS,
+                payload: buyCoins,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+// export let getPreferenceId = (payload) => {
+//     return async (dispatch) => {
+//         try {
+//             console.log(payload);
+//             let getPreferenceId = await axios.get(
+//                 `http://localhost:3001/api/coins/buy`
+//             );
+//             console.log(getPreferenceId)
+//             return dispatch({
+//                 type: GET_PREFERENCE_ID,
+//                 payload: getPreferenceId,
+//             });
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     };
+// };
