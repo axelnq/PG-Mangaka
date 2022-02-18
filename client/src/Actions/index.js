@@ -255,13 +255,13 @@ export let postChapters = (payload) => {
 export let getWishList = (payload) => {
     return async (dispatch) => {
         try {
-            let mangas = await axios.get(`http://localhost:3001/api/profile/wishList`, { withCredentials: true })
+            let mangas = await axios.get(`http://localhost:3001/api/profile/wishlist`, { withCredentials: true })
             return dispatch({
                 type: GET_WISHLIST,
                 payload: mangas.data
             })
         } catch(error) {
-            console.log(error)
+            console.log(error.response)
         }
     }
 }
