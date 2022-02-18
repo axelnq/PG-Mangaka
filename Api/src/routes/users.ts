@@ -18,6 +18,7 @@ const upload = multer({
   },
 });
 import axios from "axios";
+import { deleteToTheList, addToTheList } from "../utils/lists";
 export const usersRouter = Router();
 
 usersRouter.get("/", async (req, res) => {
@@ -295,9 +296,15 @@ usersRouter.post<
 
 usersRouter.put<{ admin: boolean; username: string }, {}>(
   "/user/setAdmin/:username",
+  isAuthenticated,
   async (req, res, next) => {
     const { username } = req.params;
-
+    //@ts-ignore
+  const admin = req.user
+  //@ts-ignore
+  if(!(admin.role === "SUPERADMIN")){
+    return res.status(403).send({ message: "You don't have permission to do this, Are you trying to hack us?" });
+  }
     try {
       const user = await db.user.findUnique({
         where: { username: username },
@@ -321,8 +328,15 @@ usersRouter.put<{ admin: boolean; username: string }, {}>(
 
 usersRouter.put<{ admin: boolean; username: string }, {}>(
   "/user/setActive/:username",
+  isAuthenticated,
   async (req, res, next) => {
     const { username } = req.params;
+    //@ts-ignore
+    const admin = req.user
+    //@ts-ignore
+    if(!(admin.role === "ADMIN" || admin.role === "SUPERADMIN")){
+      return res.status(403).send({ message: "You don't have permission to do this, Are you trying to hack us?" });
+    }
 
     try {
       const user = await db.user.findUnique({
@@ -348,5 +362,34 @@ usersRouter.put<{ admin: boolean; username: string }, {}>(
     } catch (error) {
       return res.sendStatus(404).json({ message: error });
     }
+});
+
+
+//
+//
+usersRouter.put<{id: string, list: string}, {}>("/user/lists/:id", isAuthenticated, async (req, res) => {
+  // const { id } = req.params;
+  //@ts-ignore
+  const id = req.user.id
+  const { list } = req.query;
+  const { mangaId } = req.body;
+  
+  if (list !== "library" && list !== "favorites" && list !== "wishList" ) return res.status(400).send({msg: "Invalid list name"});
+  
+  try {
+    //@ts-ignore
+    if( req.user[list].includes(number(mangaId))){
+    let mangasList = await deleteToTheList(id, list, mangaId);
+    
+    return (mangasList.length === 0) ?
+    res.send({msg: "Empty list"}) : res.send({msg: "Delete manga to the list"})
+    } else {
+      let user = await addToTheList(id, list, mangaId);
+      return (user[list].length === 0) ?
+      res.send({msg: "Empty list"}) : res.send({msg: "Add manga to the list"})
+    }
+  } catch (error: any) {
+    console.log("Delete manga from list: ", error)
+    return res.status(400).send({error: error.message})
   }
-);
+});

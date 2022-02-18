@@ -5,16 +5,28 @@ import { ScrollMenu } from "react-horizontal-scrolling-menu";
 
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { Container } from '@mui/material';
+import { styled } from "@mui/material/styles";
 
 const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) => {
-    const style = { display: `none`, overflow: `hidden` }
+    const StackContainer = styled(Stack)`
+        width: 70rem;
+        display: flex;
+        flex-direction: row;
+        overflow-x: scroll;
+        scrollbar-width: thin;
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* make scrollbar transparent */
+        }
+        @media only screen and (max-width: 600px) {
+            width: 30rem
+          }
+    `
     return(
         <Stack direction='column'>
             <Stack direction="column" sx={{ my: '2rem'}}>
                 <Typography variant="h5" gutterBottom component="div">Recientes</Typography>
-                 <ScrollMenu style={style}>
-                     <Stack direction="row" sx={{ width:'70rem'}}>
+                     <StackContainer direction="row" sx={{ width:'70rem'}} >
                         { 
                             // console.log('recientes', mangasRecientes)
                             mangasRecientes && mangasRecientes.data?.map((m, i) => {
@@ -31,14 +43,12 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                                 )
                             })
                         }
-                    </Stack>
-                 </ScrollMenu>
+                    </StackContainer>
                 
             </Stack>
             <Stack direction="column" sx={{ my: '2rem'}}>
                 <Typography variant="h5" gutterBottom component="div">Destacados</Typography>
-                <ScrollMenu style={style}>
-                    <Stack direction="row" sx={{ width:'65rem'}}>
+                    <StackContainer direction="row" sx={{ width:'65rem'}} >
                         {
                             // console.log('destacados', mangasDestacados)
                             mangasDestacados && mangasDestacados.data?.map((m, i) => {
@@ -55,19 +65,16 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                                 )
                             })
                         }
-                    </Stack>
-                </ScrollMenu>
+                    </StackContainer>
             </Stack>
             
             <Stack direction="column" sx={{ my: '2rem'}}>
                 <Typography variant="h5" gutterBottom component="div">Autores Populares</Typography>
-                <ScrollMenu style={style}>
-                    <Stack direction="row" sx={{ width:'65rem'}}>
+                    <StackContainer direction="row" sx={{ width:'65rem'}} >
                         {
                             
                         }
-                    </Stack>
-                </ScrollMenu>
+                    </StackContainer>
             </Stack>
             
         </Stack>

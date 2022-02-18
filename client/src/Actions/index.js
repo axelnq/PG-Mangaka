@@ -21,6 +21,10 @@ export const GET_DETAIL_LIBRARY = 'GET_DETAIL_LIBRARY'
 export const GET_POPULAR_MANGAS = 'GET_POPULAR_MANGAS'
 export const GET_AUTHORS = 'GET_AUTHORS'
 export const CHANGE_SHOW = 'CHANGE_SHOW'
+export const GET_USERS = "GET_USERS";
+export const SET_ACTIVE = "SET_ACTIVE";
+export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
+export const SET_ADMIN = "SET_ADMIN";
 
 const axios = require("axios");
 
@@ -221,6 +225,7 @@ export let postChapters = (payload) => {
                 `http://localhost:3001/api/chapters`,
                 payload
             );
+            
             return dispatch({
                 type: POST_CHAPTERS,
                 payload: chapters.data,
@@ -454,3 +459,70 @@ export let changeShow = () => {
         }
     }
 }
+
+export let getAllUsers = () => {
+    return async (dispatch) => {
+        try {
+            let users = await axios.get(
+                "http://localhost:3001/api/users"
+            );
+            return dispatch({
+                type: GET_USERS,
+                payload: users.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+export let setActive = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let setActive = await axios.put(
+                `http://localhost:3001/api/users/user/setActive/${payload}`
+            );
+            return dispatch({
+                type: SET_ACTIVE,
+                payload: setActive.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+export let setActiveManga = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let setActiveManga = await axios.put(
+                `http://localhost:3001/api/mangas/manga/setActive/${payload}`
+            );
+            return dispatch({
+                type: SET_ACTIVE_MANGA,
+                payload: setActiveManga.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+export let setAdmin = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let setAdmin = await axios.put(
+                `http://localhost:3001/api/users/user/setAdmin/${payload}`
+            );
+            return dispatch({
+                type: SET_ADMIN,
+                payload: setAdmin.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};

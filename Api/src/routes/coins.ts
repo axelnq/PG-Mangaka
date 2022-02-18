@@ -83,6 +83,7 @@ externalOrderRouter.get<{}, {}>("/pagos", async (req, res) => {
     }
   }
 });
+
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
   let { adminId, userId, status, value } = req.body;
   let seller = await db.user.findUnique({ where: { id: userId } });
@@ -135,6 +136,7 @@ externalOrderRouter.get<{}, {}>("/createPackage", async (req, res) => {
   const newPackage6 = await db.coinsPackage.create({ data: cP6 });
   res.send("Bundle Coins Created");
 });
+
 externalOrderRouter.post<{}, {}>("/generatePackages", async (req, res) => {
   let { id, value, title, buyprice, sellprice } = req.body;
   let cP = new CoinsPackage(value, title, sellprice, buyprice, id);

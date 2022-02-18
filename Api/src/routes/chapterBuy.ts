@@ -56,6 +56,7 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
     }
   }
 });
+
 internalOrderRouter.post<{}, {}>("/wishlistManga", async (req, res, next) => {
   let { mangaId, userId } = req.body;
   let firstUser = await db.user.findUnique({
@@ -74,6 +75,7 @@ internalOrderRouter.post<{}, {}>("/wishlistManga", async (req, res, next) => {
     res.send("You already have this manga in wishlist");
   }
 });
+
 internalOrderRouter.post<{}, {}>("/favoritesManga", async (req, res, next) => {
   let { mangaId, userId } = req.body;
   let firstUser = await db.user.findUnique({
