@@ -49,6 +49,7 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
             username: buyer.username,
           },
           data: {
+            chapters: [...buyer.chapters, productId],
             coins: buyer.coins - product.price,
           },
         });
