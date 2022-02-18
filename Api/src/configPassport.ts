@@ -69,7 +69,7 @@ module.exports = function (passport: any) {
           });
           if (user) {
             // done(null, user);
-            done(null, profile);
+            done(null, user);
           } else {
             let photo = await axios.get(profile.photos[0].value, {
               responseType: "arraybuffer",
@@ -98,7 +98,7 @@ module.exports = function (passport: any) {
 
             // done(null, newUser);
             console.log("google register: ", profile);
-            done(null, profile);
+            done(null, user);
           }
         } catch (error) {
           done(error, null);
