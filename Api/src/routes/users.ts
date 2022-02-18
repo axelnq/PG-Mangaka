@@ -349,8 +349,6 @@ usersRouter.put<{ admin: boolean; username: string }, {}>(
     } catch (error) {
       return res.sendStatus(404).json({ message: error });
     }
-<<<<<<< HEAD
-  
 });
 
 usersRouter.put<{id: string, list: string}, {}>("/user/lists/:id", async (req, res) => {
@@ -371,7 +369,3 @@ usersRouter.put<{id: string, list: string}, {}>("/user/lists/:id", async (req, r
     return res.status(400).send({error: error.message})
   }
 });
-=======
-  }
-);
->>>>>>> develop
