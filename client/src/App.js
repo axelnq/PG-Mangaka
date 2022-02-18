@@ -11,6 +11,7 @@ import Register from "./Components/Access/Register";
 import CreateChapters from "./Components/CreateChapters";
 import { useSelector } from "react-redux";
 import AuthorDetail from './Components/AuthorDetail'
+import CheckoutForm from './Components/CheckoutForm';
 // windoes + .
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/panel" element={<Panel />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
+            <Route path="/CheckoutForm/:id" element={<CheckoutForm />} />
           </>
         )}
         <Route path="*" element={<Navigate to="/" />} />
