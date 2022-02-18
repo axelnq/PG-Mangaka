@@ -367,7 +367,7 @@ usersRouter.put<{ admin: boolean; username: string }, {}>(
 
 //
 //
-usersRouter.put<{id: string, list: string}, {}>("/user/lists/:id", isAuthenticated, async (req, res) => {
+usersRouter.put<{id: string, list: string}, {}>("/user/lists", isAuthenticated, async (req, res) => {
   // const { id } = req.params;
   //@ts-ignore
   const id = req.user.id
@@ -375,17 +375,17 @@ usersRouter.put<{id: string, list: string}, {}>("/user/lists/:id", isAuthenticat
   const { mangaId } = req.body;
   
   if (list !== "library" && list !== "favorites" && list !== "wishList" ) return res.status(400).send({msg: "Invalid list name"});
-  
   try {
     //@ts-ignore
     if( req.user[list].includes(number(mangaId))){
-    let mangasList = await deleteToTheList(id, list, mangaId);
-    
+      //@ts-ignore
+    let mangasList = await deleteToTheList(id, list, mangaId, req.user[list]);
     return (mangasList.length === 0) ?
     res.send({msg: "Empty list"}) : res.send({msg: "Delete manga to the list"})
     } else {
-      let user = await addToTheList(id, list, mangaId);
-      return (user[list].length === 0) ?
+      //@ts-ignore
+      let mangasList = await addToTheList(id, list, mangaId, req.user[list]);
+      return (mangasList.length === 0) ?
       res.send({msg: "Empty list"}) : res.send({msg: "Add manga to the list"})
     }
   } catch (error: any) {
