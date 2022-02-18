@@ -1,44 +1,31 @@
 import { db } from "../app"
 
-export const addToTheList = async (id: string, list: string, mangaId: number) => {
+export const addToTheList = async (id: string, list: string, mangaId: number, userList: number[]) => {
   try {
-    let mangasList: any = await db.user.findUnique({
-      where: {id: id},
-      select: {
-        [list] : true
-      }
-    });
-  
-    let updateList = await db.user.update({
+    let newList= [...userList, mangaId];
+    await db.user.update({
       where: {id: id},
       data: {
-        [list]: [...mangasList[list], mangaId]
+        [list]: newList
       }
     });
-    return updateList;
+    return newList;
   } catch (error: any) {
     throw new Error(error.message);
   }
 }
 
-export const deleteToTheList = async (id: string, list: string, mangaId: number) => {
+export const deleteToTheList = async (id: string, list: string, mangaId: number, userList: number[]) => {
   try {
-    let mangasList: any = await db.user.findUnique({
-      where: {id: id},
-      select: {
-        [list] : true
-      }
-    });
-
-    if (mangasList[list].length === 0) return []
-
-    let updateList:any = await db.user.update({
+    if (userList.length === 0) return [];
+    let newList= userList.filter(manga => manga !== mangaId);
+    await db.user.update({
       where: {id: id},
       data: {
-        [list]: mangasList[list].filter( (id: number) => id !== mangaId)
+        [list]: newList
       }
     });
-    return updateList[list];
+    return newList;
   } catch (error: any) {
     throw new Error(error.message);
   }
