@@ -18,6 +18,7 @@ const upload = multer({
   },
 });
 import axios from "axios";
+import { deleteToTheList } from "../utils/lists";
 export const usersRouter = Router();
 
 usersRouter.get("/", async (req, res) => {
@@ -348,5 +349,23 @@ usersRouter.put<{ admin: boolean; username: string }, {}>(
     } catch (error) {
       return res.sendStatus(404).json({ message: error });
     }
+});
+
+usersRouter.put<{id: string, list: string}, {}>("/user/lists/:id", async (req, res) => {
+  const { id } = req.params;
+  const { list } = req.query;
+  const { mangaId } = req.body;
+  
+  if (list !== "library" && list !== "favorites" && list !== "wishList" ) return res.status(400).send({msg: "Invalid list name"});
+      
+  try {
+    let mangasList = await deleteToTheList(id, list , mangaId);
+    
+    return (mangasList.length === 0) ?
+    res.send({msg: "Empty list"}) :
+    res.send({msg: "Delete manga to the list"})
+  } catch (error: any) {
+    console.log("Delete manga from list: ", error)
+    return res.status(400).send({error: error.message})
   }
-);
+});

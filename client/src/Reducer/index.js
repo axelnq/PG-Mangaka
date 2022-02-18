@@ -21,10 +21,15 @@ import {
     GET_DETAIL_LIBRARY,
     GET_POPULAR_MANGAS,
     GET_AUTHORS,
-    CHANGE_SHOW
+    CHANGE_SHOW,
+    GET_USERS,
+    SET_ACTIVE,
+    SET_ACTIVE_MANGA,
+    SET_ADMIN
 } from "../Actions";
 
 const initialState = {
+    mangas:[],
     allMangas: [],
     recentMangas: [],
     popularMangas: [],
@@ -41,7 +46,8 @@ const initialState = {
     allChapters:[],
     userInfo: {},
     authors: [],
-    show: true
+    show: true,
+    allUsers: []
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -171,6 +177,24 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 show: !state.show
             }
+            case GET_USERS:
+            return {
+                ...state,
+                allUsers: payload,
+                
+            };
+        case SET_ACTIVE:
+            return {
+                ...state,
+        };
+        case SET_ACTIVE_MANGA:
+            return {
+                ...state,
+        };
+        case SET_ADMIN:
+            return {
+                ...state,
+        };
         default:
             return state;
     }
