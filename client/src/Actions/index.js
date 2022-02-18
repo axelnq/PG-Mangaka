@@ -25,6 +25,7 @@ export const GET_USERS = "GET_USERS";
 export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
 export const SET_ADMIN = "SET_ADMIN";
+export const POST_CHECKOUT = "POST_CHECKOUT";
 
 const axios = require("axios");
 
@@ -520,6 +521,26 @@ export let setAdmin = (payload) => {
             return dispatch({
                 type: SET_ADMIN,
                 payload: setAdmin.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+
+export let postCheckout = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let checkout = await axios.post(
+                `http://localhost:3001/api/coins/sell`,
+                payload
+            );
+            
+            return dispatch({
+                type: POST_CHECKOUT,
+                payload: checkout.data,
             });
         } catch (error) {
             console.log(error);

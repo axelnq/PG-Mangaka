@@ -25,7 +25,8 @@ import {
     GET_USERS,
     SET_ACTIVE,
     SET_ACTIVE_MANGA,
-    SET_ADMIN
+    SET_ADMIN,
+    POST_CHECKOUT
 } from "../Actions";
 
 const initialState = {
@@ -195,6 +196,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
         };
+        case POST_CHECKOUT:
+            return {
+                ...state,
+            };
         default:
             return state;
     }
