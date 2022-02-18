@@ -51,11 +51,17 @@ const Filters = () => {
         dispatch(getGenres())
     }, [])
 
+    const style = { 
+        width: '100%', 
+        overflowX: 'scroll', 
+        scrollbarWidth: 'thin', 
+    }
+
     return (
         <div>
-            <Stack sx={{ backgroundColor: '#192A45' }} direction={{ xs: "column", md: "row" }} justifyContent='center' alignItems="center">
-                <Button variant="contained" onClick={handleRecomendation} sx={{ color: '#357DED', width: '15%', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>Recomendaciones</Button>
-                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+            <Stack sx={{ backgroundColor: '#192A45' }} direction="row" justifyContent='center' alignItems="center" style={style}>
+                <Button variant="contained" onClick={handleRecomendation} sx={{ color: '#357DED', width:'18rem', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>Para Vos</Button>
+                <FormControl sx={{  backgroundColor: '#000', width:'18rem', my: '1rem', mx: '1rem', borderRadius: 2 }}>
                     <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>GÉNEROS POPULARES</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -82,7 +88,7 @@ const Filters = () => {
                         <MenuItem value={'Adventure'} sx={{ color: '#357DED' }}>AVENTURA</MenuItem> */}
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+                <FormControl sx={{  backgroundColor: '#000', width:'18rem', my: '1rem', mx: '1rem', borderRadius: 2 }}>
                     <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>AUTORES</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -95,7 +101,7 @@ const Filters = () => {
                         <MenuItem value={'Admin'} sx={{ color: '#357DED' }}>ADMIN</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
+                <FormControl sx={{  backgroundColor: '#000', width:'18rem', my: '1rem', mx: '1rem', borderRadius: 2 }}>
                     <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>ORDEN</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -110,7 +116,7 @@ const Filters = () => {
                         {/* <MenuItem value={'createdAt'} sx={{ color: '#357DED' }}>NUEVOS</MenuItem> */}
                     </Select>
                 </FormControl>
-                <Button variant="contained" onClick={handleGetAll} sx={{ color: '#357DED', width: '15%', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>Todos</Button>
+                <Button variant="contained" onClick={handleGetAll} sx={{ color: '#357DED', width:'18rem',  height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '1rem', borderRadius: 2 }}>Todos</Button>
             </Stack>
         </div>
 

@@ -5,16 +5,14 @@ import { ScrollMenu } from "react-horizontal-scrolling-menu";
 
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { Container } from '@mui/material';
 
 const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) => {
-    const style = { display: `none`, overflow: `hidden` }
+    const style = { width: '70rem', overflowX: 'scroll', scrollbarColor: 'rebeccapurple green', scrollbarWidth: 'thin' }
     return(
         <Stack direction='column'>
             <Stack direction="column" sx={{ my: '2rem'}}>
                 <Typography variant="h5" gutterBottom component="div">Recientes</Typography>
-                 <ScrollMenu style={style}>
-                     <Stack direction="row" sx={{ width:'70rem'}}>
+                     <Stack direction="row" sx={{ width:'70rem'}} style={style}>
                         { 
                             // console.log('recientes', mangasRecientes)
                             mangasRecientes && mangasRecientes.data?.map((m, i) => {
@@ -32,13 +30,11 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                             })
                         }
                     </Stack>
-                 </ScrollMenu>
                 
             </Stack>
             <Stack direction="column" sx={{ my: '2rem'}}>
                 <Typography variant="h5" gutterBottom component="div">Destacados</Typography>
-                <ScrollMenu style={style}>
-                    <Stack direction="row" sx={{ width:'65rem'}}>
+                    <Stack direction="row" sx={{ width:'65rem'}} style={style}>
                         {
                             // console.log('destacados', mangasDestacados)
                             mangasDestacados && mangasDestacados.data?.map((m, i) => {
@@ -56,18 +52,15 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                             })
                         }
                     </Stack>
-                </ScrollMenu>
             </Stack>
             
             <Stack direction="column" sx={{ my: '2rem'}}>
                 <Typography variant="h5" gutterBottom component="div">Autores Populares</Typography>
-                <ScrollMenu style={style}>
-                    <Stack direction="row" sx={{ width:'65rem'}}>
+                    <Stack direction="row" sx={{ width:'65rem'}} style={style}>
                         {
                             
                         }
                     </Stack>
-                </ScrollMenu>
             </Stack>
             
         </Stack>
