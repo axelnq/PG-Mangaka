@@ -114,6 +114,11 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
     }
   }
 });
+externalOrderRouter.get<{}, {}>("/pack", async (req, res) => {
+  let pack = await db.coinsPackage.findMany();
+  let packfiltered = pack.filter((e) => e.buyprice > 9);
+  res.send(packfiltered);
+});
 
 externalOrderRouter.get<{}, {}>("/createPackage", async (req, res) => {
   let cP = new CoinsPackage(600, "500 Coins + 100 coins bundle", 0, 5000);
