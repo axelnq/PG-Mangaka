@@ -52,7 +52,7 @@ mangasRouter.get<{}, {}>("/popularMangas", async (req, res) => {
   try {
     const popularMangas = await db.manga.findMany({
       where: {
-        active:true,
+        active: true,
         rating: {
           gte: 8,
         },
@@ -183,7 +183,7 @@ mangasRouter.get<{}, {}>("/Search", async (req, res, next) => {
   const { title } = req.query;
   const result: any = await db.manga.findMany({
     where: {
-      active:true,
+      active: true,
       title: {
         contains: title as string,
         mode: "insensitive",
@@ -271,7 +271,7 @@ mangasRouter.get<{}, {}>("/allMangas", async (req, res, next) => {
 mangasRouter.get<{}, {}>("/recentMangas", async (req, res, next) => {
   try {
     const recentMangas = await db.manga.findMany({
-      where: { active:true },
+      where: { active: true },
       orderBy: {
         uptadedAt: "desc",
       },
@@ -305,19 +305,19 @@ mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
   if (!author) {
     return res.status(400).send({ message: "Author is required" });
   }
-  if(!page || page === "" || page === "0"){
+  if (!page || page === "" || page === "0") {
     page = "1";
   }
   try {
     let mangasResponse = await paginatedByAuthor(Number(page), author as string);
-    return res.json({ data: mangasResponse[0], total: mangasResponse[1], totalMangas: mangasResponse[2] });  
-  } catch (error:any) {
+    return res.json({ data: mangasResponse[0], total: mangasResponse[1], totalMangas: mangasResponse[2] });
+  } catch (error: any) {
     console.log("Error byAuthor: ", error);
     return res.status(400).send({ message: error.message });
   }
 });
 
-mangasRouter.put<{ idManga:string }, {}>("/manga/setActive/:idManga", async (req, res, next) => {
+mangasRouter.put<{ idManga: string }, {}>("/manga/setActive/:idManga", async (req, res, next) => {
   const { idManga } = req.params;
 
   try {
@@ -341,5 +341,23 @@ mangasRouter.put<{ idManga:string }, {}>("/manga/setActive/:idManga", async (req
     return res.sendStatus(404).json({ message: error });
   }
 
+});
+
+
+mangasRouter.get("/panel/allMangas", async (req, res) => {
+  const mangas = await db.manga.findMany({
+    select: {
+      title: true,
+      author: { select: { name: true } },
+      chapter: true,
+      chapters: { select: { id: true, title: true } },
+      genre: true,
+      rating: true,
+      state: true,
+      active: true
+    }
+  });
+
+  res.send(mangas);
 });
 
