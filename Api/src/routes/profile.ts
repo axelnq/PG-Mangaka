@@ -53,6 +53,40 @@ profileRouter.get("/", isAuthenticated, async (req, res, next) => {
     });
   }
 });
+// obtiene los favoritos del usuario
+profileRouter.get("/favorites", isAuthenticated, async (req, res, next) => {
+  //@ts-ignore
+  const { favorites } = req.user;
+  try{
+    let mangas = await db.manga.findMany({
+      where: { id: { in: favorites } },
+      select: {
+        id: true,
+        title: true,
+        image: true,
+        author: {
+          select: {
+            name: true,
+          }
+        },
+        chapters: {
+          select: {
+            id: true,
+            title: true,
+            coverImage: true,
+          }
+        }
+      }
+    });
+    res.json({ data: mangas, totalFavorites: favorites.length });
+  } catch (err:any) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Obtiene la bibloteca del usuario
+// Obtiene la Wishlist del usuario
 
 // Ruta Get avatar
 profileRouter.get("/avatar", isAuthenticated, async (req, res, next) => {
