@@ -11,16 +11,18 @@ module.exports = function (passport: any) {
   });
 
   passport.deserializeUser((id: any, done: any) => {
-    db.user.findUnique({
-      where: {
-        id: id
-      },
-      include: {
-        created: true,
-      },
-    }).then((user: any) => {
-      done(null, user);
-    });
+    db.user
+      .findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          created: true,
+        },
+      })
+      .then((user: any) => {
+        done(null, user);
+      });
   });
 
   passport.use(
@@ -77,6 +79,7 @@ module.exports = function (passport: any) {
               profile.id,
               buffer,
               profile.emails[0].value,
+              undefined,
               undefined,
               undefined,
               undefined,
