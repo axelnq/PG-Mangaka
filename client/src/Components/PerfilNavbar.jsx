@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect } from "react";
 import { UserLogout } from "../Actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -134,12 +133,14 @@ export default function PerfilNavbar() {
           </MenuItem>
         </Link>
         <Divider sx={{ backgroundColor: "#357ded", mt: "5px" }} />
+       <Link to="/profile">
         <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" color="primary" />
           </ListItemIcon>
           Ajustes
         </MenuItem>
+        </Link>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" color="primary" />
