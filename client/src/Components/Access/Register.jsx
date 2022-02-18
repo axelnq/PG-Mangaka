@@ -102,7 +102,7 @@ export default function Register() {
 				</Button>
 			</Link>
 			<Box
-			className="animate__animated animate__fadeInUp animate_slower"
+				className="animate__animated animate__fadeInUp animate_slower"
 				sx={{
 					width: { xs: "90vw", md: "45vw" },
 					margin: "0 auto",
@@ -170,22 +170,10 @@ export default function Register() {
 					onBlur={handleBlur}
 					required
 				/>
-				{errors.email && (
-					<p
-						style={{
-							backgroundColor: "red",
-							borderRadius: "5px",
-							margin: "10px 0 10px 0",
-							color: "white",
-							fontSize: "16px",
-							fontWeight: "bold",
-						}}
-					>
-						{errors.email}
-					</p>
-				)}
+				{errors.email && <p style={{backgroundColor:"#D0342C", fontSize: "16px", color: "white", borderRadius: "0px 0px 5px 5px"}}>{errors.email}</p>}
 
 				<FormControl
+					error={errors.password ? true : false}
 					required
 					fullWidth
 					sx={{
@@ -199,7 +187,7 @@ export default function Register() {
 						Password
 					</InputLabel>
 					<FilledInput
-						error={errors.password ? true : false}
+						
 						id="filled-adornment-password"
 						name="password"
 						type={passwords.showPassword ? "text" : "password"}
@@ -226,24 +214,14 @@ export default function Register() {
 					/>
 				</FormControl>
 				{errors.password && (
-					<p
-						style={{
-							backgroundColor: "red",
-							borderRadius: "5px",
-							margin: "10px 0 10px 0",
-							color: "white",
-							fontSize: "16px",
-							fontWeight: "bold",
-						}}
-					>
-						{errors.password}
-					</p>
+					<p style={{backgroundColor:"#D0342C", fontSize: "16px", color: "white", borderRadius: "0px 0px 5px 5px"}}>{errors.password}</p>
 				)}
 				<FormControl
+					error={errors.repeatedPassword ? true : false}
 					required
 					fullWidth
 					sx={{
-						my: 2,
+						mt: 2,
 						backgroundColor: "white",
 						borderRadius: "5px 5px 0 0",
 					}}
@@ -253,7 +231,7 @@ export default function Register() {
 						Repeat password
 					</InputLabel>
 					<FilledInput
-						error={errors.repeatedPassword ? true : false}
+						
 						required
 						id="filled-adornment-repeated-password"
 						name="repeatedPassword"
@@ -283,18 +261,7 @@ export default function Register() {
 					/>
 				</FormControl>
 				{errors.repeatedPassword && (
-					<p
-						style={{
-							backgroundColor: "red",
-							borderRadius: "5px",
-							margin: "10px 0 10px 0",
-							color: "white",
-							fontSize: "16px",
-							fontWeight: "bold",
-						}}
-					>
-						{errors.repeatedPassword}
-					</p>
+					<p style={{backgroundColor:"#D0342C", fontSize: "16px", color: "white", borderRadius: "0px 0px 5px 5px"}}>{errors.repeatedPassword}</p>
 				)}
 				<RegisterButton
 					sx={

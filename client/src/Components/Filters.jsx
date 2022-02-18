@@ -4,6 +4,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { styled } from "@mui/material/styles";
 
 import { React, useEffect } from 'react'; // hooks
 import { useDispatch, useSelector } from 'react-redux'; // hooks
@@ -51,12 +52,20 @@ const Filters = () => {
         dispatch(getGenres())
     }, [])
 
+    const StackContainer = styled(Stack)`
+        width: 100%;
+        overflow-x: scroll;
+        scrollbar-width: thin;
+        ::-webkit-scrollbar {
+            background: transparent; /* make scrollbar transparent */
+        }
+    `
+
     return (
-        <div>
-            <Stack sx={{ backgroundColor: '#192A45' }} direction={{ xs: "column", md: "row" }} justifyContent='center' alignItems="center">
-                <Button variant="contained" onClick={handleRecomendation} sx={{ color: '#357DED', width: '15%', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>Recomendaciones</Button>
-                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
-                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>GÉNEROS POPULARES</InputLabel>
+            <StackContainer sx={{ backgroundColor: '#192A45' }} direction="row" justifyContent='center' alignItems="center" >
+                <Button variant="contained" onClick={handleRecomendation} sx={{ color: '#357DED',width: '150px', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '1rem', borderRadius: 2 }}>Para Vos</Button>
+                <FormControl sx={{  backgroundColor: '#000',width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED', width: '150px' }}>GÉNEROS POPULARES</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -82,8 +91,8 @@ const Filters = () => {
                         <MenuItem value={'Adventure'} sx={{ color: '#357DED' }}>AVENTURA</MenuItem> */}
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
-                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>AUTORES</InputLabel>
+                <FormControl sx={{  backgroundColor: '#000',width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ width: '150px',color: '#357DED' }}>AUTORES</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -95,8 +104,8 @@ const Filters = () => {
                         <MenuItem value={'Admin'} sx={{ color: '#357DED' }}>ADMIN</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: '15%', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>
-                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED' }}>ORDEN</InputLabel>
+                <FormControl sx={{  backgroundColor: '#000', width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>
+                    <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED', width: '150px' }}>ORDEN</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -110,9 +119,8 @@ const Filters = () => {
                         {/* <MenuItem value={'createdAt'} sx={{ color: '#357DED' }}>NUEVOS</MenuItem> */}
                     </Select>
                 </FormControl>
-                <Button variant="contained" onClick={handleGetAll} sx={{ color: '#357DED', width: '15%', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '2rem', borderRadius: 2 }}>Todos</Button>
-            </Stack>
-        </div>
+                <Button variant="contained" onClick={handleGetAll} sx={{ color: '#357DED', width: '150px',  height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '1rem', borderRadius: 2 }}>Todos</Button>
+            </StackContainer>
 
     )
 }
