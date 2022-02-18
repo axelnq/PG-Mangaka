@@ -7,6 +7,7 @@ import axios from "axios";
 import { sort } from "../utils/sorts";
 import { paginatedByAuthor, paginated } from "../utils/paginated";
 import multer from "multer";
+import { isAuthenticated } from "./auth";
 const upload = multer({
   limits: {
     fileSize: 100000000,
@@ -143,11 +144,13 @@ mangasRouter.get("/testImage/:id", async function (req, res) {
   res.send(Manga.image);
 });
 
-// Para la creacion de mangas hardcodeamos el usuario para el authorID.
 mangasRouter.post<{}, {}>("/",
+  isAuthenticated,
   upload.single("images"),
   async (req, res, next) => {
-    const { title, synopsis, authorId, genres } = req.body;
+    const { title, synopsis, genres } = req.body;
+    //@ts-ignore
+    const authorId = req.user.id;
     let image;
     if (req.file) {
       image = req.file.buffer;
@@ -170,15 +173,21 @@ mangasRouter.post<{}, {}>("/",
 );
 
 mangasRouter.put("/manga/updateCover/:mangaId",
+  isAuthenticated,
   upload.single("image"),
   async (req, res, next) => {
+    const { mangaId } = req.params;
+    //@ts-ignore
+    const Authorship = req.user.created.find((m) => m.id === Number(mangaId));
+    if (!Authorship) {
+      return res.status(400).send({msg: "You not have permission to update the cover in this manga"});
+    }
     let image: Buffer;
     if (req.file) {
       image = req.file.buffer;
     } else {
       return res.status(400).send({ message: "Image is required" });
     }
-    const { mangaId } = req.params;
     try {
       await db.manga.update({
         where: { id: Number(mangaId) },
@@ -338,8 +347,15 @@ mangasRouter.get<{}, {}>("/byAuthor", async (req, res) => {
   }
 });
 
-mangasRouter.put<{ idManga:string }, {}>("/manga/setActive/:idManga", async (req, res, next) => {
+mangasRouter.put<{ idManga:string }, {}>("/manga/setActive/:idManga", isAuthenticated, async (req, res, next) => {
   const { idManga } = req.params;
+  //@ts-ignore
+  const user = req.user
+  //@ts-ignore
+  if(!(user.role === "ADMIN" || user.role === "SUPERADMIN")){
+    return res.status(403).send({ message: "You don't have permission to do this, Are you trying to hack us?" });
+  }
+
 
   try {
 

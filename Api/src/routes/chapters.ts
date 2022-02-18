@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { db } from "../app";
 import Chapter from "../classes/Chapter";
+import { isAuthenticated } from "./auth";
 import multer from "multer";
 const upload = multer({
   limits: {
@@ -19,6 +20,7 @@ export const chaptersRouter = Router();
 // Creacion de un chapter
 chaptersRouter.post<{}, {}>(
   "/",
+  isAuthenticated,
   upload.fields([
     { name: "portada", maxCount: 1 },
     { name: "chapters", maxCount: 100 },
@@ -26,16 +28,25 @@ chaptersRouter.post<{}, {}>(
   async (req, res, next) => {
     const { title, mangaId, price } = req.body;
     //@ts-ignore
-    console.log(`{title${title},mangaId${mangaId},portada${req.files.portada},chapters${req.files.chapters}}`)
+    const Authorship = req.user.created.find((c) => c.id === Number(mangaId));
+    if (!Authorship) {
+      return res.status(400).send({msg: "You not have permission to create a chapter in this manga"});
+    }
+    //@ts-ignore
     let images: Buffer[] = [];
     let cover: Buffer;
     if (req.files) {
+    try{
       //@ts-ignore
       images = req.files.chapters.map((file) => file.buffer);
       //@ts-ignore
       cover = req.files.portada[0].buffer;
+    } catch (e) {
+      console.log(e);
+      return res.status(400).send({msg: "Error uploading images"});
+    }
     } else {
-      return res.status(400).send("Images is required");
+      return res.status(400).send({msg: "Images is required"});
     }
     const newChapter = new Chapter(
       title,
@@ -57,20 +68,31 @@ chaptersRouter.post<{}, {}>(
 
 //Actualizar las imagenes de un chapter
 chaptersRouter.put(
-  "/chapter/updateImages/:idChapter",
-  upload.array("chapters", 20),
+  "/chapter/updateImages",
+  isAuthenticated,
+  upload.array("chapters", 100),
   async (req, res, next) => {
-    const { idChapter } = req.params;
+    const {chapterId, mangaId } = req.body;
+    //@ts-ignore
+    const Authorship = req.user.created.find((c) => c.id === Number(mangaId));
+    if (!Authorship) {
+      return res.status(400).send({msg: "You not have permission to update a chapter in this manga"});
+    }
     let images: Buffer[] = [];
     if (req.files) {
+    try{
       //@ts-ignore
       images = req.files.map((file) => file.buffer);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).send({msg: "Error uploading images"});
+    }
     } else {
-      return res.status(400).send("Images is required");
+      return res.status(400).send({msg: "Images is required"});
     }
     try {
       const chapter = await db.chapter.update({
-        where: { id: Number(idChapter) },
+        where: { id: Number(chapterId) },
         //@ts-ignore
         data: { images: images },
       });
@@ -84,10 +106,16 @@ chaptersRouter.put(
 
 //Actualizacion de la portada de un chapter
 chaptersRouter.put(
-  "/chapter/updateCover/:idChapter",
+  "/chapter/updateCover",
+  isAuthenticated,
   upload.single("cover"),
   async (req, res, next) => {
-    const { idChapter } = req.params;
+    const { chapterId, mangaId } = req.body;
+    //@ts-ignore
+    const Authorship = req.user.created.find((c) => c.id === Number(mangaId));
+    if (!Authorship) {
+      return res.status(400).send({msg: "You not have permission to create a chapter in this manga"});
+    }
     let coverImage: Buffer;
     if (req.file) {
       coverImage = req.file.buffer;
@@ -96,7 +124,7 @@ chaptersRouter.put(
     }
     try {
       const chapter = await db.chapter.update({
-        where: { id: Number(idChapter) },
+        where: { id: Number(chapterId) },
         //@ts-ignore
         data: { coverImage: coverImage },
       });
@@ -109,12 +137,17 @@ chaptersRouter.put(
 );
 
 //Ruta que intercambia las posiciones de 2 imagenes de un chapter
-chaptersRouter.put("/chapter/swapImages/:idChapter", async (req, res, next) => {
-  const { idChapter } = req.params;
+chaptersRouter.put("/chapter/swapImages", isAuthenticated, async (req, res, next) => {
+  const { chapterId, mangaId } = req.body;
+  //@ts-ignore
+  const Authorship = req.user.created.find((c) => c.id === Number(mangaId));
+    if (!Authorship) {
+      return res.status(400).send({msg: "You not have permission to create a chapter in this manga"});
+    }
   const { index1, index2 } = req.body;
   try {
     let chapterImages = await db.chapter.findUnique({
-      where: { id: Number(idChapter) },
+      where: { id: Number(chapterId) },
       select: {
         images: true,
       },
@@ -125,7 +158,7 @@ chaptersRouter.put("/chapter/swapImages/:idChapter", async (req, res, next) => {
     let images = chapterImages.images;
     [images[index1], images[index2]] = [images[index2], images[index1]];
     await db.chapter.update({
-      where: { id: Number(idChapter) },
+      where: { id: Number(chapterId) },
       data: { images: images },
     });
     return res.status(204).send();
@@ -135,7 +168,7 @@ chaptersRouter.put("/chapter/swapImages/:idChapter", async (req, res, next) => {
   }
 });
 
-//Traermos un capitulo particularl
+//Traermos un capitulo particular
 chaptersRouter.get<{ idChapter: string }, {}>(
   "/chapter/getchapter/:idChapter",
   async (req, res, next) => {
@@ -152,7 +185,7 @@ chaptersRouter.get<{ idChapter: string }, {}>(
 
 //Ruta Test para ver las imagenes de un capitulo
 chaptersRouter.get(
-  "/chapter/image/:idChapter/:imageIndex",
+  "/chapter/imageTest/:idChapter/:imageIndex",
   async (req, res, next) => {
     const { idChapter, imageIndex } = req.params;
     const chapter: any = await db.chapter.findUnique({
@@ -164,7 +197,7 @@ chaptersRouter.get(
 );
 
 //Ruta Test para ver la imagen de la portada
-chaptersRouter.get("/chapter/cover/:idChapter", async (req, res, next) => {
+chaptersRouter.get("/chapter/coverTest/:idChapter", async (req, res, next) => {
   const { idChapter } = req.params;
   const chapter: any = await db.chapter.findUnique({
     where: { id: Number(idChapter) },
@@ -194,11 +227,14 @@ chaptersRouter.get("/chapter/cover/:idChapter", async (req, res, next) => {
 // });
 
 // Votación de un capitulo
-chaptersRouter.put<{idChapter: string}, {}>("/chapter/vote/:idChapter", async (req, res) => {
+chaptersRouter.put<{idChapter: string}, {}>("/chapter/vote/:idChapter", isAuthenticated, async (req, res) => {
   const {idChapter} = req.params;
-  const {points, idUser} = req.body;
+  const {points} = req.body;
+  const user = req.user;
+  //@ts-ignore
+  const idUser = user.id;
 
-  if (points >= 1 && points <= 5) return res.status(400).send({msg: "Points most ve between 1 and 5"})
+  if (points >= 1 && points <= 5) return res.status(400).send({msg: "Points most be between 1 and 5"})
 
   try {
 
