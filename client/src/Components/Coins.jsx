@@ -87,6 +87,7 @@ export default function Coins() {
 
     let packs = useSelector(state => state.getPacks);
     let user = useSelector(state => state.user);
+
     console.log(packs);
     console.log(user);
 
@@ -117,6 +118,7 @@ export default function Coins() {
     }
 
 
+
     const [buy, setBuy] = useState(false)
     const handleBuy = (e) => {
         console.log(e.target.value);
@@ -128,12 +130,12 @@ export default function Coins() {
         }
         console.log(packInfo)
         dispatch(buyCoins(packInfo))
+
         setBuy(true)
         // dispatch(getPreferenceId())
     }
 
-    const data = useSelector(state => state.preferenceId)
-    console.log(data.data)
+
 
 
     // Agrega credenciales de SDK
@@ -253,7 +255,7 @@ export default function Coins() {
                                 }
                                 {
                                     buy ?
-                                        <Cart data={data[0]} /> :
+                                        <Cart data={data} /> :
                                         null
                                 }
                             </List>
