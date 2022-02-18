@@ -12,14 +12,17 @@ mercadopago.configure({
     "TEST-8507753762167920-020813-29eacfdac014e6698569e6797d9512b5-187205193",
 });
 
+
 externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
   let product = req.body;
   console.log(product);
   let preference = {
     items: [
       {
-        title: product.title,
-        unit_price: product.buyprice,
+        title: "asd",
+        // product.title,
+        unit_price: 1,
+        // product.buyprice,
         quantity: 1,
       },
     ],
@@ -32,7 +35,8 @@ externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
     },
     auto_return: "approved",
 
-    external_reference: product.id,
+    external_reference: 1,
+    // product.id,
   };
   mercadopago.preferences
     .create(preference)
