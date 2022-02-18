@@ -27,7 +27,13 @@ import {
     SET_ACTIVE_MANGA,
     SET_ADMIN,
 <<<<<<< HEAD
+<<<<<<< HEAD
     POST_CHECKOUT
+=======
+    GET_PACKS,
+    BUY_COINS,
+    GET_PREFERENCE_ID
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
 =======
     GET_PACKS,
     BUY_COINS,
@@ -205,11 +211,14 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
         };
 <<<<<<< HEAD
+<<<<<<< HEAD
         case POST_CHECKOUT:
             return {
                 ...state,
             };
 =======
+=======
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
         case GET_PACKS:
             return {
                 ...state,
@@ -226,6 +235,9 @@ const rootReducer = (state = initialState, { type, payload }) => {
         //         ...state,
         //         preferenceId: payload,
         //     };
+<<<<<<< HEAD
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
+=======
 >>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
         default:
             return state;
