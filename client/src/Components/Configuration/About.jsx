@@ -4,9 +4,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useSelector } from "react-redux";
+//CSS
 import "animate.css";
 
 const About = () => {
+	const { user } = useSelector((state) => state);
 	//estado
 	const [about, setAbout] = useState("");
 	const handleChange = (e) => {
@@ -16,9 +19,13 @@ const About = () => {
 		e.preventDefault();
 		if (about) {
 			axios
-				.put("http://localhost:3001/api/profile/updateAbout", {
-					about,
-				})
+				.put(
+					`http://localhost:3001/api/profile/updateAbout/${user.username}`,
+					{
+						about,
+					},
+					{withCredentials: true}
+				)
 				.then((res) => alert(res.message))
 				.catch((error) => console.log(error));
 		} else {

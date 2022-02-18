@@ -1,6 +1,7 @@
 import * as React from "react";
-//import axios from "axios";
+import axios from "axios";
 //MUI
+import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import EditIcon from "@mui/icons-material/Edit";
@@ -9,38 +10,62 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-
+import { styled } from "@mui/material/styles";
 //router
 import { Link, Outlet } from "react-router-dom";
 //Redux
-import {useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
 const drawerWidth = 240;
+//input file
+const Input = styled("input")({
+  display: "none",
+});
+//buffer
+const _ArrayBufferToBase64 = (buffer) => {
+  //console.log(buffer)
+  var binary = "";
+  var byte = new Uint8Array(buffer.data);
+  var length = byte.byteLength;
+
+  for (var i = 0; i < length; i++) {
+    binary += String.fromCharCode(byte[i]);
+  }
+  return window.btoa(binary);
+};
 
 function ResponsiveDrawer(props) {
-  const {user} = useSelector(state => state);
+  //Redux
+  const { user } = useSelector((state) => state);
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  //const [image, setImage] = useState(null);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  /*
-  const handleSubmit = (e) =>{
-    const formData = new FormData();
-    formData.append('image', image)
 
-  }*/
+  const handleImage = (e) => {
+    const formData = new FormData();
+    formData.append("avatar", e.target.files[0]);
+    axios
+      .put(
+        `http://localhost:3001/api/profile/user/updateAvatar/${user.username}`,
+        formData,
+        { withCredentials: true }
+      )
+      .then((res) =>console.log(res.data))
+      .catch((error) => console.log(error));
+  };
+
   const drawer = (
     <div
       style={{ backgroundColor: "#192a45", height: "100vh", color: "white" }}
@@ -54,16 +79,33 @@ function ResponsiveDrawer(props) {
               vertical: "bottom",
               horizontal: "right",
             }}
-            badgeContent={<EditIcon onClick={() => alert("has cambiao la foto")} />}
+            badgeContent={
+              <label htmlFor="icon-button-file">
+                <Input
+                  onChange={handleImage}
+                  accept="image/*"
+                  id="icon-button-file"
+                  type="file"
+                />
+                <IconButton
+                  aria-label="upload picture"
+                  component="span"
+                >
+                  <EditIcon />
+                </IconButton>
+              </label>
+            }
           >
             <Avatar
               alt="Usuario"
-              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fyt3.ggpht.com%2Fa%2FAGF-l7-D-wlaC1NXZfZjfu78E6dERN22CylzAGOiOQ%3Ds900-c-k-c0xffffffff-no-rj-mo&f=1&nofb=1"
+              src={
+                "data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)
+              }
               sx={{ width: 200, height: 200, border: "5px solid #357DED" }}
             />
           </Badge>
           <Typography variant="h5" color="white" sx={{ textAlign: "center" }}>
-            {user ? user.name : "Francisco Machuca"}
+            {user.name}
           </Typography>
         </Stack>
       </Toolbar>
@@ -72,25 +114,33 @@ function ResponsiveDrawer(props) {
         Información Personal
       </Typography>
       <List>
-        {["Name", "Password", "About", "Email", "Username"].sort().map((text, index) => (
-          <Link to={`/profile/${text.toLowerCase()}`} style={{textDecoration: "none", color: "white"}}>
-            <ListItem button key={index}>
-              {/*<ListItemIcon>
+        {["Name", "Password", "About", "Email", "Username"]
+          .sort()
+          .map((text, index) => (
+            <Link
+              to={`/profile/${text.toLowerCase()}`}
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <ListItem button key={index}>
+                {/*<ListItemIcon>
             </ListItemIcon>*/}
-              <ListItemText primary={text} />
-            </ListItem>
-          </Link>
-        ))}
+                <ListItemText primary={text} />
+              </ListItem>
+            </Link>
+          ))}
       </List>
       <Divider sx={{ bgcolor: "#357DED" }} />
       <List>
-      <Link to="profile/personalmangas" style={{textDecoration: "none", color: "white"}}>
-        <ListItem button>
-          <ListItemIcon>
-            <LocalLibraryIcon color="primary" />
-          </ListItemIcon>
-          <ListItemText primary={"Mis Mangas"} />
-        </ListItem>
+        <Link
+          to="/profile/personalmangas"
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <LocalLibraryIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary={"Mis Mangas"} />
+          </ListItem>
         </Link>
       </List>
     </div>
@@ -123,7 +173,11 @@ function ResponsiveDrawer(props) {
           <Typography variant="h4" noWrap component="div">
             Configuración
           </Typography>
-          <Button variant="outlined">Volver a home</Button>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Button variant="outlined" sx={{ height: { xs: "90%" } }}>
+              Volver a home
+            </Button>
+          </Link>
         </Toolbar>
       </AppBar>
       <Box

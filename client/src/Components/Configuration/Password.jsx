@@ -11,7 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
-
+import { useSelector } from "react-redux";
 //styles css
 import "animate.css";
 //validación de contraseña
@@ -25,6 +25,7 @@ const initialForm = {
 };
 
 export default function Password() {
+	const { user } = useSelector((state) => state);
 	//creación de estado
 	const [passwords, setPasswords] = useState(initialForm);
 	const [error, setError] = useState(false);
@@ -47,12 +48,13 @@ export default function Password() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		//validación de la contraseña
-		
+
 		if (passwords.password && passwords.newPassword) {
 			axios
 				.put(
-					"http://localhost:3001/api/profile/updatePassword",
-					passwords
+					`http://localhost:3001/api/profile/updatePassword/${user.username}`,
+					passwords,
+					{ withCredentials: true }
 				)
 				.then((res) => alert(res.message))
 				.catch((error) => console.log(error));
@@ -121,7 +123,6 @@ export default function Password() {
 						Nueva Contraseña
 					</InputLabel>
 					<FilledInput
-						
 						required
 						id="filled-adornment-repeated-password"
 						name="newPassword"

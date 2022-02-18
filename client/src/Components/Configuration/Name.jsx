@@ -4,10 +4,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
+import { useSelector } from "react-redux";
 import "animate.css";
 
 const Name = () => {
+	const { user } = useSelector((state) => state);
 	const [name, setName] = useState("");
 	const handleChange = (e) => {
 		setName(e.target.value);
@@ -16,7 +17,11 @@ const Name = () => {
 		e.preventDefault();
 		if (name) {
 			axios
-				.put("http://localhost:3001/api/profile/updateName", { name })
+				.put(
+					`http://localhost:3001/api/profile/updateName/${user.username}`,
+					{ name },
+					{ withCredentials: true }
+				)
 				.then((res) => alert(res.message))
 				.catch((error) => console.log(error));
 		} else {
@@ -48,7 +53,7 @@ const Name = () => {
 					onChange={handleChange}
 					required
 				/>
-				
+
 				<Button type="submit" variant="contained">
 					Cambiar Nombre
 				</Button>

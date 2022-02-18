@@ -11,7 +11,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
+import { useSelector } from "react-redux";
+//CSS
 import "animate.css";
 
 const initialForm = {
@@ -20,6 +21,7 @@ const initialForm = {
 };
 
 const Username = () => {
+	const { user } = useSelector((state) => state);
 	const [form, setForm] = useState(initialForm);
 	const [show, setShow] = useState(false);
 	const handleClickShowPassword = () => {
@@ -33,10 +35,14 @@ const Username = () => {
 		e.preventDefault();
 		if (form.password && form.newUsername) {
 			axios
-				.put("http://localhost:3001/api/profile/updateUsername", form)
+				.put(
+					`http://localhost:3001/api/profile/updateUsername/${user.username}`,
+					form,
+					{ withCredentials: true }
+				)
 				.then((res) => alert(res.message))
 				.catch((error) => console.log(error));
-		}else{
+		} else {
 			alert("Ambos campos deben ser llenados");
 		}
 	};
@@ -97,7 +103,7 @@ const Username = () => {
 						}
 					/>
 				</FormControl>
-				<Button sx={{mt: 3}} type="submit" variant="contained">
+				<Button sx={{ mt: 3 }} type="submit" variant="contained">
 					Cambiar Username
 				</Button>
 			</Box>

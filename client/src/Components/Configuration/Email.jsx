@@ -11,6 +11,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useSelector } from "react-redux";
 //css
 import "animate.css";
 //validar email
@@ -24,6 +25,7 @@ const initialForm = {
 };
 
 const Email = () => {
+	const { user } = useSelector((state) => state);
 	const [form, setForm] = useState(initialForm);
 	const [show, setShow] = React.useState(false);
 	const handleClickShowPassword = () => {
@@ -37,7 +39,11 @@ const Email = () => {
 		e.preventDefault();
 		if (regEmail.test(form.newEmail)) {
 			axios
-				.put("http://localhost:3001/api/profile/updateEmail", form)
+				.put(
+					`http://localhost:3001/api/profile/updateEmail/${user.username}`,
+					form,
+					{ withCredentials: true }
+				)
 				.then((res) => alert(res.message))
 				.catch((error) => console.log(error));
 		} else {
@@ -101,7 +107,7 @@ const Email = () => {
 				/>
 			</FormControl>
 
-			<Button sx={{mt: 3}} type="submit" variant="contained">
+			<Button sx={{ mt: 3 }} type="submit" variant="contained">
 				Cambiar Email
 			</Button>
 		</Box>
