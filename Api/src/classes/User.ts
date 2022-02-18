@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client';
+import { Role } from "@prisma/client";
 
 export default class User {
   id: string | undefined;
@@ -15,7 +15,7 @@ export default class User {
   library: number[];
   wishList: number[];
   favorites: number[];
-  googleId: boolean
+  googleId: boolean;
 
   constructor(
     name: string,
@@ -24,7 +24,7 @@ export default class User {
     email: string,
     password?: string,
     role?: Role,
-    active?:boolean,
+    active?: boolean,
     about?: string,
     coins?: number,
     creatorMode?: boolean,
@@ -39,7 +39,7 @@ export default class User {
     this.email = email;
     this.password = password || undefined;
     this.avatar = avatar || undefined;
-    this.role = role || 'USER';
+    this.role = role || "USER";
     this.active = active || true;
     this.about = about || "This is my Profile!";
     this.coins = coins || 0;
@@ -48,7 +48,7 @@ export default class User {
     this.wishList = wishList || [];
     this.favorites = favorites || [];
     this.id = id || undefined;
-    this.googleId = googleId || false
+    this.googleId = googleId || false;
   }
 }
 
