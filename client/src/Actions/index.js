@@ -543,7 +543,13 @@ export let postCheckout = (payload) => {
             return dispatch({
                 type: POST_CHECKOUT,
                 payload: checkout.data,
-
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+                
 export let getPacks = () => {
     return async (dispatch) => {
         try {
@@ -576,8 +582,6 @@ export let buyCoins = (payload) => {
             console.log(error);
         }
     };
-};
-
 };
 
 // export let getPreferenceId = (payload) => {
