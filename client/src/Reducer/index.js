@@ -26,6 +26,7 @@ import {
     SET_ACTIVE,
     SET_ACTIVE_MANGA,
     SET_ADMIN,
+    POST_CHECKOUT,
     GET_PACKS,
     BUY_COINS,
     GET_PREFERENCE_ID
@@ -200,6 +201,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
         };
+
+        case POST_CHECKOUT:
+            return {
+                ...state,
+            };
+
         case GET_PACKS:
             return {
                 ...state,
@@ -216,6 +223,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         //         ...state,
         //         preferenceId: payload,
         //     };
+
         default:
             return state;
     }

@@ -24,10 +24,12 @@ export default function ({ data }) {
         // setTimeout(function () {
         setLoading(false)
         const script = document.createElement("script");
-        const attr_data_preference =
-            document.createAttribute("data-preference-id");
-        console.log("blabla", data.data);
-        attr_data_preference.value = datita;
+        const attr_data_preference = document.createAttribute('data-preference-id');
+        console.log(data.data)
+        attr_data_preference.value = data.data;
+
+        script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
+        script.setAttributeNode(attr_data_preference)
 
         script.src =
             "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
