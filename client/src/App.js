@@ -10,6 +10,7 @@ import Coins from "./Components/Coins";
 import Register from "./Components/Access/Register";
 import CreateChapters from "./Components/CreateChapters";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
 import AuthorDetail from "./Components/AuthorDetail";
 //config
 import Email from "./Components/Configuration/Email";
@@ -21,6 +22,10 @@ import PersonalMangas from "./Components/Configuration/PersonalMangas";
 import About from "./Components/Configuration/About";
 import IndexProfile from "./Components/Configuration/IndexProfile";
 
+=======
+import AuthorDetail from './Components/AuthorDetail'
+import CheckoutForm from './Components/CheckoutForm';
+>>>>>>> feature/ft-68
 // windoes + .
 
 function App() {
@@ -41,6 +46,7 @@ function App() {
             <Route path="/panel" element={<Panel />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
+<<<<<<< HEAD
             {/*Configuración de Perfil*/}
             <Route path="/profile/" element={<Profile />}>
               <Route index element={<IndexProfile />} />
@@ -51,6 +57,9 @@ function App() {
               <Route path="about" element={<About />} />
               <Route path="personalmangas" element={<PersonalMangas />} />
             </Route>
+=======
+            <Route path="/CheckoutForm/:id" element={<CheckoutForm />} />
+>>>>>>> feature/ft-68
           </>
         )}
         <Route path="*" element={<Navigate to="/" />} />

@@ -25,9 +25,19 @@ export const GET_USERS = "GET_USERS";
 export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
 export const SET_ADMIN = "SET_ADMIN";
+<<<<<<< HEAD
+<<<<<<< HEAD
+export const POST_CHECKOUT = "POST_CHECKOUT";
+=======
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
 export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
+=======
+export const GET_PACKS = "GET_PACKS";
+export const BUY_COINS = "BUY_COINS";
+export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
 
 const axios = require("axios");
 
@@ -530,6 +540,24 @@ export let setAdmin = (payload) => {
     };
 };
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+export let postCheckout = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let checkout = await axios.post(
+                `http://localhost:3001/api/coins/sell`,
+                payload
+            );
+            
+            return dispatch({
+                type: POST_CHECKOUT,
+                payload: checkout.data,
+=======
+=======
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
 export let getPacks = () => {
     return async (dispatch) => {
         try {
@@ -557,11 +585,21 @@ export let buyCoins = (payload) => {
             return dispatch({
                 type: BUY_COINS,
                 payload: buyCoins,
+<<<<<<< HEAD
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
+=======
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
             });
         } catch (error) {
             console.log(error);
         }
     };
+<<<<<<< HEAD
+<<<<<<< HEAD
+};
+=======
+=======
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
 };
 
 // export let getPreferenceId = (payload) => {
@@ -581,3 +619,7 @@ export let buyCoins = (payload) => {
 //         }
 //     };
 // };
+<<<<<<< HEAD
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
+=======
+>>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
