@@ -248,8 +248,18 @@ usersRouter.get<{ id: string }, {}>("/user/:id", async (req, res, next) => {
   }
 });
 
-usersRouter.get("/currentUser", isAuthenticated, (req, res, next) => {
-  res.json(req.user);
+usersRouter.get("/currentUser", isAuthenticated, async (req, res, next) => {
+  //@ts-ignore
+  const { id } = req.user;
+  try {
+    var user: any = await db.user.findUnique({
+      where: { id: id },
+    });
+  } catch (err:any) {
+    console.log(err);
+    res.status(400).send({ error: err.message });
+  }
+  res.send(user)
 });
 
 usersRouter.post<
@@ -373,12 +383,12 @@ usersRouter.put<{id: string, list: string}, {}>("/user/lists", isAuthenticated, 
   //@ts-ignore
   const id = req.user.id
   const { list } = req.query;
-  const { mangaId } = req.body;
+  const mangaId = Number(req.body.mangaId);
   
   if (list !== "library" && list !== "favorites" && list !== "wishList" ) return res.status(400).send({msg: "Invalid list name"});
   try {
     //@ts-ignore
-    if( req.user[list].includes(number(mangaId))){
+    if( req.user[list].includes(mangaId)){
       //@ts-ignore
     let mangasList = await deleteToTheList(id, list, mangaId, req.user[list]);
     return (mangasList.length === 0) ?

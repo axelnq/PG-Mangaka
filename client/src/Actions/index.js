@@ -537,7 +537,7 @@ export let deleteWishlistManga = (mangaId) => {
     return async (dispatch) => {
         try {
             console.log(mangaId)
-            let manga = axios.put(`http://localhost:3001/api/users/user/lists?list=wishList`, mangaId)
+            let manga = axios.put(`http://localhost:3001/api/users/user/lists?list=wishList`, mangaId, { withCredentials: true })
             return dispatch({
                 type: DELETE_WISHLIST_MANGA,
             })
@@ -550,13 +550,14 @@ export let deleteWishlistManga = (mangaId) => {
 export let addMangaWishList = (payload) => {
     return async (dispatch) => {
         try {
-            let manga = axios()
+            console.log(payload)
+            let manga = axios.put('http://localhost:3001/api/users/user/lists?list=wishList', payload, { withCredentials: true })
             return dispatch({
                 type: ADD_MANGA_WISHLIST,
                 payload: manga.data
             })
         } catch(error) {
-            console.log(error)
+            console.log(error.response)
         }
     }
 }
@@ -631,3 +632,4 @@ export let buyCoins = (payload) => {
 //         }
 //     };
 // };
+

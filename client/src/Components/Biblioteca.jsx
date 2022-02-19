@@ -1,10 +1,20 @@
 import { React, useEffect } from 'react'
 import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
 import Navbar from './Navbar'
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo, getMangaDetailWishList } from '../Actions';
+
+const _ArrayBufferToBase64 = (buffer) => {
+    console.log(buffer)
+    var binary = '';
+    var byte = new Uint8Array(buffer.data);
+    var length = byte.byteLength;
+
+    for (var i = 0; i < length; i++) {
+        binary += String.fromCharCode(byte[i])
+    }
+    return window.btoa(binary)
+}
 
 const Biblioteca = () => {
     let user = useSelector(state => state.user)
@@ -28,7 +38,7 @@ const Biblioteca = () => {
                               return (
                                   <ListItem key={i} sx={{width: '100%',}}>
                                      <ListItemAvatar>
-                                         <Avatar src='' variant="rounded" sx={{ width: 60, height: 60 }}/>
+                                         <Avatar src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(m.image)} variant="rounded" sx={{ width: 60, height: 60 }}/>
                                      </ListItemAvatar>
                                      <ListItemText sx={{ mx: '1rem'}}>
                                          <Typography variant='h5'>{m.data.title}</Typography>
