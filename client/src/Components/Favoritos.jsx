@@ -9,7 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import Nabvar from './Navbar'
 
-import { favorite } from '../Actions'
+import  {favorite}  from '../Actions'
 
 import './styleFavoritos.css'
 
@@ -22,6 +22,7 @@ const Favorite = (props) =>{
     }, [dispatch])
 
    let favorite = useSelector(state => state.favorite)
+   console.log(favorite, 'favorite')
 
     const imgMangas= 'https://ramenparados.com/wp-content/uploads/2020/09/one-punch-man-image.jpg'
 
@@ -43,12 +44,14 @@ const Favorite = (props) =>{
                     {/* { mangaDetail */}
                     <Divider variant="inset" />
                         <ListItem  alignItems="flex-start">
+
                             <ListItemAvatar>
                                 <Avatar alt="Remy Sharp" src={imgMangas} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
+
                             <ListItemText
                                 primary= 'Titulo'
-                                // {mangaDetail.title}
+                                
                                 secondary={
                                     <React.Fragment>
                                         <Typography variant="body2" color="text.secondary">Author</Typography>
@@ -64,6 +67,7 @@ const Favorite = (props) =>{
                                     </React.Fragment>
                                 }
                                 />
+
                         </ListItem>
                     <Divider variant="inset" />
                     {/* } */}

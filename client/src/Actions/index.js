@@ -544,6 +544,7 @@ export let getAuthorDetail = (id) => {
     };
 };
 
+//------------------------- FAVORITOS -------------------------------//
 export let favorite = () =>{
     return async (dispatch) => {
         try {
