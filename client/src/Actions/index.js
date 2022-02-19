@@ -120,7 +120,7 @@ export let postManga = (payload) => {
             console.log(payload);
             let manga = await axios.post(
                 `http://localhost:3001/api/mangas`,
-                payload
+                payload,{withCredentials:true}
             );
             return dispatch({
                 type: POST_MANGA,
@@ -229,7 +229,7 @@ export let postChapters = (payload) => {
             console.log(payload);
             let chapters = await axios.post(
                 `http://localhost:3001/api/chapters`,
-                payload
+                payload,{withCredentials:true}
             );
             
             return dispatch({
@@ -237,7 +237,7 @@ export let postChapters = (payload) => {
                 payload: chapters.data,
             });
         } catch (error) {
-            console.log(error);
+            console.log(error.response);
         }
     };
 };
@@ -533,11 +533,11 @@ export let setAdmin = (payload) => {
     };
 };
 
-export let deleteWishlistManga = (mangaId) => {
+export let deleteWishlistManga = (payload) => {
     return async (dispatch) => {
         try {
-            console.log(mangaId)
-            let manga = axios.put(`http://localhost:3001/api/users/user/lists?list=wishList`, mangaId)
+            console.log(payload)
+            let manga = axios.put(`http://localhost:3001/api/users/user/lists?list=wishList`, {mangaId: payload}, { withCredentials: true })
             return dispatch({
                 type: DELETE_WISHLIST_MANGA,
             })
@@ -550,13 +550,14 @@ export let deleteWishlistManga = (mangaId) => {
 export let addMangaWishList = (payload) => {
     return async (dispatch) => {
         try {
-            let manga = axios()
+            console.log(payload)
+            let manga = axios.put('http://localhost:3001/api/users/user/lists?list=wishList', payload, { withCredentials: true })
             return dispatch({
                 type: ADD_MANGA_WISHLIST,
                 payload: manga.data
             })
         } catch(error) {
-            console.log(error)
+            console.log(error.response)
         }
     }
 }
@@ -567,7 +568,7 @@ export let postCheckout = (payload) => {
             console.log(payload);
             let checkout = await axios.post(
                 `http://localhost:3001/api/coins/sell`,
-                payload
+                payload,{withCredentials:true}
             );
             
             return dispatch({
@@ -631,3 +632,4 @@ export let buyCoins = (payload) => {
 //         }
 //     };
 // };
+

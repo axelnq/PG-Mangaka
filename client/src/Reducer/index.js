@@ -205,7 +205,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         };
         case DELETE_WISHLIST_MANGA:
             return {
-                ...state,
+                ...state
             }
         case ADD_MANGA_WISHLIST: 
             return {
