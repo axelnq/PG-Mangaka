@@ -42,7 +42,7 @@ function App() {
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
             {/*Configuración de Perfil*/}
-            <Route path="/profile/" element={<Profile />}/>
+            <Route path="/profile/" element={<Profile />}>
               <Route index element={<IndexProfile />} />
               <Route path="email" element={<Email />} />
               <Route path="password" element={<Password />} />
@@ -50,7 +50,7 @@ function App() {
               <Route path="username" element={<Username />} />
               <Route path="about" element={<About />} />
               <Route path="personalmangas" element={<PersonalMangas />} />
-            
+            </Route>
             <Route path="/CheckoutForm/:id" element={<CheckoutForm />} />
           </>
         )}
