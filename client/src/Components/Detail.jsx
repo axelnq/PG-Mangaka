@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 //actions
-import { getMangaDetail } from '../Actions'
+import { getMangaDetail, addMangaWishList } from '../Actions'
 //mui
 import { Container, Box, Button, List, ListItem, LinearProgress, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Rating } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -33,17 +33,25 @@ const Detail = () => {
     }, [dispatch, id])
 
     const mangaDetail = useSelector((state) => state.mangaDetail.data)
+    let user = useSelector(state=>state.user)
     console.log(mangaDetail)
     let buffer;
     if (mangaDetail && mangaDetail.id == id) {
         buffer = _ArrayBufferToBase64(mangaDetail.image)
     }
+    
     const [valueManga, setValueManga] = React.useState(0);
     const [valueChapter, setValueChapter] = React.useState(0);
     const [fav, setFav] = React.useState(false);
+    let [wishlist, setWishlist] = React.useState({ mangaId: id })
 
     const handleFav = () => {
         fav ? setFav(false) : setFav(true)
+    }
+
+    let handleAddWishlist = (e) => {
+        e.preventDefault()
+        dispatch(addMangaWishList(wishlist))
     }
 
     return (
@@ -61,7 +69,7 @@ const Detail = () => {
                         }}
                             position="absolute">
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button>+ Wishlist</Button>
+                                <Button onClick={handleAddWishlist}>+ Wishlist</Button>
                                 {
                                     fav ?
                                         <Button onClick={handleFav}><FavoriteIcon sx={{ color: 'red' }} /></Button>
