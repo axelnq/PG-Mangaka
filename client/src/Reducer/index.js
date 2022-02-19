@@ -29,7 +29,7 @@ import {
     POST_CHECKOUT,
     GET_PACKS,
     BUY_COINS,
-    GET_PREFERENCE_ID
+    // GET_PREFERENCE_ID
 } from "../Actions";
 
 const initialState = {

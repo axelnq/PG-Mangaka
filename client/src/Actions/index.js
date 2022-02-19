@@ -28,7 +28,7 @@ export const SET_ADMIN = "SET_ADMIN";
 export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
-export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
+// export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
 
 const axios = require("axios");
 
@@ -363,11 +363,11 @@ export const getGoogleUser = () => {
         }
     };
 };
-export let getChapters = () => {
+export let getChapters = (payload) => {
     return async (dispatch) => {
         try {
             let allChapters = await axios.get(
-                `http://localhost:3001/api/chapters/chapter/getchapter/:idChapter `
+                `http://localhost:3001/api/chapters/chapter/getchapter/${payload} `
             );
             return dispatch({
                 type: GET_ALL_CHAPTERS,
@@ -601,4 +601,3 @@ export let buyCoins = (payload) => {
 //         }
 //     };
 // };
-
