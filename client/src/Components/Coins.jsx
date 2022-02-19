@@ -123,8 +123,8 @@ export default function Coins() {
         document.getElementById("coinImg").src = coinImgs[coinRandom];
     };
 
-    const [bought, setBought] = useState(false);
     const [buy, setBuy] = useState(false);
+    const [bought, setBought] = useState(false);
     const handleBuy = (e) => {
         console.log(e.target.value);
         let packBought = packs.filter((pack) => pack.id == e.target.value);
@@ -141,18 +141,13 @@ export default function Coins() {
         // dispatch(getPreferenceId())
     };
 
-    let handleBought = () => {
-        setBuy(true);
-    }
-
     useEffect(() => {
         if (bought) {
             setTimeout(() => {
-                handleBought()
-            }, 2000);
+                setBuy(true)
+            }, 3000)
         }
-    }, [data2]);
-
+    }, [bought])
 
     // Agrega credenciales de SDK
     // const mp = new MercadoPago("PUBLIC_KEY", {
