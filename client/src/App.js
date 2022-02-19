@@ -20,7 +20,7 @@ import Profile from "./Components/Configuration/Profile";
 import PersonalMangas from "./Components/Configuration/PersonalMangas";
 import About from "./Components/Configuration/About";
 import IndexProfile from "./Components/Configuration/IndexProfile";
-
+import CheckoutForm from './Components/CheckoutForm';
 // windoes + .
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
             {/*Configuración de Perfil*/}
-            <Route path="/profile/" element={<Profile />}>
+            <Route path="/profile/" element={<Profile />}></Route>
               <Route index element={<IndexProfile />} />
               <Route path="email" element={<Email />} />
               <Route path="password" element={<Password />} />
@@ -50,7 +50,8 @@ function App() {
               <Route path="username" element={<Username />} />
               <Route path="about" element={<About />} />
               <Route path="personalmangas" element={<PersonalMangas />} />
-            </Route>
+            
+            <Route path="/CheckoutForm/:id" element={<CheckoutForm />} />
           </>
         )}
         <Route path="*" element={<Navigate to="/" />} />
