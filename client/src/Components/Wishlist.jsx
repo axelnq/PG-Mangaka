@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react'
+import { React, useEffect } from 'react'
 import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -20,22 +20,18 @@ const _ArrayBufferToBase64 = (buffer) => {
 
 const Wishlist = () => {
     let wishlist = useSelector(state=>state.wishlist)
-    let [id, setId] = useState({ mangaId: 0 })
 
     const dispatch = useDispatch()
 
-    let handleDeleteManga = (e, mangaId) => {
-        setId({ mangaId: mangaId })
-        if(id !== { mangaId: 0}) {
-            dispatch(deleteWishlistManga(id))
-            dispatch(getWishList())
-        }
+    let handleDeleteManga = (id) => {
+        dispatch(deleteWishlistManga(id))
+        dispatch(getWishList())
     }
 
     useEffect(() => {
         dispatch(getWishList())
         wishlist.map(m => dispatch(getMangaDetailWishList(m)))
-    }, [])
+    }, [dispatch])
 
 
     return (
@@ -56,7 +52,7 @@ const Wishlist = () => {
                                         <Typography variant='body2'>{m.author.name}</Typography>
                                         <Typography variant='body2'>{m.genre?.join(', ')}</Typography>
                                     </ListItemText>
-                                    <IconButton sx={{ mx: '1rem', color: '#fff'}} onClick={e => dispatch(deleteWishlistManga(m.id))}>
+                                    <IconButton sx={{ mx: '1rem', color: '#fff'}} onClick={e => handleDeleteManga(m.id)}>
                                         <DeleteIcon />
                                     </IconButton>
                                  </ListItem>
