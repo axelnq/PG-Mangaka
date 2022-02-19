@@ -26,10 +26,12 @@ import {
     SET_ACTIVE,
     SET_ACTIVE_MANGA,
     SET_ADMIN,
+    DELETE_WISHLIST_MANGA,
+    ADD_MANGA_WISHLIST,
     POST_CHECKOUT,
     GET_PACKS,
     BUY_COINS,
-    GET_PREFERENCE_ID
+    // GET_PREFERENCE_ID
 } from "../Actions";
 
 const initialState = {
@@ -201,6 +203,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
         };
+        case DELETE_WISHLIST_MANGA:
+            return {
+                ...state
+            }
+        case ADD_MANGA_WISHLIST: 
+            return {
+                ...state,
+                wishlist: state.wishlist.concat(payload)
+            }
 
         case POST_CHECKOUT:
             return {

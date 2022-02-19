@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from 'react-router-dom'
 import NavBar from "./Navbar";
 import CoinsPanel from "./CoinsPanel";
 import empty from "../img/empty.png";
@@ -32,12 +33,13 @@ import {
     ListItemText,
     ListItemAvatar,
     Avatar,
+    CircularProgress
 } from "@mui/material";
 import {
     buyCoins,
     getCurrentUser,
     getPacks,
-    getPreferenceId,
+    getPreferenceId
 } from "../Actions";
 import Cart from "./Cart";
 // const Mercadopago = require('mercadopago');
@@ -125,6 +127,7 @@ export default function Coins() {
 
     const [buy, setBuy] = useState(false);
     const [bought, setBought] = useState(false);
+    const [loading, setLoading] = useState(false);
     const handleBuy = (e) => {
         console.log(e.target.value);
         let packBought = packs.filter((pack) => pack.id == e.target.value);
@@ -132,11 +135,13 @@ export default function Coins() {
         let packInfo = {
             title: packBought[0].title,
             buyprice: packBought[0].buyprice,
+            idaux: packBought[0].id,
         };
         console.log(packInfo);
         dispatch(buyCoins(packInfo));
         console.log("handle", data2);
         setBought(true);
+        setLoading(true);
         // setBuy(true);
         // dispatch(getPreferenceId())
     };
@@ -145,8 +150,9 @@ export default function Coins() {
         if (bought) {
             console.log(data2)
             setTimeout(() => {
+                setLoading(false)
                 setBuy(true)
-            }, 3000)
+            }, 1000)
         }
     }, [bought])
 
@@ -165,6 +171,11 @@ export default function Coins() {
     //         label: "Comprar", // Cambia el texto del botón de pago (opcional)
     //     },
     // });
+
+    const handleCart = () => {
+        setBought(false)
+        setBuy(false)
+    }
 
     return (
         <div>
@@ -253,19 +264,42 @@ export default function Coins() {
                                             </ListItemAvatar>
                                             <ListItem>
                                                 <ListItemText primary={pack.title} />
-                                                <Button
-                                                    onClick={handleBuy}
-                                                    value={pack.id}
-                                                    variant="contained"
-                                                >
-                                                    Comprar
-                                                </Button>
-                                                {/* <button className=".cho-container"></button> */}
+                                                {
+                                                    !bought ?
+                                                        <Button
+                                                            onClick={handleBuy}
+                                                            value={pack.id}
+                                                            variant="contained"
+                                                        >
+                                                            Comprar
+                                                        </Button>
+                                                        : <Button
+                                                            onClick={handleBuy}
+                                                            value={pack.id}
+                                                            disabled
+                                                            variant="contained"
+                                                        >
+                                                            Comprar
+                                                        </Button>
+                                                }
                                             </ListItem>
                                         </ListItemButton>
                                     </ListItem>
                                 ))}
-                                {buy ? <Cart data={data2} /> : null}
+                                {loading ?
+                                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                        <CircularProgress />
+                                    </Box>
+                                    : null
+                                }
+                                {buy ?
+                                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                        <Button onClick={(e) => handleCart(e)}>
+                                            <Cart data={data2} />
+                                        </Button>
+                                    </Box>
+
+                                    : null}
                             </List>
                         </DialogContentText>
                     </DialogContent>
