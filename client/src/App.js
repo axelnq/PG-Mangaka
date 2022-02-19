@@ -22,7 +22,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/author/:id" element={<AuthorDetail />} />
+        <Route exact path="/author/:id" element={<AuthorDetail />} />
         <Route path="/favorite" element={<Favorite />} />
 
         {user && (

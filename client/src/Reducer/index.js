@@ -26,7 +26,8 @@ import {
     GET_USERS,
     SET_ACTIVE,
     SET_ACTIVE_MANGA,
-    SET_ADMIN
+    SET_ADMIN,
+    FAVORITE
 } from "../Actions";
 
 const initialState = {
@@ -45,8 +46,8 @@ const initialState = {
     wishlist: [],
     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
     allChapters:[],
-    authorDetail:[],
-
+    authorDetail:undefined,
+    favorite: [],
     userInfo: {},
     authors: [],
     show: true,
@@ -203,6 +204,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
         };
+        case FAVORITE:
+            return {
+                ...state,
+                favorite: payload
+            };
+            
         default:
             return state;
     }

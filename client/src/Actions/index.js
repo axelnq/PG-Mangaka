@@ -26,6 +26,7 @@ export const GET_USERS = "GET_USERS";
 export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
 export const SET_ADMIN = "SET_ADMIN";
+export const FAVORITE = "FAVORITE";
 
 const axios = require("axios");
 
@@ -538,7 +539,21 @@ export let getAuthorDetail = (id) => {
                 payload: authorDetail.data
             })
         } catch (error){
-            console.log(error)
+            console.log(error.msg)
         }
     };
 };
+
+export let favorite = () =>{
+    return async (dispatch) => {
+        try {
+            let favorite = await axios(`http://localhost:3001/api/profile/favorites`)
+            return dispatch({
+                type: 'FAVORITE',
+                payload: favorite.data
+            })
+        } catch (error){
+            console.log(error)
+        }
+    }
+}

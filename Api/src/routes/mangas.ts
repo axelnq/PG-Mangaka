@@ -74,7 +74,7 @@ mangasRouter.get<{ idManga: string }, {}>("/manga/:idManga", async (req, res) =>
     const { idManga } = req.params;
 
     try {
-      const manga: any = await db.manga.findUnique({
+        const manga: any = await db.manga.findUnique({
         where: { id: Number(idManga) },
         include: {
           chapters: {
