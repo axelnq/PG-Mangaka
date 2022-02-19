@@ -16,13 +16,13 @@ export default function ({ data }) {
     //     });
     // }
 
-    let [loading, setLoading] = React.useState(true);
+    // let [loading, setLoading] = React.useState(true);
 
     console.log("aca", data);
     let datita = data.data;
     useEffect(() => {
         // setTimeout(function () {
-        setLoading(false)
+        // setLoading(false)
         const script = document.createElement("script");
         const attr_data_preference = document.createAttribute('data-preference-id');
         console.log(data.data)
@@ -31,14 +31,10 @@ export default function ({ data }) {
         script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
         script.setAttributeNode(attr_data_preference)
 
-        script.src =
-            "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
-        script.setAttributeNode(attr_data_preference);
-
         document.getElementById("form1")?.appendChild(script);
-        // return () => {
-        //     document.getElementById("form1")?.removeChild(script);
-        // };
+        return () => {
+            document.getElementById("form1")?.removeChild(script);
+        };
         // }, 2000);
     }, [datita]);
     return (
