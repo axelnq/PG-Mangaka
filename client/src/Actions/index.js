@@ -540,9 +540,6 @@ export let setAdmin = (payload) => {
     };
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 export let postCheckout = (payload) => {
     return async (dispatch) => {
         try {
@@ -555,9 +552,7 @@ export let postCheckout = (payload) => {
             return dispatch({
                 type: POST_CHECKOUT,
                 payload: checkout.data,
-=======
-=======
->>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
+
 export let getPacks = () => {
     return async (dispatch) => {
         try {
@@ -585,21 +580,13 @@ export let buyCoins = (payload) => {
             return dispatch({
                 type: BUY_COINS,
                 payload: buyCoins,
-<<<<<<< HEAD
->>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
-=======
->>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
             });
         } catch (error) {
             console.log(error);
         }
     };
-<<<<<<< HEAD
-<<<<<<< HEAD
 };
-=======
-=======
->>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
+
 };
 
 // export let getPreferenceId = (payload) => {
@@ -619,7 +606,4 @@ export let buyCoins = (payload) => {
 //         }
 //     };
 // };
-<<<<<<< HEAD
->>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
-=======
->>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
+
