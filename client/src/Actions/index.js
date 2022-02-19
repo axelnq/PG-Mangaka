@@ -27,6 +27,10 @@ export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
 export const SET_ADMIN = "SET_ADMIN";
 export const FAVORITE = "FAVORITE";
+export const POST_CHECKOUT = "POST_CHECKOUT";
+export const GET_PACKS = "GET_PACKS";
+export const BUY_COINS = "BUY_COINS";
+export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
 
 const axios = require("axios");
 
@@ -227,6 +231,7 @@ export let postChapters = (payload) => {
                 `http://localhost:3001/api/chapters`,
                 payload
             );
+            
             return dispatch({
                 type: POST_CHAPTERS,
                 payload: chapters.data,
@@ -543,6 +548,40 @@ export let getAuthorDetail = (id) => {
         }
     };
 };
+export let postCheckout = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let checkout = await axios.post(
+                `http://localhost:3001/api/coins/sell`,
+                payload
+            );
+            
+            return dispatch({
+                type: POST_CHECKOUT,
+                payload: checkout.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+                
+export let getPacks = () => {
+    return async (dispatch) => {
+        try {
+            let packs = await axios.get(
+                "http://localhost:3001/api/coins/pack"
+            );
+            return dispatch({
+                type: GET_PACKS,
+                payload: packs.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
 
 //------------------------- FAVORITOS -------------------------------//
 export let favorite = () =>{
@@ -558,3 +597,39 @@ export let favorite = () =>{
         }
     }
 }
+export let buyCoins = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let buyCoins = await axios.post(
+                `http://localhost:3001/api/coins/buy`,
+                payload
+            );
+            return dispatch({
+                type: BUY_COINS,
+                payload: buyCoins,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+// export let getPreferenceId = (payload) => {
+//     return async (dispatch) => {
+//         try {
+//             console.log(payload);
+//             let getPreferenceId = await axios.get(
+//                 `http://localhost:3001/api/coins/buy`
+//             );
+//             console.log(getPreferenceId)
+//             return dispatch({
+//                 type: GET_PREFERENCE_ID,
+//                 payload: getPreferenceId,
+//             });
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     };
+// };
+

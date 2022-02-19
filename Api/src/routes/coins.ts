@@ -12,21 +12,24 @@ mercadopago.configure({
     "TEST-8507753762167920-020813-29eacfdac014e6698569e6797d9512b5-187205193",
 });
 
-externalOrderRouter.get<{}, {}>("/buy", (req, res) => {
+
+externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
   let product = req.body;
   console.log(product);
   let preference = {
     items: [
       {
-        title: product.title,
-        unit_price: product.buyprice,
+        title: "asd",
+        // product.title,
+        unit_price: 1,
+        // product.buyprice,
         quantity: 1,
       },
     ],
     installments: 1,
 
     back_urls: {
-      success: "http://localhost:3001/api/coins/buy",
+      success: "http://localhost:3001/api/coins/buy/pagos",
       failure: "http://localhost:3001/api/coins/buy",
       pending: "http://localhost:3001/api/coins/buy",
     },
@@ -38,6 +41,7 @@ externalOrderRouter.get<{}, {}>("/buy", (req, res) => {
     .create(preference)
     .then(function (response: any) {
       const preferenceId = response.body.id;
+      console.log(preferenceId)
       res.send(response.body.id);
     })
     .catch(function (error: any) {
@@ -83,6 +87,7 @@ externalOrderRouter.get<{}, {}>("/pagos", async (req, res) => {
     }
   }
 });
+
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
   let { adminId, userId, status, value } = req.body;
   let seller = await db.user.findUnique({ where: { id: userId } });
@@ -114,6 +119,11 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
     }
   }
 });
+externalOrderRouter.get<{}, {}>("/pack", async (req, res) => {
+  let pack = await db.coinsPackage.findMany();
+  let packfiltered = pack.filter((e) => e.buyprice > 9);
+  res.send(packfiltered);
+});
 
 externalOrderRouter.get<{}, {}>("/createPackage", async (req, res) => {
   let cP = new CoinsPackage(600, "500 Coins + 100 coins bundle", 0, 5000);
@@ -130,9 +140,16 @@ externalOrderRouter.get<{}, {}>("/createPackage", async (req, res) => {
   const newPackage6 = await db.coinsPackage.create({ data: cP6 });
   res.send("Bundle Coins Created");
 });
+
 externalOrderRouter.post<{}, {}>("/generatePackages", async (req, res) => {
   let { id, value, title, buyprice, sellprice } = req.body;
   let cP = new CoinsPackage(value, title, sellprice, buyprice, id);
   const newPackage = await db.coinsPackage.create({ data: cP });
   res.send("Bundle Coins Created");
+});
+
+externalOrderRouter.get<{}, {}>("/pack", async (req, res) => {
+  let pack = await db.coinsPackage.findMany();
+  let packfiltered = pack.filter((e) => e.buyprice > 9);
+  res.send(packfiltered);
 });

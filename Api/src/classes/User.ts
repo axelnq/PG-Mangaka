@@ -12,6 +12,7 @@ export default class User {
   coins: number;
   creatorMode: boolean;
   email: string;
+  chapters: number[];
   library: number[];
   wishList: number[];
   favorites: number[];
@@ -28,6 +29,7 @@ export default class User {
     about?: string,
     coins?: number,
     creatorMode?: boolean,
+    chapters?: number[],
     library?: number[],
     wishList?: number[],
     favorites?: number[],
@@ -44,6 +46,7 @@ export default class User {
     this.about = about || "This is my Profile!";
     this.coins = coins || 0;
     this.creatorMode = creatorMode || false;
+    this.chapters = chapters || [];
     this.library = library || [];
     this.wishList = wishList || [];
     this.favorites = favorites || [];

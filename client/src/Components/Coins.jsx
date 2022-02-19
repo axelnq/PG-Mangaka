@@ -1,8 +1,8 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import NavBar from "./Navbar";
 import CoinsPanel from "./CoinsPanel";
-// import empty from "../img/empty.png";
+import empty from "../img/empty.png";
 import love from "../img/love.png";
 import mask from "../img/mask.png";
 import mountain from "../img/mountain.png";
@@ -33,6 +33,14 @@ import {
     ListItemAvatar,
     Avatar,
 } from "@mui/material";
+import {
+    buyCoins,
+    getCurrentUser,
+    getPacks,
+    getPreferenceId,
+} from "../Actions";
+import Cart from "./Cart";
+// const Mercadopago = require('mercadopago');
 
 //modal
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -76,6 +84,19 @@ export default function Coins() {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
 
+    let dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getPacks());
+        dispatch(getCurrentUser());
+    }, [dispatch]);
+
+    let packs = useSelector((state) => state.getPacks);
+    let user = useSelector((state) => state.user);
+    const data2 = useSelector((state) => state.preferenceId);
+    console.log(data2);
+    console.log(packs);
+    console.log(user);
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -98,9 +119,52 @@ export default function Coins() {
     const coinImgs = [mangaka, mask, love, tree, mountain, flower];
 
     const changeImg = () => {
-        let coinRandom = Math.floor(Math.random() * coinImgs.length)
-        document.getElementById("coinImg").src = coinImgs[coinRandom]
-    }
+        let coinRandom = Math.floor(Math.random() * coinImgs.length);
+        document.getElementById("coinImg").src = coinImgs[coinRandom];
+    };
+
+    const [buy, setBuy] = useState(false);
+    const [bought, setBought] = useState(false);
+    const handleBuy = (e) => {
+        console.log(e.target.value);
+        let packBought = packs.filter((pack) => pack.id == e.target.value);
+        console.log(packBought[0]);
+        let packInfo = {
+            title: packBought[0].title,
+            buyprice: packBought[0].buyprice,
+        };
+        console.log(packInfo);
+        dispatch(buyCoins(packInfo));
+        console.log("handle", data2);
+        setBought(true);
+        // setBuy(true);
+        // dispatch(getPreferenceId())
+    };
+
+    useEffect(() => {
+        if (bought) {
+            console.log(data2)
+            setTimeout(() => {
+                setBuy(true)
+            }, 3000)
+        }
+    }, [bought])
+
+    // Agrega credenciales de SDK
+    // const mp = new MercadoPago("PUBLIC_KEY", {
+    //     locale: "es-AR",
+    // });
+
+    // // Inicializa el checkout
+    // mp.checkout({
+    //     preference: {
+    //         id: "YOUR_PREFERENCE_ID",
+    //     },
+    //     render: {
+    //         container: ".cho-container", // Indica el nombre de la clase donde se mostrará el botón de pago
+    //         label: "Comprar", // Cambia el texto del botón de pago (opcional)
+    //     },
+    // });
 
     return (
         <div>
@@ -108,7 +172,7 @@ export default function Coins() {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Box sx={{ mt: "2rem", mb: "1rem", width: "96px" }}>
                     <Button sx={{ borderRadius: "50%" }} onClick={changeImg}>
-                        <img id="coinImg" src={coinImgs[0]} alt="" srcset="" />
+                        <img id="coinImg" src={coinImgs[0]} alt="" />
                     </Button>
                 </Box>
             </Box>
@@ -118,10 +182,11 @@ export default function Coins() {
                     <Box
                         sx={{
                             display: "flex",
-                            justifyContent: "right",
+                            justifyContent: "space-between",
                             mb: "1rem",
                         }}
                     >
+                        <Typography variant="h6">Mis monedas: {user.coins}</Typography>
                         <Button variant="contained" onClick={handleClickOpen}>
                             Comprar monedas
                         </Button>
@@ -178,132 +243,29 @@ export default function Coins() {
                                     bgcolor: "background.paper",
                                 }}
                             >
-                                <ListItem key={value} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar
-                                                alt={`1`}
-                                                src={`/static/images/avatar/${value + 1
-                                                    }.jpg`}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            id={1}
-                                            primary={"1 moneda"}
-                                        />
-                                        <Button variant="contained">
-                                            Comprar
-                                        </Button>
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem key={value} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar
-                                                alt={`5`}
-                                                src={`/static/images/avatar/${value + 1
-                                                    }.jpg`}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            id={1}
-                                            primary={"5 monedas"}
-                                        />
-                                        <Button variant="contained">
-                                            Comprar
-                                        </Button>
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem key={value} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar
-                                                alt={`10`}
-                                                src={`/static/images/avatar/${value + 1
-                                                    }.jpg`}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            id={1}
-                                            primary={"10 monedas"}
-                                        />
-                                        <Button variant="contained">
-                                            Comprar
-                                        </Button>
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem key={value} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar
-                                                alt={`20`}
-                                                src={`/static/images/avatar/${value + 1
-                                                    }.jpg`}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            id={1}
-                                            primary={"20 monedas + 1 moneda"}
-                                        />
-                                        <Button variant="contained">
-                                            Comprar
-                                        </Button>
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem key={value} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar
-                                                alt={`50`}
-                                                src={`/static/images/avatar/${value + 1
-                                                    }.jpg`}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            id={1}
-                                            primary={"50 monedas + 3 monedas"}
-                                        />
-                                        <Button variant="contained">
-                                            Comprar
-                                        </Button>
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem key={value} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar
-                                                alt={`75`}
-                                                src={`/static/images/avatar/${value + 1
-                                                    }.jpg`}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            id={1}
-                                            primary={"75 monedas + 5 monedas"}
-                                        />
-                                        <Button variant="contained">
-                                            Comprar
-                                        </Button>
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem key={value} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar
-                                                alt={`100`}
-                                                src={`/static/images/avatar/${value + 1
-                                                    }.jpg`}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            id={1}
-                                            primary={"100 monedas + 10 monedas"}
-                                        />
-                                        <Button variant="contained">
-                                            Comprar
-                                        </Button>
-                                    </ListItemButton>
-                                </ListItem>
+                                {packs.map((pack, index) => (
+                                    <ListItem key={pack.value}>
+                                        <ListItemButton>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <img src={empty} alt={pack.id} />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItem>
+                                                <ListItemText primary={pack.title} />
+                                                <Button
+                                                    onClick={handleBuy}
+                                                    value={pack.id}
+                                                    variant="contained"
+                                                >
+                                                    Comprar
+                                                </Button>
+                                                {/* <button className=".cho-container"></button> */}
+                                            </ListItem>
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+                                {buy ? <Cart data={data2} /> : null}
                             </List>
                         </DialogContentText>
                     </DialogContent>
