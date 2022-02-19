@@ -112,7 +112,7 @@ mangasRouter.get<{ idManga: string }, {}>("/manga/:idManga", async (req, res) =>
           }
         })
   
-        return res.send({data: mangaUpdate})
+        return res.send({data: manga})
       }
   
       return res.json({ data: manga });
