@@ -11,6 +11,7 @@ import Register from "./Components/Access/Register";
 import CreateChapters from "./Components/CreateChapters";
 import { useSelector } from "react-redux";
 import AuthorDetail from "./Components/AuthorDetail";
+import Reader from "./Components/Reader";
 //config
 import Email from "./Components/Configuration/Email";
 import Name from "./Components/Configuration/Name";
@@ -23,6 +24,7 @@ import IndexProfile from "./Components/Configuration/IndexProfile";
 
 const axios = require("axios");
 
+import CheckoutForm from './Components/CheckoutForm';
 // windoes + .
 
 function App() {
@@ -53,6 +55,7 @@ function App() {
             <Route path="/panel" element={<Panel />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
+            <Route path="/reader" element={<Reader />} />
             {/*Configuración de Perfil*/}
             <Route path="/profile/" element={<Profile />}>
               <Route index element={<IndexProfile />} />
@@ -62,8 +65,9 @@ function App() {
               <Route path="username" element={<Username />} />
               <Route path="about" element={<About />} />
               <Route path="personalmangas" element={<PersonalMangas />} />
+              <Route path="CheckoutForm/:id" element={<CheckoutForm />} />
             </Route>
-          </>
+            </>
         )}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

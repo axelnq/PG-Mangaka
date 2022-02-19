@@ -28,6 +28,10 @@ import {
     SET_ADMIN,
     DELETE_WISHLIST_MANGA,
     ADD_MANGA_WISHLIST,
+    POST_CHECKOUT,
+    GET_PACKS,
+    BUY_COINS,
+    // GET_PREFERENCE_ID
 } from "../Actions";
 
 const initialState = {
@@ -49,7 +53,9 @@ const initialState = {
     userInfo: {},
     authors: [],
     show: true,
-    allUsers: []
+    allUsers: [],
+    getPacks: [],
+    preferenceId: []
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -179,7 +185,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 show: !state.show
             }
-            case GET_USERS:
+        case GET_USERS:
             return {
                 ...state,
                 allUsers: payload,
@@ -206,6 +212,29 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 wishlist: state.wishlist.concat(payload)
             }
+
+        case POST_CHECKOUT:
+            return {
+                ...state,
+            };
+
+        case GET_PACKS:
+            return {
+                ...state,
+                getPacks: payload,
+                
+            };
+        case BUY_COINS:
+            return {
+                ...state,
+                preferenceId: payload,
+            }
+        // case GET_PREFERENCE_ID:
+        //     return {
+        //         ...state,
+        //         preferenceId: payload,
+        //     };
+
         default:
             return state;
     }
