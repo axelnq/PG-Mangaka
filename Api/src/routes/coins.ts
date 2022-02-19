@@ -35,8 +35,7 @@ externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
     },
     auto_return: "approved",
 
-    external_reference: 1,
-    // product.id,
+    external_reference: product.id,
   };
   mercadopago.preferences
     .create(preference)

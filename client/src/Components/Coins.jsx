@@ -143,6 +143,7 @@ export default function Coins() {
 
     useEffect(() => {
         if (bought) {
+            console.log(data2)
             setTimeout(() => {
                 setBuy(true)
             }, 3000)
