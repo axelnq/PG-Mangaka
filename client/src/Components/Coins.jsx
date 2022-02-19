@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 import NavBar from "./Navbar";
 import CoinsPanel from "./CoinsPanel";
 import empty from "../img/empty.png";
@@ -33,7 +33,12 @@ import {
     ListItemAvatar,
     Avatar,
 } from "@mui/material";
-import { buyCoins, getCurrentUser, getPacks, getPreferenceId } from "../Actions";
+import {
+    buyCoins,
+    getCurrentUser,
+    getPacks,
+    getPreferenceId,
+} from "../Actions";
 import Cart from "./Cart";
 // const Mercadopago = require('mercadopago');
 
@@ -81,12 +86,14 @@ export default function Coins() {
 
     let dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getPacks())
-        dispatch(getCurrentUser())
+        dispatch(getPacks());
+        dispatch(getCurrentUser());
     }, [dispatch]);
 
-    let packs = useSelector(state => state.getPacks);
-    let user = useSelector(state => state.user);
+    let packs = useSelector((state) => state.getPacks);
+    let user = useSelector((state) => state.user);
+    const data2 = useSelector((state) => state.preferenceId);
+    console.log(data2);
     console.log(packs);
     console.log(user);
 
@@ -112,28 +119,39 @@ export default function Coins() {
     const coinImgs = [mangaka, mask, love, tree, mountain, flower];
 
     const changeImg = () => {
-        let coinRandom = Math.floor(Math.random() * coinImgs.length)
-        document.getElementById("coinImg").src = coinImgs[coinRandom]
-    }
+        let coinRandom = Math.floor(Math.random() * coinImgs.length);
+        document.getElementById("coinImg").src = coinImgs[coinRandom];
+    };
 
-
-    const [buy, setBuy] = useState(false)
+    const [bought, setBought] = useState(false);
+    const [buy, setBuy] = useState(false);
     const handleBuy = (e) => {
         console.log(e.target.value);
-        let packBought = packs.filter(pack => pack.id == e.target.value)
+        let packBought = packs.filter((pack) => pack.id == e.target.value);
         console.log(packBought[0]);
         let packInfo = {
             title: packBought[0].title,
-            buyprice: packBought[0].buyprice
-        }
-        console.log(packInfo)
-        dispatch(buyCoins(packInfo))
-        setBuy(true)
+            buyprice: packBought[0].buyprice,
+        };
+        console.log(packInfo);
+        dispatch(buyCoins(packInfo));
+        console.log("handle", data2);
+        setBought(true);
+        // setBuy(true);
         // dispatch(getPreferenceId())
+    };
+
+    let handleBought = () => {
+        setBuy(true);
     }
 
-    const data = useSelector(state => state.preferenceId)
-    console.log(data.data)
+    useEffect(() => {
+        if (bought) {
+            setTimeout(() => {
+                handleBought()
+            }, 2000);
+        }
+    }, [data2]);
 
 
     // Agrega credenciales de SDK
@@ -229,33 +247,29 @@ export default function Coins() {
                                     bgcolor: "background.paper",
                                 }}
                             >
-                                {
-                                    packs.map((pack, index) => (
-                                        <ListItem key={pack.value}>
-                                            <ListItemButton>
-                                                <ListItemAvatar>
-                                                    <Avatar>
-                                                        <img src={empty} alt={pack.id} />
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItem>
-                                                    <ListItemText
-                                                        primary={pack.title}
-                                                    />
-                                                    <Button onClick={handleBuy} value={pack.id} variant="contained">
-                                                        Comprar
-                                                    </Button>
-                                                    {/* <button className=".cho-container"></button> */}
-                                                </ListItem>
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))
-                                }
-                                {
-                                    buy ?
-                                        <Cart data={data[0]} /> :
-                                        null
-                                }
+                                {packs.map((pack, index) => (
+                                    <ListItem key={pack.value}>
+                                        <ListItemButton>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <img src={empty} alt={pack.id} />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItem>
+                                                <ListItemText primary={pack.title} />
+                                                <Button
+                                                    onClick={handleBuy}
+                                                    value={pack.id}
+                                                    variant="contained"
+                                                >
+                                                    Comprar
+                                                </Button>
+                                                {/* <button className=".cho-container"></button> */}
+                                            </ListItem>
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+                                {buy ? <Cart data={data2} /> : null}
                             </List>
                         </DialogContentText>
                     </DialogContent>
