@@ -21,10 +21,10 @@ import Profile from "./Components/Configuration/Profile";
 import PersonalMangas from "./Components/Configuration/PersonalMangas";
 import About from "./Components/Configuration/About";
 import IndexProfile from "./Components/Configuration/IndexProfile";
+import CheckoutForm from './Components/CheckoutForm';
 
 const axios = require("axios");
 
-import CheckoutForm from './Components/CheckoutForm';
 // windoes + .
 
 function App() {
