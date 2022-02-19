@@ -50,6 +50,7 @@ function App() {
               <Route path="username" element={<Username />} />
               <Route path="about" element={<About />} />
               <Route path="personalmangas" element={<PersonalMangas />} />
+            
             <Route path="/CheckoutForm/:id" element={<CheckoutForm />} />
           </>
         )}
