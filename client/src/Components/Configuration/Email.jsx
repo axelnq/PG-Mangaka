@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+//MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -40,7 +41,7 @@ const Email = () => {
 		if (regEmail.test(form.newEmail)) {
 			axios
 				.put(
-					`http://localhost:3001/api/profile/updateEmail/${user.username}`,
+					"http://localhost:3001/api/profile/updateEmail",					
 					form,
 					{ withCredentials: true }
 				)

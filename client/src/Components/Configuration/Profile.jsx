@@ -58,7 +58,7 @@ function ResponsiveDrawer(props) {
     formData.append("avatar", e.target.files[0]);
     axios
       .put(
-        `http://localhost:3001/api/profile/user/updateAvatar/${user.username}`,
+        "http://localhost:3001/api/profile/updateAvatar",
         formData,
         { withCredentials: true }
       )

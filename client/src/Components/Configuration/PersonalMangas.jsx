@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+
 //MUI
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -11,11 +12,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 //import MenuItem from "@mui/material/MenuItem";
 
 export default function PersonalMangas() {
-  const [data, setData] = useState(null);
+  
+	const {user} = useSelector(state => state)
+	const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/mangas/manga/1")
+      .get("http://localhost:3001/api/profile/updateAvatar")
       .then((res) => {
         setData(res.data.data);
         setLoading(false);
