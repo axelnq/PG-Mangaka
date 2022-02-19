@@ -37,6 +37,7 @@ const Detail = () => {
     let buffer;
     if (mangaDetail && mangaDetail.id == id) {
         buffer = _ArrayBufferToBase64(mangaDetail.image)
+        'data:image/jpeg;base64,' + _ArrayBufferToBase64(m.image)
     }
     const [valueManga, setValueManga] = React.useState(0);
     const [valueChapter, setValueChapter] = React.useState(0);
