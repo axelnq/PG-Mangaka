@@ -139,7 +139,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 library: payload,
             };
         case GET_WISHLIST:
-            console.log(payload)
             return {
                 ...state,
                 wishlist: payload,

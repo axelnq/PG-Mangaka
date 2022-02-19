@@ -529,11 +529,11 @@ export let setAdmin = (payload) => {
     };
 };
 
-export let deleteWishlistManga = (userId, mangaId) => {
+export let deleteWishlistManga = (mangaId) => {
     return async (dispatch) => {
         try {
             console.log(mangaId)
-            let manga = axios.put(`http://localhost:3001/api/users/user/lists/${userId}?list=wishList`, mangaId)
+            let manga = axios.put(`http://localhost:3001/api/users/user/lists?list=wishList`, mangaId)
             return dispatch({
                 type: DELETE_WISHLIST_MANGA,
             })
