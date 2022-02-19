@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 
-export default function (data) {
+export default function ({ data }) {
     // function createCheckoutButton(data) {
     //     // Initialize the checkout
     //     mercadopago.checkout({
@@ -14,29 +16,36 @@ export default function (data) {
     //     });
     // }
 
+    let [loading, setLoading] = React.useState(true);
+
+    console.log("aca", data);
+    let datita = data.data;
     useEffect(() => {
+        // setTimeout(function () {
+        setLoading(false)
         const script = document.createElement("script");
         const attr_data_preference = document.createAttribute('data-preference-id');
         console.log(data.data)
-        attr_data_preference.value = data.data?.id;
+        attr_data_preference.value = datita;
 
         script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
         script.setAttributeNode(attr_data_preference)
 
-        console.log(data.data)
+        script.src =
+            "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
+        script.setAttributeNode(attr_data_preference);
 
-        document.getElementById('form1')?.appendChild(script);
-        return () => {
-            document.getElementById('form1')?.removeChild(script);
-        }
-    }, [])
+        document.getElementById("form1")?.appendChild(script);
+        // return () => {
+        //     document.getElementById("form1")?.removeChild(script);
+        // };
+        // }, 2000);
+    }, [datita]);
     return (
-        <div>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: "1rem" }}>
             <form id="form1">
-                <form id="form2">
-
-                </form>
+                <form id="form2"></form>
             </form>
-        </div>
-    )
+        </Box>
+    );
 }
