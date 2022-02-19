@@ -182,6 +182,8 @@ profileRouter.put("/updateUsername", isAuthenticated, async (req, res) => {
         },
       });
       return res.send({ message: "Username updated" });
+    } else {
+      return res.status(401).send({ message: "Password is incorrect" });
     }
   } catch (error: any) {
     res.status(400).send({ message: error.message });
