@@ -31,6 +31,7 @@ export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
 export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
+export const ADD_FAVORITE = 'ADD_FAVORITE';
 
 const axios = require("axios");
 
@@ -587,16 +588,16 @@ export let getPacks = () => {
 export let favorite = () =>{
     return async (dispatch) => {
         try {
-            let favorite = await axios(`http://localhost:3001/api/profile/favorites`)
+            let favorite = await axios.get(`http://localhost:3001/api/profile/favorites`, {withCredentials:true})
             return dispatch({
                 type: 'FAVORITE',
                 payload: favorite.data
-            })
+            });
         } catch (error){
             console.log(error)
         }
-    }
-}
+    };
+};
 export let buyCoins = (payload) => {
     return async (dispatch) => {
         try {
@@ -633,3 +634,19 @@ export let buyCoins = (payload) => {
 //     };
 // };
 
+
+//--------------------AGREGAR FAVORITOS------------------//
+
+export let addFavorite = (id) =>{
+    return async (dispatch) => {
+        try {
+            let addFavorite = await axios.put(`http://localhost:3001/api/users/lists?list=favorites`, {mangaId:id})
+            return dispatch({
+                type: 'ADD_FAVORITE',
+                payload: addFavorite.data
+            });
+        } catch (error){
+            console.log(error)
+        }
+    };
+};

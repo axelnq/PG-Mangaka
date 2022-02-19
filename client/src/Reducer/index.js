@@ -31,7 +31,9 @@ import {
     POST_CHECKOUT,
     GET_PACKS,
     BUY_COINS,
-    GET_PREFERENCE_ID
+    // GET_PREFERENCE_ID,
+    ADD_FAVORITE,
+    
 } from "../Actions";
 
 const initialState = {
@@ -57,7 +59,8 @@ const initialState = {
     show: true,
     allUsers: [],
     getPacks: [],
-    preferenceId: []
+    preferenceId: [],
+    addFavorite:[],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -232,13 +235,18 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 preferenceId: payload,
-            }
+            };
         // case GET_PREFERENCE_ID:
         //     return {
         //         ...state,
         //         preferenceId: payload,
         //     };
 
+        case ADD_FAVORITE:
+            return {
+                ...state,
+                addFavorite: payload,
+            };
         default:
             return state;
     }
