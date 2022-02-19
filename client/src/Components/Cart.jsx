@@ -26,7 +26,7 @@ export default function ({ data }) {
         const script = document.createElement("script");
         const attr_data_preference = document.createAttribute('data-preference-id');
         console.log(data.data)
-        attr_data_preference.value = data.data;
+        attr_data_preference.value = datita;
 
         script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
         script.setAttributeNode(attr_data_preference)
