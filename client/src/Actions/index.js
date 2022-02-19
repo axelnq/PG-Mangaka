@@ -25,19 +25,10 @@ export const GET_USERS = "GET_USERS";
 export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
 export const SET_ADMIN = "SET_ADMIN";
-<<<<<<< HEAD
-<<<<<<< HEAD
 export const POST_CHECKOUT = "POST_CHECKOUT";
-=======
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
 export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
->>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
-=======
-export const GET_PACKS = "GET_PACKS";
-export const BUY_COINS = "BUY_COINS";
-export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
->>>>>>> 05179220372178a96be1a5d1165957060abc3b3f
 
 const axios = require("axios");
 
