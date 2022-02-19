@@ -46,7 +46,7 @@ const initialState = {
     },
     library: [],
     wishlist: [],
-    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
+    user: null,
     allChapters:[],
     userInfo: {},
     authors: [],

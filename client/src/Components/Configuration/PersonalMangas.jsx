@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+//import { useSelector } from "react-redux";
+//import { Link } from "react-router-dom";
 import axios from "axios";
 
 //MUI
@@ -8,26 +9,24 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-//import Menu from "@mui/material/Menu";
-//import MenuItem from "@mui/material/MenuItem";
+import List from "@mui/material/List";
+//import ListItem from "@mui/material/ListItem";
+//import ListItemIcon from "@mui/material/ListItemIcon";
+//import ListItemText from "@mui/material/ListItemText";
 
 export default function PersonalMangas() {
-  
-	const {user} = useSelector(state => state)
-	const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  //const { user } = useSelector((state) => state);
+  //const [data, setData] = useState(null);
+  //const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/profile/updateAvatar")
+      .get("http://localhost:3001/api/profile/")
       .then((res) => {
-        setData(res.data.data);
-        setLoading(false);
+        console.log(res.data)
       })
       .catch((error) => console.log(error));
   }, []);
-  return loading ? (
-    <h3>loading</h3>
-  ) : (
+  return (
     <div>
       <Accordion>
         <AccordionSummary
@@ -35,14 +34,21 @@ export default function PersonalMangas() {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>{data.title}</Typography>
+          <Typography>hola</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ul>
-            {data.genre.map((g, i) => {
-              return <li key={i}>{g}</li>;
-            })}
-          </ul>
+          <List>
+            {/*data.genre.sort().map((text, index) => (
+              <Link
+                to={`/`}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <ListItem button key={index}>
+                  <ListItemText primary={text} />
+                </ListItem>
+              </Link>
+            ))*/}
+          </List>
         </AccordionDetails>
       </Accordion>
       <Accordion>

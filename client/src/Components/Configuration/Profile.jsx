@@ -1,5 +1,7 @@
-import * as React from "react";
+import React, {useEffect} from "react";
 import axios from "axios";
+import { getUser } from "../../Actions/index";
+import { useDispatch, useSelector } from "react-redux";
 //MUI
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
@@ -23,8 +25,7 @@ import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 //router
 import { Link, Outlet } from "react-router-dom";
-//Redux
-import { useSelector } from "react-redux";
+
 const drawerWidth = 240;
 //input file
 const Input = styled("input")({
@@ -43,9 +44,15 @@ const _ArrayBufferToBase64 = (buffer) => {
   return window.btoa(binary);
 };
 
-function ResponsiveDrawer(props) {
+function Profile(props) {
   //Redux
   const { user } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    axios.get("http://localhost:3001/api/profile/", {withCredentials: true})
+    .then((res) => console.log(res.data))
+    .catch((error) => console.log(error));
+  }, [])
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -57,12 +64,13 @@ function ResponsiveDrawer(props) {
     const formData = new FormData();
     formData.append("avatar", e.target.files[0]);
     axios
-      .put(
-        "http://localhost:3001/api/profile/updateAvatar",
-        formData,
-        { withCredentials: true }
-      )
-      .then((res) =>console.log(res.data))
+      .put("http://localhost:3001/api/profile/updateAvatar", formData, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        alert(res.data.message);
+        return dispatch(getUser());
+      })
       .catch((error) => console.log(error));
   };
 
@@ -87,10 +95,7 @@ function ResponsiveDrawer(props) {
                   id="icon-button-file"
                   type="file"
                 />
-                <IconButton
-                  aria-label="upload picture"
-                  component="span"
-                >
+                <IconButton aria-label="upload picture" component="span">
                   <EditIcon />
                 </IconButton>
               </label>
@@ -114,20 +119,51 @@ function ResponsiveDrawer(props) {
         Información Personal
       </Typography>
       <List>
-        {["Name", "Password", "About", "Email", "Username"]
-          .sort()
-          .map((text, index) => (
+        <Link
+          to="/profile/name"
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <ListItem button>
+            <ListItemText primary={"Name"} />
+          </ListItem>
+        </Link>
+        <Link
+          to="/profile/username"
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <ListItem button>
+            <ListItemText primary={"Username"} />
+          </ListItem>
+        </Link>
+
+        {!user.googleId && (
+          <>
             <Link
-              to={`/profile/${text.toLowerCase()}`}
+              to="/profile/password"
               style={{ textDecoration: "none", color: "white" }}
             >
-              <ListItem button key={index}>
-                {/*<ListItemIcon>
-            </ListItemIcon>*/}
-                <ListItemText primary={text} />
+              <ListItem button>
+                <ListItemText primary={"Password"} />
               </ListItem>
             </Link>
-          ))}
+            <Link
+              to="/profile/email"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <ListItem button>
+                <ListItemText primary={"Email"} />
+              </ListItem>
+            </Link>
+          </>
+        )}
+        <Link
+          to="/profile/about"
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <ListItem button>
+            <ListItemText primary={"About"} />
+          </ListItem>
+        </Link>
       </List>
       <Divider sx={{ bgcolor: "#357DED" }} />
       <List>
@@ -233,4 +269,4 @@ function ResponsiveDrawer(props) {
   );
 }
 
-export default ResponsiveDrawer;
+export default Profile;

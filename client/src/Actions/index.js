@@ -15,12 +15,12 @@ export const GET_LIBRARY = "GET_LIBRARY";
 export const GET_WISHLIST = "GET_WISHLIST";
 export const CURRENT_USER = "CURRENT_USER";
 export const GET_ALL_CHAPTERS = "GET_ALL_CHAPTERS";
-export const GET_USER_INFO = 'GET_USER_INFO';
-export const GET_DETAIL_WISHLIST = 'GET_DETAIL_WISHLIST'
-export const GET_DETAIL_LIBRARY = 'GET_DETAIL_LIBRARY'
-export const GET_POPULAR_MANGAS = 'GET_POPULAR_MANGAS'
-export const GET_AUTHORS = 'GET_AUTHORS'
-export const CHANGE_SHOW = 'CHANGE_SHOW'
+export const GET_USER_INFO = "GET_USER_INFO";
+export const GET_DETAIL_WISHLIST = "GET_DETAIL_WISHLIST";
+export const GET_DETAIL_LIBRARY = "GET_DETAIL_LIBRARY";
+export const GET_POPULAR_MANGAS = "GET_POPULAR_MANGAS";
+export const GET_AUTHORS = "GET_AUTHORS";
+export const CHANGE_SHOW = "CHANGE_SHOW";
 export const GET_USERS = "GET_USERS";
 export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
@@ -28,7 +28,7 @@ export const SET_ADMIN = "SET_ADMIN";
 export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
-export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
+export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID";
 
 const axios = require("axios");
 
@@ -229,7 +229,7 @@ export let postChapters = (payload) => {
                 `http://localhost:3001/api/chapters`,
                 payload
             );
-            
+
             return dispatch({
                 type: POST_CHAPTERS,
                 payload: chapters.data,
@@ -286,10 +286,17 @@ export let getCurrentUser = (form) => {
             );
 
             const response = await request.data;
+            if (response.msg === "usuario no logueado") {
+                localStorage.clear();
+                return dispatch({
+                    type: CURRENT_USER,
+                    payload: null,
+                });
+            }
             localStorage.setItem("user", JSON.stringify(response));
             const user = JSON.parse(localStorage.getItem("user"));
-
             return dispatch({ type: CURRENT_USER, payload: user });
+
         } catch (error) {
             console.log(error.message);
         }
@@ -317,25 +324,27 @@ export const UserLogout = () => {
     };
 };
 
-/*
-//Traer id desde el back
-const getUser = () => {
+//Verifica si el usuario está conectado
+export const getUser = () => {
     return async (dispatch) => {
         try {
-            const request = await axios({
-                method: "GET",
-                withCredentials: true,
-                url: "http://localhost:3001/api/users/currentUser",
+            const request = await axios.get(
+                "http://localhost:3001/api/users/currentUser",
+                { withCredentials: true }
+            );
+            const response = await request.data;
+            localStorage.setItem("user", JSON.stringify(response));
+            const user = JSON.parse(localStorage.getItem("user"));
+            return dispatch({
+                type: CURRENT_USER,
+                payload: user,
             });
-            const response = request.data;
-            console.log(response.data);
-            return dispatch({})
-            }catch(e){
-                console.log(e)
-            }
-}
-}
-*/
+        } catch (error) {
+            localStorage.clear();
+            console.log("Error tipo",error);
+        }
+    };
+};
 
 export const getGoogleUser = () => {
     return async (dispatch) => {
@@ -347,6 +356,7 @@ export const getGoogleUser = () => {
             });
             const response = await request.data;
             if (response.msg === "usuario no logueado") {
+                localStorage.clear();
                 return dispatch({
                     type: CURRENT_USER,
                     payload: null,
@@ -377,20 +387,22 @@ export let getChapters = () => {
             console.log(error);
         }
     };
-}
+};
 export let getUserInfo = (payload) => {
     return async (dispatch) => {
         try {
-            let user = await axios.get(`http://localhost:3001/api/users/user/${payload}`)
+            let user = await axios.get(
+                `http://localhost:3001/api/users/user/${payload}`
+            );
             return dispatch({
                 type: GET_USER_INFO,
-                payload: user.data
-            })
+                payload: user.data,
+            });
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
-}
+    };
+};
 
 export let getMangaDetailWishList = (payload) => {
     return async (dispatch) => {
@@ -427,49 +439,49 @@ export let getMangaDetailLibrary = (payload) => {
 export let getPopularMangas = () => {
     return async (dispatch) => {
         try {
-            let mangas = await axios.get('http://localhost:3001/api/mangas/popularMangas')
+            let mangas = await axios.get(
+                "http://localhost:3001/api/mangas/popularMangas"
+            );
             return dispatch({
                 type: GET_POPULAR_MANGAS,
-                payload: mangas.data
-            })
-        } catch(error) {
-            console.log(error)
+                payload: mangas.data,
+            });
+        } catch (error) {
+            console.log(error);
         }
-    }
-}
+    };
+};
 
 export let popularAuthors = () => {
     return async (dispatch) => {
-        try{ 
-            let authors = await axios.get()
+        try {
+            let authors = await axios.get("");
             return dispatch({
                 type: GET_AUTHORS,
-                payload: authors.data
-            })
-        } catch(error) {
-            console.log(error)
+                payload: authors.data,
+            });
+        } catch (error) {
+            console.log(error);
         }
-    }
-}
+    };
+};
 
 export let changeShow = () => {
     return async (dispatch) => {
         try {
-            return dispatch( {
-                type: CHANGE_SHOW
-            })
-        } catch(error) {
-            console.log(error)
+            return dispatch({
+                type: CHANGE_SHOW,
+            });
+        } catch (error) {
+            console.log(error);
         }
-    }
-}
+    };
+};
 
 export let getAllUsers = () => {
     return async (dispatch) => {
         try {
-            let users = await axios.get(
-                "http://localhost:3001/api/users"
-            );
+            let users = await axios.get("http://localhost:3001/api/users");
             return dispatch({
                 type: GET_USERS,
                 payload: users.data,
@@ -539,7 +551,7 @@ export let postCheckout = (payload) => {
                 `http://localhost:3001/api/coins/sell`,
                 payload
             );
-            
+
             return dispatch({
                 type: POST_CHECKOUT,
                 payload: checkout.data,
@@ -549,13 +561,11 @@ export let postCheckout = (payload) => {
         }
     };
 };
-                
+
 export let getPacks = () => {
     return async (dispatch) => {
         try {
-            let packs = await axios.get(
-                "http://localhost:3001/api/coins/pack"
-            );
+            let packs = await axios.get("http://localhost:3001/api/coins/pack");
             return dispatch({
                 type: GET_PACKS,
                 payload: packs.data,
@@ -601,4 +611,3 @@ export let buyCoins = (payload) => {
 //         }
 //     };
 // };
-

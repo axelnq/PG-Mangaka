@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,7 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
-import { useSelector } from "react-redux";
+
 //styles css
 import "animate.css";
 //validación de contraseña
@@ -25,7 +26,6 @@ const initialForm = {
 };
 
 export default function Password() {
-	const { user } = useSelector((state) => state);
 	//creación de estado
 	const [passwords, setPasswords] = useState(initialForm);
 	const [error, setError] = useState(false);
@@ -52,11 +52,11 @@ export default function Password() {
 		if (passwords.password && passwords.newPassword) {
 			axios
 				.put(
-					`http://localhost:3001/api/profile/updatePassword/${user.username}`,
+					`http://localhost:3001/api/profile/updatePassword`,
 					passwords,
 					{ withCredentials: true }
 				)
-				.then((res) => alert(res.message))
+				.then((res) => alert(res.data.message))
 				.catch((error) => console.log(error));
 			setPasswords(initialForm);
 		} else {

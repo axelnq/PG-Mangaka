@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {useDispatch, useSelector} from 'react-redux';
+import {getUser} from '../../Actions/index';
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -12,7 +14,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useSelector } from "react-redux";
 //css
 import "animate.css";
 //validar email
@@ -26,6 +27,7 @@ const initialForm = {
 };
 
 const Email = () => {
+	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state);
 	const [form, setForm] = useState(initialForm);
 	const [show, setShow] = React.useState(false);
@@ -45,8 +47,13 @@ const Email = () => {
 					form,
 					{ withCredentials: true }
 				)
-				.then((res) => alert(res.message))
+				
+				.then((res) =>{
+					alert(res.data.message)
+					return dispatch(getUser());
+				})
 				.catch((error) => console.log(error));
+				setForm(initialForm);
 		} else {
 			alert("Email inválido");
 		}
@@ -60,6 +67,7 @@ const Email = () => {
 			autoComplete="off"
 		>
 			<Typography variant="h4">Cambiar Email</Typography>
+			<Typography variant="h6">Email Actual: {user.email}</Typography>
 			<TextField
 				fullWidth
 				sx={{
