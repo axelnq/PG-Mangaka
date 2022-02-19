@@ -27,10 +27,10 @@ const IndexProfile = () => {
 			<Typography variant="body2">
 				Para recibir tus pagos debes llenar el siguiente Formulario
 			</Typography>
-			<Link to={`/profile/CheckoutForm/${user.id}`}></Link>
+			<Link to={`/profile/CheckoutForm/${user.id}`}>
 			<Button variant="contained">Formulario de Pago</Button>
+			</Link>
 			<Typography variant="h5">Empieza a crear!</Typography>
-
 			<Link
 				to="/create"
 				style={{ textDecoration: "none", color: "white" }}
