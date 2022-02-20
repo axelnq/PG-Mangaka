@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { Fragment } from "react";
 import { Button } from "@mui/material";
+import { Input } from "@mui/material";
 
 
 
@@ -54,7 +55,7 @@ export default function CheckoutForm() {
       <div>
         <FormControl   onSubmit={(e) => handleSubmit(e)} 
           sx={{
-            width: 300,
+            width: 600,
             height:'auto',
             borderRadius: '5px',
             backgroundColor: '#192A45',
@@ -65,7 +66,7 @@ export default function CheckoutForm() {
           <Box sx={{ mt: '1rem' }}>
             <label>NOMBRE COMPLETO:</label>
             <div>
-            <input
+            <Input sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
               type="text"
               value={input.titularName}
               name="titularName"
@@ -77,7 +78,7 @@ export default function CheckoutForm() {
           <Box sx={{ mt: '1rem' }}>
             <label>CBU:</label>
             <div>
-            <input
+            <Input sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
               type="text"
               value={input.cbu}
               name="cbu"
@@ -90,7 +91,7 @@ export default function CheckoutForm() {
             <div>
            { flag ?                    
                     (coins >= 1000) ? (
-                    <select name="extract" onChange={handleChange} value={input.extract}>
+                    <select sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}} name="extract" onChange={handleChange} value={input.extract}>
                     <option value="0">0</option>
                     <option value="10">10</option>
                     <option value="50">50</option>

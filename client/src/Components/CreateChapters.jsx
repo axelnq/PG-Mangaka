@@ -144,7 +144,6 @@ export default function CreateChapters() {
               </div>
               </Box>
               <Box sx={{ mt: '2rem' }}>
-            {/* <label>CAPITULO :</label> */}
             <div>
                 <label htmlFor="contained-button-file">
                   <Input onChange={(e) => handleChangeFile (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
