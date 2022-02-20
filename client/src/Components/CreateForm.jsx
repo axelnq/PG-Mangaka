@@ -8,6 +8,7 @@ import { Button ,Select,MenuItem , Input} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postManga, getAllMangas, getGenres } from '../Actions/index';
 import Navbar from './Navbar';
+import { InputLabel } from '@mui/material';
 
 
 export default function CreateForm() {
@@ -104,7 +105,7 @@ function handleSubmit(e) {
       <div>
         <FormControl onSubmit={(e) => handleSubmit(e)}
           sx={{
-            width: 300,
+            width: 600,
             height:'auto',
             borderRadius: '5px',
             backgroundColor: '#192A45',
@@ -112,9 +113,9 @@ function handleSubmit(e) {
             color: '#357DED',
           }}>
           <h1 >CREA TU MANGA</h1>
-          <label>TITLE :</label>
+          <Box>
           <div>
-            <input
+            <Input placeholder='TITLE' sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
               type="text"
               value={input.title}
               name="title"
@@ -122,23 +123,23 @@ function handleSubmit(e) {
 
             />
           </div>
+          </Box>
           
-          <Box sx={{ mt: '1rem' }}>
-            <label>IMAGEN :</label>
+          <Box sx={{ mt: '2rem' }}>
             <div>
                 <label htmlFor="contained-button-file">
                   <Input onChange={(e) => handleChangeFile (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button onClick={(e) => handleChangeFile (e)} variant="contained" component="span">
-                          Cargar
+                    <Button sx={{width :'32rem',justifyContent:'center'}} onClick={(e) => handleChangeFile (e)} variant="contained" component="span">
+                          Cargar Imagen
                     </Button>
                       </label>
-                  <Box sx={{ mt: '1rem' }}>
-            <label >SYNOPSIS :</label>
+                  <Box sx={{ mt: '2rem' }}>
             <div>
             <TextField
+            placeholder='SYNOPSIS'
           id="filled-multiline-flexible"
           multiline
-          sx={{ backgroundColor: 'white' }}
+          sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
           name="synopsis"
           value={input.synopsis}
           onChange={(e) => handleChange(e)}
@@ -148,13 +149,12 @@ function handleSubmit(e) {
             </Box>
             </div>
           </Box>
-          <Box sx={{ mt: '1rem' }}>
-            <label>GENERO :</label>
+          <Box sx={{ mt: '2rem' }}>
             <div>
                 <Select
                     labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                        sx={{ width: '8rem',height:'1.5em',backgroundColor:'white' }}
+                      sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
                         value={input.genres}
                           name='genres'
                           label="genres"
@@ -168,8 +168,8 @@ function handleSubmit(e) {
             </div>
           </Box>
           <div>
-            <Box sx={{ width: '100%', py: '1rem' }}>
-              <Button onClick={(e) => handleSubmit(e)} size="small"  variant="contained">Crear Manga</Button></Box>
+            <Box sx={{ width: '100%', py: '2rem' }}>
+              <Button         sx={{width :'32rem',justifyContent:'center'}} onClick={(e) => handleSubmit(e)}  variant="contained">Crear Manga</Button></Box>
             <Box sx={{ width: '100%', py: '0.2rem' }}>
               <NavLink to="/">
               <Button>Home</Button>
