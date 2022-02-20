@@ -25,13 +25,12 @@ export const GET_USERS = "GET_USERS";
 export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
 export const SET_ADMIN = "SET_ADMIN";
-export const DELETE_WISHLIST_MANGA = 'DELETE_WISHLIST_MANGA'
-export const ADD_MANGA_WISHLIST = 'ADD_MANGA_WISHLIST'
+export const DELETE_WISHLIST_MANGA = "DELETE_WISHLIST_MANGA";
+export const ADD_MANGA_WISHLIST = "ADD_MANGA_WISHLIST";
 export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
 export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID";
-
 
 const axios = require("axios");
 
@@ -121,7 +120,8 @@ export let postManga = (payload) => {
             console.log(payload);
             let manga = await axios.post(
                 `http://localhost:3001/api/mangas`,
-                payload,{withCredentials:true}
+                payload,
+                { withCredentials: true }
             );
             return dispatch({
                 type: POST_MANGA,
@@ -230,7 +230,8 @@ export let postChapters = (payload) => {
             console.log(payload);
             let chapters = await axios.post(
                 `http://localhost:3001/api/chapters`,
-                payload,{withCredentials:true}
+                payload,
+                { withCredentials: true }
             );
 
             return dispatch({
@@ -260,16 +261,19 @@ export let postChapters = (payload) => {
 export let getWishList = (payload) => {
     return async (dispatch) => {
         try {
-            let mangas = await axios.get(`http://localhost:3001/api/profile/wishlist`, { withCredentials: true })
+            let mangas = await axios.get(
+                `http://localhost:3001/api/profile/wishlist`,
+                { withCredentials: true }
+            );
             return dispatch({
                 type: GET_WISHLIST,
-                payload: mangas.data
-            })
-        } catch(error) {
-            console.log(error.response)
+                payload: mangas.data,
+            });
+        } catch (error) {
+            console.log(error.response);
         }
-    }
-}
+    };
+};
 export let getCurrentUser = (form) => {
     return async (dispatch) => {
         try {
@@ -299,7 +303,6 @@ export let getCurrentUser = (form) => {
             localStorage.setItem("user", JSON.stringify(response));
             const user = JSON.parse(localStorage.getItem("user"));
             return dispatch({ type: CURRENT_USER, payload: user });
-
         } catch (error) {
             console.log(error.message);
         }
@@ -343,8 +346,7 @@ export const getUser = () => {
                 payload: user,
             });
         } catch (error) {
-            localStorage.clear();
-            console.log("Error tipo",error);
+            console.log(error);
         }
     };
 };
@@ -549,31 +551,39 @@ export let setAdmin = (payload) => {
 export let deleteWishlistManga = (payload) => {
     return async (dispatch) => {
         try {
-            console.log(payload)
-            let manga = axios.put(`http://localhost:3001/api/users/user/lists?list=wishList`, {mangaId: payload}, { withCredentials: true })
+            console.log(payload);
+            let manga = axios.put(
+                `http://localhost:3001/api/users/user/lists?list=wishList`,
+                { mangaId: payload },
+                { withCredentials: true }
+            );
             return dispatch({
                 type: DELETE_WISHLIST_MANGA,
-            })
-        } catch(error) {
-            console.log(error)
+            });
+        } catch (error) {
+            console.log(error);
         }
-    }
-}
+    };
+};
 
 export let addMangaWishList = (payload) => {
     return async (dispatch) => {
         try {
-            console.log(payload)
-            let manga = axios.put('http://localhost:3001/api/users/user/lists?list=wishList', payload, { withCredentials: true })
+            console.log(payload);
+            let manga = axios.put(
+                "http://localhost:3001/api/users/user/lists?list=wishList",
+                payload,
+                { withCredentials: true }
+            );
             return dispatch({
                 type: ADD_MANGA_WISHLIST,
-                payload: manga.data
-            })
-        } catch(error) {
-            console.log(error.response)
+                payload: manga.data,
+            });
+        } catch (error) {
+            console.log(error.response);
         }
-    }
-}
+    };
+};
 
 export let postCheckout = (payload) => {
     return async (dispatch) => {
@@ -581,7 +591,8 @@ export let postCheckout = (payload) => {
             console.log(payload);
             let checkout = await axios.post(
                 `http://localhost:3001/api/coins/sell`,
-                payload,{withCredentials:true}
+                payload,
+                { withCredentials: true }
             );
 
             return dispatch({
