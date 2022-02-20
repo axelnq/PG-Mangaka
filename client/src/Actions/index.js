@@ -31,6 +31,8 @@ export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
 export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID";
+export const GET_AUTHOR_DETAILS ='GET_AUTHOR_DETAILS';
+export const FAVORITE = 'FAVORITE';
 
 const axios = require("axios");
 
@@ -651,6 +653,52 @@ export let buyCoins = (payload) => {
 //             });
 //         } catch (error) {
 //             console.log(error);
+//         }
+//     };
+// };
+
+//-------------------- DETALLES DE AUTOR -------------------------//
+export let getAuthorDetail = (id) => {
+    return async (dispatch) => {
+        try {
+            let authorDetail = await axios(`http://localhost:3001/api/users/user/${id}`)
+            return dispatch({
+                type: 'GET_AUTHOR_DETAILS',
+                payload: authorDetail.data
+            })
+        } catch (error){
+            console.log(error.msg)
+        }
+    };
+};
+
+//------------------------- FAVORITOS -------------------------------//
+export let favorite = () =>{
+    return async (dispatch) => {
+        try {
+            let favorite = await axios.get(`http://localhost:3001/api/profile/favorites`, {withCredentials:true})
+            return dispatch({
+                type: 'FAVORITE',
+                payload: favorite.data
+            });
+        } catch (error){
+            console.log(error)
+        }
+    };
+};
+
+//--------------------AGREGAR FAVORITOS------------------//
+
+// export let addFavorite = (id) =>{
+//     return async (dispatch) => {
+//         try {
+//             let addFavorite = await axios.put(`http://localhost:3001/api/users/lists?list=favorites`, {mangaId:id})
+//             return dispatch({
+//                 type: 'ADD_FAVORITE',
+//                 payload: addFavorite.data
+//             });
+//         } catch (error){
+//             console.log(error)
 //         }
 //     };
 // };

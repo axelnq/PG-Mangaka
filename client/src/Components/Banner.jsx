@@ -27,12 +27,12 @@ const Banner = (props) => {
         },
         {
             img:komi,
-            link: '/#filters'
+            link: '/#destacados'
                 
         },
         {
             img:saitama,
-            link: '/#filters'       
+            link: '/#recientes'       
         }
     ];
     
