@@ -42,7 +42,7 @@ export default function CheckoutForm() {
       console.log(input,'inputhandle')
       axios.post('http://localhost:3001/api/coins/sell',input,{withCredentials:true})
       setInput ({cbu:'',value:0,name:''})
-
+      
       
       navigate('/')
      
