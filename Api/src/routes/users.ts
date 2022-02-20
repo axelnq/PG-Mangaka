@@ -404,3 +404,40 @@ usersRouter.put<{id: string, list: string}, {}>("/user/lists", isAuthenticated, 
     return res.status(400).send({error: error.message})
   }
 });
+
+usersRouter.get("/popularAuthors", async (req, res) => {
+  
+  try {
+    let authorsDB = await db.user.findMany({
+      where: {
+        creatorMode: true,
+      },
+      select: {
+        id: true, name: true, avatar: true, created: {
+          select: {
+            rating: true,
+          }
+        }
+      },
+    });
+  
+    const authorsRating: any = authorsDB.map((author) => {
+      return {
+          id: author.id,
+          avatar: author.avatar,
+          name: author.name,
+          rating: Number(((author.created.map(elto => elto.rating).reduce((acum, actu) => acum += actu)) / author.created.length).toFixed(2))
+        }
+    });
+  
+    authorsRating.sort((a:any , b: any) => {
+        if(a.rating > b.rating) return -1;
+        if(a.rating < b.rating) return 1;
+    })
+  
+    res.send({data: authorsRating.slice(0, 11)})
+  } catch (error: any) {
+    console.log("Popular authors: ", error)
+    return res.status(400).send({error: error.message})
+  }
+});

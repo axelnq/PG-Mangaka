@@ -95,7 +95,7 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
 });
 
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
-  let { cbu, value } = req.body;
+  let { name, cbu, value } = req.body;
   let user2 = req.user;
   let nValue = Number(value);
   if (user2) {
@@ -118,7 +118,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
         const Eorder = new extractionOrder(
           adminId.id,
           seller.id,
-
+          name,
           cbu,
           "Orden de extraccion",
           price,
