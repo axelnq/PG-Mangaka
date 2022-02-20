@@ -12,7 +12,7 @@ import { Input} from "@mui/material";
 
 export default function CheckoutForm() {
     const [coins,setCoins] = useState(undefined);
-    const [input,setInput] = useState({cbu:'',value:0});
+    const [input,setInput] = useState({cbu:'',value:0,name:''});
     const [flag,setFlag] = useState(false);
 
     useEffect( () =>{
@@ -38,7 +38,7 @@ export default function CheckoutForm() {
       e.preventDefault();
       console.log(input,'inputhandle')
       axios.post('http://localhost:3001/api/coins/sell',input,{withCredentials:true})
-      setInput ({cbu:'',value:0})
+      setInput ({cbu:'',value:0,name:''})
     }
     
   
@@ -63,18 +63,19 @@ export default function CheckoutForm() {
             color: '#357DED',
           }}>
           <h1 >RETIRA TUS MONEDAS</h1> 
-          {/* <Box sx={{ mt: '1rem' }}>
-            <label>NOMBRE COMPLETO:</label>
+          <h3>( 1 moneda = $ 7 ) </h3>
+          <h3>Monedas Disponibles: {coins}</h3>
+          <Box sx={{ mt: '1rem' }}>
+            <label>NOMBRE TITULAR DE LA CUENTA:</label>
             <div>
             <Input sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
               type="text"
-              value={input.titularName}
-              name="titularName"
+              value={input.name}
+              name="name"
             onChange={(e) => handleChange(e)}
-
             />
-              </div> 
-          </Box> */}
+          </div> 
+          </Box>
           <Box sx={{ mt: '1rem' }}>
             <label>CBU:</label>
             <div>
