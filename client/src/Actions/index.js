@@ -31,6 +31,7 @@ export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
 export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID";
+export const GET_POPULAR_AUTHORS = 'GET_POPULAR_AUTHORS'
 
 
 const axios = require("axios");
@@ -458,9 +459,9 @@ export let getPopularMangas = () => {
 export let popularAuthors = () => {
     return async (dispatch) => {
         try {
-            let authors = await axios.get("");
+            let authors = await axios.get("http://localhost:3001/api/users/popularAuthors");
             return dispatch({
-                type: GET_AUTHORS,
+                type: GET_POPULAR_AUTHORS,
                 payload: authors.data,
             });
         } catch (error) {
