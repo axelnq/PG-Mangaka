@@ -55,7 +55,7 @@ function App() {
             <Route path="/panel" element={<Panel />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
-            <Route path="/reader" element={<Reader />} />
+            <Route path="/reader/:id" element={<Reader />} />
             {/*Configuración de Perfil*/}
             <Route path="/profile/" element={<Profile />}>
               <Route index element={<IndexProfile />} />

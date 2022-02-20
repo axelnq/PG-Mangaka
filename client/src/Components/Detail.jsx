@@ -8,6 +8,7 @@ import { getMangaDetail, addMangaWishList } from '../Actions'
 import { Container, Box, Button, List, ListItem, LinearProgress, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Rating } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import Nabvar from './Navbar'
 
@@ -33,13 +34,14 @@ const Detail = () => {
     }, [dispatch, id])
 
     const mangaDetail = useSelector((state) => state.mangaDetail.data)
-    let user = useSelector(state=>state.user)
+    let user = useSelector(state => state.user)
     console.log(mangaDetail)
     let buffer;
     if (mangaDetail && mangaDetail.id == id) {
-        buffer = _ArrayBufferToBase64(mangaDetail.image)
+        buffer =
+            _ArrayBufferToBase64(mangaDetail.image)
     }
-    
+
     const [valueManga, setValueManga] = React.useState(0);
     const [valueChapter, setValueChapter] = React.useState(0);
     const [fav, setFav] = React.useState(false);
@@ -107,72 +109,52 @@ const Detail = () => {
                             />
                         </Box>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: '1rem' }}><Link to={'/createChapters/' + mangaDetail.id}><Button variant="contained">Agregar Capítulo</Button></Link></Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', p: '1rem' }}>
+                        <a href="#bottom"><Button>Ir al último <ArrowDropDownIcon /></Button></a>
+                        <Link to={'/createChapters/' + mangaDetail.id}><Button variant="contained">Agregar Capítulo</Button></Link></Box>
                     <List sx={{ width: '100%', minWidth: "22.5rem", bgcolor: 'background.paper' }}>
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <Avatar alt={mangaDetail.title} src={'data:image/jpeg;base64,' + buffer} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={mangaDetail.chapters?.title}
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                                            <Typography variant="body2" color="text.secondary">Score: 87%</Typography>
-                                            <Box
-                                                sx={{
-                                                    display: 'flex', justifyContent: 'flex-end', mt: '0.5rem'
-                                                }}
-                                            >
-                                                <Rating
-                                                    name="simple-controlled"
-                                                    value={valueChapter}
-                                                    onChange={(event, newValue) => {
-                                                        setValueChapter(newValue);
-                                                    }}
-                                                />
-                                            </Box>
-                                        </Box>
-                                    </React.Fragment>
-                                }
-                            />
-                        </ListItem>
-                        <Divider variant="inset" component="li" />
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                                <Avatar alt={mangaDetail.title} src={'data:image/jpeg;base64,' + buffer} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={mangaDetail.chapters?.title}
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                                            <Typography variant="body2" color="text.secondary">Score: 87%</Typography>
-                                            <Box
-                                                sx={{
-                                                    display: 'flex', justifyContent: 'flex-end', mt: '0.5rem'
-                                                }}
-                                            >
-                                                <Rating
-                                                    name="simple-controlled"
-                                                    value={valueChapter}
-                                                    onChange={(event, newValue) => {
-                                                        setValueChapter(newValue);
-                                                    }}
-                                                />
-                                            </Box>
-                                        </Box>
-                                    </React.Fragment>
-                                }
-                            />
-                        </ListItem>
+
+                        {mangaDetail.chapters?.map((chapter, index) => (
+                            <Link to={'reader/' + chapter.id}>
+                                <ListItem alignItems="flex-start">
+                                    <ListItemAvatar>
+                                        <Avatar alt={chapter.title} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(chapter.coverImage)} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={chapter.title}
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
+                                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                                                    <Typography variant="body2" color="text.secondary">{chapter.points}</Typography>
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex', justifyContent: 'flex-end', mt: '0.5rem'
+                                                        }}
+                                                    >
+                                                        <Rating
+                                                            name="simple-controlled"
+                                                            value={valueChapter}
+                                                            onChange={(event, newValue) => {
+                                                                setValueChapter(newValue);
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                </Box>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItem>
+                            </Link>
+                        ))}
+
+                        {/* <Divider variant="inset" component="li" /> */}
                     </List>
                 </Container>
 
                 : <LinearProgress sx={{ height: '0.5rem ' }} />
             }
+            <div id='bottom'></div>
         </div >
     )
 }

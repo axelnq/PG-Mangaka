@@ -30,6 +30,7 @@ export const ADD_MANGA_WISHLIST = 'ADD_MANGA_WISHLIST'
 export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
+export const GET_CHAPTER = "GET_CHAPTER";
 // export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
 
 const axios = require("axios");
@@ -97,7 +98,7 @@ export let getRecentMangas = () => {
         }
     };
 };
-// falta :id
+
 export let getMangaDetail = (payload) => {
     return async (dispatch) => {
         try {
@@ -633,3 +634,18 @@ export let buyCoins = (payload) => {
 //     };
 // };
 
+export let getChapter = (payload) => {
+    return async (dispatch) => {
+        try {
+            let getChapter = await axios.get(
+                `http://localhost:3001/api/chapters/chapter/getchapter/${payload}`
+            );
+            return dispatch({
+                type: GET_CHAPTER,
+                payload: getChapter.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
