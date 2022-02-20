@@ -60,7 +60,7 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
 
   if (user2 && adminId) {
     if (payment_status !== "approved") {
-      res.send("There´s a problem with the transaction");
+      res.send("Hay un problema con la compra");
     } else {
       try {
         //@ts-ignore
@@ -101,7 +101,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
   console.log(base);
   if (seller && base) {
     if (seller.coins - value < 0) {
-      res.send("There´s a problem with the transaction");
+      res.send("Estan intentado extraer mas monedas de las que tienes");
     } else {
       let price = base?.sellprice * value;
       let pack = new CoinsPackage(value, base.title, price, 0);
@@ -111,7 +111,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
         adminId,
         userId,
         cbu,
-        "Sell Order",
+        "Orden de extraccion",
         price,
         "approved",
         newcP.id
@@ -122,7 +122,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
         where: { username: seller.username },
         data: { coins: seller.coins - value },
       });
-      res.send("Coins Exchanged");
+      res.send("Peticion de extraccion recibida");
     }
   }
 });
@@ -133,19 +133,34 @@ externalOrderRouter.get<{}, {}>("/pack", async (req, res) => {
 });
 
 externalOrderRouter.get<{}, {}>("/createPackage", async (req, res) => {
-  let cP = new CoinsPackage(600, "500 Coins + 100 coins bundle", 0, 5000);
-  let cP2 = new CoinsPackage(300, "250 Coins + 50 coins bundle", 0, 2500);
-  let cP3 = new CoinsPackage(130, "100 Coins + 30 coins bundle", 0, 1000);
-  let cP4 = new CoinsPackage(60, "50 Coins + 10 coins bundle", 0, 500);
-  let cP5 = new CoinsPackage(10, "10 coins bundle", 0, 10);
-  let cP6 = new CoinsPackage(1, "Sell Order", 7, 0);
+  let cP = new CoinsPackage(
+    600,
+    "500 Monedas + 100 Monedas de regalo",
+    0,
+    5000
+  );
+  let cP2 = new CoinsPackage(
+    300,
+    "250 Monedas + 50 Monedas de regalo",
+    0,
+    2500
+  );
+  let cP3 = new CoinsPackage(
+    130,
+    "100 Monedas + 30 Monedas de regalo",
+    0,
+    1000
+  );
+  let cP4 = new CoinsPackage(60, "50 Monedas + 10 Monedas de regalo", 0, 500);
+  let cP5 = new CoinsPackage(10, "10 Monedas", 0, 10);
+  let cP6 = new CoinsPackage(1, "Orden de extraccion", 7, 0);
   const newPackage = await db.coinsPackage.create({ data: cP });
   const newPackage2 = await db.coinsPackage.create({ data: cP2 });
   const newPackage3 = await db.coinsPackage.create({ data: cP3 });
   const newPackage4 = await db.coinsPackage.create({ data: cP4 });
   const newPackage5 = await db.coinsPackage.create({ data: cP5 });
   const newPackage6 = await db.coinsPackage.create({ data: cP6 });
-  res.send("Bundle Coins Created");
+  res.send("Combos de monedas creados");
 });
 
 externalOrderRouter.post<{}, {}>("/generatePackages", async (req, res) => {
