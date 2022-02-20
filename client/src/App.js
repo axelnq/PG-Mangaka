@@ -22,13 +22,14 @@ import PersonalMangas from "./Components/Configuration/PersonalMangas";
 import About from "./Components/Configuration/About";
 import IndexProfile from "./Components/Configuration/IndexProfile";
 import CheckoutForm from './Components/CheckoutForm';
-
+import GoogleUsername from "./Components/Configuration/GoogleUsername";
 const axios = require("axios");
 
 // windoes + .
 
 function App() {
   const user = useSelector((state) => state.user);
+  //YA HAY UN ACTION CREATOR getUser ;)
   const handleButton = () => {
     let current = axios.get("http://localhost:3001/api/users/currentUser", {withCredentials: true,});
     console.log("current");
@@ -52,7 +53,6 @@ function App() {
             <Route path="/library" element={<Biblioteca />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/create" element={<CreateForm />} />
-            <Route path="/panel" element={<Panel />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
             <Route path="/reader" element={<Reader />} />
@@ -63,8 +63,10 @@ function App() {
               <Route path="password" element={<Password />} />
               <Route path="name" element={<Name />} />
               <Route path="username" element={<Username />} />
+              <Route path="googleusername" element={<GoogleUsername />} />
               <Route path="about" element={<About />} />
               <Route path="personalmangas" element={<PersonalMangas />} />
+              <Route path="panel" element={<Panel />} />
               <Route path="CheckoutForm/:id" element={<CheckoutForm />} />
             </Route>
             </>
