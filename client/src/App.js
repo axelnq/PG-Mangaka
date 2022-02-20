@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 import Favorite from './Components/Favoritos'
 import AuthorDetail from "./Components/AuthorDetail";
+import Reader from "./Components/Reader";
 //config
 import Email from "./Components/Configuration/Email";
 import Name from "./Components/Configuration/Name";
@@ -23,12 +24,25 @@ import PersonalMangas from "./Components/Configuration/PersonalMangas";
 import About from "./Components/Configuration/About";
 import IndexProfile from "./Components/Configuration/IndexProfile";
 import CheckoutForm from './Components/CheckoutForm';
+
+const axios = require("axios");
+
 // windoes + .
 
 function App() {
   const user = useSelector((state) => state.user);
+  const handleButton = () => {
+    let current = axios.get("http://localhost:3001/api/users/currentUser", {withCredentials: true,});
+    console.log("current");
+    console.log(current);
+    console.log("   ")
+    console.log("user");
+    console.log(user);
+  };
   return (
     <div className="App">
+      <button onClick={() => localStorage.clear()}>Clear</button>
+      <button onClick={handleButton}>Current</button>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
@@ -44,6 +58,7 @@ function App() {
             <Route path="/panel" element={<Panel />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
+            <Route path="/reader" element={<Reader />} />
             {/*Configuración de Perfil*/}
             <Route path="/profile/" element={<Profile />}>
               <Route index element={<IndexProfile />} />

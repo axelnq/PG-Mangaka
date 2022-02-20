@@ -34,6 +34,12 @@ import {
     // GET_PREFERENCE_ID,
     ADD_FAVORITE,
     
+    DELETE_WISHLIST_MANGA,
+    ADD_MANGA_WISHLIST,
+    POST_CHECKOUT,
+    GET_PACKS,
+    BUY_COINS,
+    // GET_PREFERENCE_ID
 } from "../Actions";
 
 const initialState = {
@@ -50,7 +56,7 @@ const initialState = {
     },
     library: [],
     wishlist: [],
-    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
+    user: null,
     allChapters:[],
     authorDetail:undefined,
     favorite: [],
@@ -219,6 +225,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 favorite: payload
             };
             
+        case DELETE_WISHLIST_MANGA:
+            return {
+                ...state
+            }
+        case ADD_MANGA_WISHLIST: 
+            return {
+                ...state,
+                wishlist: state.wishlist.concat(payload)
+            }
 
         case POST_CHECKOUT:
             return {

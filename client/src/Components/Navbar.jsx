@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMangasPreview, searchManga, getGoogleUser } from "../Actions/index";
+import { getMangasPreview, searchManga, getUser, getGoogleUser } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
 import LoginModal from "./Access/LoginModal";
 import Coin from "../img/coin.png";
@@ -91,10 +91,10 @@ export default function NavBar() {
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
-  }, [dispatch]);
+  }, []);
   
   useEffect(()=>{
-   user || dispatch(getGoogleUser())
+   user || dispatch(getUser())
   },[])
   
   //local state

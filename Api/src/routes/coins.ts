@@ -9,27 +9,24 @@ const mercadopago = require("mercadopago");
 
 mercadopago.configure({
   access_token:
-    "TEST-8507753762167920-020813-29eacfdac014e6698569e6797d9512b5-187205193",
+    "TEST-1688834677183173-021518-2ef84ad52b6253c0766870f65b93fc22-1074872794",
 });
-
 
 externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
   let product = req.body;
-  console.log(product);
+  console.log(req.body);
   let preference = {
     items: [
       {
-        title: "asd",
-        // product.title,
-        unit_price: 1,
-        // product.buyprice,
+        title: product.title,
+        unit_price: product.buyprice,
         quantity: 1,
       },
     ],
     installments: 1,
 
     back_urls: {
-      success: "http://localhost:3001/api/coins/buy/pagos",
+      success: `http://localhost:3001/api/coins/pagos/${product.idaux}`,
       failure: "http://localhost:3001/api/coins/buy",
       pending: "http://localhost:3001/api/coins/buy",
     },
@@ -41,7 +38,7 @@ externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
     .create(preference)
     .then(function (response: any) {
       const preferenceId = response.body.id;
-      console.log(preferenceId)
+      console.log(preferenceId);
       res.send(response.body.id);
     })
     .catch(function (error: any) {
@@ -49,40 +46,49 @@ externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
     });
 });
 
-externalOrderRouter.get<{}, {}>("/pagos", async (req, res) => {
-  let { userId, status, productId } = req.body;
+externalOrderRouter.get("/pagos/:product", async (req, res) => {
+  const payment_status = req.query.status;
+  let { product } = req.params;
+  let user2 = req.user;
   let adminId = await db.user.findUnique({ where: { username: "SuperAdmin" } });
-  let buyer = await db.user.findUnique({ where: { id: userId } });
-  console.log(buyer);
-
+  console.log(product)
   let packageCoins: any = await db.coinsPackage.findUnique({
-    where: { id: productId },
+    //@ts-ignore
+    where: { id: Number(product) },
   });
+  console.log(packageCoins.value);
 
-  if (buyer) {
-    if (status !== "approved") {
+  if (user2 && adminId) {
+    if (payment_status !== "approved") {
       res.send("There´s a problem with the transaction");
     } else {
       try {
         //@ts-ignore
         const Eorder = new externalOrder(
-          adminId,
-          userId,
-
-          status,
-          productId
+          adminId.id,
+          //@ts-ignore
+          user2.id,
+          "approved",
+          packageCoins.buyprice,
+          payment_status,
+          packageCoins.id
         );
         //@ts-ignore
         const newEOrder = await db.externalOrder.create({ data: Eorder });
         const updateBuyer = await db.user.update({
-          where: { username: buyer.username },
+          //@ts-ignore
+          where: { id: user2.id },
           data: {
-            coins: buyer.coins + packageCoins.value,
+            //@ts-ignore
+            coins: user2.coins + packageCoins.value,
           },
         });
-        res.redirect("http://localhost:3001/Home");
+        //@ts-ignore
+
+        res.redirect("http://localhost:3000");
       } catch (error) {
-        res.redirect("http://localhost:3001/Home");
+        console.log(error);
+        res.redirect("http://localhost:3000/error");
       }
     }
   }

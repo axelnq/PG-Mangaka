@@ -24,7 +24,7 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
     `
     return(
         <Stack direction='column'>
-            <Stack direction="column" sx={{ my: '2rem'}}>
+            <Stack direction="column" sx={{ my: '2rem'}} id='recientes'>
                 <Typography variant="h5" gutterBottom component="div">Recientes</Typography>
                      <StackContainer direction="row" sx={{ width:'70rem'}} >
                         { 
@@ -46,7 +46,7 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                     </StackContainer>
                 
             </Stack>
-            <Stack direction="column" sx={{ my: '2rem'}}>
+            <Stack direction="column" sx={{ my: '2rem'}} id='destacados'>
                 <Typography variant="h5" gutterBottom component="div">Destacados</Typography>
                     <StackContainer direction="row" sx={{ width:'65rem'}} >
                         {
@@ -67,7 +67,6 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                         }
                     </StackContainer>
             </Stack>
-            
             <Stack direction="column" sx={{ my: '2rem'}}>
                 <Typography variant="h5" gutterBottom component="div">Autores Populares</Typography>
                     <StackContainer direction="row" sx={{ width:'65rem'}} >
