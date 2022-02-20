@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { getUser } from "../../Actions/index";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -48,11 +49,12 @@ function Profile(props) {
   //Redux
   const { user } = useSelector((state) => state);
   const dispatch = useDispatch();
-  useEffect(()=>{
-    axios.get("http://localhost:3001/api/profile/", {withCredentials: true})
-    .then((res) => console.log(res.data))
-    .catch((error) => console.log(error));
-  }, [])
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/api/profile/", { withCredentials: true })
+      .then((res) => console.log(res.data))
+      .catch((error) => console.log(error));
+  }, []);
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -127,17 +129,26 @@ function Profile(props) {
             <ListItemText primary={"Name"} />
           </ListItem>
         </Link>
-        <Link
-          to="/profile/username"
-          style={{ textDecoration: "none", color: "white" }}
-        >
-          <ListItem button>
-            <ListItemText primary={"Username"} />
-          </ListItem>
-        </Link>
 
-        {!user.googleId && (
+        {user.googleId ? (
+          <Link
+            to="/profile/googleusername"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            <ListItem button>
+              <ListItemText primary={"Username"} />
+            </ListItem>
+          </Link>
+        ) : (
           <>
+            <Link
+              to="/profile/username"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <ListItem button>
+                <ListItemText primary={"Username"} />
+              </ListItem>
+            </Link>
             <Link
               to="/profile/password"
               style={{ textDecoration: "none", color: "white" }}
@@ -178,6 +189,22 @@ function Profile(props) {
             <ListItemText primary={"Mis Mangas"} />
           </ListItem>
         </Link>
+        {/*renderizado de Prueba*/}
+        {user.role === "USER" && (
+          <>
+            <Link
+              to="/profile/panel"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <ListItem button>
+                <ListItemIcon>
+                  <AdminPanelSettingsIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText primary={"Admin Panel"} />
+              </ListItem>
+            </Link>
+          </>
+        )}
       </List>
     </div>
   );
