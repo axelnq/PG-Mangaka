@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -47,14 +48,15 @@ export default function Password() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		//validación de la contraseña
-		
+
 		if (passwords.password && passwords.newPassword) {
 			axios
 				.put(
-					"http://localhost:3001/api/profile/updatePassword",
-					passwords
+					`http://localhost:3001/api/profile/updatePassword`,
+					passwords,
+					{ withCredentials: true }
 				)
-				.then((res) => alert(res.message))
+				.then((res) => alert(res.data.message))
 				.catch((error) => console.log(error));
 			setPasswords(initialForm);
 		} else {
@@ -121,7 +123,6 @@ export default function Password() {
 						Nueva Contraseña
 					</InputLabel>
 					<FilledInput
-						
 						required
 						id="filled-adornment-repeated-password"
 						name="newPassword"

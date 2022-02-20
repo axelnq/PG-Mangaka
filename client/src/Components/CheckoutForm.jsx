@@ -15,6 +15,8 @@ export default function CheckoutForm() {
     cbu:'',
     alias:'',
   })
+
+  return <div>HOLA</div>
   
 }
 

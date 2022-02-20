@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {useDispatch, useSelector} from 'react-redux';
+import {getUser} from '../../Actions/index';
+//MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -24,6 +27,8 @@ const initialForm = {
 };
 
 const Email = () => {
+	const dispatch = useDispatch();
+	const { user } = useSelector((state) => state);
 	const [form, setForm] = useState(initialForm);
 	const [show, setShow] = React.useState(false);
 	const handleClickShowPassword = () => {
@@ -37,9 +42,18 @@ const Email = () => {
 		e.preventDefault();
 		if (regEmail.test(form.newEmail)) {
 			axios
-				.put("http://localhost:3001/api/profile/updateEmail", form)
-				.then((res) => alert(res.message))
+				.put(
+					"http://localhost:3001/api/profile/updateEmail",					
+					form,
+					{ withCredentials: true }
+				)
+				
+				.then((res) =>{
+					alert(res.data.message)
+					return dispatch(getUser());
+				})
 				.catch((error) => console.log(error));
+				setForm(initialForm);
 		} else {
 			alert("Email inválido");
 		}
@@ -53,6 +67,7 @@ const Email = () => {
 			autoComplete="off"
 		>
 			<Typography variant="h4">Cambiar Email</Typography>
+			<Typography variant="h6">Email Actual: {user.email}</Typography>
 			<TextField
 				fullWidth
 				sx={{
@@ -101,7 +116,7 @@ const Email = () => {
 				/>
 			</FormControl>
 
-			<Button sx={{mt: 3}} type="submit" variant="contained">
+			<Button sx={{ mt: 3 }} type="submit" variant="contained">
 				Cambiar Email
 			</Button>
 		</Box>
