@@ -94,6 +94,17 @@ model InternalOrder{
    productId Int
   createdAt DateTime  @default(now())
  }
+ model ExtractionOrder{
+    orderId  Int @id @default(autoincrement())
+   title String
+   adminId  String 
+   userId String
+   cbu String 
+   status String
+   price Int
+   productId Int
+  createdAt DateTime  @default(now())
+ }
  model coinsPackage{
    id Int @id @default(autoincrement())
    title     String
