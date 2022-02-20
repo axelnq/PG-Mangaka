@@ -33,6 +33,7 @@ import {
     BUY_COINS,
     GET_AUTHOR_DETAILS,
     FAVORITE,
+    GET_POPULAR_AUTHORS,
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -60,6 +61,7 @@ const initialState = {
     preferenceId: [],
     authorDetail: undefined,
     favorite: [],
+    popularAuthors: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -248,7 +250,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 favorite: payload,
             };
-
+        case GET_POPULAR_AUTHORS: 
+            return {
+                ...state,
+                popularAuthors: payload
+            }
         default:
             return state;
     }

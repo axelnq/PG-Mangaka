@@ -19,7 +19,7 @@ const Home = () => {
     const allMangas = useSelector((state) => state.allMangas)
     const recentMangas = useSelector(state => state.recentMangas)
     const popularMangas = useSelector(state=>state.popularMangas)
-    const authors = useSelector(state => state.authors)
+    const popularAutores = useSelector(state => state.popularAuthors)
     const show = useSelector(state=>state.show)
 
     useEffect(() => {
@@ -40,7 +40,7 @@ const Home = () => {
             {   
                 show ?
                 <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
-                    <Recomendados mangasRecientes={recentMangas} mangasDestacados={popularMangas} autoresPopulares={authors}/>
+                    <Recomendados mangasRecientes={recentMangas} mangasDestacados={popularMangas} autoresPopulares={popularAutores}/>
                 </Container> 
             :
                 <div>
