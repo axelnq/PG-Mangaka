@@ -123,6 +123,22 @@ profileRouter.get("/avatar", isAuthenticated, async (req, res, next) => {
   //@ts-ignore
   res.send({ avatar: req.user.avatar });
 });
+// Ruta get coins
+profileRouter.get("/coins", isAuthenticated, async(req, res, next) => {
+  //@ts-ignore
+  const { id } = req.user;
+  try{
+    let coins = await db.user.findUnique({
+      where: { id: id },
+      select: { coins: true }
+    });
+    if(coins) res.json({ coins: coins.coins });
+    else res.status(400).json({ error: "An error has ocurred" });
+  } catch (err:any) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+})
 
 //
 //
