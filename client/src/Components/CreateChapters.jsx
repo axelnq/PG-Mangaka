@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
-import { Button, Input, InputBase } from '@mui/material';
+import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postChapters, getChapters } from '../Actions/index';
+import { postChapters} from '../Actions/index';
 import Navbar from './Navbar';
 
 

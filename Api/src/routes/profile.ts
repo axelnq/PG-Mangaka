@@ -162,6 +162,7 @@ profileRouter.get("/coins", isAuthenticated, async(req, res, next) => {
       where: { id: id },
       select: { coins: true }
     });
+    console.log(coins)
     if(coins) res.json({ coins: coins.coins });
     else res.status(400).json({ error: "An error has ocurred" });
   } catch (err:any) {
