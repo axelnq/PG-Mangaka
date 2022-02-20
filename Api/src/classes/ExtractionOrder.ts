@@ -12,11 +12,7 @@ export default class extractionOrder {
   constructor(
     adminId: String,
     userId: String,
-<<<<<<< HEAD
-
-=======
     name: String,
->>>>>>> Rutito3
     cbu: String,
     title: String,
     price: Number,
