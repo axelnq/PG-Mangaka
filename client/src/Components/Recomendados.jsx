@@ -1,8 +1,6 @@
 import { React } from "react"
 import MangaCard from "./MangaCard";
 
-import { ScrollMenu } from "react-horizontal-scrolling-menu";
-
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { styled } from "@mui/material/styles";
@@ -48,7 +46,7 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
             </Stack>
             <Stack direction="column" sx={{ my: '2rem'}} id='destacados'>
                 <Typography variant="h5" gutterBottom component="div">Destacados</Typography>
-                    <StackContainer direction="row" sx={{ width:'65rem'}} >
+                    <StackContainer direction="row" sx={{ width:'70rem'}} >
                         {
                             // console.log('destacados', mangasDestacados)
                             mangasDestacados && mangasDestacados.data?.map((m, i) => {
@@ -71,7 +69,7 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                 <Typography variant="h5" gutterBottom component="div">Autores Populares</Typography>
                     <StackContainer direction="row" sx={{ width:'65rem'}} >
                         {
-                            
+                            console.log(autoresPopulares.data)
                         }
                     </StackContainer>
             </Stack>

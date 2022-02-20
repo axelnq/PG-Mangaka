@@ -4,7 +4,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Navbar from './Navbar'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteWishlistManga, getMangaDetailWishList, getWishList } from '../Actions';
+import { getMangaDetailWishList, getWishList } from '../Actions';
+
+const axios = require("axios");
 
 const _ArrayBufferToBase64 = (buffer) => {
     console.log(buffer)
@@ -24,8 +26,9 @@ const Wishlist = () => {
     const dispatch = useDispatch()
 
     let handleDeleteManga = (id) => {
-        dispatch(deleteWishlistManga(id))
-        dispatch(getWishList())
+        axios.put('http://localhost:3001/api/users/user/lists?list=wishList', {mangaId: id}, { withCredentials: true })
+            .then(data => dispatch(getWishList()))
+            .catch(error => console.log(error.response))
     }
 
     useEffect(() => {
