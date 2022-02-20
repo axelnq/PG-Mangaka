@@ -11,6 +11,7 @@ export default class extractionOrder {
   constructor(
     adminId: String,
     userId: String,
+
     cbu: String,
     title: String,
     price: Number,

@@ -117,6 +117,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
         const Eorder = new extractionOrder(
           adminId.id,
           seller.id,
+
           cbu,
           "Orden de extraccion",
           price,
