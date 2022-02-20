@@ -10,29 +10,35 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
-
+import Divider from "@mui/material/Divider";
 const IndexProfile = () => {
 	const { user } = useSelector((state) => state);
 	const dispatch = useDispatch();
 	//Funcionamiento del checkbox
-	const [checked, setChecked] = React.useState(true);
+	const [checked, setChecked] = React.useState(false);
 	const handleChange = (event) => {
 		setChecked(event.target.checked);
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if(checked){
-		axios
-			.put("http://localhost:3001/api/profile/creator", {
-				withCredentials: true,
-			})
-			.then((res) => {
-				alert(res.data.message);
-				return dispatch(getUser());
-			})
-			.catch((error) => console.log(error));
-		}else{
-			alert("Debe aceptar los términos y condiciones para empezar a crear");
+		if (checked) {
+			axios
+				.put(
+					"http://localhost:3001/api/profile/creator",
+					{ creatorMode: checked },
+					{
+						withCredentials: true,
+					}
+				)
+				.then((res) => {
+					alert(res.data.message);
+					return dispatch(getUser());
+				})
+				.catch((error) => console.log(error));
+		} else {
+			alert(
+				"Debe aceptar los términos y condiciones para empezar a crear"
+			);
 		}
 	};
 	return (
@@ -42,7 +48,7 @@ const IndexProfile = () => {
 					<Typography variant="h4">
 						Un placer volverte a ver en Mangaka {user.name}!
 					</Typography>
-
+					<Divider />
 					<Typography variant="h4">Pagos</Typography>
 					<Typography variant="body2">
 						Para recibir tus pagos debes llenar el siguiente
@@ -51,19 +57,21 @@ const IndexProfile = () => {
 					<Link to={`/profile/CheckoutForm/${user.id}`}>
 						<Button variant="contained">Formulario de Pago</Button>
 					</Link>
-
-					<Typography variant="h5">Crea tu manga!</Typography>
-					<Link
-						to="/create"
-						style={{ textDecoration: "none", color: "white" }}
-					>
-						<Button
-							variant="contained"
-							sx={{ width: "30%", mx: 1 }}
+					<Divider />
+					<Box sx={{ mt: 3 }}>
+						<Typography variant="h5">Crea tu manga!</Typography>
+						<Link
+							to="/create"
+							style={{ textDecoration: "none", color: "white" }}
 						>
-							Crear Manga
-						</Button>
-					</Link>
+							<Button
+								variant="contained"
+								sx={{ width: "50%", mx: 1 }}
+							>
+								Crear Manga
+							</Button>
+						</Link>
+					</Box>
 				</>
 			) : (
 				<Box
@@ -74,10 +82,15 @@ const IndexProfile = () => {
 					<Typography variant="h4">
 						Bienvenido a Mangaka {user.name}!
 					</Typography>
-					<Typography variant="body1" gutterBottom>
-						Estamos muy contentos de que te unas a nuestra comunidad
-						y que nos aportes increíbles historias para leer. Pero
-						antes de empezar es necesario que aceptes nuestros
+					<Divider />
+					<Typography
+						variant="body1"
+						sx={{ textAlign: "left" }}
+						gutterBottom
+					>
+						Estamos muy contentos de que te sumes a nuestra
+						comunidad y que aportes increíbles historias para leer.
+						Pero antes de empezar es necesario que aceptes nuestros
 						términos y condiciones:
 					</Typography>
 					<Typography variant="h5">
@@ -87,8 +100,8 @@ const IndexProfile = () => {
 						<ol
 							style={{
 								listStyleType: "upper-roman",
-								textAlign: "center",
-								alignItems: "center",
+								textAlign: "left",
+								alignItems: "left",
 							}}
 						>
 							<li>
@@ -106,13 +119,14 @@ const IndexProfile = () => {
 							</li>
 						</ol>
 					</Box>
-					<Box sx={{ margin: "0 auto", width: "250px" }}>
-						<Typography variant="h6">Pagos</Typography>
+
+					<Box>
+						<Typography variant="h5">Pagos</Typography>
 						<ul
 							style={{
 								listStyleType: "upper-roman",
-								textAlign: "center",
-								alignItems: "center",
+								textAlign: "left",
+								alignItems: "left",
 							}}
 						>
 							<li>El sitio se maneja con una moneda propia</li>
@@ -129,7 +143,8 @@ const IndexProfile = () => {
 							<li>El retiro se realiza mediante CBU</li>
 						</ul>
 					</Box>
-					<FormGroup>
+
+					<FormGroup sx={{ margin: "0 auto" }}>
 						<FormControlLabel
 							control={
 								<Checkbox

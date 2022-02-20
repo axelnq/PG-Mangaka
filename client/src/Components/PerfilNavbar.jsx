@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
+
 
 const _ArrayBufferToBase64 = (buffer) => {
   //console.log(buffer)
@@ -110,9 +110,6 @@ export default function PerfilNavbar() {
           />{" "}
           {user.name}
         </MenuItem>
-        <Link to="/panel" style={{ textDecoration: "none", color: "white" }}>
-          <MenuItem>Panel</MenuItem>
-        </Link>
         <Link to="/wishlist" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Wishlist</MenuItem>
         </Link>
