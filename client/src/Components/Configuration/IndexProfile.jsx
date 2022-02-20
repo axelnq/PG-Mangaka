@@ -8,7 +8,7 @@ const IndexProfile = () => {
 	const { user } = useSelector((state) => state);
 	return (
 		<Box>
-			{user.creatorMode ? (
+			{!user.creatorMode ? (
 				<>
 					<Typography variant="h4">
 						Un placer volverte a ver en Mangaka {user.name}!
