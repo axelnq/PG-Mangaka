@@ -183,28 +183,26 @@ chaptersRouter.get<{ idChapter: string }, {}>(
   }
 );
 
-//Ruta Test para ver las imagenes de un capitulo
+//Ruta para traerse todas las paginas del chapter
 chaptersRouter.get(
-  "/chapter/imageTest/:idChapter/:imageIndex",
+  "/chapter/images/:idChapter",
   async (req, res, next) => {
-    const { idChapter, imageIndex } = req.params;
-    const chapter: any = await db.chapter.findUnique({
+    const { idChapter } = req.params;
+    const Chapter: any = await db.chapter.findUnique({
       where: { id: Number(idChapter) },
     });
-    res.set("Content-Type", "image/jpeg");
-    res.send(chapter.images[imageIndex]);
-  }
-);
+    return res.send({data: Chapter.images});
+});
 
-//Ruta Test para ver la imagen de la portada
-chaptersRouter.get("/chapter/coverTest/:idChapter", async (req, res, next) => {
+//Ruta para ver la imagen de la portada
+chaptersRouter.get("/chapter/cover/:idChapter", async (req, res, next) => {
   const { idChapter } = req.params;
-  const chapter: any = await db.chapter.findUnique({
+  const Chapter: any = await db.chapter.findUnique({
     where: { id: Number(idChapter) },
   });
-  res.set("Content-Type", "image/jpeg");
-  res.send(chapter.coverImage);
+  return res.send({data: Chapter.coverImage});
 });
+
 
 // chaptersRouter.post<{}, {}>("/testChapters", async (req, res, next) => {
 //   const { title, images, mangaId } = req.body;
