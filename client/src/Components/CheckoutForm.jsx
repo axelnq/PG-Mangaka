@@ -6,13 +6,13 @@ import { Box } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { Fragment } from "react";
 import { Button } from "@mui/material";
-import { Input,Select} from "@mui/material";
+import { Input} from "@mui/material";
 
 
 
 export default function CheckoutForm() {
     const [coins,setCoins] = useState(undefined);
-    const [input,setInput] = useState({cbu:'',extract:0,titularName:''});
+    const [input,setInput] = useState({cbu:'',value:0});
     const [flag,setFlag] = useState(false);
 
     useEffect( () =>{
@@ -38,7 +38,7 @@ export default function CheckoutForm() {
       e.preventDefault();
       console.log(input,'inputhandle')
       axios.post('http://localhost:3001/api/coins/sell',input,{withCredentials:true})
-      setInput ({cbu:'',extract:0,titularName:''})
+      setInput ({cbu:'',value:0})
     }
     
   
@@ -63,7 +63,7 @@ export default function CheckoutForm() {
             color: '#357DED',
           }}>
           <h1 >RETIRA TUS MONEDAS</h1> 
-          <Box sx={{ mt: '1rem' }}>
+          {/* <Box sx={{ mt: '1rem' }}>
             <label>NOMBRE COMPLETO:</label>
             <div>
             <Input sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
@@ -74,7 +74,7 @@ export default function CheckoutForm() {
 
             />
               </div> 
-          </Box>
+          </Box> */}
           <Box sx={{ mt: '1rem' }}>
             <label>CBU:</label>
             <div>
@@ -91,7 +91,7 @@ export default function CheckoutForm() {
             <div>
            { flag ?                    
                     (coins >= 1000) ? (
-                    <Select sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}} name="extract" onChange={handleChange} value={input.extract}>
+                    <select sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}} name="value" onChange={handleChange} value={input.value}>
                     <option value="0">0</option>
                     <option value="10">10</option>
                     <option value="50">50</option>
@@ -99,43 +99,43 @@ export default function CheckoutForm() {
                     <option value="200">200</option>
                     <option value="500">500</option>
                     <option value="1000">1000</option>
-                    </Select>) : 
+                    </select>) : 
                     (coins >= 500) ? (
-                    <Select name="extract" onChange={handleChange} value={input.extract}>
+                    <select name="value" onChange={handleChange} value={input.value}>
                     <option value="0">0</option>
                     <option value="10">10</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
                     <option value="200">200</option>
                     <option value="500">500</option>
-                    </Select>
+                    </select>
                    ) : 
-                   (coins >= 200) ? (<Select name="extract" onChange={handleChange} value={input.extract}>
+                   (coins >= 200) ? (<select name="value" onChange={handleChange} value={input.value}>
                    <option value="0">0</option>
                    <option value="10">10</option>
                    <option value="50">50</option>
                    <option value="100">100</option>
                    <option value="200">200</option>
-                   </Select>) :
+                   </select>) :
                    (coins >= 100) ? (
-                   <Select name="extract" onChange={handleChange} value={input.extract}>
+                   <select name="value" onChange={handleChange} value={input.value}>
                    <option value="0">0</option>
                    <option value="10">10</option>
                    <option value="50">50</option>
                    <option value="100">100</option>
-                   </Select>) : 
+                   </select>) : 
                    (coins >= 50) ? (
-                   <Select name="extract" onChange={handleChange} value={input.extract}>
+                   <select name="value" onChange={handleChange} value={input.value}>
                    <option value="0">0</option>
                    <option value="10">10</option>
                    <option value="50">50</option>
-                   </Select>) : 
-                   (coins >= 10) ? (<Select name="extract" onChange={handleChange} value={input.extract}>
+                   </select>) : 
+                   (coins >= 10) ? (<select name="value" onChange={handleChange} value={input.value}>
                    <option value="0">0</option>
                    <option value="10">10</option>
-                   </Select>) : (<Select name="extract" onChange={handleChange} value={input.extract}>
+                   </select>) : (<select name="value" onChange={handleChange} value={input.value}>
                     <option value="0">0</option>
-                    </Select>) : null}
+                    </select>) : null}
           </div> 
           </Box>
           <div>
