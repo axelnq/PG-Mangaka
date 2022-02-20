@@ -95,24 +95,27 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
 });
 
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
-  let { adminId, cbu, status, value } = req.body;
-  let user2 = req.user;
-
+  let { user2, cbu, value } = req.body;
+  // let user2 = req.user;
+  let nValue = Number(value);
   if (user2) {
     //@ts-ignore
-    let seller = await db.user.findUnique({ where: { id: user2.id } });
+    let adminId = await db.user.findUnique({
+      where: { username: "SuperAdmin" },
+    });
+    let seller = await db.user.findUnique({ where: { id: user2 } });
     let base = await db.coinsPackage.findUnique({ where: { id: 6 } });
     console.log(base);
-    if (seller && base) {
-      if (seller.coins - value < 0) {
+    if (seller && base && adminId) {
+      if (seller.coins - nValue < 0) {
         res.send("Estan intentado extraer mas monedas de las que tienes");
       } else {
-        let price = base?.sellprice * value;
-        let pack = new CoinsPackage(value, base.title, price, 0);
+        let price = base?.sellprice * nValue;
+        let pack = new CoinsPackage(nValue, base.title, price, 0);
         let newcP = await db.coinsPackage.create({ data: pack });
         console.log(pack);
         const Eorder = new extractionOrder(
-          adminId,
+          adminId.id,
           seller.id,
           cbu,
           "Orden de extraccion",
@@ -121,10 +124,10 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
           newcP.id
         );
         //@ts-ignore
-        const newEOrder = await db.externalOrder.create({ data: Eorder });
+        const newEOrder = await db.extractionOrder.create({ data: Eorder });
         const updateSeller = await db.user.update({
           where: { username: seller.username },
-          data: { coins: seller.coins - value },
+          data: { coins: seller.coins - nValue },
         });
         res.send("Peticion de extraccion recibida");
       }
