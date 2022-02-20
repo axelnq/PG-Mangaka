@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "../app";
 import CoinsPackage from "../classes/CoinsPackage";
-
+import extractionOrder from "../classes/ExtractionOrder";
 import externalOrder from "../classes/ExternalOrder";
 export const externalOrderRouter = Router();
 
@@ -51,7 +51,7 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
   let { product } = req.params;
   let user2 = req.user;
   let adminId = await db.user.findUnique({ where: { username: "SuperAdmin" } });
-  console.log(product)
+  console.log(product);
   let packageCoins: any = await db.coinsPackage.findUnique({
     //@ts-ignore
     where: { id: Number(product) },
@@ -95,7 +95,7 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
 });
 
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
-  let { adminId, userId, status, value } = req.body;
+  let { adminId, userId, cbu, status, value } = req.body;
   let seller = await db.user.findUnique({ where: { id: userId } });
   let base = await db.coinsPackage.findUnique({ where: { id: 6 } });
   console.log(base);
@@ -107,9 +107,10 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
       let pack = new CoinsPackage(value, base.title, price, 0);
       let newcP = await db.coinsPackage.create({ data: pack });
       console.log(pack);
-      const Eorder = new externalOrder(
+      const Eorder = new extractionOrder(
         adminId,
         userId,
+        cbu,
         "Sell Order",
         price,
         "approved",
