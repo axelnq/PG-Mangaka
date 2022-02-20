@@ -328,7 +328,7 @@ export const UserLogout = () => {
                 payload: null,
             });
         } catch (e) {
-            console.log(e.message);
+            console.log(e);
         }
     };
 };
