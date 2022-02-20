@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 //import { useSelector } from "react-redux";
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 //MUI
+import Button from "@mui/material/Button";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -75,6 +76,14 @@ export default function PersonalMangas() {
           <Typography>Disabled Accordion</Typography>
         </AccordionSummary>
       </Accordion>
+      <Link
+        to="/createChapters"
+        style={{ textDecoration: "none", color: "white" }}
+      >
+        <Button variant="contained" sx={{ width: "30%", mx: 1 }}>
+          Crear Capitulos
+        </Button>
+      </Link>
     </div>
   );
 }
