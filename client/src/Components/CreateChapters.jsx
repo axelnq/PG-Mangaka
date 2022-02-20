@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postChapters,getChapters} from '../Actions/index';
+import { postChapters} from '../Actions/index';
 import Navbar from './Navbar';
 import { Input } from '@mui/material';
 
@@ -98,9 +98,7 @@ export default function CreateChapters() {
   }
 
 
-  useEffect(() =>{
-    dispatch(getChapters());
-  },[dispatch])
+
 
   return (
     <Fragment>
@@ -146,8 +144,8 @@ export default function CreateChapters() {
               <Box sx={{ mt: '2rem' }}>
             <div>
                 <label htmlFor="contained-button-file">
-                  <Input onChange={(e) => handleChangeFile (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleChangeFile (e)} variant="contained" component="span">
+                  <Input onChange={(e) => handleChangeFileChapters (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
+                    <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleChangeFileChapters (e)} variant="contained" component="span">
                           Cargar Capitulo
                     </Button>
                       </label>
