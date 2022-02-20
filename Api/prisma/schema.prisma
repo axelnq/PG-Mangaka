@@ -99,6 +99,7 @@ model InternalOrder{
    title String
    adminId  String 
    userId String
+name String
    cbu String 
    status String
    price Int
