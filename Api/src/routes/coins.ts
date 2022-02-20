@@ -95,15 +95,16 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
 });
 
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
-  let { user2, cbu, value } = req.body;
-  // let user2 = req.user;
+  let { cbu, value } = req.body;
+  let user2 = req.user;
   let nValue = Number(value);
   if (user2) {
     //@ts-ignore
     let adminId = await db.user.findUnique({
       where: { username: "SuperAdmin" },
     });
-    let seller = await db.user.findUnique({ where: { id: user2 } });
+    //@ts-ignore
+    let seller = await db.user.findUnique({ where: { id: user2.id } });
     let base = await db.coinsPackage.findUnique({ where: { id: 6 } });
     console.log(base);
     if (seller && base && adminId) {
@@ -117,6 +118,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
         const Eorder = new extractionOrder(
           adminId.id,
           seller.id,
+
           cbu,
           "Orden de extraccion",
           price,
