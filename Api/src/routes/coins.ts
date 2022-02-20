@@ -95,34 +95,39 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
 });
 
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
-  let { adminId, userId, cbu, status, value } = req.body;
-  let seller = await db.user.findUnique({ where: { id: userId } });
-  let base = await db.coinsPackage.findUnique({ where: { id: 6 } });
-  console.log(base);
-  if (seller && base) {
-    if (seller.coins - value < 0) {
-      res.send("Estan intentado extraer mas monedas de las que tienes");
-    } else {
-      let price = base?.sellprice * value;
-      let pack = new CoinsPackage(value, base.title, price, 0);
-      let newcP = await db.coinsPackage.create({ data: pack });
-      console.log(pack);
-      const Eorder = new extractionOrder(
-        adminId,
-        userId,
-        cbu,
-        "Orden de extraccion",
-        price,
-        "approved",
-        newcP.id
-      );
-      //@ts-ignore
-      const newEOrder = await db.externalOrder.create({ data: Eorder });
-      const updateSeller = await db.user.update({
-        where: { username: seller.username },
-        data: { coins: seller.coins - value },
-      });
-      res.send("Peticion de extraccion recibida");
+  let { adminId, cbu, status, value } = req.body;
+  let user2 = req.user;
+
+  if (user2) {
+    //@ts-ignore
+    let seller = await db.user.findUnique({ where: { id: user2.id } });
+    let base = await db.coinsPackage.findUnique({ where: { id: 6 } });
+    console.log(base);
+    if (seller && base) {
+      if (seller.coins - value < 0) {
+        res.send("Estan intentado extraer mas monedas de las que tienes");
+      } else {
+        let price = base?.sellprice * value;
+        let pack = new CoinsPackage(value, base.title, price, 0);
+        let newcP = await db.coinsPackage.create({ data: pack });
+        console.log(pack);
+        const Eorder = new extractionOrder(
+          adminId,
+          seller.id,
+          cbu,
+          "Orden de extraccion",
+          price,
+          "approved",
+          newcP.id
+        );
+        //@ts-ignore
+        const newEOrder = await db.externalOrder.create({ data: Eorder });
+        const updateSeller = await db.user.update({
+          where: { username: seller.username },
+          data: { coins: seller.coins - value },
+        });
+        res.send("Peticion de extraccion recibida");
+      }
     }
   }
 });
