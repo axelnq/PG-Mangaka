@@ -7,6 +7,8 @@ import { FormControl } from "@mui/material";
 import { Fragment } from "react";
 import { Button } from "@mui/material";
 import { Input} from "@mui/material";
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -14,12 +16,13 @@ export default function CheckoutForm() {
     const [coins,setCoins] = useState(undefined);
     const [input,setInput] = useState({cbu:'',value:0,name:''});
     const [flag,setFlag] = useState(false);
+    const navigate = useNavigate()
 
     useEffect( () =>{
       axios.get("http://localhost:3001/api/profile/coins",{withCredentials:true})
       .then(data => {setCoins(data.data.coins);
       if(!flag ){
-        setFlag(true)
+      setFlag(true)
       }console.log(data)
       })
       .catch(error => console.log(error.response))
@@ -39,7 +42,13 @@ export default function CheckoutForm() {
       console.log(input,'inputhandle')
       axios.post('http://localhost:3001/api/coins/sell',input,{withCredentials:true})
       setInput ({cbu:'',value:0,name:''})
+
+      
+      navigate('/')
+     
     }
+
+   
     
   
 
