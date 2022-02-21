@@ -266,7 +266,7 @@ export default function Register() {
 				<RegisterButton
 					sx={
 						Object.entries(errors).length === 0
-							? { backgroundColor: "#0063cc", color: "white" }
+							? { backgroundColor: "#0063cc", color: "white", mt: 3 }
 							: { display: "none" }
 					}
 					type="submit"

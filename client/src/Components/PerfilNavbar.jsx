@@ -13,7 +13,6 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 const _ArrayBufferToBase64 = (buffer) => {
   //console.log(buffer)
@@ -60,7 +59,7 @@ export default function PerfilNavbar() {
                 "data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)
               }
               alt="perfil"
-              sx={{ width: 32, height: 32 }}
+              sx={{ width: 32, height: 32, m: 0 }}
             />
           </IconButton>
         </Tooltip>
@@ -106,13 +105,10 @@ export default function PerfilNavbar() {
           <Avatar
             src={"data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)}
             alt="perfil"
-            sx={{ width: 32, height: 32 }}
+            sx={{ width: "32px", height: "32px" }}
           />{" "}
           {user.name}
         </MenuItem>
-        <Link to="/panel" style={{ textDecoration: "none", color: "white" }}>
-          <MenuItem>Panel</MenuItem>
-        </Link>
         <Link to="/wishlist" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Wishlist</MenuItem>
         </Link>

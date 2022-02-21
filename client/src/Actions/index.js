@@ -25,13 +25,18 @@ export const GET_USERS = "GET_USERS";
 export const SET_ACTIVE = "SET_ACTIVE";
 export const SET_ACTIVE_MANGA = "SET_ACTIVE_MANGA";
 export const SET_ADMIN = "SET_ADMIN";
-export const DELETE_WISHLIST_MANGA = 'DELETE_WISHLIST_MANGA'
-export const ADD_MANGA_WISHLIST = 'ADD_MANGA_WISHLIST'
+export const DELETE_WISHLIST_MANGA = "DELETE_WISHLIST_MANGA";
+export const ADD_MANGA_WISHLIST = "ADD_MANGA_WISHLIST";
 export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
+export const GET_CHAPTER = "GET_CHAPTER";
+// export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
 export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID";
-
+export const GET_AUTHOR_DETAILS ='GET_AUTHOR_DETAILS';
+export const FAVORITE = 'FAVORITE';
+export const GET_POPULAR_AUTHORS = 'GET_POPULAR_AUTHORS'
+export const REMOVE_FAVORITE = 'REMOVE_FAVORITE'
 
 const axios = require("axios");
 
@@ -98,7 +103,7 @@ export let getRecentMangas = () => {
         }
     };
 };
-// falta :id
+
 export let getMangaDetail = (payload) => {
     return async (dispatch) => {
         try {
@@ -121,7 +126,8 @@ export let postManga = (payload) => {
             console.log(payload);
             let manga = await axios.post(
                 `http://localhost:3001/api/mangas`,
-                payload,{withCredentials:true}
+                payload,
+                { withCredentials: true }
             );
             return dispatch({
                 type: POST_MANGA,
@@ -230,7 +236,8 @@ export let postChapters = (payload) => {
             console.log(payload);
             let chapters = await axios.post(
                 `http://localhost:3001/api/chapters`,
-                payload,{withCredentials:true}
+                payload,
+                { withCredentials: true }
             );
 
             return dispatch({
@@ -260,16 +267,19 @@ export let postChapters = (payload) => {
 export let getWishList = (payload) => {
     return async (dispatch) => {
         try {
-            let mangas = await axios.get(`http://localhost:3001/api/profile/wishlist`, { withCredentials: true })
+            let mangas = await axios.get(
+                `http://localhost:3001/api/profile/wishlist`,
+                { withCredentials: true }
+            );
             return dispatch({
                 type: GET_WISHLIST,
-                payload: mangas.data
-            })
-        } catch(error) {
-            console.log(error.response)
+                payload: mangas.data,
+            });
+        } catch (error) {
+            console.log(error.response);
         }
-    }
-}
+    };
+};
 export let getCurrentUser = (form) => {
     return async (dispatch) => {
         try {
@@ -299,7 +309,6 @@ export let getCurrentUser = (form) => {
             localStorage.setItem("user", JSON.stringify(response));
             const user = JSON.parse(localStorage.getItem("user"));
             return dispatch({ type: CURRENT_USER, payload: user });
-
         } catch (error) {
             console.log(error.message);
         }
@@ -322,7 +331,7 @@ export const UserLogout = () => {
                 payload: null,
             });
         } catch (e) {
-            console.log(e.message);
+            console.log(e);
         }
     };
 };
@@ -343,8 +352,7 @@ export const getUser = () => {
                 payload: user,
             });
         } catch (error) {
-            localStorage.clear();
-            console.log("Error tipo",error);
+            console.log(error);
         }
     };
 };
@@ -385,6 +393,7 @@ export let getChapters = (payload) => {
             return dispatch({
                 type: GET_ALL_CHAPTERS,
                 payload: allChapters.data,
+                withCredentials: true
             });
         } catch (error) {
             console.log(error);
@@ -458,9 +467,9 @@ export let getPopularMangas = () => {
 export let popularAuthors = () => {
     return async (dispatch) => {
         try {
-            let authors = await axios.get("");
+            let authors = await axios.get("http://localhost:3001/api/users/popularAuthors");
             return dispatch({
-                type: GET_AUTHORS,
+                type: GET_POPULAR_AUTHORS,
                 payload: authors.data,
             });
         } catch (error) {
@@ -500,7 +509,7 @@ export let setActive = (payload) => {
         try {
             console.log(payload);
             let setActive = await axios.put(
-                `http://localhost:3001/api/users/user/setActive/${payload}`
+                `http://localhost:3001/api/users/user/setActive/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ACTIVE,
@@ -517,7 +526,7 @@ export let setActiveManga = (payload) => {
         try {
             console.log(payload);
             let setActiveManga = await axios.put(
-                `http://localhost:3001/api/mangas/manga/setActive/${payload}`
+                `http://localhost:3001/api/mangas/manga/setActive/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ACTIVE_MANGA,
@@ -534,7 +543,7 @@ export let setAdmin = (payload) => {
         try {
             console.log(payload);
             let setAdmin = await axios.put(
-                `http://localhost:3001/api/users/user/setAdmin/${payload}`
+                `http://localhost:3001/api/users/user/setAdmin/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ADMIN,
@@ -549,31 +558,39 @@ export let setAdmin = (payload) => {
 export let deleteWishlistManga = (payload) => {
     return async (dispatch) => {
         try {
-            console.log(payload)
-            let manga = axios.put(`http://localhost:3001/api/users/user/lists?list=wishList`, {mangaId: payload}, { withCredentials: true })
+            console.log(payload);
+            let manga = axios.put(
+                `http://localhost:3001/api/users/user/lists?list=wishList`,
+                { mangaId: payload },
+                { withCredentials: true }
+            );
             return dispatch({
                 type: DELETE_WISHLIST_MANGA,
-            })
-        } catch(error) {
-            console.log(error)
+            });
+        } catch (error) {
+            console.log(error);
         }
-    }
-}
+    };
+};
 
 export let addMangaWishList = (payload) => {
     return async (dispatch) => {
         try {
-            console.log(payload)
-            let manga = axios.put('http://localhost:3001/api/users/user/lists?list=wishList', payload, { withCredentials: true })
+            console.log(payload);
+            let manga = axios.put(
+                "http://localhost:3001/api/users/user/lists?list=wishList",
+                payload,
+                { withCredentials: true }
+            );
             return dispatch({
                 type: ADD_MANGA_WISHLIST,
-                payload: manga.data
-            })
-        } catch(error) {
-            console.log(error.response)
+                payload: manga.data,
+            });
+        } catch (error) {
+            console.log(error.response);
         }
-    }
-}
+    };
+};
 
 export let postCheckout = (payload) => {
     return async (dispatch) => {
@@ -581,7 +598,8 @@ export let postCheckout = (payload) => {
             console.log(payload);
             let checkout = await axios.post(
                 `http://localhost:3001/api/coins/sell`,
-                payload,{withCredentials:true}
+                payload,
+                { withCredentials: true }
             );
 
             return dispatch({
@@ -643,3 +661,58 @@ export let buyCoins = (payload) => {
 //         }
 //     };
 // };
+
+export let getChapter = (payload) => {
+    return async (dispatch) => {
+        try {
+            let getChapter = await axios.get(
+                `http://localhost:3001/api/chapters/chapter/images/${payload}`
+            );
+            return dispatch({
+                type: GET_CHAPTER,
+                payload: getChapter.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+//-------------------- DETALLES DE AUTOR -------------------------//
+export let getAuthorDetail = (id) => {
+    return async (dispatch) => {
+        try {
+            let authorDetail = await axios(`http://localhost:3001/api/users/user/${id}`)
+            return dispatch({
+                type: 'GET_AUTHOR_DETAILS',
+                payload: authorDetail.data
+            })
+        } catch (error){
+            console.log(error.msg)
+        }
+    };
+};
+
+//------------------------- FAVORITOS -------------------------------//
+export let favorite = () =>{
+    return async (dispatch) => {
+        try {
+            let favorite = await axios.get(`http://localhost:3001/api/profile/favorites`, {withCredentials:true})
+            return dispatch({
+                type: 'FAVORITE',
+                payload: favorite.data
+            });
+        } catch (error){
+            console.log(error)
+        }
+    };
+};
+
+//------------------ REMOVE FAVORITE  -----------------------------------------//
+export let removeFavorite = (id) => {
+    return (dispatch) => {
+        return dispatch({
+            type: 'REMOVE_FAVORITE',
+            payload: id
+        });
+    }
+}

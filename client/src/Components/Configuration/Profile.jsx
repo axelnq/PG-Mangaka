@@ -178,19 +178,20 @@ function Profile(props) {
       </List>
       <Divider sx={{ bgcolor: "#357DED" }} />
       <List>
-        <Link
-          to="/profile/personalmangas"
-          style={{ textDecoration: "none", color: "white" }}
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <LocalLibraryIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary={"Mis Mangas"} />
-          </ListItem>
-        </Link>
-        {/*renderizado de Prueba*/}
-        {user.role === "USER" && (
+        {user.creatorMode && (
+          <Link
+            to="/profile/personalmangas"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <LocalLibraryIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary={"Mis Mangas"} />
+            </ListItem>
+          </Link>
+        )}
+        {(user.role === "ADMIN" || user.role === "SUPERADMIN") && (
           <>
             <Link
               to="/profile/panel"
@@ -233,12 +234,19 @@ function Profile(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h4" noWrap component="div">
-            Configuración
-          </Typography>
+          <Link to="/profile" sx={{ textDecoration: "none", color: "white" }}>
+            <Typography
+              variant="h6"
+              sx={{ "&:hover": { color: "lightblue" } }}
+              noWrap
+              component="div"
+            >
+              Ajustes
+            </Typography>
+          </Link>
           <Link to="/" style={{ textDecoration: "none" }}>
             <Button variant="outlined" sx={{ height: { xs: "90%" } }}>
-              Volver a home
+              Inicio
             </Button>
           </Link>
         </Toolbar>

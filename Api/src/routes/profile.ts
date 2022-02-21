@@ -177,6 +177,26 @@ profileRouter.get("/coins", isAuthenticated, async(req, res, next) => {
 //
 //
 
+// Otorga el modo creador al usuario
+profileRouter.put("/creator", isAuthenticated, async (req, res, next) => {
+  //@ts-ignore
+  const { id } = req.user;
+  //@ts-ignore
+  if(req.user.creatorMode) {
+    return res.status(400).json({ error: "You already have creator mode" });
+  } 
+  try{
+    let user = await db.user.update({
+      where: { id: id },
+      data: { creatorMode: true }
+    });
+  res.status(200).send({ message: "You have been granted creator mode"}); 
+  } catch (err:any) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+});
+
 // Actualiza el nombre del usuario
 profileRouter.put("/updateName", isAuthenticated, async (req, res) => {
   //@ts-ignore
