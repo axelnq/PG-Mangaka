@@ -26,9 +26,16 @@ import {
     SET_ACTIVE,
     SET_ACTIVE_MANGA,
     SET_ADMIN,
+    DELETE_WISHLIST_MANGA,
+    ADD_MANGA_WISHLIST,
     POST_CHECKOUT,
     GET_PACKS,
     BUY_COINS,
+    GET_CHAPTER,
+    GET_AUTHOR_DETAILS,
+    FAVORITE,
+    GET_POPULAR_AUTHORS,
+    REMOVE_FAVORITE,
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -46,14 +53,18 @@ const initialState = {
     },
     library: [],
     wishlist: [],
-    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
+    user: null,
     allChapters:[],
     userInfo: {},
     authors: [],
     show: true,
     allUsers: [],
     getPacks: [],
-    preferenceId: []
+    preferenceId: [],
+    chapter: [],
+    authorDetail: undefined,
+    favorite: [],
+    popularAuthors: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -201,6 +212,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
         };
+        case DELETE_WISHLIST_MANGA:
+            return {
+                ...state
+            }
+        case ADD_MANGA_WISHLIST: 
+            return {
+                ...state,
+                wishlist: state.wishlist.concat(payload)
+            }
 
         case POST_CHECKOUT:
             return {
@@ -218,11 +238,39 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 preferenceId: payload,
             }
+        case GET_CHAPTER:
+            return {
+                ...state,
+                chapter: payload,
+            }
         // case GET_PREFERENCE_ID:
         //     return {
         //         ...state,
         //         preferenceId: payload,
         //     };
+        case GET_AUTHOR_DETAILS:
+            return {
+                ...state,
+                authorDetail: payload,
+            };
+        case FAVORITE:
+            return {
+                ...state,
+                favorite: payload,
+            };
+        case GET_POPULAR_AUTHORS: 
+            return {
+                ...state,
+                popularAuthors: payload
+            };
+        case REMOVE_FAVORITE:
+            
+            let remove = state.favorite.data.filter((f)=> {return f.id !== payload});    
+          
+            return {
+                ...state,
+                favorite: {data:remove, totalFavorites:remove.length}
+            };
 
         default:
             return state;

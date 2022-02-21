@@ -6,10 +6,12 @@ import internalOrder from "../classes/InternalOrder";
 export const internalOrderRouter = Router();
 
 internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
-  const { sellerId, buyerId, productId } = req.body;
+  const { sellerId, productId } = req.body;
+  let buyeruser = req.user;
   // let tempSeller = {};
   let buyer = await db.user.findUnique({
-    where: { id: buyerId },
+    //@ts-ignore
+    where: { id: buyeruser.id },
   });
   let seller = await db.user.findUnique({ where: { id: sellerId } });
 
@@ -18,7 +20,8 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
     if (buyer.coins - product.price < 0) {
       res.send("Insuficient coins ");
     } else {
-      let iOrder = new internalOrder(sellerId, buyerId, productId);
+      //@ts-ignore
+      let iOrder = new internalOrder(sellerId, buyeruser.id, productId);
       //@ts-ignore
       const newIorder = await db.internalOrder.create({ data: iOrder });
 
@@ -60,11 +63,13 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
 });
 
 internalOrderRouter.post<{}, {}>("/wishlistManga", async (req, res, next) => {
-  let { mangaId, userId } = req.body;
-  let firstUser = await db.user.findUnique({
-    where: { id: userId },
-  });
+  let { mangaId } = req.body;
+  let user2 = req.user;
   console.log(mangaId);
+  let firstUser = await db.user.findUnique({
+    //@ts-ignore
+    where: { id: user2.id },
+  });
   if (firstUser && !firstUser.wishList.includes(mangaId)) {
     const updateUser = await db.user.update({
       where: { username: firstUser.username },
@@ -79,9 +84,11 @@ internalOrderRouter.post<{}, {}>("/wishlistManga", async (req, res, next) => {
 });
 
 internalOrderRouter.post<{}, {}>("/favoritesManga", async (req, res, next) => {
-  let { mangaId, userId } = req.body;
+  let { mangaId } = req.body;
+  let user2 = req.user;
   let firstUser = await db.user.findUnique({
-    where: { id: userId },
+    //@ts-ignore
+    where: { id: user2.id },
   });
   console.log(mangaId);
   if (firstUser && !firstUser.favorites.includes(mangaId)) {

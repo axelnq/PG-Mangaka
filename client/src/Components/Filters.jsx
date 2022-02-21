@@ -76,19 +76,6 @@ const Filters = () => {
                         {
                             genres && genres.map((g, i) => <MenuItem key={i} value={g} sx={{ color: '#357DED' }}>{g}</MenuItem>)
                         }
-                        { /*
-                        <MenuItem value={'Action'} sx={{ color: '#357DED' }}>ACCIÓN</MenuItem>
-                        <MenuItem value={'Comedy'} sx={{ color: '#357DED' }}>COMEDIA</MenuItem>
-                        <MenuItem value={'Supernatural'} sx={{ color: '#357DED' }}>SUPERNATURAL</MenuItem>
-                        <MenuItem value={'Drama'} sx={{ color: '#357DED' }}>DRAMA</MenuItem>
-                        <MenuItem value={'Romance'} sx={{ color: '#357DED' }}>ROMANCE</MenuItem>
-                        <MenuItem value={'Sci-Fi'} sx={{ color: '#357DED' }}>SCI-FI</MenuItem>
-                        <MenuItem value={'Slice of Life'} sx={{ color: '#357DED' }}>SLICE OF LIFE</MenuItem>
-                        <MenuItem value={'Sports'} sx={{ color: '#357DED' }}>DEPORTE</MenuItem>
-                        <MenuItem value={'Mystery'} sx={{ color: '#357DED' }}>MISTERIO</MenuItem>
-                        <MenuItem value={'Ecchi'} sx={{ color: '#357DED' }}>ECCHI</MenuItem>
-                        <MenuItem value={'Fantasy'} sx={{ color: '#357DED' }}>FANTASIA</MenuItem>
-                        <MenuItem value={'Adventure'} sx={{ color: '#357DED' }}>AVENTURA</MenuItem> */}
                     </Select>
                 </FormControl>
                 <FormControl sx={{  backgroundColor: '#000',width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>

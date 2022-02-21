@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Tabs, Tab, Typography, Box } from '@mui/material';
-import NavBar from './Navbar';
 import UsersPanel from './UsersPanel'
 import MangasPanel from './MangasPanel';
 
@@ -47,7 +46,6 @@ export default function VerticalTabs() {
 
     return (
         <>
-            <NavBar />
             <Container>
                 <Typography sx={{ my: '2rem', textAlign: 'left' }} variant="h4" component="div" gutterBottom>Panel Admin</Typography>
                 <Box

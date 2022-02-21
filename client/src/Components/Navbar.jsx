@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMangasPreview, searchManga, getGoogleUser } from "../Actions/index";
+import {
+  getMangasPreview,
+  searchManga,
+  getUser,
+  getGoogleUser,
+} from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
 import LoginModal from "./Access/LoginModal";
 import Coin from "../img/coin.png";
@@ -72,7 +77,6 @@ const List = styled("ul")`
   }
 `;
 const _ArrayBufferToBase64 = (buffer) => {
-  
   var binary = "";
   var byte = new Uint8Array(buffer.data);
   var length = byte.byteLength;
@@ -85,22 +89,22 @@ const _ArrayBufferToBase64 = (buffer) => {
 
 export default function NavBar() {
   //redux
-  const {user, mangasPreview} = useSelector((state) => state);
+  const { user, mangasPreview } = useSelector((state) => state);
   const dispatch = useDispatch();
- 
+
   //bring the array to preview in the autocomplete filter
   useEffect(() => {
     dispatch(getMangasPreview());
-  }, [dispatch]);
-  
-  useEffect(()=>{
-   user || dispatch(getGoogleUser())
-  },[])
-  
+  }, []);
+
+  useEffect(() => {
+    user || dispatch(getUser());
+  }, []);
+
   //local state
   const [filteredData, setFilteredData] = useState([]);
   const [search, setSearch] = useState("");
-  
+
   //filtering the autocomplete
   const handleFilter = (e) => {
     const word = e.target.value;
@@ -215,8 +219,55 @@ export default function NavBar() {
             </Box>
             {user ? (
               <Stack direction="row" spacing={2} justifyContent="center">
-                <Link to="/coins">
-                  <img className="animate__animated animate_" style={{height: "36px", width: "36px", marginTop: "2px"}} src={Coin} alt="coin icon" />
+                <Link
+                  to="/coins"
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  <Box
+                    sx={{
+                      marginTop: "5px",
+                      height: "34px",
+                      width: "100px",
+                      position: "relative",
+                      boxSizing: "border-box",
+                      borderRadius: "34px",
+                      border: "3px solid #ffd533",
+                      bgcolor: "#f69f1c",
+                      padding: "0",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "2px",
+                        right: "67px",
+                        height: "30px",
+                        width: "30px",
+                      }}
+                    >
+                      <img
+                        className="animate__animated animate__bounce animate_slower"
+                        style={{
+                          height: "36px",
+                          width: "36px",
+                        }}
+                        src={Coin}
+                        alt="coin icon"
+                      />
+                    </div>
+                    <p
+                      style={{
+                        margin: "0 auto",
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                        color: "white",
+                        lineHeight: "25px",
+                      }}
+                    >
+                      {user.coins}
+                    </p>
+                  </Box>
                 </Link>
                 <PerfilNavbar />
               </Stack>
