@@ -21,7 +21,14 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
       res.send("Insuficient coins ");
     } else {
       //@ts-ignore
-      let iOrder = new internalOrder(sellerId, buyeruser.id, productId);
+      let iOrder = new internalOrder(
+        sellerId,
+        //@ts-ignore
+        buyeruser.id,
+        productId,
+
+        product.price
+      );
       //@ts-ignore
       const newIorder = await db.internalOrder.create({ data: iOrder });
 
@@ -102,4 +109,14 @@ internalOrderRouter.post<{}, {}>("/favoritesManga", async (req, res, next) => {
   } else {
     res.send("You already have this manga in Favorites");
   }
+});
+internalOrderRouter.get<{}, {}>("/getBuyerOrder", async (req, res) => {
+  let user2 = req.user; //@ts-ignore
+  let info = await db.internalOrder.findMany({ where: { buyerId: user2.id } });
+  res.send(info);
+});
+internalOrderRouter.get<{}, {}>("/getSellerOrder", async (req, res) => {
+  let user2 = req.user; //@ts-ignore
+  let info = await db.internalOrder.findMany({ where: { sellerId: user2.id } });
+  res.send(info);
 });
