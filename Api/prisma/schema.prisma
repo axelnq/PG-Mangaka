@@ -42,6 +42,7 @@ model User {
   created     Manga[] // A user can have many mangas
   googleId    Boolean
   role        Role  @default(USER)
+  comments    String[]
 }
 
 model Manga {
@@ -59,7 +60,7 @@ model Manga {
   chapters  Chapter[]
   state     String
   active    Boolean
-
+  comments  String[]
 }
 
 model Chapter {
@@ -74,6 +75,7 @@ model Chapter {
   price Int
   orderConstant InternalOrder[]
   active  Boolean
+  comments  String[]
 }
 model InternalOrder{
   orderId   Int @id @default(autoincrement())
