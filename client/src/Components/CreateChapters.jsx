@@ -1,5 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
@@ -7,7 +8,8 @@ import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postChapters } from '../Actions/index';
 import Navbar from './Navbar';
-import { Input } from '@mui/material';
+
+
 
 export default function CreateChapters() {
   const dispatch = useDispatch();
@@ -38,9 +40,14 @@ export default function CreateChapters() {
 
   function handleChangeFileChapters(e) {
     console.log(e.target.files)
+    let files = [];
+    for (let i = 0; i < e.target.files.length; i++) {
+      files.push(e.target.files[i]);
+    }
+    console.log(files, "files")
     setInput({
       ...input,
-      chapters: e.target.files,
+      chapters: files,
 
 
     });
@@ -70,8 +77,10 @@ export default function CreateChapters() {
     console.log(input.mangaId)
     formData.append('portada', input.coverImages);
     console.log(input.coverImages)
-    formData.append('chapters', input.chapters);
-    console.log(input.images)
+    input.chapters.forEach((file) => {
+      formData.append('chapters', file);
+    });
+    console.log(input.chapters)
 
     formData.append('price', 5);
     console.log(input.price)
@@ -98,7 +107,9 @@ export default function CreateChapters() {
   }
 
 
-
+  // useEffect(() =>{
+  //   dispatch(getChapters());
+  // },[dispatch])
 
   return (
     <Fragment>
@@ -111,7 +122,7 @@ export default function CreateChapters() {
         <div>
           <FormControl onSubmit={(e) => handleSubmit(e)}
             sx={{
-              width: 600,
+              width: 300,
               height: 'auto',
               borderRadius: '5px',
               backgroundColor: '#192A45',
@@ -119,43 +130,41 @@ export default function CreateChapters() {
               color: '#357DED',
             }}>
             <h1 >CREA TU CAPITULO</h1>
-            <Box>
-              <Box >
-                <Input placeholder='TITLE' sx={{ width: '32rem', justifyContent: 'center', backgroundColor: 'white' }}
-                  type="text"
-                  value={input.title}
-                  name="title"
-                  onChange={(e) => handleChange(e)}
+            <label>TITLE :</label>
+            <div>
+              <input
+                type="text"
+                value={input.title}
+                name="title"
+                onChange={(e) => handleChange(e)}
 
-                />
-              </Box>
-              <Box sx={{ mt: '2rem' }}>
-                {/* <label>PORTADA :</label> */}
-                <div>
-                  <label htmlFor="contained-button-file">
-                    <Input onChange={(e) => handleChangeFile(e)} sx={{ display: 'none' }} accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button sx={{ width: '32rem', justifyContent: 'center' }} onClick={(e) => handleChangeFile(e)} variant="contained" component="span">
-                      Cargar Portada
-                    </Button>
-                  </label>
-                  <Box sx={{ mt: '1rem' }}></Box>
-                </div>
-              </Box>
-              <Box sx={{ mt: '2rem' }}>
-                <div>
-                  <label htmlFor="contained-button-file">
-                    <Input onChange={(e) => handleChangeFileChapters(e)} sx={{ display: 'none' }} accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button sx={{ width: '32rem', justifyContent: 'center' }} onClick={(e) => handleChangeFileChapters(e)} variant="contained" component="span">
-                      Cargar Capitulo
-                    </Button>
-                  </label>
-                  <Box sx={{ mt: '1rem' }}></Box>
-                </div>
-              </Box>
-              <Box sx={{ width: '100%', py: '1rem' }}>
-                <Button sx={{ width: '32rem', justifyContent: 'center' }} onClick={(e) => handleSubmit(e)} variant="contained">Crear Capitulo</Button></Box>
+              />
+            </div>
+
+            <Box sx={{ mt: '1rem' }}>
+              <label>PORTADA :</label>
+              <div>
+
+                <input onChange={(e) => handleChangeFile(e)} accept="image/*" id="portada" type="file" />
+
+
+
+
+              </div>
+              <label>CAPITULO :</label>
+              <div>
+
+
+                <input onChange={(e) => handleChangeFileChapters(e)} accept="image/*" id="chapters" multiple type="file" />
+
+
+
+
+              </div>
             </Box>
             <div>
+              <Box sx={{ width: '100%', py: '1rem' }}>
+                <Button onClick={(e) => handleSubmit(e)} size="small" variant="contained">Crear Capitulo</Button></Box>
               <Box sx={{ width: '100%', py: '0.2rem' }}>
                 <NavLink to="/">
                   <Button>Home</Button>
@@ -168,6 +177,8 @@ export default function CreateChapters() {
     </Fragment>
   )
 }
+
+
 
 
 

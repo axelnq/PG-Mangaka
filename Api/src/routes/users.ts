@@ -304,16 +304,16 @@ usersRouter.post<
 
 usersRouter.put<{ admin: boolean; username: string }, {}>(
   "/user/setAdmin/:username",
-  // isAuthenticated,
+  isAuthenticated,
   async (req, res, next) => {
     const { username } = req.params;
     //@ts-ignore
-    // const admin = req.user
+    const admin = req.user
     //@ts-ignore
-    // if (!(admin.role === "SUPERADMIN")) {
-    //   return res.status(403).send({ message: "You don't have permission to do this, Are you trying to hack us?" });
-    // }
-    // console.log(req.user.role)
+    if (!(admin.role === "SUPERADMIN")) {
+      return res.status(403).send({ message: "You don't have permission to do this, Are you trying to hack us?" });
+    }
+    
     try {
       const user = await db.user.findUnique({
         where: { username: username },
@@ -337,15 +337,15 @@ usersRouter.put<{ admin: boolean; username: string }, {}>(
 
 usersRouter.put<{ admin: boolean; username: string }, {}>(
   "/user/setActive/:username",
-  // isAuthenticated,
+  isAuthenticated,
   async (req, res, next) => {
     const { username } = req.params;
     //@ts-ignore
-    // const admin = req.user
-    // //@ts-ignore
-    // if (!(admin.role === "ADMIN" || admin.role === "SUPERADMIN")) {
-    //   return res.status(403).send({ message: "You don't have permission to do this, Are you trying to hack us?" });
-    // }
+    const admin = req.user
+    //@ts-ignore
+    if (!(admin.role === "ADMIN" || admin.role === "SUPERADMIN")) {
+      return res.status(403).send({ message: "You don't have permission to do this, Are you trying to hack us?" });
+    }
 
     try {
       const user = await db.user.findUnique({
