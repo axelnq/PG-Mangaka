@@ -375,6 +375,7 @@ export let getChapters = (payload) => {
             return dispatch({
                 type: GET_ALL_CHAPTERS,
                 payload: allChapters.data,
+                withCredentials: true
             });
         } catch (error) {
             console.log(error);
@@ -638,7 +639,7 @@ export let getChapter = (payload) => {
     return async (dispatch) => {
         try {
             let getChapter = await axios.get(
-                `http://localhost:3001/api/chapters/chapter/getchapter/${payload}`
+                `http://localhost:3001/api/chapter/images/${payload}`
             );
             return dispatch({
                 type: GET_CHAPTER,

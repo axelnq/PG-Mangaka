@@ -24,21 +24,21 @@ const _ArrayBufferToBase64 = (buffer) => {
 
 export default function Reader() {
 
-    const { id } = useParams();
-    const dispatch = useDispatch();
-    useEffect(() => {
-        setTimeout(() => dispatch(getChapter(id)), 1500)
-    }, [dispatch, id])
+    // const { id } = useParams();
+    // const dispatch = useDispatch();
+    // useEffect(() => {
+    //     setTimeout(() => dispatch(getChapter(id)), 1500)
+    // }, [dispatch, id])
 
-    const chapter = useSelector((state) => state.chapter.data);
-    console.log(chapter)
+    // const chapter = useSelector((state) => state.chapter.data);
+    // console.log(chapter)
 
-    let data = []
+    // let data = []
 
-    if (chapter && chapter.id == id) {
-        data = chapter.images[0];
-        console.log(data)
-    }
+    // if (chapter && chapter.id == id) {
+    //     data = chapter.images[0];
+    //     console.log(data)
+    // }
 
     // const reverse = data.slice()
     // const dataReversed = reverse.reverse()
@@ -122,11 +122,11 @@ export default function Reader() {
             <NavBar />
             <CssBaseline />
 
-            {
+            {/* {
                 data && chapter ?
                     <img id={chapter.id} height="600px" key={chapter.id} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(data)} alt={chapter.title} />
                     : <div>Loading...</div>
-            }
+            } */}
 
         </Box >
     );
