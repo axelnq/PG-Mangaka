@@ -3,7 +3,7 @@ import React from 'react';
 import { Container, Box, List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Link } from '@mui/material';
 
 
-export default function AuthorMangas({image, title, link}) {
+export default function AuthorMangas({image, title}) {
     
 
 
@@ -19,9 +19,9 @@ export default function AuthorMangas({image, title, link}) {
                             <ListItemAvatar>
                                 <Avatar alt="Remy Sharp" src={image} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
-                            {/* <Link to={link}> */}
+                            
                                 <ListItemText primary={title} />
-                            {/* </Link> */}
+                            
                         </ListItem>
                         <Divider variant="inset" component="li" />
 

@@ -11,6 +11,7 @@ import Register from "./Components/Access/Register";
 import CreateChapters from "./Components/CreateChapters";
 import { useSelector } from "react-redux";
 import AuthorDetail from "./Components/AuthorDetail";
+import Favorite from './Components/Favoritos'
 import Reader from "./Components/Reader";
 //config
 import Email from "./Components/Configuration/Email";
@@ -23,7 +24,7 @@ import About from "./Components/Configuration/About";
 import IndexProfile from "./Components/Configuration/IndexProfile";
 import CheckoutForm from './Components/CheckoutForm';
 import GoogleUsername from "./Components/Configuration/GoogleUsername";
-import Favorite from "./Components/Favoritos";
+
 const axios = require("axios");
 
 // windoes + .
@@ -47,8 +48,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/detail/:id" element={<Detail />} />
+
         <Route path="/author/:id" element={<AuthorDetail />} />
         <Route path="/favorite" element={<Favorite />} />
+
         {user && (
           <>
             <Route path="/library" element={<Biblioteca />} />
