@@ -36,6 +36,7 @@ import {
     FAVORITE,
     GET_POPULAR_AUTHORS,
     REMOVE_FAVORITE,
+    SEE_COMMENTS,
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -65,6 +66,7 @@ const initialState = {
     authorDetail: undefined,
     favorite: [],
     popularAuthors: [],
+    allComments:[],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -271,7 +273,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 favorite: {data:remove, totalFavorites:remove.length}
             };
-
+        case SEE_COMMENTS:
+            return {
+                ...state,
+                allComments: payload
+            };
         default:
             return state;
     }
