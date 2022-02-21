@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { Container, Box, Typography, Avatar, Input, Modal, Button, Divider, ListItem, ListItemAvatar, ListItemText, FormControl} from '@mui/material';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import SendIcon from '@mui/icons-material/Send';
-import { margin } from '@mui/system';
+
+import { createComment } from '../Actions';
 
 
 
@@ -23,8 +24,9 @@ const style = {
   };
 
 
-export default function Comentarios() {
-    
+export default function Comentarios(idChapter) {
+  
+
     const dispatch = useDispatch()
 
     const [open, setOpen] = React.useState(false);
@@ -33,9 +35,8 @@ export default function Comentarios() {
 
     
     const [input, setInput] = useState({
-        commentUser:'',
-        username:'',
-        userAvatar:[],
+        comment:'',
+        idChapter:'3'
     });
 
 
@@ -43,22 +44,23 @@ export default function Comentarios() {
         
         setInput({
             ...input,
-            [e.target.commentUser] : e.target.value
+            [e.target.name] : e.target.value
         });
         
     };
 
-    // function handleSubmit(e) {
+    function handleSubmit(e) {
         
-    //     e.preventDefault();
-    //     dispatch(createComment(input))
-    //     setInput({
-    //         commentUser:'',
-    //         username:'',
-    //         userAvatar:[],
-    //     })
+        e.preventDefault();
     
-    // }
+        
+        dispatch(createComment(input))
+        setInput({
+            comment:'',
+            idChapter:'3'
+        })
+    
+    }
 
 
 
@@ -68,7 +70,7 @@ export default function Comentarios() {
             <Container>
                 <Box >
                     
-                    <Box>
+                    
                         <Box  mb='1rem' sx={{display:'flex', justifyContent:"flex-end" }}>
                             <Button
                                 onClick={handleOpen}
@@ -90,7 +92,8 @@ export default function Comentarios() {
                             <Box sx={style}>                           
                                 <FormControl 
                                     component="form"
-                                    // onSubmit={e => handleSubmit(e)}
+                                    onSubmit={e => handleSubmit(e)}
+                                    width='100%'
                                 >
 
                                     <Box  sx={{display:'flex', justifyContent:"center"}}>
@@ -107,8 +110,8 @@ export default function Comentarios() {
                                             placeholder="Placeholder"
                                             multiline
                                             rows={5}   
-                                            name='commentUser'  
-                                            value={input.commentUser}                                      
+                                            name='comment'  
+                                            value={input.comment}                                      
                                             onChange={handleChange}                                             
                                             
                                         />
@@ -128,7 +131,7 @@ export default function Comentarios() {
                             </Box> 
                         </Modal>
 
-                    </Box>
+                    
 
                     <Box>
                         
