@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
+
 
 const _ArrayBufferToBase64 = (buffer) => {
   //console.log(buffer)
@@ -56,7 +56,9 @@ export default function PerfilNavbar() {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar
-              src={"data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)}
+              src={
+                "data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)
+              }
               alt="perfil"
               sx={{ width: 32, height: 32 }}
             />
@@ -101,45 +103,27 @@ export default function PerfilNavbar() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-        <Avatar
-              src={"data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)}
-              alt="perfil"
-              sx={{ width: 32, height: 32 }}
-            />{" "}
+          <Avatar
+            src={"data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)}
+            alt="perfil"
+            sx={{ width: 32, height: 32 }}
+          />{" "}
           {user.name}
         </MenuItem>
-        <Link to="/panel" style={{ textDecoration: "none", color: "white" }}>
-          <MenuItem>Panel</MenuItem>
-        </Link>
         <Link to="/wishlist" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Wishlist</MenuItem>
         </Link>
         <Link to="/library" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Biblioteca</MenuItem>
         </Link>
-        <Link
-          to="/createChapters"
-          style={{ textDecoration: "none", color: "white" }}
-        >
-          <MenuItem>Crear Capitulos</MenuItem>
-        </Link>
         <Divider sx={{ backgroundColor: "#357ded" }} />
-        <Link to="/create" style={{ textDecoration: "none", color: "white" }}>
+        <Link to="/profile" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>
             <ListItemIcon>
-              <MenuBookIcon fontSize="small" color="primary" />
+              <Settings fontSize="small" color="primary" />
             </ListItemIcon>
-            Crea tu Manga!
+            Ajustes
           </MenuItem>
-        </Link>
-        <Divider sx={{ backgroundColor: "#357ded", mt: "5px" }} />
-       <Link to="/profile">
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" color="primary" />
-          </ListItemIcon>
-          Ajustes
-        </MenuItem>
         </Link>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

@@ -111,7 +111,7 @@ mangasRouter.get<{ idManga: string }, {}>("/manga/:idManga", async (req, res) =>
             rating: (totalPoints / nUsers) ? (totalPoints / nUsers) : manga.rating
           }
         })
-  
+        manga.rating = (totalPoints / nUsers) ? (totalPoints / nUsers) : manga.rating
         return res.send({data: manga})
       }
   

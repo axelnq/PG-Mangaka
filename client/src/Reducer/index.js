@@ -31,7 +31,10 @@ import {
     POST_CHECKOUT,
     GET_PACKS,
     BUY_COINS,
-    GET_CHAPTER
+    GET_CHAPTER,
+    GET_AUTHOR_DETAILS,
+    FAVORITE,
+    GET_POPULAR_AUTHORS,
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -49,7 +52,7 @@ const initialState = {
     },
     library: [],
     wishlist: [],
-    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
+    user: null,
     allChapters:[],
     userInfo: {},
     authors: [],
@@ -57,7 +60,10 @@ const initialState = {
     allUsers: [],
     getPacks: [],
     preferenceId: [],
-    chapter: []
+    chapter: [],
+    authorDetail: undefined,
+    favorite: [],
+    popularAuthors: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -241,7 +247,21 @@ const rootReducer = (state = initialState, { type, payload }) => {
         //         ...state,
         //         preferenceId: payload,
         //     };
-
+        case GET_AUTHOR_DETAILS:
+            return {
+                ...state,
+                authorDetail: payload,
+            };
+        case FAVORITE:
+            return {
+                ...state,
+                favorite: payload,
+            };
+        case GET_POPULAR_AUTHORS: 
+            return {
+                ...state,
+                popularAuthors: payload
+            }
         default:
             return state;
     }

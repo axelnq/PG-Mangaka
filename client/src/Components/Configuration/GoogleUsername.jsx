@@ -10,21 +10,20 @@ import Button from "@mui/material/Button";
 //CSS
 import "animate.css";
 
-const Name = () => {
-	const dispatch = useDispatch();
+const GoogleUsername = () => {
+const dispatch = useDispatch();
 	const { user } = useSelector((state) => state);
-	const [newName, setName] = useState("");
+	const [newUsername, setUsername] = useState("");
 	const handleChange = (e) => {
-		setName(e.target.value);
+		setUsername(e.target.value);
 	};
-	const handleSubmitName = (e) => {
+	const handleSubmitUsername = (e) => {
 		e.preventDefault();
-		console.log(newName);
-		if (newName) {
+		if (newUsername) {
 			axios
 				.put(
-					`http://localhost:3001/api/profile/updateName`,
-					{ newName },
+					`http://localhost:3001/api/profile/updateUsername`,
+					{ newUsername },
 					{ withCredentials: true }
 				)
 				.then((res) =>{
@@ -32,9 +31,9 @@ const Name = () => {
 					return dispatch(getUser());
 				})
 				.catch((error) => console.log(error));
-				setName("");
+				setUsername("");
 		} else {
-			alert("Introduzca un nombre");
+			alert("Introduzca un username");
 		}
 	};
 
@@ -43,11 +42,11 @@ const Name = () => {
 			<Box
 				sx={{ width: "100%" }}
 				component="form"
-				onSubmit={handleSubmitName}
+				onSubmit={handleSubmitUsername}
 				autoComplete="off"
 			>
-				<Typography variant="h4">Cambiar Nombre</Typography>
-				<Typography variant="h6">Nombre Actual: {user.name}</Typography>
+				<Typography variant="h4">Cambiar Username</Typography>
+				<Typography variant="h6">Username Actual: {user.username}</Typography>
 				<TextField
 					fullWidth
 					sx={{
@@ -59,17 +58,17 @@ const Name = () => {
 					variant="filled"
 					name="name"
 					type="text"
-					value={newName}
+					value={newUsername}
 					onChange={handleChange}
 					required
 				/>
 
 				<Button type="submit" variant="contained">
-					Cambiar Nombre
+					Cambiar Username
 				</Button>
 			</Box>
 		</Box>
 	);
-};
+}
 
-export default Name;
+export default GoogleUsername

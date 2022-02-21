@@ -1,15 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useEffect,useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
-import { Button, Input, InputBase } from '@mui/material';
+import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postChapters, getChapters } from '../Actions/index';
+import { postChapters} from '../Actions/index';
 import Navbar from './Navbar';
-
-
+import { Input } from '@mui/material';
 
 export default function CreateChapters() {
   const dispatch = useDispatch();
@@ -100,9 +98,7 @@ export default function CreateChapters() {
   }
 
 
-  // useEffect(() =>{
-  //   dispatch(getChapters());
-  // },[dispatch])
+
 
   return (
     <Fragment>
@@ -115,7 +111,7 @@ export default function CreateChapters() {
         <div>
           <FormControl onSubmit={(e) => handleSubmit(e)}
             sx={{
-              width: 300,
+              width: 600,
               height: 'auto',
               borderRadius: '5px',
               backgroundColor: '#192A45',
@@ -123,41 +119,43 @@ export default function CreateChapters() {
               color: '#357DED',
             }}>
             <h1 >CREA TU CAPITULO</h1>
-            <label>TITLE :</label>
-            <div>
-              <input
+            <Box>
+            <Box >
+              <Input placeholder='TITLE'sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
                 type="text"
                 value={input.title}
                 name="title"
                 onChange={(e) => handleChange(e)}
 
               />
-            </div>
-
-            <Box sx={{ mt: '1rem' }}>
-              <label>PORTADA :</label>
-              <div>
-
-                <input onChange={(e) => handleChangeFile(e)} accept="image/*" id="portada" type="file" />
-
-
-
-
-              </div>
-              <label>CAPITULO :</label>
-              <div>
-
-
-                <input onChange={(e) => handleChangeFileChapters(e)} accept="image/*" id="chapters" multiple type="file" />
-
-
-
-
-              </div>
             </Box>
+                <Box sx={{ mt: '2rem' }}>
+            {/* <label>PORTADA :</label> */}
             <div>
+                <label htmlFor="contained-button-file">
+                  <Input  onChange={(e) => handleChangeFile (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
+                    <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleChangeFile (e)} variant="contained" component="span">
+                          Cargar Portada
+                    </Button>
+                      </label>
+                  <Box sx={{ mt: '1rem' }}></Box>
+              </div>
+              </Box>
+              <Box sx={{ mt: '2rem' }}>
+            <div>
+                <label htmlFor="contained-button-file">
+                  <Input onChange={(e) => handleChangeFileChapters (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
+                    <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleChangeFileChapters (e)} variant="contained" component="span">
+                          Cargar Capitulo
+                    </Button>
+                      </label>
+                  <Box sx={{ mt: '1rem' }}></Box>
+              </div>
+            </Box> 
               <Box sx={{ width: '100%', py: '1rem' }}>
-                <Button onClick={(e) => handleSubmit(e)} size="small" variant="contained">Crear Capitulo</Button></Box>
+                <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleSubmit(e)}  variant="contained">Crear Capitulo</Button></Box>
+                </Box>
+            <div>
               <Box sx={{ width: '100%', py: '0.2rem' }}>
                 <NavLink to="/">
                   <Button>Home</Button>
