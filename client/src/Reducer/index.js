@@ -34,6 +34,7 @@ import {
     GET_AUTHOR_DETAILS,
     FAVORITE,
     GET_POPULAR_AUTHORS,
+    REMOVE_FAVORITE,
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -254,7 +255,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 popularAuthors: payload
-            }
+            };
+        case REMOVE_FAVORITE:
+            
+            let remove = state.favorite.data.filter((f)=> {return f.id !== payload});    
+          
+            return {
+                ...state,
+                favorite: {data:remove, totalFavorites:remove.length}
+            };
+
         default:
             return state;
     }
