@@ -1,5 +1,6 @@
 import { React } from "react"
 import MangaCard from "./MangaCard";
+import CardAuthor from "./CardAuthor"
 
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -62,14 +63,21 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                                     </Stack>
                                 )
                             })
-                        }
+                        } 
                     </StackContainer>
             </Stack>
             <Stack direction="column" sx={{ my: '2rem'}}>
                 <Typography variant="h5" gutterBottom component="div">Autores Populares</Typography>
                     <StackContainer direction="row" sx={{ width:'65rem'}} >
                         {
-                            console.log(autoresPopulares.data)
+                            autoresPopulares.data && autoresPopulares.data.map(m => {
+                                console.log(m)
+                                return (
+                                    <div key={m.id}>
+                                       <CardAuthor image={m.avatar} name={m.name}/> 
+                                    </div>
+                                )
+                            })
                         }
                     </StackContainer>
             </Stack>
