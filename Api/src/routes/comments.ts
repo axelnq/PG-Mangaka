@@ -2,6 +2,7 @@ import { Router } from "express";
 import Chapter from "../classes/Chapter";
 import User from "../classes/User";
 import { db } from "../app";
+import { isAuthenticated } from "./auth";
 
 export const commentsRouter = Router();
 
@@ -39,10 +40,11 @@ commentsRouter.get("/getComments/:idChapter", async (req, res) => {
 });
 
 
-commentsRouter.post("/addComent", async (req, res) => {
+commentsRouter.post("/addComent",isAuthenticated, async (req, res) => {
 
-    const { idChapter, username, comment } = req.body;
-
+    const { idChapter, comment } = req.body;
+    //@ts-ignore
+    const username = req.user.username
     const commentUser = `${username}/@/${comment}`
 
     if (!(idChapter && username && comment)) return res.send({ message: "Some necessary information is missing" })
