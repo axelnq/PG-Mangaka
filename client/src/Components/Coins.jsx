@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom'
+import axios from 'axios';
 import NavBar from "./Navbar";
 import CoinsPanel from "./CoinsPanel";
 import empty from "../img/empty.png";
@@ -85,11 +86,18 @@ function a11yProps(index) {
 export default function Coins() {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const [coins, setCoins] = React.useState(0);
 
     let dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPacks());
         dispatch(getCurrentUser());
+        let getCoins = async () => {
+            let coins = await axios("http://localhost:3001/api/profile/coins");
+            console.log(coins.data);
+            setCoins(coins.data);
+        };
+        getCoins();
     }, [dispatch]);
 
     let packs = useSelector((state) => state.getPacks);

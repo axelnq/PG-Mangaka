@@ -508,7 +508,7 @@ export let setActive = (payload) => {
         try {
             console.log(payload);
             let setActive = await axios.put(
-                `http://localhost:3001/api/users/user/setActive/${payload}`
+                `http://localhost:3001/api/users/user/setActive/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ACTIVE,
@@ -525,7 +525,7 @@ export let setActiveManga = (payload) => {
         try {
             console.log(payload);
             let setActiveManga = await axios.put(
-                `http://localhost:3001/api/mangas/manga/setActive/${payload}`
+                `http://localhost:3001/api/mangas/manga/setActive/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ACTIVE_MANGA,
@@ -542,7 +542,7 @@ export let setAdmin = (payload) => {
         try {
             console.log(payload);
             let setAdmin = await axios.put(
-                `http://localhost:3001/api/users/user/setAdmin/${payload}`
+                `http://localhost:3001/api/users/user/setAdmin/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ADMIN,
@@ -665,7 +665,7 @@ export let getChapter = (payload) => {
     return async (dispatch) => {
         try {
             let getChapter = await axios.get(
-                `http://localhost:3001/api/chapter/images/${payload}`
+                `http://localhost:3001/api/chapters/chapter/images/${payload}`
             );
             return dispatch({
                 type: GET_CHAPTER,

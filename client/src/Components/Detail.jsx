@@ -117,7 +117,7 @@ const Detail = () => {
                     <List sx={{ width: '100%', minWidth: "22.5rem", bgcolor: 'background.paper' }}>
 
                         {mangaDetail.chapters?.map((chapter, index) => (
-                            <Link to={'reader/' + chapter.id}>
+                            <Link to={'/reader/' + chapter.id}>
                                 <ListItem alignItems="flex-start">
                                     <ListItemAvatar>
                                         <Avatar alt={chapter.title} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(chapter.coverImage)} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
