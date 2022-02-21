@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 //actions
+import axios from 'axios';
 import { getMangaDetail, addMangaWishList } from '../Actions'
 //mui
 import { Container, Box, Button, List, ListItem, LinearProgress, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Rating } from '@mui/material';
@@ -47,6 +48,7 @@ const Detail = () => {
 
     const handleFav = () => {
         fav ? setFav(false) : setFav(true)
+        axios.put(`http://localhost:3001/api/users/user/lists?list=favorites`, {mangaId:id},{withCredentials:true})
     }
 
     let handleAddWishlist = (e) => {
