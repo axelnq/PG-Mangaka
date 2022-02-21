@@ -34,6 +34,7 @@ export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID";
 export const GET_AUTHOR_DETAILS ='GET_AUTHOR_DETAILS';
 export const FAVORITE = 'FAVORITE';
 export const GET_POPULAR_AUTHORS = 'GET_POPULAR_AUTHORS'
+export const REMOVE_FAVORITE = 'REMOVE_FAVORITE'
 
 const axios = require("axios");
 
@@ -688,18 +689,12 @@ export let favorite = () =>{
     };
 };
 
-//--------------------AGREGAR FAVORITOS------------------//
-
-export let addFavorite = (id) =>{
-    return async (dispatch) => {
-        try {
-            let addFavorite = await axios.put(`http://localhost:3001/api/users/lists?list=favorites`, {mangaId:id})
-            return dispatch({
-                type: 'ADD_FAVORITE',
-                payload: addFavorite.data
-            });
-        } catch (error){
-            console.log(error)
-        }
-    };
-};
+//------------------ REMOVE FAVORITE  -----------------------------------------//
+export let removeFavorite = (id) => {
+    return (dispatch) => {
+        return dispatch({
+            type: 'REMOVE_FAVORITE',
+            payload: id
+        });
+    }
+}
