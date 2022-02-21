@@ -218,8 +218,6 @@ usersRouter.get<{ id: string }, {}>("/user/:id", async (req, res, next) => {
     });
 
     if (!user) return res.status(404).json({ msg: "Invalid author ID" });
-    if (!user.creatorMode)
-      return res.status(404).json({ msg: "The user is not an author" });
 
     let totalPoints: number = 0;
 

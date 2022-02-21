@@ -14,7 +14,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 
-
 const _ArrayBufferToBase64 = (buffer) => {
   //console.log(buffer)
   var binary = "";
@@ -60,7 +59,7 @@ export default function PerfilNavbar() {
                 "data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)
               }
               alt="perfil"
-              sx={{ width: 32, height: 32 }}
+              sx={{ width: 32, height: 32, m: 0 }}
             />
           </IconButton>
         </Tooltip>
@@ -106,7 +105,7 @@ export default function PerfilNavbar() {
           <Avatar
             src={"data:image/jpeg;base64," + _ArrayBufferToBase64(user.avatar)}
             alt="perfil"
-            sx={{ width: 32, height: 32 }}
+            sx={{ width: "32px", height: "32px" }}
           />{" "}
           {user.name}
         </MenuItem>
