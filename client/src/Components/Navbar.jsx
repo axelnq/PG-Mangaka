@@ -221,26 +221,48 @@ export default function NavBar() {
               <Stack direction="row" spacing={2} justifyContent="center">
                 <Box
                   sx={{
+                    margin: "50px",
+                    height: "34px",
+                    width: "120px",
                     position: "relative",
                     boxSizing: "border-box",
-                    borderRadius: "50%",
-                    border: "2px solid orangered",
-                    bgcolor: "yellow",
+                    borderRadius: "34px",
+                    border: "3px solid #ffd533",
+                    bgcolor: "#f69f1c",
+                    padding: "0",
                   }}
                 >
-                  <Link to="/coins">
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "2px",
+                      right: "87px",
+                      height: "30px",
+                      width: "30px",
+                    }}
+                  >
                     <img
                       className="animate__animated animate__bounce animate_slower"
                       style={{
                         height: "36px",
                         width: "36px",
-                        marginTop: "2px",
                       }}
                       src={Coin}
                       alt="coin icon"
                     />
-                  </Link>
-                  {user.coins}
+                  </div>
+                  <p
+                    style={{
+                      margin: "0 auto",
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      fontSize: "16px",
+                      color: "white",
+                      lineHeight: "25px",
+                    }}
+                  >
+                    500
+                  </p>
                 </Box>
                 <PerfilNavbar />
               </Stack>
