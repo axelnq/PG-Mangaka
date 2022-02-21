@@ -21,7 +21,14 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
       res.send("Insuficient coins ");
     } else {
       //@ts-ignore
-      let iOrder = new internalOrder(sellerId, buyeruser.id, productId);
+      let iOrder = new internalOrder(
+        sellerId,
+        //@ts-ignore
+        buyeruser.id,
+        productId,
+
+        product.price
+      );
       //@ts-ignore
       const newIorder = await db.internalOrder.create({ data: iOrder });
 

@@ -81,6 +81,7 @@ model InternalOrder{
   buyerId    String
   product  Chapter @relation(fields: [productId], references: [id])
   productId Int
+     value Int
   createdAt DateTime  @default(now())
   
 }
@@ -91,6 +92,7 @@ model InternalOrder{
    userId String
    status String
    price Int
+   value Int
    productId Int
   createdAt DateTime  @default(now())
  }
@@ -103,6 +105,7 @@ name String
    cbu String 
    status String
    price Int
+      value Int
    productId Int
   createdAt DateTime  @default(now())
  }
