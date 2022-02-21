@@ -12,6 +12,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import Nabvar from './Navbar'
+import Score from './Score'
 
 const _ArrayBufferToBase64 = (buffer) => {
     console.log(buffer)
@@ -134,13 +135,14 @@ const Detail = () => {
                                                             display: 'flex', justifyContent: 'flex-end', mt: '0.5rem'
                                                         }}
                                                     >
-                                                        <Rating
+                                                        <Score id={chapter.id} />
+                                                        {/* <Rating
                                                             name="simple-controlled"
                                                             value={valueChapter}
                                                             onChange={(event, newValue) => {
                                                                 setValueChapter(newValue);
                                                             }}
-                                                        />
+                                                        /> */}
                                                     </Box>
                                                 </Box>
                                             </React.Fragment>
