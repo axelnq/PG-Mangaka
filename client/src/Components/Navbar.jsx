@@ -219,6 +219,7 @@ export default function NavBar() {
             </Box>
             {user ? (
               <Stack direction="row" spacing={2} justifyContent="center">
+                <Link to="/coins" style={{ textDecoration: "none", color: "white" }}>
                 <Box
                   sx={{
                     margin: "50px",
@@ -264,6 +265,7 @@ export default function NavBar() {
                     500
                   </p>
                 </Box>
+                </Link>
                 <PerfilNavbar />
               </Stack>
             ) : (
