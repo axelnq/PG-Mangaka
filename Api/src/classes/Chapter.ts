@@ -9,6 +9,7 @@ export default class Chapter {
   mangaId: number;
   price: number;
   usersId: string[];
+  comments: string[];
   active: boolean;
 
   constructor(
@@ -20,6 +21,7 @@ export default class Chapter {
     active?:boolean,
     points?: number,
     usersId?: string[],
+    comments?: string[],
     id?: number
   ) {
     this.title = title;
@@ -30,6 +32,7 @@ export default class Chapter {
     this.active = active || true;
     this.mangaId = mangaId;
     this.usersId = usersId || [];
+    this.comments = usersId || [];
     this.id = id || undefined;
   }
 }

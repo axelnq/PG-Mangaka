@@ -15,6 +15,7 @@ export default class Manga {
   rating: number;
   state: string;
   active: boolean;
+  comments: string[];
   authorId: string;
   chapter: number;
   chapters?: number[] | undefined;
@@ -30,6 +31,7 @@ export default class Manga {
     chapters?: number[],
     state?: string,
     active?: boolean,
+    comments?: string[],
     id?: number
   ) {
     this.title = title;
@@ -40,6 +42,7 @@ export default class Manga {
     this.state = state || "on_going";
     this.id = id || undefined;
     this.active = active || true;
+    this.comments = comments || [];
     this.authorId = authorId;
     this.chapter = chapter || 0;
     this.chapters = chapters || undefined;

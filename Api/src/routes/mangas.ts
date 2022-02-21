@@ -379,3 +379,21 @@ mangasRouter.put<{ idManga:string }, {}>("/manga/setActive/:idManga", isAuthenti
   }
 
 });
+
+
+mangasRouter.get("/panel/allMangas", async (req, res) => {
+  const mangas = await db.manga.findMany({
+    select: {
+      title: true,
+      author: { select: { name: true } },
+      chapter: true,
+      chapters: { select: { id: true, title: true } },
+      genre: true,
+      rating: true,
+      state: true,
+      active: true
+    }
+  });
+
+  res.send(mangas);
+});
