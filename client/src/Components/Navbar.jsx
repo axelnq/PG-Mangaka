@@ -219,52 +219,55 @@ export default function NavBar() {
             </Box>
             {user ? (
               <Stack direction="row" spacing={2} justifyContent="center">
-                <Link to="/coins" style={{ textDecoration: "none", color: "white" }}>
-                <Box
-                  sx={{
-                    margin: "50px",
-                    height: "34px",
-                    width: "120px",
-                    position: "relative",
-                    boxSizing: "border-box",
-                    borderRadius: "34px",
-                    border: "3px solid #ffd533",
-                    bgcolor: "#f69f1c",
-                    padding: "0",
-                  }}
+                <Link
+                  to="/coins"
+                  style={{ textDecoration: "none", color: "white" }}
                 >
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "2px",
-                      right: "87px",
-                      height: "30px",
-                      width: "30px",
+                  <Box
+                    sx={{
+                      marginTop: "5px",
+                      height: "34px",
+                      width: "100px",
+                      position: "relative",
+                      boxSizing: "border-box",
+                      borderRadius: "34px",
+                      border: "3px solid #ffd533",
+                      bgcolor: "#f69f1c",
+                      padding: "0",
                     }}
                   >
-                    <img
-                      className="animate__animated animate__bounce animate_slower"
+                    <div
                       style={{
-                        height: "36px",
-                        width: "36px",
+                        position: "absolute",
+                        bottom: "2px",
+                        right: "67px",
+                        height: "30px",
+                        width: "30px",
                       }}
-                      src={Coin}
-                      alt="coin icon"
-                    />
-                  </div>
-                  <p
-                    style={{
-                      margin: "0 auto",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      fontSize: "16px",
-                      color: "white",
-                      lineHeight: "25px",
-                    }}
-                  >
-                    500
-                  </p>
-                </Box>
+                    >
+                      <img
+                        className="animate__animated animate__bounce animate_slower"
+                        style={{
+                          height: "36px",
+                          width: "36px",
+                        }}
+                        src={Coin}
+                        alt="coin icon"
+                      />
+                    </div>
+                    <p
+                      style={{
+                        margin: "0 auto",
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                        color: "white",
+                        lineHeight: "25px",
+                      }}
+                    >
+                      {user.coins}
+                    </p>
+                  </Box>
                 </Link>
                 <PerfilNavbar />
               </Stack>
