@@ -7,9 +7,21 @@ import { Container, Box, Typography, Avatar, Input, Modal, Button, Divider, List
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import SendIcon from '@mui/icons-material/Send';
 
-import { createComment } from '../Actions';
+import { createComment, verComentarios } from '../Actions';
 
 
+const _ArrayBufferToBase64 = (buffer) => {
+    //console.log(buffer)
+    if(buffer === undefined) return '';
+    var binary = '';
+    var byte = new Uint8Array(buffer.data);
+    var length = byte.byteLength;
+
+    for(var i = 0; i < length ;i++) {
+        binary += String.fromCharCode(byte[i])
+    }
+    return window.btoa(binary)
+}
 
 const style = {
     position: 'absolute',
@@ -24,10 +36,12 @@ const style = {
   };
 
 
-export default function Comentarios(idChapter) {
-  
+export default function Comentarios({idChapter} ) {
+    
 
     const dispatch = useDispatch()
+    const {id} = useParams()
+
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -36,9 +50,15 @@ export default function Comentarios(idChapter) {
     
     const [input, setInput] = useState({
         comment:'',
-        idChapter:'3'
+        idChapter:''
     });
 
+    useEffect(() => {
+        dispatch(verComentarios(id))
+        
+    },[dispatch, id])
+
+    const AllComments = useSelector(state => state.allComments)
 
     function handleChange(e) {
         
@@ -57,7 +77,7 @@ export default function Comentarios(idChapter) {
         dispatch(createComment(input))
         setInput({
             comment:'',
-            idChapter:'3'
+            idChapter:''
         })
     
     }
@@ -134,29 +154,39 @@ export default function Comentarios(idChapter) {
                     
 
                     <Box>
-                        
-                        <Divider variant="inset" sx={{ borderColor: "#1850AB" }} />
-                        <ListItem alignItems="flex-start">
+                        {   
+                            AllComments?.map((c) => {
+                                console.log(c,'c')
+                                return (
+                                    <div>
 
-                            <ListItemAvatar>
-                                <Avatar 
-                                    src='{userAvatar}'
-                                />
-                            </ListItemAvatar>
+                                        <Divider variant="inset" sx={{ borderColor: "#1850AB" }} />
+                                        <ListItem alignItems="flex-start">
+            
+                                            <ListItemAvatar>
+                                                <Avatar 
+                                                    src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(c.userAvatar.avatar)}
+                                                    />
+                                            </ListItemAvatar>
+            
+                                            <ListItemText
+                                                primary={c.username}
+                                                
+                                                secondary={
+                                                    <React.Fragment>
+                                                        <Typography variant="body2" color="text.secondary"> {c.commentUser} </Typography>
+            
+                                                    </React.Fragment>
+                                                }
+                                                />
+            
+                                        </ListItem>
+                                        <Divider variant="inset" sx={{ borderColor: "#1850AB" }} />
+                                    </div>
+                                )
+                            })
 
-                            <ListItemText
-                                primary='{username}'
-
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography variant="body2" color="text.secondary"> "afdsd" </Typography>
-
-                                    </React.Fragment>
-                                }
-                            />
-
-                        </ListItem>
-                        <Divider variant="inset" sx={{ borderColor: "#1850AB" }} />
+                        }
                     
                     </Box>
                 

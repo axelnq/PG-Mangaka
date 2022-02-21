@@ -38,6 +38,7 @@ export const FAVORITE = 'FAVORITE';
 export const GET_POPULAR_AUTHORS = 'GET_POPULAR_AUTHORS'
 export const REMOVE_FAVORITE = 'REMOVE_FAVORITE'
 export const CREATE_COMMENT = 'CREATE_COMMENT'
+export const SEE_COMMENTS = 'SEE_COMMENTS'
 
 const axios = require("axios");
 
@@ -732,5 +733,22 @@ export let createComment = (payload) => {
         } catch (error) {
             console.log(error.response)
         }
+    }
+}
+
+//--------------------- ver comentarios -------------------------------//
+
+export let verComentarios = (id) => {
+    return async function (dispatch) {
+        try {
+            let allComments = await axios.get(`http://localhost:3001/api/comments/getComments/${id}`, {withCredentials:true})
+            return dispatch({
+                type: 'SEE_COMMENTS',
+                payload: allComments.data
+            });
+        } catch (error){
+            console.log(error)
+        }
+
     }
 }
