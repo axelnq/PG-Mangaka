@@ -39,6 +39,7 @@ export const GET_POPULAR_AUTHORS = 'GET_POPULAR_AUTHORS'
 export const REMOVE_FAVORITE = 'REMOVE_FAVORITE'
 export const GET_BUY_ORDERS = 'GET_BUY_ORDERS'
 export const GET_SELL_ORDERS = 'GET_SELL_ORDERS'
+export const GET_PANEL_MANGAS  = 'GET_PANEL_MANGAS'
 
 const axios = require("axios");
 
@@ -510,8 +511,9 @@ export let setActive = (payload) => {
     return async (dispatch) => {
         try {
             console.log(payload);
+            let body = {}
             let setActive = await axios.put(
-                `http://localhost:3001/api/users/user/setActive/${payload}`, { withCredentials: true}
+                `http://localhost:3001/api/users/user/setActive/${payload}`, body, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ACTIVE,
@@ -527,8 +529,9 @@ export let setActiveManga = (payload) => {
     return async (dispatch) => {
         try {
             console.log(payload);
+            let body = {}
             let setActiveManga = await axios.put(
-                `http://localhost:3001/api/mangas/manga/setActive/${payload}`, { withCredentials: true}
+                `http://localhost:3001/api/mangas/manga/setActive/${payload}`, body,  { withCredentials: true}
             );
             return dispatch({
                 type: SET_ACTIVE_MANGA,
@@ -544,8 +547,9 @@ export let setAdmin = (payload) => {
     return async (dispatch) => {
         try {
             console.log(payload);
+            let body = {}
             let setAdmin = await axios.put(
-                `http://localhost:3001/api/users/user/setAdmin/${payload}`, { withCredentials: true}
+                `http://localhost:3001/api/users/user/setAdmin/${payload}`, body, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ADMIN,
@@ -743,6 +747,23 @@ export let getSellOrders = () =>{
             });
         } catch (error){
             console.log(error)
+        }
+    };
+};
+
+export let getPanelMangas = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let getPanelMangas = await axios(
+                `http://localhost:3001/api/mangas//panel/allMangas`,  { withCredentials: true}
+            );
+            return dispatch({
+                type: GET_PANEL_MANGAS,
+                payload: getPanelMangas.data,
+            });
+        } catch (error) {
+            console.log(error);
         }
     };
 };

@@ -37,7 +37,8 @@ import {
     GET_POPULAR_AUTHORS,
     REMOVE_FAVORITE,
     GET_BUY_ORDERS,
-    GET_SELL_ORDERS
+    GET_SELL_ORDERS,
+    GET_PANEL_MANGAS
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -69,6 +70,7 @@ const initialState = {
     popularAuthors: [],
     getBuyOrders: [],
     getSellOrders: [],
+    panelMangas: []
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -285,6 +287,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 getSellOrders: payload
             };
+        case GET_PANEL_MANGAS:
+            return {
+                ...state,
+                panelMangas: payload
+            }
         default:
             return state;
     }

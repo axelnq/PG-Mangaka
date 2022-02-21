@@ -32,7 +32,7 @@ export default function CoinsPanel(props) {
                                 <TableCell align="center" component="th" scope="row">
                                     {row.value}
                                 </TableCell>
-                                <TableCell align="center">{row.createdAt}</TableCell>
+                                <TableCell align="center">{row.createdAt.substr(0, 10)}</TableCell>
                             </TableRow>
                         ))
                         : GetProps.map((row) => (
@@ -42,7 +42,7 @@ export default function CoinsPanel(props) {
                                 <TableCell align="center" component="th" scope="row">
                                     {row.value}
                                 </TableCell>
-                                <TableCell align="center">{row.createdAt}</TableCell>
+                                <TableCell align="center">{row.createdAt.substr(0, 10)}</TableCell>
                             </TableRow>
                         ))
                     }

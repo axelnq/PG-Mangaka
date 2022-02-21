@@ -232,7 +232,11 @@ export default function Coins() {
                         >
                             <Tab label="Compradas" {...a11yProps(0)} />
                             <Tab label="Usadas" {...a11yProps(1)} />
-                            <Tab label="Recibidas" {...a11yProps(2)} />
+                            {
+                                user.creatorMode === true ?
+                                    <Tab label="Recibidas" {...a11yProps(2)} />
+                                    : null
+                            }
                         </Tabs>
                     </AppBar>
                     <SwipeableViews
@@ -249,7 +253,7 @@ export default function Coins() {
                         {
                             user.creatorMode === true ?
                                 <TabPanel value={value} index={2} dir={theme.direction}>
-                                    <CoinsPanel />
+                                    <CoinsPanel BuyOrders={BuyOrders} />
                                 </TabPanel>
                                 : null
                         }
