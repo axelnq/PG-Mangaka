@@ -1,11 +1,11 @@
-import React, { Fragment,useEffect,useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postChapters} from '../Actions/index';
+import { postChapters } from '../Actions/index';
 import Navbar from './Navbar';
 import { Input } from '@mui/material';
 
@@ -40,7 +40,7 @@ export default function CreateChapters() {
     console.log(e.target.files)
     setInput({
       ...input,
-      chapters: e.target.files[0],
+      chapters: e.target.files,
 
 
     });
@@ -120,41 +120,41 @@ export default function CreateChapters() {
             }}>
             <h1 >CREA TU CAPITULO</h1>
             <Box>
-            <Box >
-              <Input placeholder='TITLE'sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
-                type="text"
-                value={input.title}
-                name="title"
-                onChange={(e) => handleChange(e)}
+              <Box >
+                <Input placeholder='TITLE' sx={{ width: '32rem', justifyContent: 'center', backgroundColor: 'white' }}
+                  type="text"
+                  value={input.title}
+                  name="title"
+                  onChange={(e) => handleChange(e)}
 
-              />
-            </Box>
-                <Box sx={{ mt: '2rem' }}>
-            {/* <label>PORTADA :</label> */}
-            <div>
-                <label htmlFor="contained-button-file">
-                  <Input  onChange={(e) => handleChangeFile (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleChangeFile (e)} variant="contained" component="span">
-                          Cargar Portada
-                    </Button>
-                      </label>
-                  <Box sx={{ mt: '1rem' }}></Box>
-              </div>
+                />
               </Box>
               <Box sx={{ mt: '2rem' }}>
-            <div>
-                <label htmlFor="contained-button-file">
-                  <Input onChange={(e) => handleChangeFileChapters (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleChangeFileChapters (e)} variant="contained" component="span">
-                          Cargar Capitulo
+                {/* <label>PORTADA :</label> */}
+                <div>
+                  <label htmlFor="contained-button-file">
+                    <Input onChange={(e) => handleChangeFile(e)} sx={{ display: 'none' }} accept="image/*" id="contained-button-file" multiple type="file" />
+                    <Button sx={{ width: '32rem', justifyContent: 'center' }} onClick={(e) => handleChangeFile(e)} variant="contained" component="span">
+                      Cargar Portada
                     </Button>
-                      </label>
+                  </label>
                   <Box sx={{ mt: '1rem' }}></Box>
-              </div>
-            </Box> 
+                </div>
+              </Box>
+              <Box sx={{ mt: '2rem' }}>
+                <div>
+                  <label htmlFor="contained-button-file">
+                    <Input onChange={(e) => handleChangeFileChapters(e)} sx={{ display: 'none' }} accept="image/*" id="contained-button-file" multiple type="file" />
+                    <Button sx={{ width: '32rem', justifyContent: 'center' }} onClick={(e) => handleChangeFileChapters(e)} variant="contained" component="span">
+                      Cargar Capitulo
+                    </Button>
+                  </label>
+                  <Box sx={{ mt: '1rem' }}></Box>
+                </div>
+              </Box>
               <Box sx={{ width: '100%', py: '1rem' }}>
-                <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleSubmit(e)}  variant="contained">Crear Capitulo</Button></Box>
-                </Box>
+                <Button sx={{ width: '32rem', justifyContent: 'center' }} onClick={(e) => handleSubmit(e)} variant="contained">Crear Capitulo</Button></Box>
+            </Box>
             <div>
               <Box sx={{ width: '100%', py: '0.2rem' }}>
                 <NavLink to="/">

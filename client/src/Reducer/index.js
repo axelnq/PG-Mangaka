@@ -36,6 +36,8 @@ import {
     FAVORITE,
     GET_POPULAR_AUTHORS,
     REMOVE_FAVORITE,
+    GET_BUY_ORDERS,
+    GET_SELL_ORDERS
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -65,6 +67,8 @@ const initialState = {
     authorDetail: undefined,
     favorite: [],
     popularAuthors: [],
+    getBuyOrders: [],
+    getSellOrders: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -271,7 +275,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 favorite: {data:remove, totalFavorites:remove.length}
             };
-
+        case GET_BUY_ORDERS: 
+            return {
+                ...state,
+                getBuyOrders: payload
+            };
+        case GET_SELL_ORDERS: 
+            return {
+                ...state,
+                getSellOrders: payload
+            };
         default:
             return state;
     }

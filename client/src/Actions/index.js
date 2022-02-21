@@ -37,6 +37,8 @@ export const GET_AUTHOR_DETAILS ='GET_AUTHOR_DETAILS';
 export const FAVORITE = 'FAVORITE';
 export const GET_POPULAR_AUTHORS = 'GET_POPULAR_AUTHORS'
 export const REMOVE_FAVORITE = 'REMOVE_FAVORITE'
+export const GET_BUY_ORDERS = 'GET_BUY_ORDERS'
+export const GET_SELL_ORDERS = 'GET_SELL_ORDERS'
 
 const axios = require("axios");
 
@@ -716,3 +718,31 @@ export let removeFavorite = (id) => {
         });
     }
 }
+
+export let getBuyOrders = () =>{
+    return async (dispatch) => {
+        try {
+            let getBuyOrders = await axios.get(`http://localhost:3001/api/coins/getBuyOrders`, {withCredentials:true})
+            return dispatch({
+                type: 'GET_BUY_ORDERS',
+                payload: getBuyOrders.data
+            });
+        } catch (error){
+            console.log(error)
+        }
+    };
+};
+
+export let getSellOrders = () =>{
+    return async (dispatch) => {
+        try {
+            let getSellOrders = await axios.get(`http://localhost:3001/api/coins/getSellOrders`, {withCredentials:true})
+            return dispatch({
+                type: 'GET_SELL_ORDERS',
+                payload: getSellOrders.data
+            });
+        } catch (error){
+            console.log(error)
+        }
+    };
+};

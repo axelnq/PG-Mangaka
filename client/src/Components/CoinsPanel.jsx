@@ -1,19 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 function createData(cantidad, fecha) {
     return { cantidad, fecha };
 }
 
-const rows = [
-    createData(10, '24/12/21'),
-    createData(15, '31/12/21'),
-    createData(5, '03/01/22'),
-    createData(25, '10/01/22'),
-    createData(50, '11/01/22'),
-];
-
 export default function CoinsPanel() {
+    const rows = [];
     return (
         <div><TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
