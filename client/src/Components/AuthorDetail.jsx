@@ -118,7 +118,7 @@ export default function AuthorDetail() {
                     Author?.data.created.map((c) => {
                         return(
 
-                            <AuthorMangas key={c['id']} image={c['image']} title={c['title']} id={c['id']} link={c['title']}/>
+                            <AuthorMangas key={c['id']} image={'data:image/jpeg;base64,' + _ArrayBufferToBase64(c['image'])} title={c['title']} id={c['id']} link={c['title']}/>
                         )
                     })
 
