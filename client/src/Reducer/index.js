@@ -31,6 +31,7 @@ import {
     POST_CHECKOUT,
     GET_PACKS,
     BUY_COINS,
+    GET_CHAPTER,
     GET_AUTHOR_DETAILS,
     FAVORITE,
     GET_POPULAR_AUTHORS,
@@ -60,6 +61,7 @@ const initialState = {
     allUsers: [],
     getPacks: [],
     preferenceId: [],
+    chapter: [],
     authorDetail: undefined,
     favorite: [],
     popularAuthors: [],
@@ -235,7 +237,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 preferenceId: payload,
-            };
+            }
+        case GET_CHAPTER:
+            return {
+                ...state,
+                chapter: payload,
+            }
         // case GET_PREFERENCE_ID:
         //     return {
         //         ...state,

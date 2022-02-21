@@ -48,7 +48,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/detail/:id" element={<Detail />} />
-
+        <Route path="/reader/:id" element={<Reader />} />
         <Route path="/author/:id" element={<AuthorDetail />} />
         <Route path="/favorite" element={<Favorite />} />
 
@@ -59,7 +59,6 @@ function App() {
             <Route path="/create" element={<CreateForm />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
-            <Route path="/reader" element={<Reader />} />
             {/*Configuración de Perfil*/}
             <Route path="/profile/" element={<Profile />}>
               <Route index element={<IndexProfile />} />

@@ -6,6 +6,7 @@ export default class extractionOrder {
   cbu: String;
   title: String;
   price: Number;
+  value: Number;
   status: String;
   productId: Number;
 
@@ -16,6 +17,7 @@ export default class extractionOrder {
     cbu: String,
     title: String,
     price: Number,
+    value: Number,
     status: String,
     productId: Number,
 
@@ -27,6 +29,7 @@ export default class extractionOrder {
     this.cbu = cbu;
     this.title = title || "Buy Order";
     this.price = price;
+    this.value = value;
     this.status = status;
     this.productId = productId;
     this.id = id || undefined;

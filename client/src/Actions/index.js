@@ -30,6 +30,8 @@ export const ADD_MANGA_WISHLIST = "ADD_MANGA_WISHLIST";
 export const POST_CHECKOUT = "POST_CHECKOUT";
 export const GET_PACKS = "GET_PACKS";
 export const BUY_COINS = "BUY_COINS";
+export const GET_CHAPTER = "GET_CHAPTER";
+// export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID"
 export const GET_PREFERENCE_ID = "GET_PREFERENCE_ID";
 export const GET_AUTHOR_DETAILS ='GET_AUTHOR_DETAILS';
 export const FAVORITE = 'FAVORITE';
@@ -102,7 +104,7 @@ export let getRecentMangas = () => {
         }
     };
 };
-// falta :id
+
 export let getMangaDetail = (payload) => {
     return async (dispatch) => {
         try {
@@ -392,6 +394,7 @@ export let getChapters = (payload) => {
             return dispatch({
                 type: GET_ALL_CHAPTERS,
                 payload: allChapters.data,
+                withCredentials: true
             });
         } catch (error) {
             console.log(error);
@@ -507,7 +510,7 @@ export let setActive = (payload) => {
         try {
             console.log(payload);
             let setActive = await axios.put(
-                `http://localhost:3001/api/users/user/setActive/${payload}`
+                `http://localhost:3001/api/users/user/setActive/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ACTIVE,
@@ -524,7 +527,7 @@ export let setActiveManga = (payload) => {
         try {
             console.log(payload);
             let setActiveManga = await axios.put(
-                `http://localhost:3001/api/mangas/manga/setActive/${payload}`
+                `http://localhost:3001/api/mangas/manga/setActive/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ACTIVE_MANGA,
@@ -541,7 +544,7 @@ export let setAdmin = (payload) => {
         try {
             console.log(payload);
             let setAdmin = await axios.put(
-                `http://localhost:3001/api/users/user/setAdmin/${payload}`
+                `http://localhost:3001/api/users/user/setAdmin/${payload}`, { withCredentials: true}
             );
             return dispatch({
                 type: SET_ADMIN,
@@ -660,6 +663,21 @@ export let buyCoins = (payload) => {
 //     };
 // };
 
+export let getChapter = (payload) => {
+    return async (dispatch) => {
+        try {
+            let getChapter = await axios.get(
+                `http://localhost:3001/api/chapters/chapter/images/${payload}`
+            );
+            return dispatch({
+                type: GET_CHAPTER,
+                payload: getChapter.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
 //-------------------- DETALLES DE AUTOR -------------------------//
 export let getAuthorDetail = (id) => {
     return async (dispatch) => {
