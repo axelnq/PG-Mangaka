@@ -71,7 +71,7 @@ export default function MangasPanel() {
 
     let rows = [
         allMangas?.map(manga => ({
-            id: manga.title,
+            id: manga.id,
             name: manga.title,
             author: manga.author.name,
             // author: manga.authors.map(author => author.name).join(', '),
@@ -89,9 +89,11 @@ export default function MangasPanel() {
     let [data, setData] = useState('')
     console.log(data)
     if (data.field === 'estado') {
-        let manga = allMangas.find(manga => manga.mal_id === data.id)
+        let manga = allMangas.find(manga => manga.id === data.id)
         let row = rows[0].find(row => row.id === data.id)
-        // dispatch(setActiveManga(manga.));
+        dispatch(setActiveManga(manga.id));
+        row.estado = data.value;
+        manga.active = data.value === 'Activo' ? true : false;
     }
 
     return (
