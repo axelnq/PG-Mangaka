@@ -107,9 +107,6 @@ export default function CreateChapters() {
   }
 
 
-  // useEffect(() =>{
-  //   dispatch(getChapters());
-  // },[dispatch])
 
   return (
     <Fragment>
