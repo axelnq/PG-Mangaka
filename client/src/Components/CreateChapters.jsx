@@ -52,15 +52,15 @@ export default function CreateChapters() {
 
     const { title, chapters, coverImages, price } = input;
 
-    if (title === undefined || title.length < 3) {
-      return alert('titulo invalido')
-    } else if (chapters === undefined) {
-      return alert('ingrese imagen valida')
-    } else if (coverImages === undefined) {
-      return alert('ingrese imagen valida')
-    } else if (price === undefined) {
-      return alert('')
-    }
+    // if (title === undefined || title.length < 3) {
+    //   return alert('titulo invalido')
+    // } else if (chapters === undefined) {
+    //   return alert('ingrese imagen valida')
+    // } else if (coverImages === undefined) {
+    //   return alert('ingrese imagen valida')
+    // } else if (price === undefined) {
+    //   return alert('')
+    // }
 
 
     const formData = new FormData();

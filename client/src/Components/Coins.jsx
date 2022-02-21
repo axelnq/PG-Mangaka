@@ -241,10 +241,10 @@ export default function Coins() {
                         onChangeIndex={handleChangeIndex}
                     >
                         <TabPanel value={value} index={0} dir={theme.direction}>
-                            <CoinsPanel />
+                            <CoinsPanel BuyOrders={BuyOrders} />
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction}>
-                            <CoinsPanel />
+                            <CoinsPanel SellOrders={SellOrders} />
                         </TabPanel>
                         {
                             user.creatorMode === true ?

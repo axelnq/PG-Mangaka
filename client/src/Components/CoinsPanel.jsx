@@ -6,8 +6,14 @@ function createData(cantidad, fecha) {
     return { cantidad, fecha };
 }
 
-export default function CoinsPanel() {
-    const rows = [];
+export default function CoinsPanel(props) {
+    let GetProps = null;
+    if (props.BuyOrders) {
+        GetProps = props.BuyOrders;
+    } else if (props.SellOrders) {
+        GetProps = props.SellOrders;
+    }
+
     return (
         <div><TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -18,17 +24,28 @@ export default function CoinsPanel() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow
-                            key={row.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell align="center" component="th" scope="row">
-                                {row.cantidad}
-                            </TableCell>
-                            <TableCell align="center">{row.fecha}</TableCell>
-                        </TableRow>
-                    ))}
+                    {GetProps !== null && GetProps === props.BuyOrders ?
+                        GetProps.map((row) => (
+                            <TableRow
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align="center" component="th" scope="row">
+                                    {row.value}
+                                </TableCell>
+                                <TableCell align="center">{row.createdAt}</TableCell>
+                            </TableRow>
+                        ))
+                        : GetProps.map((row) => (
+                            <TableRow
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align="center" component="th" scope="row">
+                                    {row.value}
+                                </TableCell>
+                                <TableCell align="center">{row.createdAt}</TableCell>
+                            </TableRow>
+                        ))
+                    }
                 </TableBody>
             </Table>
         </TableContainer>
