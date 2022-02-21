@@ -70,6 +70,7 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
           user2.id,
           "approved",
           packageCoins.buyprice,
+          packageCoins.value,
           payment_status,
           packageCoins.id
         );
@@ -121,6 +122,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
           name,
           cbu,
           "Orden de extraccion",
+          nValue,
           price,
           "approved",
           newcP.id
