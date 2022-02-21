@@ -23,6 +23,7 @@ import About from "./Components/Configuration/About";
 import IndexProfile from "./Components/Configuration/IndexProfile";
 import CheckoutForm from './Components/CheckoutForm';
 import GoogleUsername from "./Components/Configuration/GoogleUsername";
+import Favorite from "./Components/Favoritos";
 const axios = require("axios");
 
 // windoes + .
@@ -46,8 +47,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/author" element={<AuthorDetail />} />
-
+        <Route path="/author/:id" element={<AuthorDetail />} />
+        <Route path="/favorite" element={<Favorite />} />
         {user && (
           <>
             <Route path="/library" element={<Biblioteca />} />

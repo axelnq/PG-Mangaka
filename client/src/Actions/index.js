@@ -677,16 +677,16 @@ export let favorite = () =>{
 
 //--------------------AGREGAR FAVORITOS------------------//
 
-// export let addFavorite = (id) =>{
-//     return async (dispatch) => {
-//         try {
-//             let addFavorite = await axios.put(`http://localhost:3001/api/users/lists?list=favorites`, {mangaId:id})
-//             return dispatch({
-//                 type: 'ADD_FAVORITE',
-//                 payload: addFavorite.data
-//             });
-//         } catch (error){
-//             console.log(error)
-//         }
-//     };
-// };
+export let addFavorite = (id) =>{
+    return async (dispatch) => {
+        try {
+            let addFavorite = await axios.put(`http://localhost:3001/api/users/lists?list=favorites`, {mangaId:id})
+            return dispatch({
+                type: 'ADD_FAVORITE',
+                payload: addFavorite.data
+            });
+        } catch (error){
+            console.log(error)
+        }
+    };
+};
