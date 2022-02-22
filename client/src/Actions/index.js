@@ -43,6 +43,8 @@ export const GET_PANEL_MANGAS  = 'GET_PANEL_MANGAS'
 export const BUY_CHAPTERS  =  'BUY_CHAPTERS'
 export const GET_SELLER_ORDER = 'GET_SELLER_ORDER'
 export const GET_BUYER_ORDER = 'GET_BUYER_ORDER'
+export const CREATE_COMMENT = 'CREATE_COMMENT'
+export const SEE_COMMENTS = 'SEE_COMMENTS'
 
 const axios = require("axios");
 
@@ -747,6 +749,39 @@ export let getSellOrders = () =>{
             return dispatch({
                 type: 'GET_SELL_ORDERS',
                 payload: getSellOrders.data
+            });
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+}
+                
+//-------------------- CREAR COMENTARIOS ---------------------------------//
+export let createComment = (payload) => {
+    return async function (dispatch) {
+        console.log(payload,'pay')
+        try{
+            const comments = await axios.post(`http://localhost:3001/api/comments/addComent`, payload , {withCredentials:true});
+            console.log(comments,'comentarios')
+            dispatch({
+                type: "CREATE_COMMENT",
+                payload: comments.data 
+            });
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+}
+
+//--------------------- ver comentarios -------------------------------//
+
+export let verComentarios = (id) => {
+    return async function (dispatch) {
+        try {
+            let allComments = await axios.get(`http://localhost:3001/api/comments/getComments/${id}`, {withCredentials:true})
+            return dispatch({
+                type: 'SEE_COMMENTS',
+                payload: allComments.data
             });
         } catch (error){
             console.log(error)

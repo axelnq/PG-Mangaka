@@ -41,7 +41,9 @@ import {
     GET_BUYER_ORDER,
     GET_SELLER_ORDER,
     GET_PANEL_MANGAS,
-     BUY_CHAPTERS
+     BUY_CHAPTERS,
+    GET_PANEL_MANGAS,
+    SEE_COMMENTS,
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -76,7 +78,9 @@ const initialState = {
     getBuyerOrder: [],
     getSellerOrder: [],
     panelMangas: [],
-    chapters: []
+    chapters: [],
+    panelMangas: [],
+    allComments:[],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -312,6 +316,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state
             }
+        case SEE_COMMENTS:
+            return {
+                ...state,
+                allComments: payload
+            };
         default:
             return state;
     }

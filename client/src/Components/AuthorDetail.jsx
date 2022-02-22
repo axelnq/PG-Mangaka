@@ -30,7 +30,7 @@ const _ArrayBufferToBase64 = (buffer) => {
 export default function AuthorDetail() {
    
     const dispatch = useDispatch()
-    const {id} = useParams()
+    const {id} = useParams()   
 
     useEffect(() => {
         dispatch(getAuthorDetail(id))
