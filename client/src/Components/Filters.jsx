@@ -61,11 +61,13 @@ const Filters = () => {
         ::-webkit-scrollbar {
             width: 0px;
             background: transparent; /* make scrollbar transparent */
+        }@media only screen and (max-width: 400px) {
+            width: 100%
         }
     `
 
     return (
-            <StackContainer sx={{ backgroundColor: '#192A45' }} direction="row" justifyContent='center' alignItems="center" >
+            <StackContainer sx={{ backgroundColor: '#192A45' }}  >
                 <Button variant="contained" onClick={handleRecomendation} sx={{ color: '#357DED', px:'60px',width: '150px', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '1rem', borderRadius: 2 }}>Para Vos</Button>
                 <FormControl sx={{  backgroundColor: '#000',width: '150px', my: '1rem', mx: '1rem', borderRadius: 2, px:'60px' }}>
                     <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED', width: '150px' }}>GÉNEROS POPULARES</InputLabel>

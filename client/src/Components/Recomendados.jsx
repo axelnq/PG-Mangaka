@@ -22,12 +22,11 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
         
     `
     return(
-        <Stack direction='column' sx={{width: '100%'}}> <Typography variant="h5" gutterBottom component="div">Recientes</Typography>
-            <StackContainer direction="column" sx={{ my: '2rem'}} id='recientes'>
-               
+        <Stack direction='column' sx={{width: '100%'}}> 
+            <Typography variant="h5" gutterBottom component="div" sx={{my:'1rem'}}>Recientes</Typography>
+            <StackContainer direction="column" sx={{ my: '1rem'}} id='recientes'>
                      <Stack direction="row"  >
                         { 
-                            // console.log('recientes', mangasRecientes)
                             mangasRecientes.data ? mangasRecientes.data?.map((m, i) => {
                                 return (
                                     <div key={i} >
@@ -45,8 +44,9 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                         }
                     </Stack>
                 
-            </StackContainer> <Typography variant="h5" gutterBottom component="div">Destacados</Typography>
-            <StackContainer direction="column" sx={{ my: '2rem'}} id='destacados'>
+            </StackContainer> 
+            <Typography variant="h5" gutterBottom component="div" sx={{my:'1rem'}}>Destacados</Typography>
+            <StackContainer direction="column" sx={{ my: '1rem'}} id='destacados'>
                
                     <Stack direction="row" sx={{ width:'70rem'}} >
                         {
@@ -66,17 +66,18 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                             })
                         } 
                     </Stack>
-            </StackContainer><Typography variant="h5" gutterBottom component="div">Autores Populares</Typography>
-            <StackContainer direction="column" sx={{ my: '2rem'}}>
+            </StackContainer>
+            <Typography variant="h5" gutterBottom component="div" sx={{my:'1rem'}}>Autores Populares</Typography>
+            <StackContainer direction="column" sx={{ my: '1rem'}}>
                 
                     <Stack direction="row" sx={{ width:'70rem'}} >
                         {
                             autoresPopulares.data && autoresPopulares.data.map(m => {
                                 console.log(m)
                                 return (
-                                    <div key={m.id}>
+                                    <Stack key={m.id} direction="row" spacing={2}>
                                        <CardAuthor image={m.avatar} name={m.name}/> 
-                                    </div>
+                                    </Stack>
                                 )
                             })
                         }
