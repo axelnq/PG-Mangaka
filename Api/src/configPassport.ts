@@ -34,6 +34,7 @@ module.exports = function (passport: any) {
         },
       });
       if (!user) return done(null, false); // no hay error pero no se encontro un usuario
+      if (!(user.active)) return done(null,false)
       if (user && user.password) {
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) throw err;
@@ -66,7 +67,9 @@ module.exports = function (passport: any) {
               email: profile.emails[0].value,
             },
           });
+          
           if (user) {
+            if (!(user.active)) return done(null,false)
             // done(null, user);
             done(null, user);
           } else {

@@ -170,18 +170,7 @@ export default function Register() {
 					onBlur={handleBlur}
 					required
 				/>
-				{errors.email && (
-					<p
-						style={{
-							backgroundColor: "#D0342C",
-							fontSize: "16px",
-							color: "white",
-							borderRadius: "0px 0px 5px 5px",
-						}}
-					>
-						{errors.email}
-					</p>
-				)}
+				{errors.email && <p style={{backgroundColor:"#D0342C", fontSize: "16px", color: "white", borderRadius: "0px 0px 5px 5px"}}>{errors.email}</p>}
 
 				<FormControl
 					error={errors.password ? true : false}
@@ -198,6 +187,7 @@ export default function Register() {
 						Password
 					</InputLabel>
 					<FilledInput
+						
 						id="filled-adornment-password"
 						name="password"
 						type={passwords.showPassword ? "text" : "password"}
@@ -224,16 +214,7 @@ export default function Register() {
 					/>
 				</FormControl>
 				{errors.password && (
-					<p
-						style={{
-							backgroundColor: "#D0342C",
-							fontSize: "16px",
-							color: "white",
-							borderRadius: "0px 0px 5px 5px",
-						}}
-					>
-						{errors.password}
-					</p>
+					<p style={{backgroundColor:"#D0342C", fontSize: "16px", color: "white", borderRadius: "0px 0px 5px 5px"}}>{errors.password}</p>
 				)}
 				<FormControl
 					error={errors.repeatedPassword ? true : false}
@@ -250,6 +231,7 @@ export default function Register() {
 						Repeat password
 					</InputLabel>
 					<FilledInput
+						
 						required
 						id="filled-adornment-repeated-password"
 						name="repeatedPassword"
@@ -279,25 +261,12 @@ export default function Register() {
 					/>
 				</FormControl>
 				{errors.repeatedPassword && (
-					<p
-						style={{
-							backgroundColor: "#D0342C",
-							fontSize: "16px",
-							color: "white",
-							borderRadius: "0px 0px 5px 5px",
-						}}
-					>
-						{errors.repeatedPassword}
-					</p>
+					<p style={{backgroundColor:"#D0342C", fontSize: "16px", color: "white", borderRadius: "0px 0px 5px 5px"}}>{errors.repeatedPassword}</p>
 				)}
 				<RegisterButton
 					sx={
 						Object.entries(errors).length === 0
-							? {
-									backgroundColor: "#0063cc",
-									color: "white",
-									mt: 3,
-							  }
+							? { backgroundColor: "#0063cc", color: "white", mt: 3 }
 							: { display: "none" }
 					}
 					type="submit"

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import {useDispatch, useSelector} from 'react-redux';
 import {getUser} from '../../Actions/index';
-import Snackbar, {initialSnack} from './Snackbar';
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -15,13 +14,11 @@ const GoogleUsername = () => {
 const dispatch = useDispatch();
 	const { user } = useSelector((state) => state);
 	const [newUsername, setUsername] = useState("");
-	const [snack, setSnack] = useState(initialSnack);
 	const handleChange = (e) => {
 		setUsername(e.target.value);
 	};
 	const handleSubmitUsername = (e) => {
 		e.preventDefault();
-		setSnack(initialSnack);
 		if (newUsername) {
 			axios
 				.put(
@@ -30,13 +27,13 @@ const dispatch = useDispatch();
 					{ withCredentials: true }
 				)
 				.then((res) =>{
-					setSnack({type: "success", message: res.data.message})
-					dispatch(getUser());
+					alert(res.data.message)
+					return dispatch(getUser());
 				})
 				.catch((error) => console.log(error));
 				setUsername("");
 		} else {
-			setSnack({type:"error", message: "Introduzca un username"})
+			alert("Introduzca un username");
 		}
 	};
 
@@ -70,7 +67,6 @@ const dispatch = useDispatch();
 					Cambiar Username
 				</Button>
 			</Box>
-			{snack.message && <Snackbar type={snack.type} message={snack.message} />}
 		</Box>
 	);
 }

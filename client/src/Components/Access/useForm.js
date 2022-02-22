@@ -20,7 +20,6 @@ export function useForm(initialForm, validation) {
 		e.preventDefault();
 		//setLoading(true);
 		//form Data
-		
 		const formData = new FormData();
 		formData.append("name", form.name);
 		formData.append("username", form.username);

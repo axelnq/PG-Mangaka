@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../Actions/index";
-import Snackbar, { initialSnack } from "./Snackbar";
+import {useDispatch, useSelector} from 'react-redux';
+import {getUser} from '../../Actions/index';
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -15,7 +14,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
 //css
 import "animate.css";
 //validar email
@@ -31,7 +29,6 @@ const initialForm = {
 const Email = () => {
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state);
-	const [snack, setSnack] = React.useState(initialSnack);
 	const [form, setForm] = useState(initialForm);
 	const [show, setShow] = React.useState(false);
 	const handleClickShowPassword = () => {
@@ -43,24 +40,22 @@ const Email = () => {
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setSnack(initialSnack);
 		if (regEmail.test(form.newEmail)) {
 			axios
-				.put("http://localhost:3001/api/profile/updateEmail", form, {
-					withCredentials: true,
-				})
-
-				.then((res) => {
-					setSnack({ message: res.data.message, type: "success" });
-					dispatch(getUser());
+				.put(
+					"http://localhost:3001/api/profile/updateEmail",					
+					form,
+					{ withCredentials: true }
+				)
+				
+				.then((res) =>{
+					alert(res.data.message)
+					return dispatch(getUser());
 				})
 				.catch((error) => console.log(error));
-			setForm(initialForm);
+				setForm(initialForm);
 		} else {
-			setSnack({
-				type: "error",
-				message: "Email inválido",
-			});
+			alert("Email inválido");
 		}
 	};
 	return (
@@ -124,9 +119,6 @@ const Email = () => {
 			<Button sx={{ mt: 3 }} type="submit" variant="contained">
 				Cambiar Email
 			</Button>
-			{snack.message && (
-				<Snackbar type={snack.type} message={snack.message} />
-			)}
 		</Box>
 	);
 };
