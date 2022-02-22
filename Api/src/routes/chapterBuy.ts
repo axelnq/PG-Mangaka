@@ -3,11 +3,13 @@ import { db } from "../app";
 import Chapter from "../classes/Chapter";
 import User from "../classes/User";
 import internalOrder from "../classes/InternalOrder";
+import { isAuthenticated } from "./auth";
 export const internalOrderRouter = Router();
 
-internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
+internalOrderRouter.post<{}, {}>("/buyChapter", isAuthenticated, async (req, res, next) => {
   const { sellerId, productId } = req.body;
   let buyeruser = req.user;
+  let productid = Number(productId)
   // let tempSeller = {};
   let buyer = await db.user.findUnique({
     //@ts-ignore
@@ -15,7 +17,7 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
   });
   let seller = await db.user.findUnique({ where: { id: sellerId } });
 
-  let product = await db.chapter.findUnique({ where: { id: productId } });
+  let product = await db.chapter.findUnique({ where: { id: productid } });
   if (buyer && seller && product) {
     if (buyer.coins - product.price < 0) {
       res.send("Insuficient coins ");
@@ -25,7 +27,7 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
         sellerId,
         //@ts-ignore
         buyeruser.id,
-        productId,
+        productid,
 
         product.price
       );
@@ -47,24 +49,35 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
           },
           data: {
             coins: buyer.coins - product.price,
-            chapters: [...buyer.chapters, productId],
+            chapters: [...buyer.chapters, productid],
             library: [...buyer.library, product.mangaId],
           },
         });
+<<<<<<< HEAD
         res.redirect(`http://localhost:3000/reader/:${productId}`);
         // res.send([newIorder, updateseller, updatebuyer]);
+=======
+
+        res.send("exito");
+        // res.redirect("http://localhost:3000");
+>>>>>>> 99e1f0a352761164f094ce0d1b7d43abec510307
       } else {
         const updatebuyer = await db.user.update({
           where: {
             username: buyer.username,
           },
           data: {
-            chapters: [...buyer.chapters, productId],
+            chapters: [...buyer.chapters, productid],
             coins: buyer.coins - product.price,
           },
         });
+<<<<<<< HEAD
         res.redirect(`http://localhost:3000/reader/:${productId}`);
         // res.send([newIorder, updateseller, updatebuyer]);
+=======
+        res.send("exito");
+        // res.redirect("http://localhost:3000");
+>>>>>>> 99e1f0a352761164f094ce0d1b7d43abec510307
       }
     }
   }

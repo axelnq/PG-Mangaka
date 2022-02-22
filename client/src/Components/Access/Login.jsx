@@ -1,4 +1,6 @@
 import * as React from "react";
+import Snackbar, { initialSnack } from "../Configuration/Snackbar";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCurrentUser } from "../../Actions/index";
@@ -59,6 +61,7 @@ const initialForm = {
 export default function Login({ handleClose }) {
 	const dispatch = useDispatch();
 	const [form, setForm] = React.useState(initialForm);
+	const [snack, setSnack] = React.useState(initialSnack);
 	//ver contraseña
 	const [showPassword, setShowPassword] = React.useState(false);
 
@@ -77,10 +80,43 @@ export default function Login({ handleClose }) {
 	//submit del form
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(form);
+		setSnack(initialSnack);
 		if (form.username && form.password) {
-			dispatch(getCurrentUser(form));
-			handleClose();
+			axios
+				.post(`http://localhost:3001/api/auth/local/login`, form, {
+					headers: {
+						"Content-Type": "application/json",
+					},
+					Authorization: {
+						username: form.username,
+						password: form.password,
+					},
+					withCredentials: true,
+				})
+				.then((res) => {
+					if (res.data.msg === "usuario no logueado") {
+						setSnack({
+							type: "error",
+							message: "Usuario no logueado",
+						});
+						localStorage.clear();
+						dispatch(getCurrentUser(null));
+					}
+					setSnack({
+						type: "success",
+						message: "Login exitoso",
+					});
+					localStorage.setItem("user", JSON.stringify(res.data));
+					const user = JSON.parse(localStorage.getItem("user"));
+					dispatch(getCurrentUser(user));
+				})
+				.catch((error) => {
+					setSnack({
+						type: "error",
+						message: "Error al iniciar sesión",
+					});
+					console.log(error.message);
+				});
 		} else {
 			alert("llena todos los campos");
 		}
@@ -186,6 +222,9 @@ export default function Login({ handleClose }) {
 			>
 				Google
 			</AccessButton>
+			{snack.message && (
+				<Snackbar type={snack.type} message={snack.message} />
+			)}
 		</Box>
 	);
 }

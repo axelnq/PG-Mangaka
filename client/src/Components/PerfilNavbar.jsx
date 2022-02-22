@@ -112,6 +112,9 @@ export default function PerfilNavbar() {
         <Link to="/wishlist" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Wishlist</MenuItem>
         </Link>
+        <Link to="/favorite" style={{ textDecoration: "none", color: "white" }}>
+          <MenuItem>Favoritos</MenuItem>
+        </Link>
         <Link to="/library" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Biblioteca</MenuItem>
         </Link>

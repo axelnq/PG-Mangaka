@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import NavBar from "./Navbar";
-import CoinsPanel from "./CoinsPanel";
+import CoinsPanel from "./BoughtCoins";
 import empty from "../img/empty.png";
 import love from "../img/love.png";
 import mask from "../img/mask.png";
@@ -11,6 +11,7 @@ import mountain from "../img/mountain.png";
 import tree from "../img/tree.png";
 import flower from "../img/flower.png";
 import mangaka from "../img/mangaka.png";
+import 'animate.css';
 //mui
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
@@ -40,9 +41,17 @@ import {
     buyCoins,
     getCurrentUser,
     getPacks,
-    getPreferenceId
+    getPreferenceId,
+    getSellOrders,
+    getBuyOrders,
+    getBuyerOrder,
+    getSellerOrder,
 } from "../Actions";
 import Cart from "./Cart";
+import BoughtCoins from "./BoughtCoins";
+import GainedCoins from "./GainedCoins";
+import ExchangeCoins from "./ExchangeCoins";
+import UsedCoins from "./UsedCoins";
 // const Mercadopago = require('mercadopago');
 
 //modal
@@ -92,8 +101,12 @@ export default function Coins() {
     useEffect(() => {
         dispatch(getPacks());
         dispatch(getCurrentUser());
+        dispatch(getBuyOrders());
+        dispatch(getSellOrders());
+        dispatch(getBuyerOrder());
+        dispatch(getSellerOrder());
         let getCoins = async () => {
-            let coins = await axios("http://localhost:3001/api/profile/coins");
+            let coins = await axios("http://localhost:3001/api/profile/coins", { withCredentials: true });
             console.log(coins.data);
             setCoins(coins.data);
         };
@@ -103,10 +116,19 @@ export default function Coins() {
     let packs = useSelector((state) => state.getPacks);
     let user = useSelector((state) => state.user);
     const data2 = useSelector((state) => state.preferenceId);
-    console.log(data2);
-    console.log(packs);
-    console.log(user);
-
+    // console.log(data2);
+    // console.log(packs);
+    // console.log(user);
+    const BuyOrders = useSelector(state => state.getBuyOrders);
+    console.log(BuyOrders)
+    const SellOrders = useSelector(state => state.getSellOrders);
+    console.log(SellOrders)
+    const BuyerOrder = useSelector(state => state.getBuyerOrder);
+    console.log(BuyerOrder)
+    const SellerOrder = useSelector(state => state.getSellerOrder);
+    console.log(SellerOrder)
+    // console.log(BuyOrders);
+    // console.log(SellOrders);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -131,6 +153,8 @@ export default function Coins() {
     const changeImg = () => {
         let coinRandom = Math.floor(Math.random() * coinImgs.length);
         document.getElementById("coinImg").src = coinImgs[coinRandom];
+        // document.getElementById("coinImg").classList.remove('animate__heartBeat')
+        // document.getElementById("coinImg").classList.add('animate__backInDown')
     };
 
     const [buy, setBuy] = useState(false);
@@ -190,8 +214,8 @@ export default function Coins() {
             <NavBar />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Box sx={{ mt: "2rem", mb: "1rem", width: "96px" }}>
-                    <Button sx={{ borderRadius: "50%" }} onClick={changeImg}>
-                        <img id="coinImg" src={coinImgs[0]} alt="" />
+                    <Button className=" coinImg" sx={{ borderRadius: "50%" }} onClick={changeImg}>
+                        <img className="animate__heartBeat coinImg" id="coinImg" src={coinImgs[0]} alt="" />
                     </Button>
                 </Box>
             </Box>
@@ -222,7 +246,17 @@ export default function Coins() {
                         >
                             <Tab label="Compradas" {...a11yProps(0)} />
                             <Tab label="Usadas" {...a11yProps(1)} />
-                            <Tab label="Recibidas" {...a11yProps(2)} />
+                            {
+                                user.creatorMode === true ?
+
+                                    <Tab label="Cambiadas" {...a11yProps(2)} />
+                                    : null
+                            }
+                            {
+                                user.creatorMode === true ?
+                                    <Tab label="Recibidas" {...a11yProps(3)} />
+                                    : null
+                            }
                         </Tabs>
                     </AppBar>
                     <SwipeableViews
@@ -231,20 +265,33 @@ export default function Coins() {
                         onChangeIndex={handleChangeIndex}
                     >
                         <TabPanel value={value} index={0} dir={theme.direction}>
-                            <CoinsPanel />
+                            <BoughtCoins BuyOrders={BuyOrders} />
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction}>
-                            <CoinsPanel />
+                            <UsedCoins BuyerOrder={BuyerOrder} />
                         </TabPanel>
-                        <TabPanel value={value} index={2} dir={theme.direction}>
-                            <CoinsPanel />
-                        </TabPanel>
+
+                        {
+                            user.creatorMode === true ?
+
+                                < TabPanel value={value} index={2} dir={theme.direction}>
+                                    <ExchangeCoins SellOrders={SellOrders} />
+                                </TabPanel>
+                                : null
+                        }
+                        {
+                            user.creatorMode === true ?
+                                < TabPanel value={value} index={3} dir={theme.direction}>
+                                    <GainedCoins SellerOrder={SellerOrder} />
+                                </TabPanel>
+                                : null
+                        }
                     </SwipeableViews>
                 </Box>
-            </Box>
+            </Box >
 
             {/* modal */}
-            <div>
+            < div >
                 <Dialog
                     open={open}
                     TransitionComponent={Transition}
@@ -316,7 +363,7 @@ export default function Coins() {
                         <Button onClick={handleClose}>Agree</Button>
                     </DialogActions> */}
                 </Dialog>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

@@ -166,7 +166,7 @@ export default function Comentarios({idChapter} ) {
                                             <ListItemAvatar>
                                                 <Avatar 
                                                     src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(c.userAvatar.avatar)}
-                                                    />
+                                                />
                                             </ListItemAvatar>
             
                                             <ListItemText

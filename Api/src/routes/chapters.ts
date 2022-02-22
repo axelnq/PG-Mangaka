@@ -227,12 +227,12 @@ chaptersRouter.get("/chapter/cover/:idChapter", async (req, res, next) => {
 // Votación de un capitulo
 chaptersRouter.put<{ idChapter: string }, {}>("/chapter/vote/:idChapter", isAuthenticated, async (req, res) => {
   const { idChapter } = req.params;
-  const { points } = req.body;
+  let { points } = req.body;
   const user = req.user;
   //@ts-ignore
   const idUser = user.id;
 
-  if (points >= 1 && points <= 5) return res.status(400).send({ msg: "Points most be between 1 and 5" })
+  if (!(points >= 1 && points <= 5)) return res.status(400).send({ msg: "Points most be between 1 and 5" })
 
   try {
 

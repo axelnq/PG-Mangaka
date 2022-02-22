@@ -36,6 +36,12 @@ import {
     FAVORITE,
     GET_POPULAR_AUTHORS,
     REMOVE_FAVORITE,
+    GET_BUY_ORDERS,
+    GET_SELL_ORDERS,
+    GET_BUYER_ORDER,
+    GET_SELLER_ORDER,
+    GET_PANEL_MANGAS,
+    BUY_CHAPTERS,
     SEE_COMMENTS,
     // GET_PREFERENCE_ID
 } from "../Actions";
@@ -66,6 +72,13 @@ const initialState = {
     authorDetail: undefined,
     favorite: [],
     popularAuthors: [],
+    getBuyOrders: [],
+    getSellOrders: [],
+    getBuyerOrder: [],
+    getSellerOrder: [],
+    panelMangas: [],
+    chapters: [],
+    panelMangas: [],
     allComments:[],
 };
 
@@ -171,11 +184,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 userInfo: payload
             }
-        case GET_DETAIL_WISHLIST:
-            return  {
-                ...state,
-                wishlist: state.wishlist.concat(payload)
-            }
         case GET_DETAIL_LIBRARY:
             return {
                 ...state,
@@ -273,6 +281,35 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 favorite: {data:remove, totalFavorites:remove.length}
             };
+        case GET_BUY_ORDERS: 
+            return {
+                ...state,
+                getBuyOrders: payload
+            };
+        case GET_SELL_ORDERS: 
+            return {
+                ...state,
+                getSellOrders: payload
+            };
+        case GET_PANEL_MANGAS:
+            return {
+                ...state,
+                panelMangas: payload
+            }
+            case GET_BUYER_ORDER:
+            return {
+                ...state,
+                getBuyerOrder: payload
+            }
+            case GET_SELLER_ORDER:
+            return {
+                ...state,
+                getSellerOrder: payload
+            }
+        case BUY_CHAPTERS:
+            return {
+                ...state
+            }
         case SEE_COMMENTS:
             return {
                 ...state,

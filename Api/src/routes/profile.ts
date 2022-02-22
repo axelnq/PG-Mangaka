@@ -53,6 +53,53 @@ profileRouter.get("/", isAuthenticated, async (req, res, next) => {
     });
   }
 });
+
+// Obtiene todos los mangas creados por el usuario, junto a sus capitulos y el total de ellos para cada manga
+profileRouter.get("/mangas", isAuthenticated, async (req, res, next) => {
+  try{
+  //@ts-ignore
+  const {id} = req.user;
+  const mangasCreated = await db.manga.findMany({
+    where: {
+      authorId: id,
+      active: true,
+    },
+    select: {
+      id: true,
+      title: true,
+      image: true,
+      createdAt: true,
+      uptadedAt: true,
+      genre: true,
+      rating: true,
+      chapters: {
+        where: {
+          active: true,
+        },
+        select: {
+          id: true,
+          title: true,
+          points: true,
+          coverImage: true,
+          images: true,
+        },
+      },
+    },
+  });
+  //@ts-ignore
+  mangasCreated.chapters.forEach((chapter: any) => {
+    chapter.totalPages = chapter.images.length;
+  });
+  res.json({ mangasCreated: mangasCreated });
+} catch (error) {
+  console.log(error);
+  res.status(500).json({
+    error:
+      "Something went wrong, if you think it is an error, contact support",
+  });
+}
+})
+
 // obtiene los favoritos del usuario
 profileRouter.get("/favorites", isAuthenticated, async (req, res, next) => {
   //@ts-ignore

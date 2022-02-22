@@ -1,10 +1,10 @@
 import { React, useEffect } from 'react'
-import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
+import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText, LinearProgress } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Navbar from './Navbar'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMangaDetailWishList, getWishList } from '../Actions';
+import { getWishList } from '../Actions';
 
 const axios = require("axios");
 
@@ -33,34 +33,35 @@ const Wishlist = () => {
 
     useEffect(() => {
         dispatch(getWishList())
-        wishlist.map(m => dispatch(getMangaDetailWishList(m)))
     }, [dispatch])
 
 
     return (
        <div>
            <Navbar/>
-           <Container maxWidth="sm" sx={{backgroundColor:'#001B44'}}>
-                <Typography variant='h3' color='#357DED'>My Wishlist</Typography>
+           <Container maxWidth="sm" sx={{backgroundColor:'#001B44', borderRadius:'5%', height:'35rem', width:'100%', padding:0, my:'1rem'}}>
+                <Typography variant='h3' color='#357DED' sx={{padding:'1rem'}}>My Wishlist</Typography>
                 <List sx={{ width: '100%', color:'#fff'}} >
                     { 
-                       wishlist && wishlist.data?.map((m, i) => {
+                       wishlist.data ? wishlist.data?.map((m, i) => {
                              return (
-                                 <ListItem key={i} sx={{width: '100%',}}>
-                                    <ListItemAvatar>
-                                        <Avatar src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(m.image)} variant="rounded" sx={{ width: 60, height: 60 }}/>
-                                    </ListItemAvatar>
-                                    <ListItemText sx={{ mx: '1rem'}}>
-                                        <Typography variant='h5'>{m.title}</Typography>
-                                        <Typography variant='body2'>{m.author.name}</Typography>
-                                        <Typography variant='body2'>{m.genre?.join(', ')}</Typography>
-                                    </ListItemText>
+                             <ListItem key={i} sx={{width: '100%',}}>
+                                        <ListItemAvatar>
+                                            <Avatar src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(m.image)} variant="rounded" sx={{ width: 60, height: 60 }}/>
+                                        </ListItemAvatar>
+                                        <ListItemText sx={{ mx: '1rem'}}>
+                                            <Typography variant='h5'>{m.title}</Typography>
+                                            <Typography variant='body2'>{m.author.name}</Typography>
+                                            <Typography variant='body2'>{m.genre?.join(', ')}</Typography>
+                                        </ListItemText>
                                     <IconButton sx={{ mx: '1rem', color: '#fff'}} onClick={e => handleDeleteManga(m.id)}>
                                         <DeleteIcon />
                                     </IconButton>
-                                 </ListItem>
+                                 </ListItem> 
+                                 
                              )
-                         })
+                         }):
+                                 <LinearProgress sx={{ height: '0.5rem ' }} />
                     }
                     </List>
             </Container>
