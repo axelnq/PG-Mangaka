@@ -40,6 +40,9 @@ export const REMOVE_FAVORITE = 'REMOVE_FAVORITE'
 export const GET_BUY_ORDERS = 'GET_BUY_ORDERS'
 export const GET_SELL_ORDERS = 'GET_SELL_ORDERS'
 export const GET_PANEL_MANGAS  = 'GET_PANEL_MANGAS'
+export const BUY_CHAPTERS  =  'BUY_CHAPTERS'
+export const GET_SELLER_ORDER = 'GET_SELLER_ORDER'
+export const GET_BUYER_ORDER = 'GET_BUYER_ORDER'
 export const CREATE_COMMENT = 'CREATE_COMMENT'
 export const SEE_COMMENTS = 'SEE_COMMENTS'
 
@@ -802,6 +805,53 @@ export let getPanelMangas = (payload) => {
             });
         } catch (error) {
             console.log(error);
+        }
+    };
+};
+
+export let buyChapters = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log(payload);
+            let buyChapters = await axios.post(
+                `http://localhost:3001/api/buyChapter/buyChapter`,
+                payload,
+                { withCredentials: true }
+            );
+            return dispatch({
+                type: BUY_CHAPTERS,
+                payload: buyChapters,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+export let getBuyerOrder = () =>{
+    return async (dispatch) => {
+        try {
+            let getBuyerOrder = await axios.get(`http://localhost:3001/api/buyChapter/getBuyerOrder`, {withCredentials:true})
+            return dispatch({
+                type: 'GET_BUYER_ORDER',
+                payload: getBuyerOrder.data
+            });
+        } catch (error){
+            console.log(error)
+        }
+    };
+};
+
+export let getSellerOrder = () =>{
+    return async (dispatch) => {
+        try {
+            let getSellerOrder = await axios.get(`http://localhost:3001/api/buyChapter/getSellerOrder`, {withCredentials:true})
+            return dispatch({
+                type: 'GET_SELLER_ORDER',
+                payload: getSellerOrder.data
+            });
+        } catch (error){
+            console.log(error)
         }
     };
 };
