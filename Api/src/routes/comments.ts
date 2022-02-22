@@ -42,53 +42,75 @@ commentsRouter.get("/getComments/:idChapter", async (req, res) => {
 
 commentsRouter.post("/addComent",isAuthenticated, async (req, res) => {
 
-    const { idChapter, comment } = req.body;
+    const { idChapter,comment } = req.body;
     //@ts-ignore
     const username = req.user.username
     const commentUser = `${username}/@/${comment}`
 
     if (!(idChapter && username && comment)) return res.send({ message: "Some necessary information is missing" })
-
-    const chapter = await db.chapter.update({
-        where: {
+    
+    try {
+        const chapter2 = await db.chapter.findUnique({where: {
             id: Number(idChapter),
-        },
-        data: {
-            comments: {
-                push: commentUser,
-            },
-        },
-    })
+        }})
+        if (!chapter2) return res.send({ message: "Chapter not found" })
 
-    res.send({message:"Comment added"});
+        const chapter = await db.chapter.update({
+            where: {
+                id: Number(idChapter),
+            },
+            data: {
+                comments: {
+                    push: commentUser,
+                },
+            },
+        })
+
+        res.send({message:"Comment added"});
+    } catch (error: any) {
+        console.log(error)
+        return res.status(400).send({ error: error.message })
+    }
+
 });
 
 
-commentsRouter.put("/admin/deleteComment", async (req, res) => {
+commentsRouter.put("/admin/deleteComment", isAuthenticated, async (req, res) => {
 
     const { idChapter, username, comment } = req.body;
 
-    const comments = await db.chapter.findUnique({
-        where: { id: Number(idChapter) },
-        select: { comments: true }
-    });
-
-    if (!comments) return res.send({ message: 'Comments not found' })
-    let resComments = []
-
-    let deleteComment = `${username}/@/${comment}`
-
-    resComments = comments.comments.filter((comment:any) => comment !== deleteComment)
-
-    await db.chapter.update({
-        where: {
-            id: Number(idChapter),
-        },
-        data: {
-            comments: resComments,
-        },
-    })
-
-    res.send({ message: "Comment deleted" })
+    //@ts-ignore
+    const admin = req.user
+    //@ts-ignore
+    if (!(admin.role === "ADMIN" || admin.role === "SUPERADMIN")) {
+      return res.status(403).send({ message: "You don't have permission to do this, Are you trying to hack us?" });
+    }
+    try {
+        const comments = await db.chapter.findUnique({
+            where: { id: Number(idChapter) },
+            select: { comments: true }
+        });
+    
+        if (!comments) return res.send({ message: 'Comments not found' })
+        let resComments = []
+    
+        let deleteComment = `${username}/@/${comment}`
+    
+        resComments = comments.comments.filter((comment:any) => comment !== deleteComment)
+    
+        await db.chapter.update({
+            where: {
+                id: Number(idChapter),
+            },
+            data: {
+                comments: resComments,
+            },
+        })
+    
+        res.send({ message: "Comment deleted" })
+    } catch (error) {
+        return res.sendStatus(404).json({ message: error });
+    }
+    
 
 })
