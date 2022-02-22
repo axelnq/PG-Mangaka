@@ -56,7 +56,6 @@ function App() {
           <>
             <Route path="/library" element={<Biblioteca />} />
             <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/create" element={<CreateForm />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/createChapters/:id" element={<CreateChapters />} />
             {/*Configuración de Perfil*/}
@@ -70,6 +69,7 @@ function App() {
               <Route path="about" element={<About />} />
               <Route path="personalmangas" element={<PersonalMangas />} />
               <Route path="panel" element={<Panel />} />
+              <Route path="create" element={<CreateForm />} />
               <Route path="CheckoutForm/:id" element={<CheckoutForm />} />
             </Route>
             </>

@@ -38,7 +38,10 @@ import {
     REMOVE_FAVORITE,
     GET_BUY_ORDERS,
     GET_SELL_ORDERS,
+    GET_BUYER_ORDER,
+    GET_SELLER_ORDER,
     GET_PANEL_MANGAS,
+    BUY_CHAPTERS,
     SEE_COMMENTS,
     // GET_PREFERENCE_ID
 } from "../Actions";
@@ -71,6 +74,10 @@ const initialState = {
     popularAuthors: [],
     getBuyOrders: [],
     getSellOrders: [],
+    getBuyerOrder: [],
+    getSellerOrder: [],
+    panelMangas: [],
+    chapters: [],
     panelMangas: [],
     allComments:[],
 };
@@ -176,11 +183,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 userInfo: payload
-            }
-        case GET_DETAIL_WISHLIST:
-            return  {
-                ...state,
-                wishlist: state.wishlist.concat(payload)
             }
         case GET_DETAIL_LIBRARY:
             return {
@@ -293,6 +295,20 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 panelMangas: payload
+            }
+            case GET_BUYER_ORDER:
+            return {
+                ...state,
+                getBuyerOrder: payload
+            }
+            case GET_SELLER_ORDER:
+            return {
+                ...state,
+                getSellerOrder: payload
+            }
+        case BUY_CHAPTERS:
+            return {
+                ...state
             }
         case SEE_COMMENTS:
             return {

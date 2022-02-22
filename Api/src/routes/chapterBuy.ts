@@ -1,73 +1,81 @@
 import { Router } from "express";
 import { db } from "../app";
 import Chapter from "../classes/Chapter";
-import User, { addCoins } from "../classes/User";
+import User from "../classes/User";
 import internalOrder from "../classes/InternalOrder";
+import { isAuthenticated } from "./auth";
 export const internalOrderRouter = Router();
 
-internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
-  const { sellerId, productId } = req.body;
-  let buyeruser = req.user;
-  // let tempSeller = {};
-  let buyer = await db.user.findUnique({
-    //@ts-ignore
-    where: { id: buyeruser.id },
-  });
-  let seller = await db.user.findUnique({ where: { id: sellerId } });
-
-  let product = await db.chapter.findUnique({ where: { id: productId } });
-  if (buyer && seller && product) {
-    if (buyer.coins - product.price < 0) {
-      res.send("Insuficient coins ");
-    } else {
+internalOrderRouter.post<{}, {}>(
+  "/buyChapter",
+  isAuthenticated,
+  async (req, res, next) => {
+    const { sellerId, productId } = req.body;
+    let buyeruser = req.user;
+    let productid = Number(productId);
+    // let tempSeller = {};
+    let buyer = await db.user.findUnique({
       //@ts-ignore
-      let iOrder = new internalOrder(
-        sellerId,
-        //@ts-ignore
-        buyeruser.id,
-        productId,
+      where: { id: buyeruser.id },
+    });
+    let seller = await db.user.findUnique({ where: { id: sellerId } });
 
-        product.price
-      );
-      //@ts-ignore
-      const newIorder = await db.internalOrder.create({ data: iOrder });
-
-      const updateseller = await db.user.update({
-        where: {
-          username: seller.username,
-        },
-        data: {
-          coins: seller.coins + product.price,
-        },
-      });
-      if (!buyer.library.includes(product.mangaId)) {
-        const updatebuyer = await db.user.update({
-          where: {
-            username: buyer.username,
-          },
-          data: {
-            coins: buyer.coins - product.price,
-            chapters: [...buyer.chapters, productId],
-            library: [...buyer.library, product.mangaId],
-          },
-        });
-
-        res.send([newIorder, updateseller, updatebuyer]);
+    let product = await db.chapter.findUnique({ where: { id: productid } });
+    if (buyer && seller && product) {
+      if (buyer.coins - product.price < 0) {
+        res.send("Insuficient coins ");
       } else {
-        const updatebuyer = await db.user.update({
+        //@ts-ignore
+        let iOrder = new internalOrder(
+          sellerId,
+          //@ts-ignore
+          buyeruser.id,
+          productid,
+
+          product.price
+        );
+        //@ts-ignore
+        const newIorder = await db.internalOrder.create({ data: iOrder });
+
+        const updateseller = await db.user.update({
           where: {
-            username: buyer.username,
+            username: seller.username,
           },
           data: {
-            chapters: [...buyer.chapters, productId],
-            coins: buyer.coins - product.price,
+            coins: seller.coins + product.price,
           },
         });
-        res.send([newIorder, updateseller, updatebuyer]);
+        if (!buyer.library.includes(product.mangaId)) {
+          const updatebuyer = await db.user.update({
+            where: {
+              username: buyer.username,
+            },
+            data: {
+              coins: buyer.coins - product.price,
+              chapters: [...buyer.chapters, productid],
+              library: [...buyer.library, product.mangaId],
+            },
+          });
+
+          res.send("exito");
+          // res.redirect("http://localhost:3000");
+        } else {
+          const updatebuyer = await db.user.update({
+            where: {
+              username: buyer.username,
+            },
+            data: {
+              chapters: [...buyer.chapters, productid],
+              coins: buyer.coins - product.price,
+            },
+          });
+          res.send("exito");
+          // res.redirect("http://localhost:3000");
+        }
       }
     }
   }
-});
+);
 
 internalOrderRouter.post<{}, {}>("/wishlistManga", async (req, res, next) => {
   let { mangaId } = req.body;

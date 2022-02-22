@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { getUser } from "../../Actions/index";
 import { useDispatch, useSelector } from "react-redux";
+import Snackbar, {initialSnack} from './Snackbar';
 //MUI
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
@@ -43,6 +44,7 @@ const _ArrayBufferToBase64 = (buffer) => {
     binary += String.fromCharCode(byte[i]);
   }
   return window.btoa(binary);
+
 };
 
 function Profile(props) {
@@ -58,6 +60,7 @@ function Profile(props) {
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [snack, setSnack] = React.useState(initialSnack);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -65,15 +68,19 @@ function Profile(props) {
   const handleImage = (e) => {
     const formData = new FormData();
     formData.append("avatar", e.target.files[0]);
+    setSnack(initialSnack);
     axios
       .put("http://localhost:3001/api/profile/updateAvatar", formData, {
         withCredentials: true,
       })
       .then((res) => {
-        alert(res.data.message);
-        return dispatch(getUser());
+        setSnack({type: "success", message: res.data.message});
+        dispatch(getUser());
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>{
+        console.log(error)
+        setSnack({type: "error", message: "No se pudo modificar la foto"});
+      } );
   };
 
   const drawer = (
@@ -300,8 +307,10 @@ function Profile(props) {
         <Toolbar />
         <Outlet />
       </Box>
+      {snack.message && <Snackbar type={snack.type} message={snack.message}/> }
     </Box>
   );
 }
 
-export default Profile;
+
+export default Profile

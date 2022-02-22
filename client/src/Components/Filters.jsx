@@ -54,17 +54,22 @@ const Filters = () => {
 
     const StackContainer = styled(Stack)`
         width: 100%;
+        display: flex;
+        flex-direction: row;
         overflow-x: scroll;
         scrollbar-width: thin;
         ::-webkit-scrollbar {
+            width: 0px;
             background: transparent; /* make scrollbar transparent */
+        }@media only screen and (max-width: 400px) {
+            width: 100%
         }
     `
 
     return (
-            <StackContainer sx={{ backgroundColor: '#192A45' }} direction="row" justifyContent='center' alignItems="center" >
-                <Button variant="contained" onClick={handleRecomendation} sx={{ color: '#357DED',width: '150px', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '1rem', borderRadius: 2 }}>Para Vos</Button>
-                <FormControl sx={{  backgroundColor: '#000',width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>
+            <StackContainer sx={{ backgroundColor: '#192A45' }}  >
+                <Button variant="contained" onClick={handleRecomendation} sx={{ color: '#357DED', px:'60px',width: '150px', height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '1rem', borderRadius: 2 }}>Para Vos</Button>
+                <FormControl sx={{  backgroundColor: '#000',width: '150px', my: '1rem', mx: '1rem', borderRadius: 2, px:'60px' }}>
                     <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED', width: '150px' }}>GÉNEROS POPULARES</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -78,7 +83,7 @@ const Filters = () => {
                         }
                     </Select>
                 </FormControl>
-                <FormControl sx={{  backgroundColor: '#000',width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>
+                <FormControl sx={{  backgroundColor: '#000', px:'60px',width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>
                     <InputLabel id="demo-simple-select-label" sx={{ width: '150px',color: '#357DED' }}>AUTORES</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -91,7 +96,7 @@ const Filters = () => {
                         <MenuItem value={'Admin'} sx={{ color: '#357DED' }}>ADMIN</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{  backgroundColor: '#000', width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>
+                <FormControl sx={{  backgroundColor: '#000', px:'60px', width: '150px', my: '1rem', mx: '1rem', borderRadius: 2 }}>
                     <InputLabel id="demo-simple-select-label" sx={{ color: '#357DED', width: '150px' }}>ORDEN</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -106,7 +111,7 @@ const Filters = () => {
                         {/* <MenuItem value={'createdAt'} sx={{ color: '#357DED' }}>NUEVOS</MenuItem> */}
                     </Select>
                 </FormControl>
-                <Button variant="contained" onClick={handleGetAll} sx={{ color: '#357DED', width: '150px',  height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '1rem', borderRadius: 2 }}>Todos</Button>
+                <Button variant="contained" onClick={handleGetAll} sx={{ color: '#357DED', px:'60px', width: '150px',  height: '3.4rem', backgroundColor: '#000', my: '1rem', mx: '1rem', borderRadius: 2 }}>Todos</Button>
             </StackContainer>
 
     )

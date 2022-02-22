@@ -7,12 +7,8 @@ function createData(cantidad, fecha) {
 }
 
 export default function CoinsPanel(props) {
-    let GetProps = null;
-    if (props.BuyOrders) {
-        GetProps = props.BuyOrders;
-    } else if (props.SellOrders) {
-        GetProps = props.SellOrders;
-    }
+
+    let getProps = props.BuyOrders;
 
     return (
         <div><TableContainer component={Paper}>
@@ -24,8 +20,8 @@ export default function CoinsPanel(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {GetProps !== null && GetProps === props.BuyOrders ?
-                        GetProps.map((row) => (
+                    {getProps.length > 0 ?
+                        getProps.map((row) => (
                             <TableRow
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
@@ -35,16 +31,7 @@ export default function CoinsPanel(props) {
                                 <TableCell align="center">{row.createdAt.substr(0, 10)}</TableCell>
                             </TableRow>
                         ))
-                        : GetProps.map((row) => (
-                            <TableRow
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell align="center" component="th" scope="row">
-                                    {row.value}
-                                </TableCell>
-                                <TableCell align="center">{row.createdAt.substr(0, 10)}</TableCell>
-                            </TableRow>
-                        ))
+                        : <p>No hay historial.</p>
                     }
                 </TableBody>
             </Table>
