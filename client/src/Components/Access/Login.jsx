@@ -77,6 +77,7 @@ export default function Login({ handleClose }) {
 	//submit del form
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		console.log(form);
 		if (form.username && form.password) {
 			dispatch(getCurrentUser(form));
 			handleClose();
