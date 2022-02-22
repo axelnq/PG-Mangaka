@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Navbar from './Navbar'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMangaDetailWishList, getWishList } from '../Actions';
+import { getWishList } from '../Actions';
 
 const axios = require("axios");
 
@@ -33,7 +33,6 @@ const Wishlist = () => {
 
     useEffect(() => {
         dispatch(getWishList())
-        wishlist.map(m => dispatch(getMangaDetailWishList(m)))
     }, [dispatch])
 
 

@@ -177,11 +177,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 userInfo: payload
             }
-        case GET_DETAIL_WISHLIST:
-            return  {
-                ...state,
-                wishlist: state.wishlist.concat(payload)
-            }
         case GET_DETAIL_LIBRARY:
             return {
                 ...state,

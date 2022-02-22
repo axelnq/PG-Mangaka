@@ -2,7 +2,7 @@ import { React, useEffect } from 'react'
 import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
 import Navbar from './Navbar'
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, getMangaDetailWishList } from '../Actions';
+import { getUserInfo } from '../Actions';
 
 const _ArrayBufferToBase64 = (buffer) => {
     console.log(buffer)
