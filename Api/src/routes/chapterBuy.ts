@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "../app";
 import Chapter from "../classes/Chapter";
-import User, { addCoins } from "../classes/User";
+import User from "../classes/User";
 import internalOrder from "../classes/InternalOrder";
 export const internalOrderRouter = Router();
 
@@ -51,8 +51,8 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
             library: [...buyer.library, product.mangaId],
           },
         });
-
-        res.send([newIorder, updateseller, updatebuyer]);
+        res.redirect(`http://localhost:3000/reader/:${productId}`);
+        // res.send([newIorder, updateseller, updatebuyer]);
       } else {
         const updatebuyer = await db.user.update({
           where: {
@@ -63,7 +63,8 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
             coins: buyer.coins - product.price,
           },
         });
-        res.send([newIorder, updateseller, updatebuyer]);
+        res.redirect(`http://localhost:3000/reader/:${productId}`);
+        // res.send([newIorder, updateseller, updatebuyer]);
       }
     }
   }
