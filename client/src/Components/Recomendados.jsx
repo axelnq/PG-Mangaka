@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 
 const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) => {
     const StackContainer = styled(Stack)`
-        width: 70rem;
+        width: 100%;
         display: flex;
         flex-direction: row;
         overflow-x: scroll;
@@ -16,18 +16,17 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
         ::-webkit-scrollbar {
             width: 0px;
             background: transparent; /* make scrollbar transparent */
+        }@media only screen and (max-width: 400px) {
+            width: 100%
         }
-        @media only screen and (max-width: 600px) {
-            width: 30rem
-          }
+        
     `
     return(
-        <Stack direction='column'>
-            <Stack direction="column" sx={{ my: '2rem'}} id='recientes'>
-                <Typography variant="h5" gutterBottom component="div">Recientes</Typography>
-                     <StackContainer direction="row" sx={{ width:'70rem'}} >
+        <Stack direction='column' sx={{width: '100%'}}> 
+            <Typography variant="h5" gutterBottom component="div" sx={{my:'1rem'}}>Recientes</Typography>
+            <StackContainer direction="column" sx={{ my: '1rem'}} id='recientes'>
+                     <Stack direction="row"  >
                         { 
-                            // console.log('recientes', mangasRecientes)
                             mangasRecientes.data ? mangasRecientes.data?.map((m, i) => {
                                 return (
                                     <div key={i} >
@@ -43,12 +42,13 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                             }) : 
                             <LinearProgress sx={{ height: '0.5rem ' }}/>
                         }
-                    </StackContainer>
+                    </Stack>
                 
-            </Stack>
-            <Stack direction="column" sx={{ my: '2rem'}} id='destacados'>
-                <Typography variant="h5" gutterBottom component="div">Destacados</Typography>
-                    <StackContainer direction="row" sx={{ width:'70rem'}} >
+            </StackContainer> 
+            <Typography variant="h5" gutterBottom component="div" sx={{my:'1rem'}}>Destacados</Typography>
+            <StackContainer direction="column" sx={{ my: '1rem'}} id='destacados'>
+               
+                    <Stack direction="row" sx={{ width:'70rem'}} >
                         {
                             // console.log('destacados', mangasDestacados)
                             mangasDestacados && mangasDestacados.data?.map((m, i) => {
@@ -65,23 +65,24 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                                 )
                             })
                         } 
-                    </StackContainer>
-            </Stack>
-            <Stack direction="column" sx={{ my: '2rem'}}>
-                <Typography variant="h5" gutterBottom component="div">Autores Populares</Typography>
-                    <StackContainer direction="row" sx={{ width:'65rem'}} >
+                    </Stack>
+            </StackContainer>
+            <Typography variant="h5" gutterBottom component="div" sx={{my:'1rem'}}>Autores Populares</Typography>
+            <StackContainer direction="column" sx={{ my: '1rem'}}>
+                
+                    <Stack direction="row" sx={{ width:'70rem'}} >
                         {
                             autoresPopulares.data && autoresPopulares.data.map(m => {
                                 console.log(m)
                                 return (
-                                    <div key={m.id}>
+                                    <Stack key={m.id} direction="row" spacing={2}>
                                        <CardAuthor image={m.avatar} name={m.name}/> 
-                                    </div>
+                                    </Stack>
                                 )
                             })
                         }
-                    </StackContainer>
-            </Stack>
+                    </Stack>
+            </StackContainer>
             
         </Stack>
     )
