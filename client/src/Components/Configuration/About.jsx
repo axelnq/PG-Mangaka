@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {useDispatch, useSelector} from 'react-redux';
-import {getUser} from '../../Actions/index';
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../Actions/index";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Snackbar, { initialSnack } from "./Snackbar";
 //CSS
 import "animate.css";
 
@@ -14,11 +15,13 @@ const About = () => {
 	const { user } = useSelector((state) => state);
 	//estado
 	const [about, setAbout] = useState("");
+	const [snack, setSnack] = useState(initialSnack);
 	const handleChange = (e) => {
 		setAbout(e.target.value);
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		setSnack(initialSnack);
 		if (about) {
 			axios
 				.put(
@@ -26,16 +29,19 @@ const About = () => {
 					{
 						about,
 					},
-					{withCredentials: true}
+					{ withCredentials: true }
 				)
-				.then((res) =>{
-					alert(res.data.message)
-					return dispatch(getUser());
+				.then((res) => {
+					setSnack({ type: "success", message: res.data.message });
+					dispatch(getUser());
 				})
 				.catch((error) => console.log(error));
-				setAbout("");
+			setAbout("");
 		} else {
-			alert("Es necesario completar el About");
+			setSnack({
+				type: "error",
+				message: "Es necesario completar el About",
+			});
 		}
 	};
 	return (
@@ -48,7 +54,9 @@ const About = () => {
 		>
 			<Typography variant="h4">Modificar About</Typography>
 			<Typography variant="h6">About Actual</Typography>
-			<Typography variant="body1" gutterBottom>{user.about}</Typography>
+			<Typography variant="body1" gutterBottom>
+				{user.about}
+			</Typography>
 			<TextField
 				sx={{ width: "100%", my: 3 }}
 				id="filled-textarea"
@@ -62,6 +70,9 @@ const About = () => {
 			<Button type="submit" variant="contained">
 				Modificar About
 			</Button>
+			{snack.message && (
+				<Snackbar type={snack.type} message={snack.message} />
+			)}
 		</Box>
 	);
 };

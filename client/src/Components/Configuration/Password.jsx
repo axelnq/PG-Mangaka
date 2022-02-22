@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import Snackbar, { initialSnack } from "./Snackbar";
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -34,6 +34,7 @@ export default function Password() {
 		showPassword: false,
 		showNewPassword: false,
 	});
+	const [snack, setSnack] = useState(initialSnack);
 	//manejo de estado
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -56,11 +57,16 @@ export default function Password() {
 					passwords,
 					{ withCredentials: true }
 				)
-				.then((res) => alert(res.data.message))
+				.then((res) =>
+					setSnack({ type: "success", message: res.data.message })
+				)
 				.catch((error) => console.log(error));
 			setPasswords(initialForm);
 		} else {
-			alert("Ambos campos deben ser llenados");
+			setSnack({
+				type: "error",
+				message: "Ambos campos deben ser llenados",
+			});
 		}
 	};
 
@@ -165,6 +171,9 @@ export default function Password() {
 					Cambiar Contraseña
 				</Button>
 			</Box>
+			{snack.message && (
+				<Snackbar type={snack.type} message={snack.message} />
+			)}
 		</Box>
 	);
 }

@@ -7,7 +7,6 @@ import TextField from '@mui/material/TextField';
 import { Button ,Select,MenuItem , Input} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postManga, getAllMangas, getGenres } from '../Actions/index';
-import Navbar from './Navbar';
 import { InputLabel } from '@mui/material';
 
 
@@ -96,7 +95,6 @@ function handleSubmit(e) {
 
   return ( 
     <Fragment>
-    <Navbar/>
     <Box
       paddingTop={'2%'}
       sx={{ display: 'flex' }}
