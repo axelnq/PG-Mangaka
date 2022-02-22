@@ -432,21 +432,6 @@ export let getUserInfo = (payload) => {
     };
 };
 
-export let getMangaDetailWishList = (payload) => {
-    return async (dispatch) => {
-        try {
-            let mangaDetail = await axios.get(
-                `http://localhost:3001/api/mangas/manga/${payload}`
-            );
-            return dispatch({
-                type: GET_DETAIL_WISHLIST,
-                payload: mangaDetail.data,
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
-};
 
 export let getMangaDetailLibrary = (payload) => {
     return async (dispatch) => {

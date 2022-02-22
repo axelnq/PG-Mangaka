@@ -44,6 +44,7 @@ const _ArrayBufferToBase64 = (buffer) => {
     binary += String.fromCharCode(byte[i]);
   }
   return window.btoa(binary);
+
 };
 
 function Profile(props) {
@@ -311,4 +312,5 @@ function Profile(props) {
   );
 }
 
-export default Profile;
+
+export default Profile

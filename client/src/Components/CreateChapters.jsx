@@ -8,7 +8,7 @@ import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { postChapters } from '../Actions/index';
 import Navbar from './Navbar';
-
+import { Input } from '@mui/material';
 
 
 export default function CreateChapters() {
@@ -59,15 +59,15 @@ export default function CreateChapters() {
 
     const { title, chapters, coverImages, price } = input;
 
-    // if (title === undefined || title.length < 3) {
-    //   return alert('titulo invalido')
-    // } else if (chapters === undefined) {
-    //   return alert('ingrese imagen valida')
-    // } else if (coverImages === undefined) {
-    //   return alert('ingrese imagen valida')
-    // } else if (price === undefined) {
-    //   return alert('')
-    // }
+    if (title === undefined || title.length < 3) {
+      return alert('titulo invalido')
+    } else if (chapters === undefined) {
+      return alert('ingrese imagen valida')
+    } else if (coverImages === undefined) {
+      return alert('ingrese imagen valida')
+    } else if (price === undefined) {
+      return alert('')
+    }
 
 
     const formData = new FormData();
@@ -137,33 +137,27 @@ export default function CreateChapters() {
 
               />
             </div>
-
-            <Box sx={{ mt: '1rem' }}>
-              <label>PORTADA :</label>
+              <Box sx={{ mt: '2rem' }}>
+            <div>
+                <label htmlFor="contained-button-file">
+                  <Input onChange={(e) => handleChangeFile (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
+                    <Button sx={{width :'32rem',justifyContent:'center'}} onClick={(e) => handleChangeFile (e)} variant="contained" component="span">
+                          Cargar Portada
+                    </Button>
+                      </label>
+                      </div>
+                   <Box sx={{ mt: '2rem' }}> 
               <div>
-
-            
-                <input  type="file" style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}
-                 onChange={(e) => handleChangeFile(e)} accept="image/*" id="portada" /> 
-                
-
-
-              
-              </div>
-              <label>CAPITULO :</label>
-              <div>
-
-
-                <input 
-                style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}onChange={(e) => handleChangeFileChapters(e)} accept="image/*" id="chapters" multiple type="file" />
-
-
-
-
-              </div>
+              <label htmlFor="chapters">
+              <Input type="file" inputProps={{ multiple: true }} onChange={(e) => handleChangeFileChapters(e)}sx={{display:'none'}} accept="image/*" id='chapters' />
+              <Button sx={{width :'32rem',justifyContent:'center'}} onClick={(e) => handleChangeFileChapters (e)} variant="contained" component="span">
+                          Cargar Capitulo
+                    </Button>
+                    </label>
+              </div> 
             </Box>
             <div>
-              <Box sx={{ width: '100%', py: '1rem' }}>
+              <Box sx={{ width: '100%', py: '2rem' }}>
                 <Button  sx={{width: 32 +'rem', justifyContent:'center',textAlign:'center',height: 2 +'rem'}}onClick={(e) => handleSubmit(e)} variant="contained">Crear Capitulo</Button></Box>
               <Box sx={{ width: '100%', py: '0.2rem' }}>
                 <NavLink to="/">
@@ -171,6 +165,7 @@ export default function CreateChapters() {
                 </NavLink>
               </Box>
             </div>
+            </Box>
           </FormControl>
         </div>
       </Box>
@@ -182,3 +177,4 @@ export default function CreateChapters() {
 
 
 
+{/* style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}  /> */}

@@ -10,7 +10,7 @@ import Paginado from './Paginado'
 import { getAllMangas, popularAuthors, getPopularMangas, getRecentMangas } from '../Actions'
 import { useEffect } from 'react';
 //mui
-import { Container } from '@mui/material';
+import { Container, LinearProgress } from '@mui/material';
 import Recomendados from './Recomendados';
 
 const Home = () => {
@@ -48,7 +48,7 @@ const Home = () => {
                     <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                  
                     {
-                        allMangas.data?.map((m, i) => {
+                        allMangas ? allMangas.data?.map((m, i) => {
                             //console.log(m)
                             return (
                                 <div key={i}>
@@ -61,7 +61,8 @@ const Home = () => {
                                     />
                                 </div>
                             )
-                        })
+                        }) : 
+                        <LinearProgress sx={{ height: '0.5rem ' }}/>
                     }
                     </Container>
                 </div>

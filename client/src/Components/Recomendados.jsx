@@ -2,7 +2,7 @@ import { React } from "react"
 import MangaCard from "./MangaCard";
 import CardAuthor from "./CardAuthor"
 
-import Typography from '@mui/material/Typography';
+import { Typography, LinearProgress } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { styled } from "@mui/material/styles";
 
@@ -28,7 +28,7 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                      <StackContainer direction="row" sx={{ width:'70rem'}} >
                         { 
                             // console.log('recientes', mangasRecientes)
-                            mangasRecientes && mangasRecientes.data?.map((m, i) => {
+                            mangasRecientes.data ? mangasRecientes.data?.map((m, i) => {
                                 return (
                                     <div key={i} >
                                         <MangaCard
@@ -40,7 +40,8 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                                         />
                                     </div>
                                 )
-                            })
+                            }) : 
+                            <LinearProgress sx={{ height: '0.5rem ' }}/>
                         }
                     </StackContainer>
                 
