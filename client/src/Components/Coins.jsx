@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import NavBar from "./Navbar";
-import CoinsPanel from "./CoinsPanel";
+import CoinsPanel from "./BoughtCoins";
 import empty from "../img/empty.png";
 import love from "../img/love.png";
 import mask from "../img/mask.png";
@@ -43,9 +43,15 @@ import {
     getPacks,
     getPreferenceId,
     getSellOrders,
-    getBuyOrders
+    getBuyOrders,
+    getBuyerOrder,
+    getSellerOrder,
 } from "../Actions";
 import Cart from "./Cart";
+import BoughtCoins from "./BoughtCoins";
+import GainedCoins from "./GainedCoins";
+import ExchangeCoins from "./ExchangeCoins";
+import UsedCoins from "./UsedCoins";
 // const Mercadopago = require('mercadopago');
 
 //modal
@@ -97,6 +103,8 @@ export default function Coins() {
         dispatch(getCurrentUser());
         dispatch(getBuyOrders());
         dispatch(getSellOrders());
+        dispatch(getBuyerOrder());
+        dispatch(getSellerOrder());
         let getCoins = async () => {
             let coins = await axios("http://localhost:3001/api/profile/coins", { withCredentials: true });
             console.log(coins.data);
@@ -108,13 +116,19 @@ export default function Coins() {
     let packs = useSelector((state) => state.getPacks);
     let user = useSelector((state) => state.user);
     const data2 = useSelector((state) => state.preferenceId);
-    console.log(data2);
-    console.log(packs);
-    console.log(user);
+    // console.log(data2);
+    // console.log(packs);
+    // console.log(user);
     const BuyOrders = useSelector(state => state.getBuyOrders);
+    console.log(BuyOrders)
     const SellOrders = useSelector(state => state.getSellOrders);
-    console.log(BuyOrders);
-    console.log(SellOrders);
+    console.log(SellOrders)
+    const BuyerOrder = useSelector(state => state.getBuyerOrder);
+    console.log(BuyerOrder)
+    const SellerOrder = useSelector(state => state.getSellerOrder);
+    console.log(SellerOrder)
+    // console.log(BuyOrders);
+    // console.log(SellOrders);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -234,7 +248,13 @@ export default function Coins() {
                             <Tab label="Usadas" {...a11yProps(1)} />
                             {
                                 user.creatorMode === true ?
-                                    <Tab label="Recibidas" {...a11yProps(2)} />
+
+                                    <Tab label="Cambiadas" {...a11yProps(2)} />
+                                    : null
+                            }
+                            {
+                                user.creatorMode === true ?
+                                    <Tab label="Recibidas" {...a11yProps(3)} />
                                     : null
                             }
                         </Tabs>
@@ -245,24 +265,33 @@ export default function Coins() {
                         onChangeIndex={handleChangeIndex}
                     >
                         <TabPanel value={value} index={0} dir={theme.direction}>
-                            <CoinsPanel BuyOrders={BuyOrders} />
+                            <BoughtCoins BuyOrders={BuyOrders} />
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction}>
-                            <CoinsPanel SellOrders={SellOrders} />
+                            <UsedCoins BuyerOrder={BuyerOrder} />
                         </TabPanel>
+
                         {
                             user.creatorMode === true ?
-                                <TabPanel value={value} index={2} dir={theme.direction}>
-                                    <CoinsPanel BuyOrders={BuyOrders} />
+
+                                < TabPanel value={value} index={2} dir={theme.direction}>
+                                    <ExchangeCoins SellOrders={SellOrders} />
+                                </TabPanel>
+                                : null
+                        }
+                        {
+                            user.creatorMode === true ?
+                                < TabPanel value={value} index={3} dir={theme.direction}>
+                                    <GainedCoins SellerOrder={SellerOrder} />
                                 </TabPanel>
                                 : null
                         }
                     </SwipeableViews>
                 </Box>
-            </Box>
+            </Box >
 
             {/* modal */}
-            <div>
+            < div >
                 <Dialog
                     open={open}
                     TransitionComponent={Transition}
@@ -334,7 +363,7 @@ export default function Coins() {
                         <Button onClick={handleClose}>Agree</Button>
                     </DialogActions> */}
                 </Dialog>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

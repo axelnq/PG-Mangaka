@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { db } from "../app";
 import Chapter from "../classes/Chapter";
-import User, { addCoins } from "../classes/User";
+import User from "../classes/User";
 import internalOrder from "../classes/InternalOrder";
 export const internalOrderRouter = Router();
 
 internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
   const { sellerId, productId } = req.body;
   let buyeruser = req.user;
+  let productid = Number(productId)
   // let tempSeller = {};
   let buyer = await db.user.findUnique({
     //@ts-ignore
@@ -15,7 +16,7 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
   });
   let seller = await db.user.findUnique({ where: { id: sellerId } });
 
-  let product = await db.chapter.findUnique({ where: { id: productId } });
+  let product = await db.chapter.findUnique({ where: { id: productid } });
   if (buyer && seller && product) {
     if (buyer.coins - product.price < 0) {
       res.send("Insuficient coins ");
@@ -25,7 +26,7 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
         sellerId,
         //@ts-ignore
         buyeruser.id,
-        productId,
+        productid,
 
         product.price
       );
@@ -47,23 +48,23 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
           },
           data: {
             coins: buyer.coins - product.price,
-            chapters: [...buyer.chapters, productId],
+            chapters: [...buyer.chapters, productid],
             library: [...buyer.library, product.mangaId],
           },
         });
 
-        res.send([newIorder, updateseller, updatebuyer]);
+        res.redirect(`http://localhost:3000/reader/${productId}`);
       } else {
         const updatebuyer = await db.user.update({
           where: {
             username: buyer.username,
           },
           data: {
-            chapters: [...buyer.chapters, productId],
+            chapters: [...buyer.chapters, productid],
             coins: buyer.coins - product.price,
           },
         });
-        res.send([newIorder, updateseller, updatebuyer]);
+        res.redirect(`http://localhost:3000/reader/${productId}`);
       }
     }
   }
