@@ -1,9 +1,8 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, Box} from '@mui/material';
 
 
 const _ArrayBufferToBase64 = (buffer) => {
@@ -22,22 +21,26 @@ const _ArrayBufferToBase64 = (buffer) => {
 
 export default function CardAuthor({image, name}) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+    <div>
+      <Box  sx={{display:'flex', justifyContent:"flex-end" }}>
+    <div>
+      
         <CardMedia
-          sx={{borderRadius:'50%'}}
+          sx={{ borderRadius: '50%' }}
           component="img"
           height="140"
           image={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
           alt="green iguana"
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {name}
-          </Typography>
-          
-        </CardContent>
-      </CardActionArea>
-    </Card>
+
+        <Typography gutterBottom variant="h5" component="div">
+          {name}
+        </Typography>
+      
+    </div>
+    </Box>
+    </div>
+
+        
   );
 }

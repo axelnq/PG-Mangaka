@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -37,15 +37,17 @@ const Banner = (props) => {
     ];
     
     return (
-        <div className='Fondo'>
-            <Box sx={{md:{xs:'20%', md:'40%', lg:'100%' }}}>       
-            <Carousel className='Carrusel'>
-                {items.map((item, i) => (
-                    <Item key={i} {...item} />
-                ))}
-            </Carousel>
+        <Fragment>
+
+            <Box sx={{ md: { xs: '20%', md: '40%', lg: '100%' } }}>
+                <Carousel className='Carrusel' >
+                    {items.map((item, i) => (
+                        <Item key={i} {...item} />
+                    ))}
+                </Carousel>
             </Box>
-        </div>
+       
+        </Fragment>
     );
 }
     
