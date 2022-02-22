@@ -193,6 +193,7 @@ externalOrderRouter.get<{}, {}>("/getBuyOrders", async (req, res) => {
   let info = await db.externalOrder.findMany({ where: { userId: user2.id } });
   res.send(info);
 });
+
 externalOrderRouter.get<{}, {}>("/getSellOrders", async (req, res) => {
   let user2 = req.user; //@ts-ignore
   let info = await db.externalOrder.findMany({ where: { userId: user2.id } });
