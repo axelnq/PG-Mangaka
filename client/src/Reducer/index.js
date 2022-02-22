@@ -38,7 +38,7 @@ import {
     REMOVE_FAVORITE,
     GET_BUY_ORDERS,
     GET_SELL_ORDERS,
-    GET_PANEL_MANGAS
+    GET_PANEL_MANGAS,
     SEE_COMMENTS,
     // GET_PREFERENCE_ID
 } from "../Actions";
