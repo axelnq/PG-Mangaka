@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+
 //MUI
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Accordion from "@mui/material/Accordion";
@@ -13,7 +14,6 @@ import ListItem from "@mui/material/ListItem";
 import Box from "@mui/material/Box";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import CircularProgress from "@mui/material/CircularProgress";
 import "animate.css";
 export default function PersonalMangas() {
   const [mangas, setMangas] = useState(null);
@@ -29,7 +29,7 @@ export default function PersonalMangas() {
       .catch((error) => console.log(error));
   }, []);
   return loading ? (
-    <CircularProgress disableShrink />
+    <h1>loading</h1>
   ) : (
     <Box className="animate__animated animate__fadeInUp animate_slower">
       {mangas.map((m) => {
