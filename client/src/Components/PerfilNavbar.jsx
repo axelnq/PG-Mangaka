@@ -115,6 +115,9 @@ export default function PerfilNavbar() {
         <Link to="/library" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Biblioteca</MenuItem>
         </Link>
+        <Link to="/favorite" style={{ textDecoration: "none", color: "white" }}>
+          <MenuItem>Favoritos</MenuItem>
+        </Link>
         <Divider sx={{ backgroundColor: "#357ded" }} />
         <Link to="/profile" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>

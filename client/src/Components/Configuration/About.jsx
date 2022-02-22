@@ -11,6 +11,7 @@ import Snackbar, { initialSnack } from "./Snackbar";
 import "animate.css";
 
 const About = () => {
+	//redux
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state);
 	//estado
