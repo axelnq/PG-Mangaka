@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUser } from "../../Actions/index";
 import { Link } from "react-router-dom";
+import Snackbar, { initialSnack } from "./Snackbar";
 import axios from "axios";
 //MUI
 import FormGroup from "@mui/material/FormGroup";
@@ -16,11 +17,13 @@ const IndexProfile = () => {
 	const dispatch = useDispatch();
 	//Funcionamiento del checkbox
 	const [checked, setChecked] = React.useState(false);
+	const [snack, setSnack] = React.useState(initialSnack);
 	const handleChange = (event) => {
 		setChecked(event.target.checked);
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		setSnack(initialSnack);
 		if (checked) {
 			axios
 				.put(
@@ -31,14 +34,16 @@ const IndexProfile = () => {
 					}
 				)
 				.then((res) => {
-					alert(res.data.message);
-					return dispatch(getUser());
+					setSnack({ type: "success", message: res.data.message });
+					dispatch(getUser());
 				})
 				.catch((error) => console.log(error));
 		} else {
-			alert(
-				"Debe aceptar los términos y condiciones para empezar a crear"
-			);
+			setSnack({
+				type: "error",
+				message:
+					"Debe aceptar los términos y condiciones para empezar a crear",
+			});
 		}
 	};
 	return (
@@ -61,7 +66,7 @@ const IndexProfile = () => {
 					<Box sx={{ mt: 3 }}>
 						<Typography variant="h5">Crea tu manga!</Typography>
 						<Link
-							to="/create"
+							to="/profile/create"
 							style={{ textDecoration: "none", color: "white" }}
 						>
 							<Button
@@ -160,6 +165,9 @@ const IndexProfile = () => {
 					<Button type="submit" variant="contained">
 						Empieza a crear
 					</Button>
+					{snack.message && (
+						<Snackbar type={snack.type} message={snack.message} />
+					)}
 				</Box>
 			)}
 		</Box>

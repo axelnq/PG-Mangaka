@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import {useDispatch, useSelector} from 'react-redux';
 import {getUser} from '../../Actions/index';
+import Snackbar, {initialSnack} from './Snackbar';
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -14,11 +15,13 @@ const Name = () => {
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state);
 	const [newName, setName] = useState("");
+	const [snack, setSnack] = useState(initialSnack)
 	const handleChange = (e) => {
 		setName(e.target.value);
 	};
 	const handleSubmitName = (e) => {
 		e.preventDefault();
+		setSnack(initialSnack);
 		console.log(newName);
 		if (newName) {
 			axios
@@ -28,13 +31,13 @@ const Name = () => {
 					{ withCredentials: true }
 				)
 				.then((res) =>{
-					alert(res.data.message)
+					setSnack({type: "success", message: res.data.message})
 					return dispatch(getUser());
 				})
 				.catch((error) => console.log(error));
 				setName("");
 		} else {
-			alert("Introduzca un nombre");
+			setSnack({type:"error", message: "Introduzca un nombre"});
 		}
 	};
 
@@ -68,6 +71,7 @@ const Name = () => {
 					Cambiar Nombre
 				</Button>
 			</Box>
+			{snack.message && <Snackbar type={snack.type} message={snack.message} />}
 		</Box>
 	);
 };

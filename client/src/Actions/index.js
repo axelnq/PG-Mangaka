@@ -304,13 +304,16 @@ export let getCurrentUser = (form) => {
             );
 
             const response = await request.data;
+            
             if (response.msg === "usuario no logueado") {
+                alert("Usuario no logueado")
                 localStorage.clear();
                 return dispatch({
                     type: CURRENT_USER,
                     payload: null,
                 });
             }
+            alert("Login Exitoso");
             localStorage.setItem("user", JSON.stringify(response));
             const user = JSON.parse(localStorage.getItem("user"));
             return dispatch({ type: CURRENT_USER, payload: user });
