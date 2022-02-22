@@ -108,7 +108,7 @@ const Detail = () => {
                                 height="auto"
                                 width="auto"
                                 src={'data:image/jpeg;base64,' + buffer}
-                                alt={mangaDetail.title}
+                                alt={mangaDetail?.title}
                             />
                         </Box>
                     </Box>
@@ -129,13 +129,13 @@ const Detail = () => {
                                             <React.Fragment>
                                                 <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
                                                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                                                    <Typography variant="body2" color="text.secondary">{chapter.points}</Typography>
+                                                    {/* <Typography variant="body2" color="text.secondary">{chapter.points}</Typography> */}
                                                     <Box
                                                         sx={{
                                                             display: 'flex', justifyContent: 'flex-end', mt: '0.5rem'
                                                         }}
                                                     >
-                                                        <Score id={chapter.id} />
+                                                        {/* <Score id={chapter.id} /> */}
                                                         {/* <Rating
                                                             name="simple-controlled"
                                                             value={valueChapter}
