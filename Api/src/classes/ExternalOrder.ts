@@ -4,6 +4,7 @@ export default class externalOrder {
   userId: String;
   title: String;
   price: Number;
+  value: Number;
   status: String;
   productId: Number;
 
@@ -12,6 +13,7 @@ export default class externalOrder {
     userId: String,
     title: String,
     price: Number,
+    value: number,
     status: String,
     productId: Number,
 
@@ -21,6 +23,7 @@ export default class externalOrder {
     this.userId = userId;
     this.title = title || "Buy Order";
     this.price = price;
+    this.value = value;
     this.status = status;
     this.productId = productId;
     this.id = id || undefined;

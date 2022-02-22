@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 function createData(cantidad, fecha) {
     return { cantidad, fecha };
 }
 
-const rows = [
-    createData(10, '24/12/21'),
-    createData(15, '31/12/21'),
-    createData(5, '03/01/22'),
-    createData(25, '10/01/22'),
-    createData(50, '11/01/22'),
-];
+export default function CoinsPanel(props) {
+    let GetProps = null;
+    if (props.BuyOrders) {
+        GetProps = props.BuyOrders;
+    } else if (props.SellOrders) {
+        GetProps = props.SellOrders;
+    }
 
-export default function CoinsPanel() {
     return (
         <div><TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -24,17 +24,28 @@ export default function CoinsPanel() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow
-                            key={row.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell align="center" component="th" scope="row">
-                                {row.cantidad}
-                            </TableCell>
-                            <TableCell align="center">{row.fecha}</TableCell>
-                        </TableRow>
-                    ))}
+                    {GetProps !== null && GetProps === props.BuyOrders ?
+                        GetProps.map((row) => (
+                            <TableRow
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align="center" component="th" scope="row">
+                                    {row.value}
+                                </TableCell>
+                                <TableCell align="center">{row.createdAt.substr(0, 10)}</TableCell>
+                            </TableRow>
+                        ))
+                        : GetProps.map((row) => (
+                            <TableRow
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align="center" component="th" scope="row">
+                                    {row.value}
+                                </TableCell>
+                                <TableCell align="center">{row.createdAt.substr(0, 10)}</TableCell>
+                            </TableRow>
+                        ))
+                    }
                 </TableBody>
             </Table>
         </TableContainer>

@@ -70,6 +70,7 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
           user2.id,
           "approved",
           packageCoins.buyprice,
+          packageCoins.value,
           payment_status,
           packageCoins.id
         );
@@ -121,6 +122,7 @@ externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
           name,
           cbu,
           "Orden de extraccion",
+          nValue,
           price,
           "approved",
           newcP.id
@@ -184,4 +186,16 @@ externalOrderRouter.get<{}, {}>("/pack", async (req, res) => {
   let pack = await db.coinsPackage.findMany();
   let packfiltered = pack.filter((e) => e.buyprice > 9);
   res.send(packfiltered);
+});
+
+externalOrderRouter.get<{}, {}>("/getBuyOrders", async (req, res) => {
+  let user2 = req.user; //@ts-ignore
+  let info = await db.externalOrder.findMany({ where: { userId: user2.id } });
+  res.send(info);
+});
+
+externalOrderRouter.get<{}, {}>("/getSellOrders", async (req, res) => {
+  let user2 = req.user; //@ts-ignore
+  let info = await db.externalOrder.findMany({ where: { userId: user2.id } });
+  res.send(info);
 });

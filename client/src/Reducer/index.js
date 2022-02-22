@@ -31,10 +31,15 @@ import {
     POST_CHECKOUT,
     GET_PACKS,
     BUY_COINS,
+    GET_CHAPTER,
     GET_AUTHOR_DETAILS,
     FAVORITE,
     GET_POPULAR_AUTHORS,
     REMOVE_FAVORITE,
+    GET_BUY_ORDERS,
+    GET_SELL_ORDERS,
+    GET_PANEL_MANGAS,
+    SEE_COMMENTS,
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -60,9 +65,14 @@ const initialState = {
     allUsers: [],
     getPacks: [],
     preferenceId: [],
+    chapter: [],
     authorDetail: undefined,
     favorite: [],
     popularAuthors: [],
+    getBuyOrders: [],
+    getSellOrders: [],
+    panelMangas: [],
+    allComments:[],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -235,7 +245,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 preferenceId: payload,
-            };
+            }
+        case GET_CHAPTER:
+            return {
+                ...state,
+                chapter: payload,
+            }
         // case GET_PREFERENCE_ID:
         //     return {
         //         ...state,
@@ -264,7 +279,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 favorite: {data:remove, totalFavorites:remove.length}
             };
-
+        case GET_BUY_ORDERS: 
+            return {
+                ...state,
+                getBuyOrders: payload
+            };
+        case GET_SELL_ORDERS: 
+            return {
+                ...state,
+                getSellOrders: payload
+            };
+        case GET_PANEL_MANGAS:
+            return {
+                ...state,
+                panelMangas: payload
+            }
+        case SEE_COMMENTS:
+            return {
+                ...state,
+                allComments: payload
+            };
         default:
             return state;
     }

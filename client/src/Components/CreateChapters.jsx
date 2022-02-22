@@ -1,13 +1,15 @@
-import React, { Fragment,useEffect,useState } from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postChapters} from '../Actions/index';
+import { postChapters } from '../Actions/index';
 import Navbar from './Navbar';
-import { Input } from '@mui/material';
+
+
 
 export default function CreateChapters() {
   const dispatch = useDispatch();
@@ -38,9 +40,14 @@ export default function CreateChapters() {
 
   function handleChangeFileChapters(e) {
     console.log(e.target.files)
+    let files = [];
+    for (let i = 0; i < e.target.files.length; i++) {
+      files.push(e.target.files[i]);
+    }
+    console.log(files, "files")
     setInput({
       ...input,
-      chapters: e.target.files[0],
+      chapters: files,
 
 
     });
@@ -52,15 +59,15 @@ export default function CreateChapters() {
 
     const { title, chapters, coverImages, price } = input;
 
-    if (title === undefined || title.length < 3) {
-      return alert('titulo invalido')
-    } else if (chapters === undefined) {
-      return alert('ingrese imagen valida')
-    } else if (coverImages === undefined) {
-      return alert('ingrese imagen valida')
-    } else if (price === undefined) {
-      return alert('')
-    }
+    // if (title === undefined || title.length < 3) {
+    //   return alert('titulo invalido')
+    // } else if (chapters === undefined) {
+    //   return alert('ingrese imagen valida')
+    // } else if (coverImages === undefined) {
+    //   return alert('ingrese imagen valida')
+    // } else if (price === undefined) {
+    //   return alert('')
+    // }
 
 
     const formData = new FormData();
@@ -70,8 +77,10 @@ export default function CreateChapters() {
     console.log(input.mangaId)
     formData.append('portada', input.coverImages);
     console.log(input.coverImages)
-    formData.append('chapters', input.chapters);
-    console.log(input.images)
+    input.chapters.forEach((file) => {
+      formData.append('chapters', file);
+    });
+    console.log(input.chapters)
 
     formData.append('price', 5);
     console.log(input.price)
@@ -99,7 +108,6 @@ export default function CreateChapters() {
 
 
 
-
   return (
     <Fragment>
       <Navbar />
@@ -119,43 +127,44 @@ export default function CreateChapters() {
               color: '#357DED',
             }}>
             <h1 >CREA TU CAPITULO</h1>
-            <Box>
-            <Box >
-              <Input placeholder='TITLE'sx={{width :'32rem',justifyContent:'center',backgroundColor:'white'}}
+            <div>
+              <input style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}
+                placeholder="TITLE"
                 type="text"
                 value={input.title}
                 name="title"
                 onChange={(e) => handleChange(e)}
 
               />
+            </div>
+
+            <Box sx={{ mt: '1rem' }}>
+              <label>PORTADA :</label>
+              <div>
+
+            
+                <input  type="file" style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}
+                 onChange={(e) => handleChangeFile(e)} accept="image/*" id="portada" /> 
+                
+
+
+              
+              </div>
+              <label>CAPITULO :</label>
+              <div>
+
+
+                <input 
+                style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}onChange={(e) => handleChangeFileChapters(e)} accept="image/*" id="chapters" multiple type="file" />
+
+
+
+
+              </div>
             </Box>
-                <Box sx={{ mt: '2rem' }}>
-            {/* <label>PORTADA :</label> */}
             <div>
-                <label htmlFor="contained-button-file">
-                  <Input  onChange={(e) => handleChangeFile (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleChangeFile (e)} variant="contained" component="span">
-                          Cargar Portada
-                    </Button>
-                      </label>
-                  <Box sx={{ mt: '1rem' }}></Box>
-              </div>
-              </Box>
-              <Box sx={{ mt: '2rem' }}>
-            <div>
-                <label htmlFor="contained-button-file">
-                  <Input onChange={(e) => handleChangeFileChapters (e)} sx={{display:'none'}} accept="image/*" id="contained-button-file" multiple type="file" />
-                    <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleChangeFileChapters (e)} variant="contained" component="span">
-                          Cargar Capitulo
-                    </Button>
-                      </label>
-                  <Box sx={{ mt: '1rem' }}></Box>
-              </div>
-            </Box> 
               <Box sx={{ width: '100%', py: '1rem' }}>
-                <Button sx={{width :'32rem',justifyContent:'center'}}onClick={(e) => handleSubmit(e)}  variant="contained">Crear Capitulo</Button></Box>
-                </Box>
-            <div>
+                <Button  sx={{width: 32 +'rem', justifyContent:'center',textAlign:'center',height: 2 +'rem'}}onClick={(e) => handleSubmit(e)} variant="contained">Crear Capitulo</Button></Box>
               <Box sx={{ width: '100%', py: '0.2rem' }}>
                 <NavLink to="/">
                   <Button>Home</Button>
@@ -168,6 +177,8 @@ export default function CreateChapters() {
     </Fragment>
   )
 }
+
+
 
 
 

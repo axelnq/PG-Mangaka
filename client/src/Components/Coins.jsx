@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom'
+import axios from 'axios';
 import NavBar from "./Navbar";
 import CoinsPanel from "./CoinsPanel";
 import empty from "../img/empty.png";
@@ -10,6 +11,7 @@ import mountain from "../img/mountain.png";
 import tree from "../img/tree.png";
 import flower from "../img/flower.png";
 import mangaka from "../img/mangaka.png";
+import 'animate.css';
 //mui
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
@@ -39,7 +41,9 @@ import {
     buyCoins,
     getCurrentUser,
     getPacks,
-    getPreferenceId
+    getPreferenceId,
+    getSellOrders,
+    getBuyOrders
 } from "../Actions";
 import Cart from "./Cart";
 // const Mercadopago = require('mercadopago');
@@ -85,11 +89,20 @@ function a11yProps(index) {
 export default function Coins() {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const [coins, setCoins] = React.useState(0);
 
     let dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPacks());
         dispatch(getCurrentUser());
+        dispatch(getBuyOrders());
+        dispatch(getSellOrders());
+        let getCoins = async () => {
+            let coins = await axios("http://localhost:3001/api/profile/coins", { withCredentials: true });
+            console.log(coins.data);
+            setCoins(coins.data);
+        };
+        getCoins();
     }, [dispatch]);
 
     let packs = useSelector((state) => state.getPacks);
@@ -98,7 +111,10 @@ export default function Coins() {
     console.log(data2);
     console.log(packs);
     console.log(user);
-
+    const BuyOrders = useSelector(state => state.getBuyOrders);
+    const SellOrders = useSelector(state => state.getSellOrders);
+    console.log(BuyOrders);
+    console.log(SellOrders);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -123,6 +139,8 @@ export default function Coins() {
     const changeImg = () => {
         let coinRandom = Math.floor(Math.random() * coinImgs.length);
         document.getElementById("coinImg").src = coinImgs[coinRandom];
+        // document.getElementById("coinImg").classList.remove('animate__heartBeat')
+        // document.getElementById("coinImg").classList.add('animate__backInDown')
     };
 
     const [buy, setBuy] = useState(false);
@@ -182,8 +200,8 @@ export default function Coins() {
             <NavBar />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Box sx={{ mt: "2rem", mb: "1rem", width: "96px" }}>
-                    <Button sx={{ borderRadius: "50%" }} onClick={changeImg}>
-                        <img id="coinImg" src={coinImgs[0]} alt="" />
+                    <Button className=" coinImg" sx={{ borderRadius: "50%" }} onClick={changeImg}>
+                        <img className="animate__heartBeat coinImg" id="coinImg" src={coinImgs[0]} alt="" />
                     </Button>
                 </Box>
             </Box>
@@ -214,7 +232,11 @@ export default function Coins() {
                         >
                             <Tab label="Compradas" {...a11yProps(0)} />
                             <Tab label="Usadas" {...a11yProps(1)} />
-                            <Tab label="Recibidas" {...a11yProps(2)} />
+                            {
+                                user.creatorMode === true ?
+                                    <Tab label="Recibidas" {...a11yProps(2)} />
+                                    : null
+                            }
                         </Tabs>
                     </AppBar>
                     <SwipeableViews
@@ -223,14 +245,18 @@ export default function Coins() {
                         onChangeIndex={handleChangeIndex}
                     >
                         <TabPanel value={value} index={0} dir={theme.direction}>
-                            <CoinsPanel />
+                            <CoinsPanel BuyOrders={BuyOrders} />
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction}>
-                            <CoinsPanel />
+                            <CoinsPanel SellOrders={SellOrders} />
                         </TabPanel>
-                        <TabPanel value={value} index={2} dir={theme.direction}>
-                            <CoinsPanel />
-                        </TabPanel>
+                        {
+                            user.creatorMode === true ?
+                                <TabPanel value={value} index={2} dir={theme.direction}>
+                                    <CoinsPanel BuyOrders={BuyOrders} />
+                                </TabPanel>
+                                : null
+                        }
                     </SwipeableViews>
                 </Box>
             </Box>
