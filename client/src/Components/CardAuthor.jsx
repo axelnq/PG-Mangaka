@@ -25,6 +25,7 @@ export default function CardAuthor({image, name}) {
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
         <CardMedia
+          sx={{borderRadius:'50%'}}
           component="img"
           height="140"
           image={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
