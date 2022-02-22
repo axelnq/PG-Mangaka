@@ -1,5 +1,5 @@
 import { React, useEffect } from 'react'
-import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
+import { Container, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText, LinearProgress } from '@mui/material';
 import Navbar from './Navbar'
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo } from '../Actions';
@@ -24,17 +24,16 @@ const Biblioteca = () => {
 
     useEffect(() => {
         dispatch(getUserInfo(user.username))
-        user.library.map(m => dispatch(getMangaDetailWishList(m)))
     }, [])
 
     return (
        <div>
            <Navbar/>
-           <Container maxWidth="sm" sx={{backgroundColor:'#001B44'}}>
-                <Typography variant='h3' color='#357DED'>Biblioteca</Typography>
-                <List sx={{ width: '100%', maxWidth: 360, color:'#fff'}}>
+           <Container maxWidth="sm" sx={{backgroundColor:'#001B44', borderRadius:'5%', height:'35rem', width:'100%', padding:0, my:'1rem' }}>
+                <Typography variant='h3' color='#357DED' sx={{padding:'1rem'}}>Biblioteca</Typography>
+                <List sx={{ width: '100%', color:'#fff'}}>
                     {
-                        library && library.map((m, i) => {
+                        library ? library.map((m, i) => {
                               return (
                                   <ListItem key={i} sx={{width: '100%',}}>
                                      <ListItemAvatar>
@@ -47,7 +46,8 @@ const Biblioteca = () => {
                                      </ListItemText>
                                   </ListItem>
                               )
-                        })
+                        }) : 
+                        <LinearProgress sx={{ height: '0.5rem ' }}/>
                     }
                        
                     </List>
