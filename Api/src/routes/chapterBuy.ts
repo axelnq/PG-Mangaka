@@ -3,9 +3,10 @@ import { db } from "../app";
 import Chapter from "../classes/Chapter";
 import User from "../classes/User";
 import internalOrder from "../classes/InternalOrder";
+import { isAuthenticated } from "./auth";
 export const internalOrderRouter = Router();
 
-internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
+internalOrderRouter.post<{}, {}>("/buyChapter", isAuthenticated, async (req, res, next) => {
   const { sellerId, productId } = req.body;
   let buyeruser = req.user;
   let productid = Number(productId)
@@ -53,7 +54,8 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
           },
         });
 
-        res.redirect(`http://localhost:3000/reader/${productId}`);
+        res.send("exito");
+        // res.redirect("http://localhost:3000");
       } else {
         const updatebuyer = await db.user.update({
           where: {
@@ -64,7 +66,8 @@ internalOrderRouter.post<{}, {}>("/buyChapter", async (req, res, next) => {
             coins: buyer.coins - product.price,
           },
         });
-        res.redirect(`http://localhost:3000/reader/${productId}`);
+        res.send("exito");
+        // res.redirect("http://localhost:3000");
       }
     }
   }

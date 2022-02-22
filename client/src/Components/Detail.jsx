@@ -13,6 +13,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // components
 import Nabvar from './Navbar'
 import Score from './Score'
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -44,6 +45,7 @@ const Detail = () => {
     const { id } = useParams()
     console.log(id)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         setTimeout(() => dispatch(getMangaDetail(id)), 1500)
@@ -88,6 +90,7 @@ const Detail = () => {
 
     const handleBuyChapters = (e) => {
         dispatch(buyChapters({ sellerId: mangaDetail.authorId, productId: chapId }))
+        setTimeout(() => navigate(`/reader/${chapId}`), 1000)
     }
     return (
         <div>
@@ -181,10 +184,10 @@ const Detail = () => {
                                             }
                                         />
                                         {
-                                            user.chapters.includes(chapter.id) ?
+                                            user.chapters.includes(chapter.id) || mangaDetail.authorId === user.id || mangaDetail.chapters[0].id === chapter.id ?
                                                 <Link to={'/reader/' + chapter.id}> <Button
                                                     variant="contained">Leer</Button></Link> :
-                                                <Button value={chapter.id} onClick={handleOpen}>Comprar</Button>
+                                                < Button value={chapter.id} onClick={handleOpen}>Comprar</Button>
                                         }
                                     </Box>
 
@@ -195,7 +198,7 @@ const Detail = () => {
 
                         {/* <Divider variant="inset" component="li" /> */}
                     </List>
-                </Container>
+                </Container >
 
                 : <LinearProgress sx={{ height: '0.5rem ' }} />
             }

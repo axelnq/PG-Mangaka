@@ -41,8 +41,7 @@ import {
     GET_BUYER_ORDER,
     GET_SELLER_ORDER,
     GET_PANEL_MANGAS,
-     BUY_CHAPTERS,
-    GET_PANEL_MANGAS,
+    BUY_CHAPTERS,
     SEE_COMMENTS,
     // GET_PREFERENCE_ID
 } from "../Actions";

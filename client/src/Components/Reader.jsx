@@ -146,7 +146,7 @@ export default function Reader() {
                                                 <Box sx={{ disply: 'flex', justifyContent: 'center', alignItems: 'center', px: { xs: '15rem', lg: '33rem' } }}>
                                                     <img id={data[currentPage]} key={data[currentPage]} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(data[currentPage])} />
                                                 </Box> :
-                                                <Box sx={{ disply: 'flex', justifyContent: 'center', alignItems: 'center', px: '25rem' }}>
+                                                <Box sx={{ disply: 'flex', justifyContent: 'center', alignItems: 'center', px: { xs: '15rem', lg: '33rem' } }}>
                                                     <img id={dataReversed[currentPage]} key={dataReversed[currentPage]} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(dataReversed[currentPage])} />
                                                 </Box>
                                             }
@@ -208,7 +208,6 @@ export default function Reader() {
                     : <p>Cargando...</p>
                 }
             </div >
-
 
         </Box >
     );
