@@ -127,9 +127,9 @@ export default function CreateChapters() {
               color: '#357DED',
             }}>
             <h1 >CREA TU CAPITULO</h1>
-            <label>TITLE :</label>
             <div>
               <input style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}
+                placeholder="TITLE"
                 type="text"
                 value={input.title}
                 name="title"
@@ -142,12 +142,13 @@ export default function CreateChapters() {
               <label>PORTADA :</label>
               <div>
 
-                <input style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}
-                onChange={(e) => handleChangeFile(e)} accept="image/*" id="portada" type="file" />
+            
+                <input  type="file" style={{width: 32 +'rem', justifyContent:'center',backgroundColor:'white',textAlign:'center',height: 2 +'rem'}}
+                 onChange={(e) => handleChangeFile(e)} accept="image/*" id="portada" /> 
+                
 
 
-
-
+              
               </div>
               <label>CAPITULO :</label>
               <div>
@@ -163,7 +164,7 @@ export default function CreateChapters() {
             </Box>
             <div>
               <Box sx={{ width: '100%', py: '1rem' }}>
-                <Button onClick={(e) => handleSubmit(e)} variant="contained">Crear Capitulo</Button></Box>
+                <Button  sx={{width: 32 +'rem', justifyContent:'center',textAlign:'center',height: 2 +'rem'}}onClick={(e) => handleSubmit(e)} variant="contained">Crear Capitulo</Button></Box>
               <Box sx={{ width: '100%', py: '0.2rem' }}>
                 <NavLink to="/">
                   <Button>Home</Button>
