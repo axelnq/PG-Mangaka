@@ -4,18 +4,16 @@ import {
     DataGrid
 } from '@mui/x-data-grid';
 // import { FormControl, Select, MenuItem, Button } from '@mui/material';
-import { mangasToDb, setActiveManga } from '../Actions';
+import { getPanelMangas, setActiveManga } from '../Actions';
 
 export default function MangasPanel() {
     //get users
     const dispatch = useDispatch()
     useEffect(() => {
-        setTimeout(dispatch(mangasToDb()), 1500)
+        setTimeout(dispatch(getPanelMangas()), 1500)
     }, [dispatch])
-    const allMangas = useSelector((state) => state.mangas)
+    const allMangas = useSelector((state) => state.panelMangas)
     console.log(allMangas)
-    const mangas = useSelector((state) => state.allMangas)
-    console.log(mangas)
     const loggedUser = useSelector((state) => state.user)
 
     const columns = [
@@ -26,38 +24,32 @@ export default function MangasPanel() {
             editable: false,
         },
         {
-            field: 'authors',
+            field: 'author',
             headerName: 'Authors',
             width: 190,
             editable: false,
         },
         {
-            field: 'chapters',
+            field: 'chapter',
             headerName: 'Chapters',
             width: 150,
             editable: false,
         },
         {
-            field: 'genres',
+            field: 'genre',
             headerName: 'Genres',
             width: 400,
             editable: false,
         },
         {
-            field: 'popularity',
-            headerName: 'Popularity',
+            field: 'rate',
+            headerName: 'Rating',
             width: 150,
             editable: false,
         },
         {
             field: 'status',
             headerName: 'Status',
-            width: 150,
-            editable: false,
-        },
-        {
-            field: 'volumes',
-            headerName: 'Volumes',
             width: 150,
             editable: false,
         },
@@ -79,14 +71,15 @@ export default function MangasPanel() {
 
     let rows = [
         allMangas?.map(manga => ({
-            id: manga.mal_id,
+            id: manga.id,
             name: manga.title,
-            authors: manga.authors.map(author => author.name).join(', '),
-            chapters: manga.chapters,
-            genres: manga.genres.map(genre => genre.name).join(', '),
-            popularity: manga.popularity,
-            status: manga.status,
-            volumes: manga.volumes,
+            author: manga.author.name,
+            // author: manga.authors.map(author => author.name).join(', '),
+            chapter: manga.chapter,
+            genre: manga.genre,
+            // genre: manga.genre.map(genre => genre.name).join(', '),
+            rate: manga.rating,
+            status: manga.state,
             // creador: user.creatorMode ? 'Creador' : 'Usuario',
             estado: manga.active ? 'Activo' : 'Inactivo',
             // rol: user.role === 'SUPERADMIN' ? 'Super Admin' : user.role === 'ADMIN' ? 'Admin' : 'Usuario'
@@ -96,10 +89,11 @@ export default function MangasPanel() {
     let [data, setData] = useState('')
     console.log(data)
     if (data.field === 'estado') {
-        let manga = allMangas.find(manga => manga.mal_id === data.id)
+        let manga = allMangas.find(manga => manga.id === data.id)
         let row = rows[0].find(row => row.id === data.id)
+        dispatch(setActiveManga(manga.id));
         row.estado = data.value;
-        dispatch(setActiveManga(manga.mal_id));
+        manga.active = data.value === 'Activo' ? true : false;
     }
 
     return (

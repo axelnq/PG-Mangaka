@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { postChapters} from '../Actions/index';
+import { postChapters } from '../Actions/index';
 import Navbar from './Navbar';
 
 
@@ -59,15 +59,15 @@ export default function CreateChapters() {
 
     const { title, chapters, coverImages, price } = input;
 
-    if (title === undefined || title.length < 3) {
-      return alert('titulo invalido')
-    } else if (chapters === undefined) {
-      return alert('ingrese imagen valida')
-    } else if (coverImages === undefined) {
-      return alert('ingrese imagen valida')
-    } else if (price === undefined) {
-      return alert('')
-    }
+    // if (title === undefined || title.length < 3) {
+    //   return alert('titulo invalido')
+    // } else if (chapters === undefined) {
+    //   return alert('ingrese imagen valida')
+    // } else if (coverImages === undefined) {
+    //   return alert('ingrese imagen valida')
+    // } else if (price === undefined) {
+    //   return alert('')
+    // }
 
 
     const formData = new FormData();
