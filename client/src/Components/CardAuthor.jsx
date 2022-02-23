@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom'
 
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, Box} from '@mui/material';
+import {Box} from '@mui/material';
 
 
 const _ArrayBufferToBase64 = (buffer) => {
@@ -19,27 +20,33 @@ const _ArrayBufferToBase64 = (buffer) => {
 }
 
 
-export default function CardAuthor({image, name}) {
+export default function CardAuthor({image, name, id}) {
+  
   return (
+    
     <div>
-      <Box  sx={{display:'flex', justifyContent:"flex-end" }}>
-    <div>
-      
-        <CardMedia
-          sx={{ borderRadius: '50%' }}
-          component="img"
-          height="140"
-          image={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
-          alt="green iguana"
-        />
+      <Link to={'/author/' + id} >
+        <div>
+          <Box sx={{ display: 'flex', flexDirection:'column', justifyContent: "flex-end" }}>
 
-        <Typography gutterBottom variant="h5" component="div">
-          {name}
-        </Typography>
+            <CardMedia
+              sx={{ borderRadius: '50%' }}
+              component="img"
+              height="140"
+              image={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
+              alt="author"
+            />
+
+            <Typography gutterBottom variant="h5" component="div">
+              {name}
+            </Typography>
+
+          </Box>
+        </div>
+      </Link>
       
     </div>
-    </Box>
-    </div>
+
 
         
   );

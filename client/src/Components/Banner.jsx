@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -37,25 +37,55 @@ const Banner = (props) => {
     ];
     
     return (
-        <Fragment>
-
+        <div>
             <Box sx={{ md: { xs: '20%', md: '40%', lg: '100%' } }}>
-                <Carousel className='Carrusel' >
-                    {items.map((item, i) => (
-                        <Item key={i} {...item} />
-                    ))}
-                </Carousel>
+                <div className='Fondo'>
+                    <Box>
+                        <Carousel className='Carrusel' 
+                            sx={{ height: { xs: 6.5+'rem', sm: 9.8+'rem', md: 12.5+'rem', lg: 14.5 +'rem', xl: 16 +'rem'}}}
+                            
+                            animation='slide'
+                            duration='2100'
+                            
+                            activeIndicatorIconButtonProps={{
+                                style: {
+                                    backgroundColor: '#E2E9F3' 
+                                }                     
+                            }}
+                            indicatorIconButtonProps={{
+                                style: {
+                                    padding: '1px',    
+                                    color: '#357DED'       
+                                }
+                            }}    
+                            navButtonsProps = {{         
+                                style: { 
+                                    backgroundColor : '#1850AB', 
+                                    
+                                } 
+                            }}                          
+                        >
+                            {items.map((item, i) => (
+                                <Item key={i} {...item} 
+                                    sx={{width:'100%'}}
+                                />
+                            ))}
+                        </Carousel>
+                    </Box>
+                </div>
             </Box>
-       
-        </Fragment>
+        </div>
+        
     );
 }
     
 const Item = ({img, link}) => {
     return (
         <div>
-            <Box sx={{md:{xs:'20%', md:'40%', lg:'100%' }}}>  
-                <Link to={link} >
+            <Box sx={{md:{xs:'20%', md:'40%', lg:'100%', heigh:'220px' } }}>  
+                <Link 
+                    to={link} 
+                >
                 
                     <img  className='Imagen' src={img} alt="imagen" />
                
