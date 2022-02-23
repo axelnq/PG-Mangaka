@@ -11,18 +11,18 @@ import { useNavigate } from 'react-router-dom';
 
 function validate(input) {
   const error = {};
-  const { name, cbu, coins } = input;
+  const { name, cbu, value } = input;
   
   error.name = name.length > 3 && isNaN(name) ? null : 'Ingrese nombre del titular de la cuenta';  
   error.cbu = cbu && cbu.length === 22 && !isNaN(cbu) ? null: 'El cbu debe tener 22 digitos';
-  error.coins = coins > 0 ? null : 'Las monedas a extraer deben ser mayores a 0';
+  error.value = value > 0 ? null : 'Las monedas a extraer deben ser mayores a 0';
 
   return error;
 }
 
 export default function CheckoutForm() {
   const [coins, setCoins] = useState(0);
-  const [input, setInput] = useState({cbu:'', coins: 0, name:''});
+  const [input, setInput] = useState({cbu:'', value: 0, name:''});
   const [flag, setFlag] = useState(false);
   const [coinOptions, _] = useState([0, 10, 50, 100, 200, 500, 1000]);
   const [error, setError] = useState({})
@@ -54,14 +54,14 @@ export default function CheckoutForm() {
     const error = validate(input);
     console.log(input)
     console.log(error)
-    if (error.name || error.cbu || error.coins) {
+    if (error.name || error.cbu || error.value) {
       setError(error);
       return;
     }
 
     axios.post('http://localhost:3001/api/coins/sell', input ,{ withCredentials:true })
     alert('Su solicitud esta siendo procesada');
-    setInput ({ cbu:'', coins: 0, name:''})
+    setInput ({ cbu:'', value: 0, name:''})
     navigate('/')
   }
 
@@ -137,9 +137,9 @@ export default function CheckoutForm() {
                             textAlign:'center',
                             height: 2 +'rem'
                           }} 
-                          name="coins" 
+                          name="value" 
                           onChange = {handleChange} 
-                          value={input.coins}>
+                          value={input.value}>
                           {coinOptions.map(c => {
                               if (c <= coins) {
                                 return <option key={c} value={c}> {c} </option>
@@ -149,7 +149,7 @@ export default function CheckoutForm() {
                         </select>
                       : null
                     }
-                    {error.coins && <p className='error'>{error.coins}</p>}
+                    {error.value && <p className='error'>{error.value}</p>}
               </div> 
             </Box>
             <div>

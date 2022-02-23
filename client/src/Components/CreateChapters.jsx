@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { postChapters } from '../Actions/index';
-import Navbar from './Navbar';
 import { Input } from '@mui/material';
 
 function validate(input) {
@@ -85,7 +84,6 @@ export default function CreateChapters() {
 
   return (
     <Fragment>
-      <Navbar />
       <Box
         paddingTop={'2%'}
         sx={{ display: 'flex' }}
