@@ -9,6 +9,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { getChapter } from '../Actions';
 import NavBar from './Navbar';
+import './Reader.css'
 
 const _ArrayBufferToBase64 = (buffer) => {
     // console.log(buffer)
@@ -131,7 +132,7 @@ export default function Reader() {
                         {infiniteScroll ?
                             data?.map((item, index) => {
                                 return (
-                                    <Box sx={{ disply: 'flex', justifyContent: 'center', px: { xs: '15rem', lg: '10rem' }, pb: '2rem' }}>
+                                    <Box id="scroll" sx={{ disply: 'flex', justifyContent: 'center', px: { xs: '15rem', lg: '10rem' }, pb: '2rem' }}>
                                         <img id={index} key={index} width="contain" src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(item)} alt={index} />
                                     </Box>
 
@@ -143,11 +144,11 @@ export default function Reader() {
                                     data ?
                                         <div>
                                             {LeftToRight ?
-                                                <Box sx={{ disply: 'flex', justifyContent: 'center', alignItems: 'center', px: { xs: '15rem', lg: '33rem' } }}>
+                                                <Box id="LeftToRight" sx={{ disply: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem' }}>
                                                     <img id={data[currentPage]} key={data[currentPage]} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(data[currentPage])} />
                                                 </Box> :
-                                                <Box sx={{ disply: 'flex', justifyContent: 'center', alignItems: 'center', px: { xs: '15rem', lg: '33rem' } }}>
-                                                    <img id={dataReversed[currentPage]} key={dataReversed[currentPage]} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(dataReversed[currentPage])} />
+                                                <Box id="RightToLeft" sx={{ disply: 'flex', justifyContent: 'center', alignItems: 'center', height: '30rem' }}>
+                                                    <img sx={{ width: 'auto', height: '30rem' }} id={dataReversed[currentPage]} key={dataReversed[currentPage]} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(dataReversed[currentPage])} />
                                                 </Box>
                                             }
                                         </div>
@@ -162,41 +163,41 @@ export default function Reader() {
                                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
                                     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                                         <Box>
-                                            <Button sx={{ my: "1rem", mx: "1rem" }} onClick={handleLeftToRight} variant="contained">Left to right</Button>
-                                            <Button sx={{ my: "1rem", mx: "1rem" }} onClick={handleRightToLeft} variant="contained">Right to Left</Button>
+                                            <Button sx={{ my: "1rem", mx: "1rem", fontSize: { xs: '0.7rem', md: '0.8rem' } }} onClick={handleLeftToRight} variant="contained">Left to right</Button>
+                                            <Button sx={{ my: "1rem", mx: "1rem", fontSize: { xs: '0.7rem', md: '0.8rem' } }} onClick={handleRightToLeft} variant="contained">Right to Left</Button>
                                         </Box>
                                     </Box>
                                 </Paper >
                                 :
                                 <Paper elevation={3}>
-                                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pb: 0 }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pb: 0 }}>
+                                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pb: 0 }}>
                                                 {!LeftToRight ?
-                                                    <Button sx={{ my: "1rem" }} onClick={handleLeftToRight} variant="contained">Left to right</Button> :
-                                                    <Button sx={{ my: "1rem" }} onClick={handleRightToLeft} variant="contained">Right to left</Button>
+                                                    <Button sx={{ my: "1rem", fontSize: { xs: '0.6rem', md: '0.8rem' } }} onClick={handleLeftToRight} variant="contained">Left to right</Button> :
+                                                    <Button sx={{ my: "1rem", fontSize: { xs: '0.6rem', md: '0.8rem' } }} onClick={handleRightToLeft} variant="contained">Right to left</Button>
                                                 }
-                                                <Button sx={{ my: "1rem", ml: "1rem" }} onClick={handleFirst} variant="contained"><KeyboardDoubleArrowLeftIcon /></Button>
+                                                <Button sx={{ my: { xs: '0.5rem', md: "1rem" }, ml: { xs: '0.5rem', md: "1rem" } }} onClick={handleFirst} variant="contained"><KeyboardDoubleArrowLeftIcon /></Button>
                                                 {
                                                     //left 
                                                     currentPage <= 0 ?
-                                                        <Button id="leftArrow" sx={{ my: "1rem", mx: "1rem" }} disabled variant="contained"><ArrowLeftIcon /></Button> :
-                                                        <Button id="leftArrow" sx={{ my: "1rem", mx: "1rem" }} onClick={handleLeft} variant="contained"><ArrowLeftIcon /></Button>
+                                                        <Button id="leftArrow" sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} disabled variant="contained"><ArrowLeftIcon /></Button> :
+                                                        <Button id="leftArrow" sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} onClick={handleLeft} variant="contained"><ArrowLeftIcon /></Button>
                                                 }
-                                                <Typography variant="button" gutterBottom component="div">
+                                                <Typography sx={{ fontSize: { xs: '0.7rem', md: '0.9rem' } }} variant="button" gutterBottom component="div">
                                                     {currentPage + 1}/{data?.length}
                                                 </Typography>
                                                 {//right
                                                     currentPage >= data?.length - 1 ?
-                                                        <Button id="rightArrow" sx={{ my: "1rem", mx: "1rem" }} disabled variant="contained"><ArrowRightIcon /></Button> :
-                                                        <Button id="rightArrow" sx={{ my: "1rem", mx: "1rem" }} onClick={handleRight} variant="contained"><ArrowRightIcon /></Button>
+                                                        <Button id="rightArrow" sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} disabled variant="contained"><ArrowRightIcon sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} /></Button> :
+                                                        <Button id="rightArrow" sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} onClick={handleRight} variant="contained"><ArrowRightIcon /></Button>
                                                 }
-                                                <Button sx={{ my: "1rem", mr: "1rem" }} onClick={handleLast} variant="contained"><KeyboardDoubleArrowRightIcon /></Button>
+                                                <Button sx={{ my: { xs: '0.5rem', md: "1rem" }, mr: { xs: '0.5rem', md: "1rem" }, }} onClick={handleLast} variant="contained"><KeyboardDoubleArrowRightIcon /></Button>
                                             </Box>
                                             {
                                                 LeftToRight ?
-                                                    <a href={'#' + currentPage}><Button sx={{ my: "1rem" }} onClick={handleInfiniteScroll} variant="contained">Infinite scroll</Button></a> :
-                                                    <a href={'#' + ((data.length - 1) - currentPage)}><Button sx={{ my: "1rem" }} onClick={handleInfiniteScroll} variant="contained">Infinite scroll</Button></a>
+                                                    <a href={'#' + currentPage}><Button sx={{ my: "1rem", fontSize: { xs: '0.6rem', md: '0.8rem' } }} onClick={handleInfiniteScroll} variant="contained">Infinite scroll</Button></a> :
+                                                    <a href={'#' + ((data.length - 1) - currentPage)}><Button sx={{ my: "1rem", fontSize: { xs: '0.6rem', md: '0.8rem' } }} onClick={handleInfiniteScroll} variant="contained">Infinite scroll</Button></a>
                                             }
 
 
