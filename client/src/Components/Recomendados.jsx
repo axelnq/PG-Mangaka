@@ -73,11 +73,11 @@ const Recomendados = ( {mangasRecientes, mangasDestacados, autoresPopulares}) =>
                     <Stack direction="row" sx={{ width:'70rem'}} >
                         {
                             autoresPopulares.data && autoresPopulares.data.map(m => {
-                                console.log(m)
+                                
                                 return (
-                                    <Stack key={m.id} direction="row" spacing={2}>
-                                       <CardAuthor image={m.avatar} name={m.name}/> 
-                                    </Stack>
+                                    <div key={m.id}>
+                                       <CardAuthor image={m.avatar} name={m.name} id={m.id}/> 
+                                    </div>
                                 )
                             })
                         }
