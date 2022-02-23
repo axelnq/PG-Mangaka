@@ -265,7 +265,7 @@ export default function NavBar() {
                         lineHeight: "25px",
                       }}
                     >
-                      4536
+                      {user.coins}
                     </p>
                   </Box>
                 </Link>
