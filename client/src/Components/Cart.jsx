@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 
-export default function ({ data }) {
+export default function Cart({ data }) {
     // function createCheckoutButton(data) {
     //     // Initialize the checkout
     //     mercadopago.checkout({
