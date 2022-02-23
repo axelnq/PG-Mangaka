@@ -24,7 +24,7 @@ function validate(input) {
 export default function CreateForm() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user)
-  const [error, setError ] = useState({})
+  const [error, setError] = useState({})
 
   const [input, setInput] = useState({
     title: '',
@@ -125,21 +125,20 @@ export default function CreateForm() {
             <div>
                 <label htmlFor="contained-button-file">
                   <FormControl>
-                    
-                  <Button 
-                    sx = {{ width :'32rem', justifyContent:'center' }}  
-                    variant = "contained" 
-                    component = "span">
-                      <Input 
-                      onChange={(e) => handleChangeFile (e)} 
-                      sx={{display:'none'}} 
-                      accept="image/*" 
-                      name="images" 
-                      id="contained-button-file" 
-                      multiple type="file" 
-                    />
-                    Cargar Imagen
-                  </Button>
+                    <Button 
+                      sx = {{ width :'32rem', justifyContent:'center' }}  
+                      variant = "contained" 
+                      component = "span">
+                        <Input 
+                        onChange={(e) => handleChangeFile (e)} 
+                        sx={{display:'none'}} 
+                        accept="image/*" 
+                        name="images" 
+                        id="contained-button-file" 
+                        multiple type="file" 
+                      />
+                      Cargar Imagen
+                    </Button>
                   </FormControl>
                   {error.image && <p className='error'>{error.image}</p>}
                 </label>
