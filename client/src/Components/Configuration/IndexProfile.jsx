@@ -125,7 +125,7 @@ const IndexProfile = () => {
 						</ol>
 					</Box>
 
-					<Box>
+					<Box sx={{ margin: "0 auto", width: "250px" }}>
 						<Typography variant="h5">Pagos</Typography>
 						<ul
 							style={{
@@ -149,7 +149,7 @@ const IndexProfile = () => {
 						</ul>
 					</Box>
 
-					<FormGroup sx={{ margin: "0 auto" }}>
+					<FormGroup sx={{ margin: "0 auto", alignSelf: "center" }}>
 						<FormControlLabel
 							control={
 								<Checkbox
