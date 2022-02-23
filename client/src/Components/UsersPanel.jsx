@@ -153,7 +153,7 @@ export default function DataGridDemo() {
                     // checkboxSelection
                     disableSelectionOnClick
                     onCellEditCommit={event => { setData(event) }}
-                    sx={{ width: "50rem" }}
+                    sx={{ width: { xs: '12rem', md: "50rem" }, fontSize: { xs: '0.7rem', md: '0.8rem' }, my: '0' }}
                 />
                 : <div>No tiene permisos</div>}
         </div>

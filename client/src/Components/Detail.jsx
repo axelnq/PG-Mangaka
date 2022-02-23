@@ -120,11 +120,19 @@ const Detail = () => {
                         }}
                             position="absolute">
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button onClick={handleAddWishlist}>+ Wishlist</Button>
                                 {
-                                    fav ?
-                                        <Button onClick={handleFav}><FavoriteIcon sx={{ color: 'red' }} /></Button>
-                                        : <Button onClick={handleFav}><FavoriteBorderIcon sx={{ color: 'red' }} /></Button>
+                                    user.wishList.includes(mangaDetail.id) ?
+                                        null
+                                        :
+                                        <Button onClick={handleAddWishlist}>+ Wishlist</Button>
+                                }
+                                {
+                                    user.favorites.includes(mangaDetail.id) ?
+                                        null
+                                        :
+                                        fav ?
+                                            <Button onClick={handleFav}><FavoriteIcon sx={{ color: 'red' }} /></Button>
+                                            : <Button onClick={handleFav}><FavoriteBorderIcon sx={{ color: 'red' }} /></Button>
                                 }
                             </Box>
                             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: { xs: '4%', md: '6%' }, ml: '2rem', color: "white", height: 'max-content' }}>
@@ -137,14 +145,22 @@ const Detail = () => {
                                         <Typography noWrap="false" variant="body2" sx={{ textAlign: 'left', width: "90%", fontSize: { xs: "0.6rem", md: "1rem" } }}>{mangaDetail.synopsis}</Typography>
                                 }
                                 {
-                                    paragraph ?
-                                        <KeyboardArrowUpIcon onClick={handleParagraph} sx={{ color: '#357DED' }} />
-                                        :
-                                        <KeyboardArrowDownIcon onClick={handleParagraph} sx={{ color: '#357DED' }} />
+                                    mangaDetail.synopsis.length >= 104 ?
+                                        paragraph ?
+                                            <KeyboardArrowUpIcon onClick={handleParagraph} sx={{
+                                                color: '#357DED', width: '2rem',
+                                                height: '2rem'
+                                            }} />
+                                            :
+                                            <KeyboardArrowDownIcon onClick={handleParagraph} sx={{
+                                                color: '#357DED', width: '2rem',
+                                                height: '2rem'
+                                            }} />
+                                        : null
                                 }
                             </Box>
 
-                            <Box
+                            {/* <Box
                                 sx={{
                                     display: 'flex', justifyContent: 'flex-end', mt: '0.5rem', mr: '1rem'
                                 }}
@@ -157,11 +173,11 @@ const Detail = () => {
                                     }}
                                 />
 
-                            </Box>
+                            </Box> */}
                         </Box>
                         {
                             paragraph ?
-                                <Box sx={{ overflow: 'hidden', height: '35rem' }}>
+                                <Box sx={{ overflow: 'hidden', height: { xs: '40rem', sm: '28rem', md: '35rem' } }}>
                                     <img
                                         component="img"
                                         height="contain"
@@ -171,7 +187,7 @@ const Detail = () => {
                                     />
                                 </Box>
                                 :
-                                <Box sx={{ overflow: 'hidden', height: '18rem' }}>
+                                <Box sx={{ overflow: 'hidden', height: { xs: '10rem', sm: '12rem', md: '18rem' } }}>
                                     <img
                                         component="img"
                                         height="contain"
@@ -183,10 +199,10 @@ const Detail = () => {
                         }
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', p: '1rem' }}>
-                        <a href="#bottom"><Button>Ir al último <ArrowDropDownIcon /></Button></a>
+                        <a href="#bottom"><Button sx={{ fontSize: { xs: '0.7rem', md: '1rem' }, color: '#357DED' }}>Ir al último <ArrowDropDownIcon /></Button></a>
                         {
                             user && user.creatorMode && mangaDetail.authorId === user.id ?
-                                <Link to={'/createChapters/' + mangaDetail.id}><Button variant="contained">Agregar Capítulo</Button></Link>
+                                <Link to={'/createChapters/' + mangaDetail.id}><Button sx={{ fontSize: { xs: '0.7rem', md: '1rem' }, background: '#357DED' }} variant="contained">Agregar Capítulo</Button></Link>
                                 : null
                         }
                     </Box>
@@ -197,39 +213,33 @@ const Detail = () => {
                                 {/* <Button disabled> */}
                                 <ListItem alignItems="flex-start">
                                     <ListItemAvatar>
-                                        <Avatar alt={chapter.title} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(chapter.coverImage)} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
+                                        <Avatar alt={chapter.title} src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(chapter.coverImage)} variant="square" sx={{ width: { xs: "4rem", sm: "6rem" }, height: { xs: "4rem", sm: "6rem" }, mr: "1rem" }} />
                                     </ListItemAvatar>
                                     <Box>
-                                        <ListItemText
-                                            primary={chapter.title}
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography variant="body2" color="text.secondary">30 enero, 2022</Typography>
-                                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                                                        {/* <Typography variant="body2" color="text.secondary">{chapter.points}</Typography> */}
-                                                        <Box
-                                                            sx={{
-                                                                display: 'flex', justifyContent: 'flex-end', mt: '0.5rem'
-                                                            }}
-                                                        >
-                                                            {/* <Score id={chapter.id} /> */}
-                                                            {/* <Rating
+                                        <Typography variant="h3" sx={{ fontSize: { xs: "0.7rem", sm: "1rem" } }}>{chapter.title}</Typography>
+                                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: "0.6rem", sm: "0.8rem" } }}>30 enero, 2022</Typography>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                                            {/* <Typography variant="body2" color="text.secondary">{chapter.points}</Typography> */}
+                                            <Box
+                                                sx={{
+                                                    display: 'flex', justifyContent: 'flex-end', mt: '0.5rem'
+                                                }}
+                                            >
+                                                {/* <Score id={chapter.id} /> */}
+                                                {/* <Rating
                                                             name="simple-controlled"
                                                             value={valueChapter}
                                                             onChange={(event, newValue) => {
                                                                 setValueChapter(newValue);
                                                             }}
                                                         /> */}
-                                                        </Box>
-                                                    </Box>
-                                                </React.Fragment>
-                                            }
-                                        />
+                                            </Box>
+                                        </Box>
                                         {
                                             user.chapters.includes(chapter.id) || mangaDetail.authorId === user.id || mangaDetail.chapters[0].id === chapter.id ?
-                                                <Link to={'/reader/' + chapter.id}> <Button
+                                                <Link to={'/reader/' + chapter.id}> <Button sx={{ width: { xs: '0.8 rem', md: '1.5rem' }, height: { xs: '1.5rem', md: '2rem' }, fontSize: { xs: '0.7rem', md: '0.8rem' }, background: '#357DED' }}
                                                     variant="contained">Leer</Button></Link> :
-                                                < Button value={chapter.id} onClick={handleOpen}>Comprar</Button>
+                                                < Button sx={{ width: { xs: '0.8 rem', md: '1.5rem' }, height: { xs: '1.5rem', md: '2rem' }, fontSize: { xs: '0.7rem', md: '0.8rem' }, background: '#357DED' }} value={chapter.id} onClick={handleOpen}>Comprar</Button>
                                         }
                                     </Box>
 

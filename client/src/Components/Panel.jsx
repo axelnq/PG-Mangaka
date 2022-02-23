@@ -46,10 +46,10 @@ export default function VerticalTabs() {
 
     return (
         <>
-            <Container>
+            <Container sx={{ p: 0 }}>
                 <Typography sx={{ my: '2rem', textAlign: 'left' }} variant="h4" component="div" gutterBottom>Panel Admin</Typography>
                 <Box
-                    sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}
+                    sx={{ bgcolor: 'background.paper', display: 'flex' }}
                 >
                     <Tabs
                         orientation="vertical"
@@ -57,10 +57,10 @@ export default function VerticalTabs() {
                         value={value}
                         onChange={handleChange}
                         aria-label="Vertical tabs example"
-                        sx={{ borderRight: 1, borderColor: 'divider' }}
+                        sx={{ borderRight: 1, borderColor: 'divider', ml: 0 }}
                     >
-                        <Tab label="Usuarios" {...a11yProps(0)} />
-                        <Tab label="Mangas" {...a11yProps(1)} />
+                        <Tab sx={{ fontSize: { xs: '0.6rem', md: '0.8rem' } }} label="Usuarios" {...a11yProps(0)} />
+                        <Tab sx={{ fontSize: { xs: '0.6rem', md: '0.8rem' } }} label="Mangas" {...a11yProps(1)} />
                     </Tabs>
                     <Panel value={value} index={0}>
                         <UsersPanel />
