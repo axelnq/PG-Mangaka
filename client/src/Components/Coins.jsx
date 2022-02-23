@@ -241,7 +241,7 @@ export default function Coins() {
               mb: "1rem",
             }}
           >
-            <Typography variant="h6">Mis monedas: {user.coins}</Typography>
+            <Typography sx={{ fontSize: { xs: '1rem' }, pt: { xs: '0.2rem' } }} variant="h6">Mis monedas: {user.coins}</Typography>
             <Button variant="contained" onClick={handleClickOpen}>
               Comprar monedas
             </Button>
@@ -256,13 +256,14 @@ export default function Coins() {
               variant="fullWidth"
               aria-label="full width tabs example"
             >
-              <Tab label="Compradas" {...a11yProps(0)} />
-              <Tab label="Usadas" {...a11yProps(1)} />
+
+              <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Compradas" {...a11yProps(0)} />
+              <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Usadas" {...a11yProps(1)} />
               {user.creatorMode === true ? (
-                <Tab label="Cambiadas" {...a11yProps(2)} />
+                <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Cambiadas" {...a11yProps(2)} />
               ) : null}
               {user.creatorMode === true ? (
-                <Tab label="Recibidas" {...a11yProps(3)} />
+                <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Recibidas" {...a11yProps(3)} />
               ) : null}
             </Tabs>
           </AppBar>

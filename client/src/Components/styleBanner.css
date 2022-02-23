@@ -9,7 +9,10 @@ img{
 
 .Carrusel{
     width: auto;
-    height: 255px;
+    height: 220px;
    
 }
 
+div.Carrusel.css-ohwg9z{
+    height: 220px;
+}

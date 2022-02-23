@@ -15,7 +15,7 @@ export default function CoinsPanel(props) {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center">Cantidad</TableCell>
+                        <TableCell align="center">Cantidad (en pesos)</TableCell>
                         <TableCell align="center">Fecha</TableCell>
                     </TableRow>
                 </TableHead>

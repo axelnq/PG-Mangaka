@@ -14,54 +14,54 @@ import saitama from '../img/saitama.png'
 import './styleBanner.css'
 
 const Banner = (props) => {
-    
+
 
     const items = [
         {
             img: bleach,
-            link: '/#filters'  
+            link: '/#filters'
         },
         {
-            img:blackC,
-            link: '/create'     
+            img: blackC,
+            link: '/create'
         },
         {
-            img:komi,
+            img: komi,
             link: '/#destacados'
-                
+
         },
         {
-            img:saitama,
-            link: '/#recientes'       
+            img: saitama,
+            link: '/#recientes'
         }
     ];
-    
+
     return (
         <div className='Fondo'>
-            <Box sx={{md:{xs:'20%', md:'40%', lg:'100%' }}}>       
-            <Carousel className='Carrusel'>
-                {items.map((item, i) => (
-                    <Item key={i} {...item} />
-                ))}
-            </Carousel>
+            <Box sx={{ md: { xs: '20%', md: '40%', lg: '100%' } }}>
+                <Carousel indicators="false" className='Carrusel'>
+                    {items.map((item, i) => (
+                        <Item key={i} {...item} />
+                    ))}
+                </Carousel>
             </Box>
         </div>
     );
 }
-    
-const Item = ({img, link}) => {
+
+const Item = ({ img, link }) => {
     return (
         <div>
-            <Box sx={{md:{xs:'20%', md:'40%', lg:'100%' }}}>  
+            <Box sx={{ md: { xs: '20%', md: '40%', lg: '100%' } }}>
                 <Link to={link} >
-                
-                    <img  className='Imagen' src={img} alt="imagen" />
-               
+
+                    <img className='Imagen' src={img} alt="imagen" />
+
                 </Link>
             </Box>
         </div>
     );
-    
+
 }
 
 export default Banner

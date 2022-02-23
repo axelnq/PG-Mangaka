@@ -10,6 +10,8 @@ import { Container, Box, Button, List, ListItem, Modal, LinearProgress, Divider,
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 // components
 import Nabvar from './Navbar'
 import Score from './Score'
@@ -92,6 +94,17 @@ const Detail = () => {
         dispatch(buyChapters({ sellerId: mangaDetail.authorId, productId: chapId }))
         setTimeout(() => navigate(`/reader/${chapId}`), 1000)
     }
+
+    const [paragraph, setParagraph] = React.useState(false)
+
+    const handleParagraph = (e) => {
+        if (paragraph) {
+            setParagraph(false)
+        } else {
+            setParagraph(true)
+        }
+
+    }
     return (
         <div>
             <Nabvar />
@@ -114,10 +127,21 @@ const Detail = () => {
                                         : <Button onClick={handleFav}><FavoriteBorderIcon sx={{ color: 'red' }} /></Button>
                                 }
                             </Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: { xs: '4%', md: '6%' }, ml: '1rem', color: "white" }}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: { xs: '4%', md: '6%' }, ml: '2rem', color: "white", height: 'max-content' }}>
                                 <Typography variant="h5" sx={{ fontSize: { xs: "1.2rem", md: "1.6rem" }, mt: '1rem' }} component="div">{mangaDetail.title}</Typography>
-                                <Typography variant="subtitle1" sx={{ mb: { xs: "0.5rem", md: "0.7rem" }, fontSize: { xs: "0.8rem", md: "1.2rem" } }}>Genre</Typography>
-                                <Typography noWrap="false" variant="body2" sx={{ textAlign: 'left', width: "90%", fontSize: { xs: "0.6rem", md: "1rem" } }}>{mangaDetail.synopsis}</Typography>
+                                <Typography variant="subtitle1" sx={{ mb: { xs: "0.5rem", md: "0.7rem" }, fontSize: { xs: "0.8rem", md: "1.2rem" } }}>{mangaDetail.genre.map(g => g).join(', ')}</Typography>
+                                {
+                                    paragraph ?
+                                        <Typography variant="body2" sx={{ textAlign: 'left', width: "90%", fontSize: { xs: "0.6rem", md: "1rem", lineHeight: '1.5rem' } }}>{mangaDetail.synopsis}</Typography>
+                                        :
+                                        <Typography noWrap="false" variant="body2" sx={{ textAlign: 'left', width: "90%", fontSize: { xs: "0.6rem", md: "1rem" } }}>{mangaDetail.synopsis}</Typography>
+                                }
+                                {
+                                    paragraph ?
+                                        <KeyboardArrowUpIcon onClick={handleParagraph} sx={{ color: '#357DED' }} />
+                                        :
+                                        <KeyboardArrowDownIcon onClick={handleParagraph} sx={{ color: '#357DED' }} />
+                                }
                             </Box>
 
                             <Box
@@ -135,20 +159,38 @@ const Detail = () => {
 
                             </Box>
                         </Box>
-                        <Box sx={{ overflow: 'hidden', height: { xs: '10rem', md: '15rem' } }}>
-                            <img
-                                component="img"
-                                height="auto"
-                                width="auto"
-                                src={'data:image/jpeg;base64,' + buffer}
-                                alt={mangaDetail?.title}
-                            />
-                        </Box>
+                        {
+                            paragraph ?
+                                <Box sx={{ overflow: 'hidden', height: '35rem' }}>
+                                    <img
+                                        component="img"
+                                        height="contain"
+                                        width="auto"
+                                        src={'data:image/jpeg;base64,' + buffer}
+                                        alt={mangaDetail?.title}
+                                    />
+                                </Box>
+                                :
+                                <Box sx={{ overflow: 'hidden', height: '18rem' }}>
+                                    <img
+                                        component="img"
+                                        height="contain"
+                                        width="auto"
+                                        src={'data:image/jpeg;base64,' + buffer}
+                                        alt={mangaDetail?.title}
+                                    />
+                                </Box>
+                        }
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', p: '1rem' }}>
                         <a href="#bottom"><Button>Ir al último <ArrowDropDownIcon /></Button></a>
-                        <Link to={'/createChapters/' + mangaDetail.id}><Button variant="contained">Agregar Capítulo</Button></Link></Box>
-                    <List sx={{ width: '100%', minWidth: "22.5rem", bgcolor: 'background.paper' }}>
+                        {
+                            user && user.creatorMode && mangaDetail.authorId === user.id ?
+                                <Link to={'/createChapters/' + mangaDetail.id}><Button variant="contained">Agregar Capítulo</Button></Link>
+                                : null
+                        }
+                    </Box>
+                    <List sx={{ width: '100%', minWidth: "25rem", bgcolor: 'background.paper' }}>
 
                         {mangaDetail.chapters?.map((chapter, index) => (
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '50rem' }}>
