@@ -1,6 +1,9 @@
 import { NextFunction, Router } from "express";
 import passport from "passport";
 import { db } from "../app";
+const { 
+  SERVER_URL
+} = process.env || 3001
 
 export const authRouter = Router();
 export async function isAuthenticated(req: any , res: any, next: any) {
@@ -15,7 +18,7 @@ authRouter.get("/google",
 );
 
 authRouter.get("/google/callback",
-  passport.authenticate("google", { successRedirect: "http://localhost:3000", failureRedirect: "/login" })
+  passport.authenticate("google", { successRedirect:`${SERVER_URL}`, failureRedirect: "/login" })
 );
 
 authRouter.get("/google/response", async (req: any, res: any) => {  
@@ -34,7 +37,7 @@ authRouter.get("/google/response", async (req: any, res: any) => {
 authRouter.post<{}, {}>("/local/login", (req, res, next) => {
   passport.authenticate(
     "local",
-    { successRedirect: "http://localhost:3000/", failureRedirect: "/login" },
+    { successRedirect: `${SERVER_URL}`, failureRedirect: "/login" },
     (err, user, info) => {
       if (err) throw err;
       if (!user) return res.status(404).send("No user exists");
@@ -51,13 +54,13 @@ authRouter.post<{}, {}>("/local/login", (req, res, next) => {
 });
 
 authRouter.get("/logout", (req, res) => {
-  // console.log(req);
+
   if (req.user) {
-    // console.log("logout");
+   
     req.logout();
     res.send("Logout success");
   } else {
-    // console.log("no logout");
+
     res.status(400).send({ msg: "User not logged in" });
   }
 });
