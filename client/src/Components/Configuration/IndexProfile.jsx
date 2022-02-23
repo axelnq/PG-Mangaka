@@ -9,6 +9,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
 import Container from '@mui/material/Container';
+import { Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
@@ -49,7 +50,9 @@ const IndexProfile = () => {
 		}
 	};
 	return (
-		<Container width='100%'>
+		<Container sx={{
+			md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}
+		}}>
 		<Box>
 			{user.creatorMode ? (
 				<>
@@ -82,22 +85,26 @@ const IndexProfile = () => {
 					</Box>
 				</>
 			) : (
-				<Container sx={{xs: 3+'rem', sm: 9.8+'rem', md: 12.5+'rem', lg: 14.5 +'rem', xl: 16 +'rem'}}>
+				<Container sx={{
+					md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}
+				}}>
 					<Box
 						component="form"
 						onSubmit={handleSubmit}
 						autoComplete="off"
 						display='flex'
 						flexDirection='column'
-						sx={{xs: '20%', md: '40%', lg: '100%'}}
+						sx={{md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}}}
 						
 					>
 						<Box 
-							sx={{width: "48rem", xs: 6.5+'rem', sm: 9.8+'rem', md: 12.5+'rem', lg: 14.5 +'rem', xl: 16 +'rem'}}
+							sx={{								
+								md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}			
+							}}
 							display='flex'
 							flexDirection='column'
 							justifyContent='center'
-							marginLeft='10rem'
+							
 							
 						>
 							<Typography variant="h4">
@@ -116,18 +123,26 @@ const IndexProfile = () => {
 								términos y condiciones:
 							</Typography>
 						</Box>
-
-							<Box
+							
+							<Stack 
+								direction={{ xs: "column", md: "row" }} 
+								spacing={2}
 								margin='2rem'
-								sx={{xs: 6.5+'rem', sm: 9.8+'rem', md: 12.5+'rem', lg: 14.5 +'rem', xl: 16 +'rem'}}
-								display='flex'
-								justifyContent='space-around'
+								sx={{									
+									display:'flex',									
+									justifyContent:'space-around',
+									alignItems:'center'
+								}}
 							>
 								<Box 
-									sx={{ margin: "0 auto", width: "25rem", background:'#192A45', p:'1.5rem', borderRadius:'0.2rem'}}
+									sx={{ 
+										margin: "0 auto", width: "25rem", height:'25rem', background:'#192A45', p:'1.5rem', borderRadius:'0.2rem',
+										md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}
+									}}
 									display='flex'
 									flexDirection='column'
 									justifyContent='space-around'	
+									
 								>
 
 									<Typography 
@@ -154,7 +169,10 @@ const IndexProfile = () => {
 								</Box>
 
 								<Box  
-									sx={{ margin: "0 auto", width: "25rem", background:'#192A45', p:'1.5rem', borderRadius:'0.2rem'}}
+									sx={{
+										margin: "0 auto", width: "25rem",height:'25rem', background:'#192A45', p:'1.5rem', borderRadius:'0.2rem',
+										md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}									
+									}}
 									display='flex'
 									flexDirection='column'
 									justifyContent='space-around'
@@ -185,8 +203,8 @@ const IndexProfile = () => {
 									</ul>
 
 								</Box>
-
-							</Box>
+							</Stack>
+							
 
 						<FormGroup sx={{ margin: "0 auto", alignSelf: "center" }}>
 							<FormControlLabel
