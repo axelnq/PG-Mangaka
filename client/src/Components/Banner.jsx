@@ -11,7 +11,7 @@ import komi from '../img/komi.png'
 import blackC from '../img/black.png'
 import saitama from '../img/saitama.png'
 
-import './styleBanner.css'
+
 
 const Banner = (props) => {
 
@@ -87,7 +87,11 @@ const Item = ({ img, link }) => {
                     to={link}
                 >
 
-                    <img className='Imagen' src={img} alt="imagen" />
+                    <img
+                        className='Imagen' src={img}
+                        alt="imagen"
+                        width='100%'
+                    />
 
                 </Link>
             </Box>

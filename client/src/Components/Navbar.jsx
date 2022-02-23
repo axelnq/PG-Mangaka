@@ -5,7 +5,6 @@ import {
   getMangasPreview,
   searchManga,
   getUser,
-  getGoogleUser,
 } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
 import LoginModal from "./Access/LoginModal";
@@ -15,7 +14,7 @@ import "animate.css";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+//import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
@@ -257,7 +256,8 @@ export default function NavBar() {
                     </div>
                     <p
                       style={{
-                        margin: "0 auto",
+                        marginLeft: "15%",
+
                         textAlign: "center",
                         fontWeight: "bold",
                         fontSize: "16px",
