@@ -1,9 +1,9 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import React from 'react';
+import { Link } from 'react-router-dom'
+
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import {Box} from '@mui/material';
 
 
 const _ArrayBufferToBase64 = (buffer) => {
@@ -20,24 +20,34 @@ const _ArrayBufferToBase64 = (buffer) => {
 }
 
 
-export default function CardAuthor({image, name}) {
+export default function CardAuthor({image, name, id}) {
+  
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          sx={{borderRadius:'50%'}}
-          component="img"
-          height="140"
-          image={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {name}
-          </Typography>
-          
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    
+    <div>
+      <Link to={'/author/' + id} >
+        <div>
+          <Box sx={{ display: 'flex', flexDirection:'column', justifyContent: "flex-end" }}>
+
+            <CardMedia
+              sx={{ borderRadius: '50%' }}
+              component="img"
+              height="140"
+              image={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
+              alt="author"
+            />
+
+            <Typography gutterBottom variant="h5" component="div">
+              {name}
+            </Typography>
+
+          </Box>
+        </div>
+      </Link>
+      
+    </div>
+
+
+        
   );
 }
