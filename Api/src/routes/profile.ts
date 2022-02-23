@@ -86,9 +86,12 @@ profileRouter.get("/mangas", isAuthenticated, async (req, res, next) => {
       },
     },
   });
-  console.log(mangasCreated);
-  console.log(mangasCreated[0].chapters);
+  console.log("mis mangas", mangasCreated);
+  console.table(mangasCreated[0].chapters);
   //@ts-ignore
+  if(!mangasCreated.length){
+    return res.json({msg: "No hay Mangas aún"})
+  }
   mangasCreated.forEach((manga: any) => {
     manga.chapters.forEach((chapter: any) => {
       chapter.totalPages = chapter.images.length;

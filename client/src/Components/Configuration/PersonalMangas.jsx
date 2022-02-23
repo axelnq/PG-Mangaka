@@ -14,23 +14,35 @@ import Box from "@mui/material/Box";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 import "animate.css";
 export default function PersonalMangas() {
   const [mangas, setMangas] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/profile/", { withCredentials: true })
+      .get("http://localhost:3001/api/profile/mangas", {
+        withCredentials: true,
+      })
       .then((res) => {
         console.log(res.data);
-        setMangas(res.data.mangasCreated);
+        if (res.data.msg === "No hay Mangas aún") {
+          setError(true);
+        } else {
+          setMangas(res.data.mangasCreated);
+        }
         setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setLoading(false);
+        setError(true);
+        console.log(error);
+      });
   }, []);
   return loading ? (
     <CircularProgress disableShrink />
-  ) : (
+  ) : !error ? (
     <Box className="animate__animated animate__fadeInUp animate_slower">
       {mangas.map((m) => {
         return (
@@ -44,10 +56,17 @@ export default function PersonalMangas() {
             </AccordionSummary>
             <AccordionDetails>
               <List>
-                <ListItem>
-                  <ListItemText primary={`Capitulos creados: ${m.chapter}`} />
-                </ListItem>
-                <Link to={`/createChapters/${m.id}`}>
+                {m.chapters.length && m.chapters.map((c, i) => {
+                  return (
+                    <Link to={"/reader/" + c.id} style={{textDecoration: "none", color: "#192a45"}}>
+                    <ListItem>
+                      <ListItemText primary={`${c.id}. ${c.title}`} />
+                    </ListItem>
+                    </Link>
+                  );
+                })}
+
+                <Link to={`/profile/createChapters/${m.id}`}>
                   <ListItem button>
                     <ListItemText primary={"Crear nuevo capitulo"} />
                     <ListItemIcon>
@@ -60,6 +79,18 @@ export default function PersonalMangas() {
           </Accordion>
         );
       })}
+    </Box>
+  ) : (
+    <Box>
+      <Typography variant="h6">NO HAY MANGAS CREADOS</Typography>
+      <Link
+        to="/profile/create"
+        style={{ textDecoration: "none", color: "white" }}
+      >
+        <Button variant="contained" sx={{ width: "50%", mx: 1 }}>
+          Crear Manga
+        </Button>
+      </Link>
     </Box>
   );
 }
