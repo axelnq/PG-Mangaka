@@ -18,19 +18,26 @@ import "animate.css";
 export default function PersonalMangas() {
   const [mangas, setMangas] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/profile/", { withCredentials: true })
+      .get("http://localhost:3001/api/profile/mangas", {
+        withCredentials: true,
+      })
       .then((res) => {
         console.log(res.data);
         setMangas(res.data.mangasCreated);
         setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setLoading(false);
+        setError(true);
+        console.log(error);
+      });
   }, []);
   return loading ? (
     <CircularProgress disableShrink />
-  ) : (
+  ) : !error ? (
     <Box className="animate__animated animate__fadeInUp animate_slower">
       {mangas.map((m) => {
         return (
@@ -47,7 +54,7 @@ export default function PersonalMangas() {
                 <ListItem>
                   <ListItemText primary={`Capitulos creados: ${m.chapter}`} />
                 </ListItem>
-                <Link to={`/createChapters/${m.id}`}>
+                <Link to={`/profile/createChapters/${m.id}`}>
                   <ListItem button>
                     <ListItemText primary={"Crear nuevo capitulo"} />
                     <ListItemIcon>
@@ -61,5 +68,7 @@ export default function PersonalMangas() {
         );
       })}
     </Box>
+  ) : (
+    <Typography variant="h4">NO HAY MANGAS CREADOS</Typography>
   );
 }
