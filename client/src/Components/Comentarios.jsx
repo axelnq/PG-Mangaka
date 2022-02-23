@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useParams} from "react-router-dom"
+import {useParams} from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -89,97 +89,97 @@ export default function Comentarios({idChapter} ) {
         <div>
             <Container>
                 <Box >
-                    
-                    
-                        <Box  mb='1rem' sx={{display:'flex', justifyContent:"flex-end" }}>
-                            <Button
-                                onClick={handleOpen}
-                                sx={{ 
-                                    bgcolor: '#192A45',  
-                                    borderRadius: '50%',        
-                                    height: 4 +'rem',
-                                }}
-                            >
-                                <AddCommentIcon color="#5A92ED" fontSize="large" />
-                            </Button>
-                        </Box>
 
-                        <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
+
+                    <Box mb='1rem' sx={{ display: 'flex', justifyContent: "flex-end" }}>
+                        <Button
+                            onClick={handleOpen}
+                            sx={{
+                                bgcolor: '#192A45',
+                                borderRadius: '50%',
+                                height: 4 + 'rem',
+                            }}
                         >
-                            <Box sx={style}>                           
-                                <FormControl 
-                                    component="form"
-                                    onSubmit={e => handleSubmit(e)}
-                                    width='100%'
-                                >
+                            <AddCommentIcon color="#5A92ED" fontSize="large" />
+                        </Button>
+                    </Box>
 
-                                    <Box  sx={{display:'flex', justifyContent:"center"}}>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                    >
+                        <Box sx={style}>
+                            <FormControl
+                                component="form"
+                                onSubmit={e => handleSubmit(e)}
+                                width='100%'
+                            >
+
+                                <Box sx={{ display: 'flex', justifyContent: "center" }}>
                                     <Typography id="modal-modal-title" variant="h6" component="h2" >
                                         Ingresa tu Comentario
                                     </Typography>
-                                    </Box>
+                                </Box>
 
-                                    
-                                        <Input
-                                            id="outlined-textarea"
-                                            type='text'
-                                            label="Multiline Placeholder"
-                                            placeholder="Placeholder"
-                                            multiline
-                                            rows={5}   
-                                            name='comment'  
-                                            value={input.comment}                                      
-                                            onChange={handleChange}                                             
-                                            
-                                        />
-                                    
-                                    
 
-                                    <Box sx={{display:'flex', justifyContent:"flex-end"}}>
-                                        <Button
-                                            type="submit"
-                                        >
-                                            <SendIcon color="#5A92ED" fontSize="large"  />
-                                        </Button>
-                                    </Box>
-                                    
-                                
-                                </FormControl>
-                            </Box> 
-                        </Modal>
+                                <Input
+                                    id="outlined-textarea"
+                                    type='text'
+                                    label="Multiline Placeholder"
+                                    placeholder="Placeholder"
+                                    multiline
+                                    rows={5}
+                                    name='comment'
+                                    value={input.comment}
+                                    onChange={handleChange}
 
-                    
+                                />
+
+
+
+                                <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
+                                    <Button
+                                        type="submit"
+                                    >
+                                        <SendIcon color="#5A92ED" fontSize="large" />
+                                    </Button>
+                                </Box>
+
+
+                            </FormControl>
+                        </Box>
+                    </Modal>
+
+
 
                     <Box>
-                        {   
+                        {
                             AllComments?.map((c) => {
-                                console.log(c,'c')
+                                console.log(c, 'c')
                                 return (
                                     <div>
 
                                         <Divider variant="inset" sx={{ borderColor: "#1850AB" }} />
                                         <ListItem alignItems="flex-start">
-            
+
                                             <ListItemAvatar>
-                                                <Avatar 
+                                                <Avatar
                                                     src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(c.userAvatar.avatar)}
-                                                    />
+                                                />
                                             </ListItemAvatar>
-            
+
                                             <ListItemText
                                                 primary={c.username}
-                                                
+
                                                 secondary={
                                                     <React.Fragment>
                                                         <Typography variant="body2" color="text.secondary"> {c.commentUser} </Typography>
-            
+
                                                     </React.Fragment>
                                                 }
-                                                />
-            
+                                            />
+
                                         </ListItem>
                                         <Divider variant="inset" sx={{ borderColor: "#1850AB" }} />
                                     </div>
@@ -187,9 +187,9 @@ export default function Comentarios({idChapter} ) {
                             })
 
                         }
-                    
+
                     </Box>
-                
+
                 </Box>
             </Container>
         </div>

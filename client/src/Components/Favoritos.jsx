@@ -13,7 +13,7 @@ import  {favorite, removeFavorite}  from '../Actions'
 
 
 
-import './styleFavoritos.css'
+
 
 const _ArrayBufferToBase64 = (buffer) => {
     //console.log(buffer)

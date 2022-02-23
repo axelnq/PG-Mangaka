@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
-import { Container, Box, List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Link } from '@mui/material';
+import { Container, Box, List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
 
 
-export default function AuthorMangas({image, title}) {
+export default function AuthorMangas({image, title, id}) {
     
 
 
@@ -14,16 +15,17 @@ export default function AuthorMangas({image, title}) {
 
                     <Box >
 
-                        <Divider variant="inset" component="li" />
+                        <Divider variant="inset" component="li" sx={{ borderColor: "#1850AB" }} />
                         <ListItem >
                             <ListItemAvatar>
                                 <Avatar alt="Remy Sharp" src={image} variant="square" sx={{ width: "6rem", height: "6rem", mr: "1rem" }} />
                             </ListItemAvatar>
-                            
+                            <Link to={'/detail/' + id}>
                                 <ListItemText primary={title} />
+                            </Link>
                             
                         </ListItem>
-                        <Divider variant="inset" component="li" />
+                        <Divider variant="inset" component="li" sx={{ borderColor: "#1850AB" }}/>
 
                     </Box>
 

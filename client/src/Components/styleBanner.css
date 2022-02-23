@@ -3,13 +3,12 @@
     padding: 0;
 }
 
-img{
+.Carousel img{
     width: 100%;
 }
 
-.Carrusel{
-    width: auto;
-    height: 255px;
-   
-}
 
+
+/* .Carusel {
+    
+} */

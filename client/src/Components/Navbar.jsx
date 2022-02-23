@@ -5,7 +5,6 @@ import {
   getMangasPreview,
   searchManga,
   getUser,
-  getGoogleUser,
 } from "../Actions/index";
 import PerfilNavbar from "./PerfilNavbar";
 import LoginModal from "./Access/LoginModal";
@@ -15,13 +14,13 @@ import "animate.css";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+//import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 //import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InputBase from "@mui/material/InputBase";
-
+import styles from './mangaka.module.css'
 //styles
 const Input = styled(InputBase)`
   width: 100%;
@@ -143,9 +142,9 @@ export default function NavBar() {
             mx: "10px",
           }}
         >
-          <Typography variant="h5" color="primary">
-            <Link to="/">MANGAKA</Link>
-          </Typography>
+          <h1>
+            <Link to="/" style={{ textDecoration: "none", color: "" }}>MANGAKA</Link>
+          </h1>
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
             <Box
               component="form"
@@ -157,7 +156,7 @@ export default function NavBar() {
               }}
             >
               <Stack direction="column">
-                <Stack direction="row">
+                <Stack direction="row" sx={{mt:{xs: 2, md: 0}}}>
                   <Input
                     placeholder="Search..."
                     value={search}
@@ -257,7 +256,8 @@ export default function NavBar() {
                     </div>
                     <p
                       style={{
-                        margin: "0 auto",
+                        marginLeft: "15%",
+
                         textAlign: "center",
                         fontWeight: "bold",
                         fontSize: "16px",
