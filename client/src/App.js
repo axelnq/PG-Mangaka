@@ -32,18 +32,9 @@ const axios = require("axios");
 function App() {
   const user = useSelector((state) => state.user);
   //YA HAY UN ACTION CREATOR getUser ;)
-  const handleButton = () => {
-    let current = axios.get("http://localhost:3001/api/users/currentUser", {withCredentials: true,});
-    console.log("current");
-    console.log(current);
-    console.log("   ")
-    console.log("user");
-    console.log(user);
-  };
+
   return (
     <div className="App">
-      <button onClick={() => localStorage.clear()}>Clear</button>
-      <button onClick={handleButton}>Current</button>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />

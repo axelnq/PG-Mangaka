@@ -216,6 +216,7 @@ export default function Reader() {
             </div >
             <Comentarios
                 marginTop='4rem'
+                idChapter={id}
             />
         </Box >
     );

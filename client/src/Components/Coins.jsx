@@ -260,7 +260,7 @@ export default function Coins() {
               <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Compradas" {...a11yProps(0)} />
               <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Usadas" {...a11yProps(1)} />
               {user.creatorMode === true ? (
-                <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Cambiadas" {...a11yProps(2)} />
+                <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Pendientes" {...a11yProps(2)} />
               ) : null}
               {user.creatorMode === true ? (
                 <Tab sx={{ fontSize: { xs: '0.7rem', md: '1rem' } }} label="Recibidas" {...a11yProps(3)} />

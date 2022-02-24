@@ -11,6 +11,7 @@ export async function paginated(
   let mangas: Manga[] = [];
   let totalMangas: number = await db.manga.count({
     where: {
+      active: true,
       genre: {
         hasEvery: filter,
       },
@@ -52,7 +53,7 @@ async function getMangas(
         [tag]: order,
       },
       where: {
-        active:true,
+        active: true,
         genre: {
           hasEvery: filter,
         },
@@ -83,27 +84,27 @@ export async function paginatedByAuthor(numPaged: number, author: string): Promi
   }
   let mangasByAuthor: any = [];
   searchResults.forEach((elto) =>
-  elto.created?.forEach((manga: any) =>
-    mangasByAuthor.push({
-      id: manga.id,
-      title: manga.title,
-      synopsis: manga.synopsis,
-      authorId: manga.authorId,
-      image: manga.image,
-      createdAt: manga.createdAt,
-      uptadedAt: manga.uptadedAt,
-      genre: manga.genre,
-      rating: manga.rating,
-      chapter: manga.chapter,
-      state: manga.state,
-      author: {
-        name: elto.name,
-      },
-    })
-  )
-);
+    elto.created?.forEach((manga: any) =>
+      mangasByAuthor.push({
+        id: manga.id,
+        title: manga.title,
+        synopsis: manga.synopsis,
+        authorId: manga.authorId,
+        image: manga.image,
+        createdAt: manga.createdAt,
+        uptadedAt: manga.uptadedAt,
+        genre: manga.genre,
+        rating: manga.rating,
+        chapter: manga.chapter,
+        state: manga.state,
+        author: {
+          name: elto.name,
+        },
+      })
+    )
+  );
   let totalMangas = mangasByAuthor.length;
-  if(totalMangas == 0) throw new Error("Authors not found");
+  if (totalMangas == 0) throw new Error("Authors not found");
   let totalPages: number = Math.ceil(totalMangas / mangasPerPage);
   let page: number = numPaged;
   if (page > totalPages) throw new Error("Page not found");
