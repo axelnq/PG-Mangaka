@@ -107,15 +107,19 @@ export default function Reader() {
     window.addEventListener('scroll', function () {
         for (let i = 0; i < data.length; i++) {
             var element = document.getElementById(i);
-            var position = element.getBoundingClientRect();
+            if (element) {
+                var position = element.getBoundingClientRect();
 
-            // checking whether fully visible
-            if (position.top >= 0 && position.bottom <= window.innerHeight) {
-                setCurrentPage(i)
-                // console.log(currentPage)
+                // checking whether fully visible
+                if (position.top >= 0 && position.bottom <= window.innerHeight) {
+                    setCurrentPage(i)
+                    // console.log(currentPage)
+                }
             }
+
         }
     });
+
 
 
     return (
@@ -189,7 +193,7 @@ export default function Reader() {
                                                 </Typography>
                                                 {//right
                                                     currentPage >= data?.length - 1 ?
-                                                        <Button id="rightArrow" sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} disabled variant="contained"><ArrowRightIcon sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} /></Button> :
+                                                        <Button id="rightArrow" sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} disabled variant="contained"><ArrowRightIcon /></Button> :
                                                         <Button id="rightArrow" sx={{ my: { xs: '0.5rem', md: "1rem" }, mx: { xs: '0.5rem', md: "1rem" } }} onClick={handleRight} variant="contained"><ArrowRightIcon /></Button>
                                                 }
                                                 <Button sx={{ my: { xs: '0.5rem', md: "1rem" }, mr: { xs: '0.5rem', md: "1rem" }, }} onClick={handleLast} variant="contained"><KeyboardDoubleArrowRightIcon /></Button>

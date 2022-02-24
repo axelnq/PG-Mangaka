@@ -20,7 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 //import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InputBase from "@mui/material/InputBase";
-import styles from './mangaka.module.css'
+import './mangaka.css'
 //styles
 const Input = styled(InputBase)`
   width: 100%;
@@ -142,9 +142,9 @@ export default function NavBar() {
             mx: "10px",
           }}
         >
-          <h1>
-            <Link to="/" style={{ textDecoration: "none", color: "" }}>MANGAKA</Link>
-          </h1>
+
+          <Link to="/" style={{ textDecoration: "none", color: "" }}><h1 id="Mangaka">MANGAKA</h1></Link>
+
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
             <Box
               component="form"
@@ -156,7 +156,7 @@ export default function NavBar() {
               }}
             >
               <Stack direction="column">
-                <Stack direction="row" sx={{mt:{xs: 2, md: 0}}}>
+                <Stack direction="row" sx={{ mt: { xs: 2, md: 0 } }}>
                   <Input
                     placeholder="Search..."
                     value={search}
@@ -281,7 +281,7 @@ export default function NavBar() {
             )}
           </Stack>
         </Box>
-      </AppBar>
-    </Box>
+      </AppBar >
+    </Box >
   );
 }
