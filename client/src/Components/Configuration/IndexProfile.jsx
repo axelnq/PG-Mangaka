@@ -5,16 +5,14 @@ import { Link } from "react-router-dom";
 import Snackbar, { initialSnack } from "./Snackbar";
 import axios from "axios";
 //MUI
+import Stack from "@mui/material/Stack";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Box from "@mui/material/Box";
-import Container from '@mui/material/Container';
-import { Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
-import { borderRadius } from "@mui/system";
 const IndexProfile = () => {
 	const { user } = useSelector((state) => state);
 	const dispatch = useDispatch();
@@ -50,24 +48,36 @@ const IndexProfile = () => {
 		}
 	};
 	return (
-		<Container sx={{
-			md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}
-		}}>
 		<Box>
 			{user.creatorMode ? (
 				<>
 					<Typography variant="h4">
 						Un placer volverte a ver en Mangaka {user.name}!
 					</Typography>
-					<Divider />
+					<Divider sx={{bgcolor: "#357DED", width:{md: "60vw"}, margin: "0 auto"}} />
+					
+					<Box
+						sx={{
+								margin: "0 auto",
+								my: 3,
+								p: 2,
+								color: "white",
+								borderRadius: "4px",
+								width: { sx: "90vw", md: "45vw" },
+								height: { sx: "30vh", md: "40vh" },
+								bgcolor: "#192A45",
+							}}
+					>
 					<Typography variant="h4">Pagos</Typography>
-					<Typography variant="body2">
+					<Typography variant="body2" sx={{my: 3}}>
 						Para recibir tus pagos debes llenar el siguiente
 						Formulario:
 					</Typography>
 					<Link to={`/profile/CheckoutForm/${user.id}`}>
 						<Button variant="contained">Formulario de Pago</Button>
 					</Link>
+					</Box>
+
 					<Divider />
 					<Box sx={{ mt: 3 }}>
 						<Typography variant="h5">Crea tu manga!</Typography>
@@ -85,156 +95,124 @@ const IndexProfile = () => {
 					</Box>
 				</>
 			) : (
-				<Container sx={{
-					md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}
-				}}>
-					<Box
-						component="form"
-						onSubmit={handleSubmit}
-						autoComplete="off"
-						display='flex'
-						flexDirection='column'
-						sx={{md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}}}
-						
+				<Box
+					component="form"
+					onSubmit={handleSubmit}
+					autoComplete="off"
+				>
+					<Typography variant="h4">
+						Bienvenido a Mangaka {user.name}!
+					</Typography>
+					<Divider sx={{bgcolor: "#357DED", width:{md: "60vw"}, margin: "0 auto"}}/>
+					<Typography
+						variant="body1"
+						sx={{ textAlign: "left", my: 2}}
+						gutterBottom
 					>
-						<Box 
-							sx={{								
-								md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}			
+						Estamos muy contentos de que te sumes a nuestra
+						comunidad y que aportes increíbles historias para leer.
+						Pero antes de empezar es necesario que aceptes nuestros
+						términos y condiciones:
+					</Typography>
+
+					<Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+						<Box
+							sx={{
+								p: 2,
+								color: "white",
+								borderRadius: "4px",
+								margin: "0 auto",
+								width: { sx: "90vw", md: "45vw" },
+								height: { sx: "30vh", md: "40vh" },
+								bgcolor: "#192A45",
 							}}
-							display='flex'
-							flexDirection='column'
-							justifyContent='center'
-							
-							
 						>
-							<Typography variant="h4">
-								Bienvenido a Mangaka {user.name}!
+							<Typography variant="h5">
+								REGLAS PARA PUBLICAR TU MANGA
 							</Typography>
-							<Divider sx={{borderColor: '#1850AB'}}/>
-							<Typography
-								
-								variant="body1"
-								sx={{ textAlign: "center"}}
-								gutterBottom
-								>
-								Estamos muy contentos de que te sumes a nuestra
-								comunidad y que aportes increíbles historias para leer.
-								Pero antes de empezar es necesario que aceptes nuestros
-								términos y condiciones:
-							</Typography>
-						</Box>
-							
-							<Stack 
-								direction={{ xs: "column", md: "row" }} 
-								spacing={2}
-								margin='2rem'
-								sx={{									
-									display:'flex',									
-									justifyContent:'space-around',
-									alignItems:'center'
+							<ol
+								style={{
+									textAlign: "left",
+									alignItems: "left",
 								}}
 							>
-								<Box 
-									sx={{ 
-										margin: "0 auto", width: "25rem", height:'25rem', background:'#192A45', p:'1.5rem', borderRadius:'0.2rem',
-										md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}
-									}}
-									display='flex'
-									flexDirection='column'
-									justifyContent='space-around'	
-									
-								>
-
-									<Typography 
-										variant="h5"
-										margin='1rem'
-										color='#E2E9F3'
-									>REGLAS PARA PUBLICAR TU MANGA:</Typography>
-
-									<ol
-										style={{
-											listStyleType: "upper-roman",
-											textAlign: "left",
-											alignItems: "left",
-											color:'#E2E9F3'
-										}}
-									>
-										<li>No publicar contenido pórnografico ni Hentai</li>
-										<li>No publicar mangas ajenos ni ya existentes</li>
-										<li>Sólo publicar mangas en español</li>
-										<li>No está permitida la subida de volúmenes, tomos	o agrupación de capítulos</li>
-										<li>No se permite subidas duplicadas, capítulos	incompletos</li>
-									</ol>
-
-								</Box>
-
-								<Box  
-									sx={{
-										margin: "0 auto", width: "25rem",height:'25rem', background:'#192A45', p:'1.5rem', borderRadius:'0.2rem',
-										md:{xs: '3rem', sm: '5rem', md: '12rem', lg: '14.5rem', xl: '16rem'}									
-									}}
-									display='flex'
-									flexDirection='column'
-									justifyContent='space-around'
-
-								>
-
-									<Typography 
-										variant="h5"
-										margin='1rem'	
-										color='#E2E9F3'
-									>PAGOS</Typography>
-
-									<ul
-										style={{
-											listStyleType: "upper-roman",
-											textAlign: "left",
-											alignItems: "left",
-											color:'#E2E9F3'
-										}}
-									>
-										<li>El sitio se maneja con una moneda propia</li>
-										<li>Por cada manga que vendas el sitio se deja x%</li>
-										<li>El intercambio de monedas a dinero real se realiza a través de un formulario</li>
-										<li>Los días de cobro serán estipulados por el sitio</li>
-										<li>El retiro se realiza mediante CBU</li>
-										<li>El pago solo se efectuara por sus ventas</li>
-										<li>no habra devolucion de su canje de monedas</li>
-									</ul>
-
-								</Box>
-							</Stack>
-							
-
-						<FormGroup sx={{ margin: "0 auto", alignSelf: "center" }}>
-							<FormControlLabel
-								control={
-									<Checkbox
-										sx={{color:'#1850AB'}}
-										checked={checked}
-										onChange={handleChange}
-										inputProps={{ "aria-label": "controlled" }}
-									/>
-								}
-								label="Acepto los términos y condiciones"
-							/>
-						</FormGroup>
-						<Box 
-							display='flex'				
-							justifyContent='center'
-						>
-							<Button type="submit" variant="contained" sx={{width: "20rem", background:'#192A45'}} >
-								Empieza a crear
-							</Button>
+								<li>
+									No publicar contenido pórnografico ni Hentai
+								</li>
+								<li>
+									No publicar mangas ajenos ni ya existentes
+								</li>
+								<li>Sólo publicar mangas en español</li>
+								<li>
+									No está permitida la subida de volúmenes,
+									tomos o agrupación de capítulos
+								</li>
+								<li>
+									No se permite subidas duplicadas, capítulos
+									incompletos
+								</li>
+							</ol>
 						</Box>
-						{snack.message && (
-							<Snackbar type={snack.type} message={snack.message} />
-						)}
-					</Box>
-				</Container>
+
+						<Box
+							sx={{
+								p: 2,
+								color: "white",
+								borderRadius: "4px",
+								margin: "0 auto",
+								width: { sx: "90vw", md: "45vw" },
+								height: { sx: "30vh", md: "40vh" },
+								bgcolor: "#192A45",
+							}}
+						>
+							<Typography variant="h5">PAGOS</Typography>
+							<ul
+								style={{
+									textAlign: "left",
+									alignItems: "left",
+								}}
+							>
+								<li>
+									El sitio se maneja con una moneda propia
+								</li>
+								<li>
+									Por cada manga que vendas el sitio se deja
+									10%
+								</li>
+								<li>
+									El intercambio de monedas a dinero real se
+									realiza a través de un formulario
+								</li>
+								<li>
+									Los días de cobro serán estipulados por el
+									sitio
+								</li>
+								<li>El retiro se realiza mediante CBU</li>
+							</ul>
+						</Box>
+					</Stack>
+					<FormGroup sx={{ margin: "0 auto", alignSelf: "center" }}>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={checked}
+									onChange={handleChange}
+									inputProps={{ "aria-label": "controlled" }}
+								/>
+							}
+							label="Acepto los términos y condiciones"
+						/>
+					</FormGroup>
+
+					<Button type="submit" variant="contained">
+						Empieza a crear
+					</Button>
+					{snack.message && (
+						<Snackbar type={snack.type} message={snack.message} />
+					)}
+				</Box>
 			)}
 		</Box>
-		</Container>
 	);
 };
 

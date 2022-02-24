@@ -56,7 +56,7 @@ export default function PersonalMangas() {
             </AccordionSummary>
             <AccordionDetails>
               <List>
-                {m.chapters.length && m.chapters.map((c, i) => {
+                {m.chapters.length ? m.chapters.map((c, i) => {
                   return (
                     <Link to={"/reader/" + c.id} style={{textDecoration: "none", color: "#192a45"}}>
                     <ListItem>
@@ -64,7 +64,7 @@ export default function PersonalMangas() {
                     </ListItem>
                     </Link>
                   );
-                })}
+                }) : null}
 
                 <Link to={`/profile/createChapters/${m.id}`}>
                   <ListItem button>
