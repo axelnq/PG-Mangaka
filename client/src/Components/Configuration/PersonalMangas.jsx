@@ -26,7 +26,6 @@ export default function PersonalMangas() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data.msg === "No hay Mangas aún") {
           setError(true);
         } else {
