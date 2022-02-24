@@ -39,15 +39,15 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/author/:id" element={<AuthorDetail />} />
-        <Route path="/favorite" element={<Favorite />} />
 
         {user && (
           <>
+            <Route path="/favorite" element={<Favorite />} /> 
             <Route path="/library" element={<Biblioteca />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/coins" element={<Coins />} />
             <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/reader/:id" element={<Reader />} />
+            <Route path="/reader/:id" element={<Reader />} />
             {/*Configuración de Perfil*/}
             <Route path="/profile/" element={<Profile />}>
               <Route index element={<IndexProfile />} />

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {Box} from '@mui/material';
+import {Box, Avatar} from '@mui/material';
 
 
 const _ArrayBufferToBase64 = (buffer) => {
@@ -26,23 +26,27 @@ export default function CardAuthor({image, name, id}) {
     
     <div>
       <Link to={'/author/' + id} >
-        <div>
-          <Box sx={{ display: 'flex', flexDirection:'column', justifyContent: "flex-end" }}>
+        
+          <Box sx={{ display: 'flex', flexDirection:'column', alignItems: "center" }}>
 
-            <CardMedia
+            {/* <CardMedia
               sx={{ borderRadius: '50%' }}
               component="img"
-              height="140"
+              height="140rem"
+              width='80rem'
               image={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
               alt="author"
+            /> */}
+            <Avatar
+              src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
+              sx={{ width: 140, height: 140 }}
             />
-
             <Typography gutterBottom variant="h5" component="div">
               {name}
             </Typography>
 
           </Box>
-        </div>
+        
       </Link>
       
     </div>
