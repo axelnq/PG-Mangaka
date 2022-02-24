@@ -57,8 +57,9 @@ export default function Comentarios({ idChapter }) {
 
     useEffect(() => {
         dispatch(verComentarios(id))
-
-    }, [dispatch, id])
+        
+    },[dispatch, id])
+    
 
     const AllComments = useSelector(state => state.allComments)
 
