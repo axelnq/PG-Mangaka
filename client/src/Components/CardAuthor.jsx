@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-import CardMedia from '@mui/material/CardMedia';
+
 import Typography from '@mui/material/Typography';
 import {Box, Avatar} from '@mui/material';
 
@@ -39,6 +39,7 @@ export default function CardAuthor({image, name, id}) {
             /> */}
             <Avatar
               src={'data:image/jpeg;base64,' + _ArrayBufferToBase64(image)}
+              alt="author"
               sx={{ width: 140, height: 140 }}
             />
             <Typography gutterBottom variant="h5" component="div">
