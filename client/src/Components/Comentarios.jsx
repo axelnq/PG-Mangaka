@@ -33,7 +33,7 @@ const style = {
     border: '2px solid #1850AB',
     boxShadow: 15,
     p: 4,
-  };
+};
 
 
 export default function Comentarios({idChapter} ) {
@@ -114,38 +114,36 @@ export default function Comentarios({idChapter} ) {
                                 component="form"
                                 onSubmit={e => handleSubmit(e)}
                                 width='100%'
+                                sx={{ display: 'flex', flexDirection:'column', justifyContent: "center" }}
                             >
 
-                                <Box sx={{ display: 'flex', justifyContent: "center" }}>
+                                
                                     <Typography id="modal-modal-title" variant="h6" component="h2" >
                                         Ingresa tu Comentario
                                     </Typography>
-                                </Box>
+                                
+                                    <Input
+                                        id="outlined-textarea"
+                                        type='text'
+                                        label="Multiline Placeholder"
+                                        placeholder="Tu comentario"
+                                        multiline
+                                        rows={5}
+                                        name='comment'
+                                        value={input.comment}
+                                        onChange={handleChange}
+                                        fullWidth='true'
 
-
-                                <Input
-                                    id="outlined-textarea"
-                                    type='text'
-                                    label="Multiline Placeholder"
-                                    placeholder="Placeholder"
-                                    multiline
-                                    rows={5}
-                                    name='comment'
-                                    value={input.comment}
-                                    onChange={handleChange}
-
-                                />
-
-
-
-                                <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
-                                    <Button
-                                        type="submit"
-                                    >
-                                        <SendIcon color="#5A92ED" fontSize="large" />
-                                    </Button>
-                                </Box>
-
+                                    />
+                                    
+                                    <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
+                                        <Button
+                                            type="submit"
+                                        >
+                                            <SendIcon color="#5A92ED" fontSize="large" />
+                                        </Button>
+                                    </Box>
+                                
 
                             </FormControl>
                         </Box>
