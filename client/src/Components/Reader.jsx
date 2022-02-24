@@ -9,6 +9,7 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { getChapter } from '../Actions';
 import NavBar from './Navbar';
+import Comentarios from './Comentarios'
 import './Reader.css'
 
 const _ArrayBufferToBase64 = (buffer) => {
@@ -213,7 +214,9 @@ export default function Reader() {
                     : <p>Cargando...</p>
                 }
             </div >
-
+            <Comentarios
+                marginTop='4rem'
+            />
         </Box >
     );
 }
