@@ -220,13 +220,13 @@ export let getMangasPreview = () => {
         }
     };
 };
-export let paginado = ({ page, genre, order }) => {
+export let paginado = ({ page, genre, order, tag }) => {
     return async (dispatch) => {
         try {
             let mangas = await axios.get(
                 `http://localhost:3001/api/mangas/directory?page=${page}&filter=${
                     genre ? genre : ""
-                }&order=${order ? order : "asc"}&tags=title`
+                }&order=${order ? order : "asc"}${tag ? `&tags=${tag}` : ''}`
             );
             return dispatch({
                 type: PAGINADO_PAGE,
@@ -257,20 +257,20 @@ export let postChapters = (payload) => {
         }
     };
 };
-// falta rutas
-// export let getLibrary = (payload) => {
-//     return async (dispatch) => {
-//         try {
-//             let mangas = await axios.get(``)
-//             return dispatch({
-//                 type: GET_LIBRARY,
-//                 payload: mangas.data
-//             })
-//         } catch(error) {
-//             console.log(error)
-//         }
-//     }
-// }
+
+export let getLibrary = (payload) => {
+    return async (dispatch) => {
+        try {
+            let mangas = await axios.get(`http://localhost:3001/api/profile/library`, { withCredentials: true })
+            return dispatch({
+                type: GET_LIBRARY,
+                payload: mangas.data.data
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}
 
 export let getWishList = (payload) => {
     return async (dispatch) => {

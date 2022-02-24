@@ -24,66 +24,66 @@ const Filters = () => {
 
     let handleGetAll = (e) => {
         e.preventDefault()
-        if(show)dispatch(changeShow())
+        if (show) dispatch(changeShow())
         dispatch(getAllMangas())
     }
 
     let handleRecomendation = (e) => {
         e.preventDefault()
-        if(!show)dispatch(changeShow())
+        if (!show) dispatch(changeShow())
     }
 
     let handleOrder = (option) => {
-        if(show)dispatch(changeShow())
-        dispatch(orderMangas(option))
-        dispatch(paginado({page: 1, order: option, genre: filters.genre}))
+        if (show) dispatch(changeShow())
+        dispatch(orderMangas({ order: option, tag: 'title' }))
+        dispatch(paginado({ page: 1, order: option, genre: filters.genre, tag: 'title' }))
     }
 
     let handleFilterAuthor = (option) => {
-        if(show)dispatch(changeShow())
+        if (show) dispatch(changeShow())
         dispatch(filterMangasByAuthor(option))
     }
 
     let handleFilterGenre = (option) => {
-        if(show)dispatch(changeShow())
+        if (show) dispatch(changeShow())
         dispatch(filterMangasByGenre(option))
-        dispatch(paginado({page: 1, genre:option, order: filters.order}))
+        dispatch(paginado({ page: 1, genre: option, order: filters.order }))
     }
 
     useEffect(() => {
         dispatch(getGenres())
     }, [])
-    
+
     const [openGenre, setOpenGenre] = useState(false);
     const [openAuthor, setOpenAuthor] = useState(false)
     const [openOrder, setOpenOrder] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(1);
 
-    
-      const handleClickFilterGenre = (event, index, option) => {
+
+    const handleClickFilterGenre = (event, index, option) => {
         setSelectedIndex(index);
         setOpenGenre(false);
         handleFilterGenre(option)
-      };
+    };
 
-      const handleClickOrder = (event, index, option) => {
-          console.log(event)
-          setSelectedIndex(index)
-          setOpenOrder(false)
-          handleOrder(option)
-      }
+    const handleClickOrder = (event, index, option) => {
+        console.log(event)
+        setSelectedIndex(index)
+        setOpenOrder(false)
+        handleOrder(option)
+    }
 
-      const handleClickFilterAuthors = (event, index, option) => {
+    const handleClickFilterAuthors = (event, index, option) => {
         setSelectedIndex(index)
         setOpenAuthor(false)
         handleFilterAuthor(option)
     }
-    
-      const handleClose = (event) => {
+
+    const handleClose = (event) => {
         setOpenGenre(false);
         setOpenOrder(false)
         setOpenAuthor(false)
-      };
+    };
 
     const StackContainer = styled(Stack)`
         width: 100%;
@@ -115,135 +115,135 @@ const Filters = () => {
     `
 
     return (
-             <StackContainer sx={{ backgroundColor: '#192A45' }}  >
-                <ContainerStyled>
-                     <Button 
-                        variant="outlined"
-                        size='medium'
-                        sx={{backgroundColor:'#357DED', color:'#fff'}}
-                        onClick={handleRecomendation} 
-                    >
-                        Para Vos
-                    </Button>
-                </ContainerStyled>
-               
-                {/* GENEROS */}
-                <ContainerStyled>
-                    <ButtonGroup variant="contained" aria-label="split button">
-                        <Button >{genres[selectedIndex]}</Button>
-                        <Button
+        <StackContainer sx={{ backgroundColor: '#192A45' }}  >
+            <ContainerStyled>
+                <Button
+                    variant="outlined"
+                    size='medium'
+                    sx={{ backgroundColor: '#357DED', color: '#fff' }}
+                    onClick={handleRecomendation}
+                >
+                    Para Vos
+                </Button>
+            </ContainerStyled>
+
+            {/* GENEROS */}
+            <ContainerStyled>
+                <ButtonGroup variant="contained" aria-label="split button">
+                    <Button >{genres[selectedIndex]}</Button>
+                    <Button
                         size="small"
                         aria-controls={openGenre ? 'split-button-menu' : undefined}
                         aria-expanded={openGenre ? 'true' : undefined}
                         aria-label="select merge strategy"
                         aria-haspopup="menu"
                         onClick={e => setOpenGenre(true)}
-                        >
+                    >
                         <ArrowDropDownIcon />
-                        </Button>
+                    </Button>
                 </ButtonGroup>
                 {
                     openGenre ?
-                    <Paper sx={{position:"absolute", mt:'2rem'}}>
-                        <ClickAwayListener onClickAway={handleClose}>
-                            <MenuList id="split-button-menu">
-                            {genres.map((option, index) => (
-                                <MenuItem
-                                key={option}
-                                selected={index === selectedIndex}
-                                value={option}
-                                onClick={(event) => handleClickFilterGenre(event, index, option)}
-                                >
-                                {option}
-                                </MenuItem>
-                            ))}
-                            </MenuList>
-                        </ClickAwayListener>
-                        </Paper>: null
+                        <Paper sx={{ position: "absolute", mt: '2rem' }}>
+                            <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList id="split-button-menu">
+                                    {genres.map((option, index) => (
+                                        <MenuItem
+                                            key={option}
+                                            selected={index === selectedIndex}
+                                            value={option}
+                                            onClick={(event) => handleClickFilterGenre(event, index, option)}
+                                        >
+                                            {option}
+                                        </MenuItem>
+                                    ))}
+                                </MenuList>
+                            </ClickAwayListener>
+                        </Paper> : null
                 }
-                </ContainerStyled>
-                
-                {/* AUTORES */}
-                <ContainerStyled>
-                    <ButtonGroup variant="contained" aria-label="split button">
-                        <Button >{authors[selectedIndex]}</Button>
-                        <Button
+            </ContainerStyled>
+
+            {/* AUTORES */}
+            <ContainerStyled>
+                <ButtonGroup variant="contained" aria-label="split button">
+                    <Button >{authors[selectedIndex]}</Button>
+                    <Button
                         size="small"
                         aria-controls={openAuthor ? 'split-button-menu' : undefined}
                         aria-expanded={openAuthor ? 'true' : undefined}
                         aria-label="select merge strategy"
                         aria-haspopup="menu"
-                        onClick={e=> setOpenAuthor(true)}
-                        >
+                        onClick={e => setOpenAuthor(true)}
+                    >
                         <ArrowDropDownIcon />
-                        </Button>
-                    </ButtonGroup>
-                    {
-                        openAuthor ?
-                            <Paper sx={{position:"absolute", mt:'2rem'}}>
+                    </Button>
+                </ButtonGroup>
+                {
+                    openAuthor ?
+                        <Paper sx={{ position: "absolute", mt: '2rem' }}>
                             <ClickAwayListener onClickAway={handleClose}>
                                 <MenuList id="split-button-menu">
-                                {authors.map((option, index) => (
-                                <MenuItem
-                                key={option}
-                                selected={index === selectedIndex}
-                                value={option}
-                                onClick={(event) => handleClickFilterAuthors(event, index, option)}
-                                >
-                                {option}
-                                </MenuItem>
-                            ))}
+                                    {authors.map((option, index) => (
+                                        <MenuItem
+                                            key={option}
+                                            selected={index === selectedIndex}
+                                            value={option}
+                                            onClick={(event) => handleClickFilterAuthors(event, index, option)}
+                                        >
+                                            {option}
+                                        </MenuItem>
+                                    ))}
                                 </MenuList>
                             </ClickAwayListener>
-                            </Paper> : null
-                    }
-                </ContainerStyled>
-                <ContainerStyled>
-                    <ButtonGroup variant="contained" aria-label="split button">
-                        <Button >{orders[selectedIndex]}</Button>
-                        <Button
+                        </Paper> : null
+                }
+            </ContainerStyled>
+            <ContainerStyled>
+                <ButtonGroup variant="contained" aria-label="split button">
+                    <Button >{orders[selectedIndex]}</Button>
+                    <Button
                         size="small"
                         aria-controls={openOrder ? 'split-button-menu' : undefined}
                         aria-expanded={openOrder ? 'true' : undefined}
                         aria-label="select merge strategy"
                         aria-haspopup="menu"
-                        onClick={e=>setOpenOrder(true)}
-                        >
+                        onClick={e => setOpenOrder(true)}
+                    >
                         <ArrowDropDownIcon />
-                        </Button>
-                    </ButtonGroup>
-                    {
-                        openOrder ?
-                            <Paper sx={{position:"absolute", mt:'2rem'}}>
+                    </Button>
+                </ButtonGroup>
+                {
+                    openOrder ?
+                        <Paper sx={{ position: "absolute", mt: '2rem' }}>
                             <ClickAwayListener onClickAway={handleClose}>
                                 <MenuList id="split-button-menu">
-                                {orders.map((option, index) => (
-                                <MenuItem
-                                key={option}
-                                selected={index === selectedIndex}
-                                value={option}
-                                onClick={(event) => handleClickOrder(event, index, option)}
-                                >
-                                {option}
-                                </MenuItem>
-                            ))}
+                                    {orders.map((option, index) => (
+                                        <MenuItem
+                                            key={option}
+                                            selected={index === selectedIndex}
+                                            value={option}
+                                            onClick={(event) => handleClickOrder(event, index, option)}
+                                        >
+                                            {option}
+                                        </MenuItem>
+                                    ))}
                                 </MenuList>
                             </ClickAwayListener>
-                            </Paper> : null
-                    }
-                </ContainerStyled>
-                <ContainerStyled>
-                    <Button
-                        variant="outlined"
-                        size='medium'
-                        sx={{backgroundColor:'#357DED', color:'#fff'}}
-                        onClick={handleGetAll} 
-                    >
-                        Todos
-                    </Button>
-                </ContainerStyled>
-                
-            </StackContainer>
+                        </Paper> : null
+                }
+            </ContainerStyled>
+            <ContainerStyled>
+                <Button
+                    variant="outlined"
+                    size='medium'
+                    sx={{ backgroundColor: '#357DED', color: '#fff' }}
+                    onClick={handleGetAll}
+                >
+                    Todos
+                </Button>
+            </ContainerStyled>
+
+        </StackContainer>
     )
 }
 

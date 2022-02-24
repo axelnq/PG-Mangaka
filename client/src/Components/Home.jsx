@@ -10,7 +10,7 @@ import Paginado from './Paginado'
 import { getAllMangas, popularAuthors, getPopularMangas, getRecentMangas } from '../Actions'
 import { useEffect } from 'react';
 //mui
-import { Container, LinearProgress } from '@mui/material';
+import { Container, LinearProgress, Box } from '@mui/material';
 import Recomendados from './Recomendados';
 
 const Home = () => {
@@ -18,9 +18,9 @@ const Home = () => {
 
     const allMangas = useSelector((state) => state.allMangas)
     const recentMangas = useSelector(state => state.recentMangas)
-    const popularMangas = useSelector(state=>state.popularMangas)
+    const popularMangas = useSelector(state => state.popularMangas)
     const popularAutores = useSelector(state => state.popularAuthors)
-    const show = useSelector(state=>state.show)
+    const show = useSelector(state => state.show)
 
     useEffect(() => {
         dispatch(getAllMangas())
@@ -29,48 +29,48 @@ const Home = () => {
         dispatch(popularAuthors())
     }, [dispatch])
 
-    
+
 
 
     return (
         <div>
-            <Navbar/>
-            <Banner/>
+            <Navbar />
+            <Banner />
             <Filters />
-            {   
+            {
                 show ?
-                <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
-                    <Recomendados mangasRecientes={recentMangas} mangasDestacados={popularMangas} autoresPopulares={popularAutores}/>
-                </Container> 
-            :
-                <div>
-                    <Paginado total={allMangas.total}/>
                     <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
-                 
-                    {
-                        allMangas ? allMangas.data?.map((m, i) => {
-                            //console.log(m)
-                            return (
-                                <div key={i}>
-                                    <MangaCard
-                                        id={m.id}
-                                        title={m.title}
-                                        image={m.image}
-                                        author={m.author?.name}
-                                        genre={m.genre}
-                                    />
-                                </div>
-                            )
-                        }) : 
-                        <LinearProgress sx={{ height: '0.5rem ' }}/>
-                    }
+                        <Recomendados mangasRecientes={recentMangas} mangasDestacados={popularMangas} autoresPopulares={popularAutores} />
                     </Container>
-                </div>
-                
+                    :
+                    <div>
+                        <Container fixed sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
+
+                            {
+                                allMangas ? allMangas.data?.map((m, i) => {
+                                    //console.log(m)
+                                    return (
+                                        <div key={i}>
+                                            <MangaCard
+                                                id={m.id}
+                                                title={m.title}
+                                                image={m.image}
+                                                author={m.author?.name}
+                                                genre={m.genre}
+                                            />
+                                        </div>
+                                    )
+                                }) :
+                                    <LinearProgress sx={{ height: '0.5rem ' }} />
+                            }
+                        </Container>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Paginado total={allMangas.total} />
+                        </Box>
+                    </div>
+
             }
-            
-            
-            
+
         </div>
     )
 }

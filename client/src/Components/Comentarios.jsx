@@ -1,23 +1,25 @@
 import React from 'react';
-import {useParams} from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import { Container, Box, Typography, Avatar, Input, Modal, Button, Divider, ListItem, ListItemAvatar, ListItemText, FormControl} from '@mui/material';
+import { Container, Box, Typography, Avatar, Input, Modal, Button, Divider, ListItem, ListItemAvatar, ListItemText, FormControl } from '@mui/material';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import SendIcon from '@mui/icons-material/Send';
 
 import { createComment, verComentarios } from '../Actions';
 
+import { useNavigate } from 'react-router-dom';
+
 
 const _ArrayBufferToBase64 = (buffer) => {
     //console.log(buffer)
-    if(buffer === undefined) return '';
+    if (buffer === undefined) return '';
     var binary = '';
     var byte = new Uint8Array(buffer.data);
     var length = byte.byteLength;
 
-    for(var i = 0; i < length ;i++) {
+    for (var i = 0; i < length; i++) {
         binary += String.fromCharCode(byte[i])
     }
     return window.btoa(binary)
@@ -36,53 +38,55 @@ const style = {
 };
 
 
-export default function Comentarios({idChapter} ) {
-    
+export default function Comentarios({ idChapter }) {
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
-    const {id} = useParams()
+    const { id } = useParams()
 
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    
+
     const [input, setInput] = useState({
-        comment:'',
-        idChapter:''
+        comment: '',
+        idChapter: idChapter
     });
 
     useEffect(() => {
         dispatch(verComentarios(id))
-        
-    },[dispatch, id])
+
+    }, [dispatch, id])
 
     const AllComments = useSelector(state => state.allComments)
 
     function handleChange(e) {
-        
+
         setInput({
             ...input,
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         });
-        
+
     };
 
     function handleSubmit(e) {
-        
+
         e.preventDefault();
-    
-        
+
+
         dispatch(createComment(input))
         setInput({
-            comment:'',
-            idChapter:''
+            comment: ''
         })
-    
+
     }
 
-
+    //commentary 
+    const handleCommentary = () => {
+        setTimeout(() => navigate(`/`), 1000)
+    }
 
 
     return (
@@ -114,36 +118,37 @@ export default function Comentarios({idChapter} ) {
                                 component="form"
                                 onSubmit={e => handleSubmit(e)}
                                 width='100%'
-                                sx={{ display: 'flex', flexDirection:'column', justifyContent: "center" }}
+                                sx={{ display: 'flex', flexDirection: 'column', justifyContent: "center" }}
                             >
 
-                                
-                                    <Typography id="modal-modal-title" variant="h6" component="h2" >
-                                        Ingresa tu Comentario
-                                    </Typography>
-                                
-                                    <Input
-                                        id="outlined-textarea"
-                                        type='text'
-                                        label="Multiline Placeholder"
-                                        placeholder="Tu comentario"
-                                        multiline
-                                        rows={5}
-                                        name='comment'
-                                        value={input.comment}
-                                        onChange={handleChange}
-                                        fullWidth='true'
 
-                                    />
-                                    
-                                    <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
-                                        <Button
-                                            type="submit"
-                                        >
-                                            <SendIcon color="#5A92ED" fontSize="large" />
-                                        </Button>
-                                    </Box>
-                                
+                                <Typography id="modal-modal-title" variant="h6" component="h2" >
+                                    Ingresa tu Comentario
+                                </Typography>
+
+                                <Input
+                                    id="outlined-textarea"
+                                    type='text'
+                                    label="Multiline Placeholder"
+                                    placeholder="Tu comentario"
+                                    multiline
+                                    rows={5}
+                                    name='comment'
+                                    value={input.comment}
+                                    onChange={handleChange}
+                                    fullWidth='true'
+
+                                />
+
+                                <Box sx={{ display: 'flex', justifyContent: "flex-end", mt: '1rem' }}>
+                                    <Button
+                                        type="submit"
+                                        onClick={handleCommentary}
+                                    >
+                                        <SendIcon color="#5A92ED" fontSize="large" />
+                                    </Button>
+                                </Box>
+
 
                             </FormControl>
                         </Box>
