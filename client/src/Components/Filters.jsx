@@ -17,7 +17,7 @@ import { orderMangas, filterMangasByAuthor, filterMangasByGenre, getAllMangas, p
 const Filters = () => {
     const dispatch = useDispatch()
     let filters = useSelector(state => state.filters)
-    let genres = useSelector(state => state.genres)
+    let genres = ['Drama', 'Romance', 'Adventure', 'Comedy', 'Fantasy', 'Supernatural', 'Sci-Fi', 'Action', 'Slice of Life',' Ecchi', 'Sport', 'Mistery']
     let orders = ['Default', 'asc', 'desc']
     let authors = ['Default', 'Admin']
     let show = useSelector(state => state.show)
