@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Box } from "@mui/material";
@@ -7,11 +8,12 @@ import { FormControl } from "@mui/material";
 import { Fragment } from "react";
 import { Button } from "@mui/material";
 import { Input} from "@mui/material";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useParams} from 'react-router-dom';
+import { postCheckout} from "../Actions";
 
 function validate(input) {
   const error = {};
-  const { name, cbu, coins } = input;
+  const { name, cbu, coins, price} = input;
   
   error.name = name.length > 3 && isNaN(name) ? null : 'Ingrese nombre del titular de la cuenta';  
   error.cbu = cbu && cbu.length === 22 && !isNaN(cbu) ? null: 'El cbu debe tener 22 digitos';
@@ -21,6 +23,8 @@ function validate(input) {
 }
 
 export default function CheckoutForm() {
+  const dispatch = useDispatch();
+  const { id } = useParams()
   const [coins, setCoins] = useState(0);
   const [input, setInput] = useState({cbu:'', coins: 0, name:''});
   const [flag, setFlag] = useState(false);
@@ -59,7 +63,13 @@ export default function CheckoutForm() {
       return;
     }
 
-    axios.post('http://localhost:3001/api/coins/sell', input ,{ withCredentials:true })
+    const formData = new FormData();
+    formData.append('coins', input.coins);
+    formData.append('id', input.id);
+    formData.append('cbu', input.cbu);
+    formData.append('alias', input.alias);
+    dispatch(postCheckout(formData));
+    // axios.post('http://localhost:3001/api/coins/sell', input ,{ withCredentials:true })
     alert('Su solicitud esta siendo procesada');
     setInput ({ cbu:'', coins: 0, name:''})
     navigate('/')
@@ -109,7 +119,8 @@ export default function CheckoutForm() {
                       padding:'0.5em',
                       width :'32rem',
                       justifyContent:'center',
-                      backgroundColor:'white'
+                      backgroundColor:'white',
+                      id:''
                     }}
                     type = "text"
                     value = {input.name}
