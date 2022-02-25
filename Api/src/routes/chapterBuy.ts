@@ -6,6 +6,7 @@ import internalOrder from "../classes/InternalOrder";
 import { isAuthenticated } from "./auth";
 export const internalOrderRouter = Router();
 
+
 internalOrderRouter.post<{}, {}>(
   "/buyChapter",
   isAuthenticated,

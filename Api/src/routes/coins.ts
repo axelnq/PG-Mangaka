@@ -4,6 +4,9 @@ import CoinsPackage from "../classes/CoinsPackage";
 import extractionOrder from "../classes/ExtractionOrder";
 import externalOrder from "../classes/ExternalOrder";
 export const externalOrderRouter = Router();
+const { 
+  SERVER_URL
+} = process.env || 3001
 
 const mercadopago = require("mercadopago");
 
@@ -26,9 +29,9 @@ externalOrderRouter.post<{}, {}>("/buy", (req, res) => {
     installments: 1,
 
     back_urls: {
-      success: `http://localhost:3001/api/coins/pagos/${product.idaux}`,
-      failure: "http://localhost:3001/api/coins/buy",
-      pending: "http://localhost:3001/api/coins/buy",
+      success: `${SERVER_URL}/api/coins/pagos/${product.idaux}`,
+      failure: `${SERVER_URL}/api/coins/buy`,
+      pending: `${SERVER_URL}/api/coins/buy`,
     },
     auto_return: "approved",
 
@@ -86,16 +89,17 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
         });
         //@ts-ignore
 
-        res.redirect("http://localhost:3000");
+        res.redirect(`${SERVER_URL}`);
       } catch (error) {
         console.log(error);
-        res.redirect("http://localhost:3000/error");
+        res.redirect(`${SERVER_URL}/error`);
       }
     }
   }
 });
 
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
+  console.log('sell')
   let { name, cbu, value } = req.body;
   let user2 = req.user;
   let nValue = Number(value);

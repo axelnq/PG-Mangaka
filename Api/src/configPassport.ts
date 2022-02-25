@@ -4,6 +4,9 @@ import { db } from "./app";
 import User from "./classes/User";
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const localStrategy = require("passport-local").Strategy;
+const { 
+  SERVER_URL
+} = process.env || 3001
 
 module.exports = function (passport: any) {
   passport.serializeUser((user: any, done: any) => {
@@ -53,7 +56,7 @@ module.exports = function (passport: any) {
       {
         clientID:"1069896030384-paig8omi56fek5q0s56e2ejheumamqof.apps.googleusercontent.com",
         clientSecret:"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",
-        callbackURL: "http://localhost:3001/api/auth/google/callback",
+        callbackURL: "/api/auth/google/callback",
       },
       async function (
         accessToken: any,

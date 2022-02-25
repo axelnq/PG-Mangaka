@@ -13,7 +13,7 @@ function validate(input) {
   const error = {};
   const { title, chapters, coverImage } = input;
   error.title = title.length > 3 && isNaN(title) ? null : 'Ingrese titulo, sólo letras';  
-  error.chapters = chapters.length > 0 && chapters.length <= 20 ? null : 'Ingrese hasta 20 capitulos';
+  error.chapters = chapters.length > 0 && chapters.length <= 10 ? null : 'Ingrese hasta 10 capitulos';
   error.coverImage = coverImage ? null : 'Ingrese portada';
 
   return error;
@@ -93,9 +93,9 @@ export default function CreateChapters() {
           <FormControl 
             onSubmit={(e) => handleSubmit(e)}
             sx = {{
-              width: 600,
+              width: '45.5em',
               height: 'auto',
-              borderRadius: '5px',
+              borderRadius: '0.313em',
               backgroundColor: '#192A45',
               borderColor: '#192A45',
               color: '#357DED',
@@ -110,8 +110,8 @@ export default function CreateChapters() {
                     justifyContent:'center',
                     backgroundColor:'white',
                     textAlign:'center',
-                    height: 2 +'rem',
-                    padding: '0.5' + 'rem'
+                    height: '2rem',
+                    padding: '0.5rem'
                   }}
                   type = "text"
                   value = {input.title}
@@ -169,10 +169,10 @@ export default function CreateChapters() {
                 <Box sx={{ width: '100%', py: '2rem' }}>
                   <Button  
                     sx={{ 
-                      width: 32 +'rem', 
+                      width: '32rem', 
                       justifyContent:'center',
                       textAlign:'center',
-                      height: 2 +'rem'
+                      height: '2rem'
                     }}
                     onClick={(e) => handleSubmit(e)} 
                     variant="contained">

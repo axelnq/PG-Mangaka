@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Box } from "@mui/material";
@@ -7,11 +8,16 @@ import { FormControl } from "@mui/material";
 import { Fragment } from "react";
 import { Button } from "@mui/material";
 import { Input} from "@mui/material";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useParams} from 'react-router-dom';
+import { postCheckout} from "../Actions";
 
 function validate(input) {
   const error = {};
+<<<<<<< HEAD
   const { name, cbu, value } = input;
+=======
+  const { name, cbu, coins, price} = input;
+>>>>>>> feature/ft-68
   
   error.name = name.length > 3 && isNaN(name) ? null : 'Ingrese nombre del titular de la cuenta';  
   error.cbu = cbu && cbu.length === 22 && !isNaN(cbu) ? null: 'El cbu debe tener 22 digitos';
@@ -21,6 +27,8 @@ function validate(input) {
 }
 
 export default function CheckoutForm() {
+  const dispatch = useDispatch();
+  const { id } = useParams()
   const [coins, setCoins] = useState(0);
   const [input, setInput] = useState({cbu:'', value: 0, name:''});
   const [flag, setFlag] = useState(false);
@@ -59,11 +67,18 @@ export default function CheckoutForm() {
       return;
     }
 
-    axios.post('http://localhost:3001/api/coins/sell', input ,{ withCredentials:true })
+    const formData = new FormData();
+    formData.append('coins', input.coins);
+    formData.append('id', input.id);
+    formData.append('cbu', input.cbu);
+    formData.append('alias', input.alias);
+    dispatch(postCheckout(formData));
+    // axios.post('http://localhost:3001/api/coins/sell', input ,{ withCredentials:true })
     alert('Su solicitud esta siendo procesada');
     setInput ({ cbu:'', value: 0, name:''})
     navigate('/')
   }
+ 
 
   return ( 
     <Fragment>
@@ -71,20 +86,30 @@ export default function CheckoutForm() {
         paddingTop={'2%'}
         sx={{ display: 'flex' }}
         sx={{ mt: '15%' }}
-        sx={{ md: { xs: '20%', md: '40%', lg: '100%' } }}>
+        sx={{ 
+          md: { xs: '20%',
+           md: '40%', 
+           lg: '100%' } 
+           }}
+           >
         {(flag ) ? (
         <div>
           <FormControl 
             onSubmit={(e) => handleSubmit(e)} 
             sx={{
-              width: 600,
+              width: '37.5em',
               height:'auto',
-              borderRadius: '5px',
+              borderRadius: '0.313',
               backgroundColor: '#192A45',
               borderColor:'#192A45',
               color: '#357DED',
             }}>
-            <Box sx={{ m: '10px', borderRadius: '10px', border: '2px solid white' }}>
+            <Box sx={{
+               m: '0.625em', 
+               borderRadius: '0.625em', 
+               border: '0.125em solid white'
+                }}
+                >
               <h1 >RETIRA TUS MONEDAS</h1> 
               <h3>( 1 moneda = $ 7 ) </h3>
               <h3>Monedas Disponibles: {coins}</h3>
@@ -95,9 +120,11 @@ export default function CheckoutForm() {
                   <Input 
                     placeholder = 'NOMBRE TITULAR DE LA CUENTA' 
                     sx = {{ 
+                      padding:'0.5em',
                       width :'32rem',
                       justifyContent:'center',
-                      backgroundColor:'white'
+                      backgroundColor:'white',
+                      id:''
                     }}
                     type = "text"
                     value = {input.name}
@@ -114,6 +141,7 @@ export default function CheckoutForm() {
                   placeholder = 'CBU' 
                   sx = {{ 
                     width :'32rem',
+                    padding:'0.5em',
                     justifyContent:'center',
                     backgroundColor:'white',
                     textAlign: 'center'
@@ -131,11 +159,11 @@ export default function CheckoutForm() {
                 { flag ?                    
                         <select 
                           style = {{
-                            width: 32 +'rem', 
+                            width: '32rem', 
                             justifyContent:'center',
                             backgroundColor:'white',
                             textAlign:'center',
-                            height: 2 +'rem'
+                            height: '2rem'
                           }} 
                           name="value" 
                           onChange = {handleChange} 
@@ -153,7 +181,11 @@ export default function CheckoutForm() {
               </div> 
             </Box>
             <div>
-              <Box sx = {{ width: '100%', py: '1rem' }}>
+              <Box sx = {{ 
+                width: '100%', 
+                py: '1rem' 
+                }}
+                >
                 <Button 
                   onClick={(e) => handleSubmit(e)} 
                   size="small" 
