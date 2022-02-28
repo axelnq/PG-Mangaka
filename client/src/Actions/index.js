@@ -45,6 +45,7 @@ export const GET_SELLER_ORDER = "GET_SELLER_ORDER";
 export const GET_BUYER_ORDER = "GET_BUYER_ORDER";
 export const CREATE_COMMENT = "CREATE_COMMENT";
 export const SEE_COMMENTS = "SEE_COMMENTS";
+export const BUY_ALL_MANGA = "BUY_ALL_MANGA";
 
 const axios = require("axios");
 
@@ -879,3 +880,23 @@ export let getSellerOrder = () => {
         }
     };
 };
+
+export let buyAllManga = (payload) => {
+    return async (dispatch) => {
+        try {
+            console.log('asdasd',payload);
+            let buyAllManga = await axios.post(
+                `http://localhost:3001/api/buyChapter/buyAllManga`,
+                payload,
+                { withCredentials: true }
+            );
+            return dispatch({
+                type: BUY_ALL_MANGA,
+                payload: buyAllManga,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+

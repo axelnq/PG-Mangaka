@@ -131,7 +131,7 @@ internalOrderRouter.get<{}, {}>("/getSellerOrder", async (req, res) => {
 });
 
 
-internalOrderRouter.get<{}, {}>(
+internalOrderRouter.post<{}, {}>(
   "/buyAllManga",
   isAuthenticated,
   async (req, res, next) => {

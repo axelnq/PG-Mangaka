@@ -43,6 +43,7 @@ import {
     GET_PANEL_MANGAS,
     BUY_CHAPTERS,
     SEE_COMMENTS,
+    BUY_ALL_MANGA
     // GET_PREFERENCE_ID
 } from "../Actions";
 
@@ -313,6 +314,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state
             }
+        case BUY_ALL_MANGA:
+            return {
+                ...state
+            }
+
         case SEE_COMMENTS:
             return {
                 ...state,

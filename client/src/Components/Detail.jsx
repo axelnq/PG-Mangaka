@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 //actions
 import axios from 'axios';
-import { getMangaDetail, addMangaWishList, buyChapters, getUser } from '../Actions'
+import { getMangaDetail, addMangaWishList, buyChapters, getUser, buyAllManga } from '../Actions'
 //mui
 import { Container, Box, Button, List, ListItem, Modal, LinearProgress, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Rating } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -94,6 +94,13 @@ const Detail = () => {
         dispatch(buyChapters({ sellerId: mangaDetail.authorId, productId: chapId }))
         setTimeout(() => navigate(`/reader/${chapId}`), 1000)
     }
+
+    let handleBuyAllManga = (e) => {
+        e.preventDefault()
+        dispatch(buyAllManga({ sellerId: mangaDetail.authorId, productId: mangaDetail.id }))
+        setTimeout(() => navigate(`/reader/${mangaDetail.chapters[0].id}`), 1000)
+    }
+
 
     const [paragraph, setParagraph] = React.useState(false)
 
@@ -200,6 +207,7 @@ const Detail = () => {
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', p: '1rem' }}>
                         <a href="#bottom"><Button sx={{ fontSize: { xs: '0.7rem', md: '1rem' }, color: '#357DED' }}>Ir al último <ArrowDropDownIcon /></Button></a>
+                        <Button onClick={handleBuyAllManga} sx={{ fontSize: { xs: '0.7rem', md: '1rem' }, background: '#357DED' }} variant="contained">Comprar todo el manga</Button>
                         {
                             user && user.creatorMode && mangaDetail.authorId === user.id ?
                                 <Link to={'/profile/createChapters/' + mangaDetail.id}><Button sx={{ fontSize: { xs: '0.7rem', md: '1rem' }, background: '#357DED' }} variant="contained">Agregar Capítulo</Button></Link>
