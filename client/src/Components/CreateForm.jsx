@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { FormControl } from '@mui/material';
+import { Divider, FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Select, MenuItem, Input } from '@mui/material';
@@ -16,7 +16,7 @@ function validate(input) {
   error.title = title.length > 3 && isNaN(title) ? null : 'Ingrese titulo,sólo letras';
   error.image = image ? null : 'Ingrese imagen';
   error.synopsis = synopsis && synopsis.length > 30 ? null : 'Minimo 30 caracteres';
-  error.genres = genres.length > 0 && genres[0] != "Generos" ? null : 'Ingrese genero';
+  error.genres = genres.length > 0 ? null : 'Ingrese genero';
 
   return error;
 }
@@ -30,7 +30,7 @@ export default function CreateForm() {
     title: '',
     synopsis: '',
     image: null,
-    genres: ["Generos"],
+    genres: [],
   });
 
   function handleChangeFile(e) {
@@ -62,7 +62,7 @@ export default function CreateForm() {
     setInput({
       title: '',
       synopsis: '',
-      genres: ["Generos"],
+      genres: [],
       image: null,
     });
     setError({})
@@ -76,9 +76,16 @@ export default function CreateForm() {
   }
 
   function handleSelect(e) {
+    if(!input.genres.includes(e.target.value)) setInput({
+      ...input,
+      genres: [...input.genres, e.target.value],
+    });
+  }
+  
+  function handleDelete(e) {
     setInput({
       ...input,
-      genres: [e.target.value],
+      genres: input.genres.filter(genre => genre != e.target.value),
     });
   }
 
@@ -205,7 +212,13 @@ export default function CreateForm() {
           </Box>
 
           <div>
-            {input.genre?.map((genre, i) => <p key={i}>{genre}</p>)}
+            {input.genres?.map((genre, i) => 
+            <div key={i}>
+              <span>{genre}</span>
+              <button value={genre} onClick={(e) => handleDelete(e)}>X</button>
+            </div>
+            )
+            }
           </div>
 
           <div>
