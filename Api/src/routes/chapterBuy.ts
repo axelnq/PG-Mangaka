@@ -129,3 +129,94 @@ internalOrderRouter.get<{}, {}>("/getSellerOrder", async (req, res) => {
   let info = await db.internalOrder.findMany({ where: { sellerId: user2.id } });
   res.send(info);
 });
+
+
+internalOrderRouter.get<{}, {}>(
+  "/buyAllManga",
+  isAuthenticated,
+  async (req, res, next) => {
+    const { sellerId, productId } = req.body;
+    let buyeruser = req.user;
+    let productid = Number(productId);
+    // let tempSeller = {};
+    let buyer: any = await db.user.findUnique({
+      //@ts-ignore
+      where: { id: buyeruser.id },
+    });
+
+    const manga: any = await db.manga.findUnique({
+      where: { id: Number(productid) },
+
+      select: {
+        id: true,
+        chapters: {
+          select: {
+            id: true, title: true, price: true
+          }
+        }
+      },
+    });
+
+    let totalPrice: number = 0;
+    let chaptersIds: number[] = [];
+
+    manga.chapters.map((chapter: any) => {
+      if (!(buyer.chapters.includes(chapter.id))) {
+        totalPrice += chapter.price;
+        chaptersIds.push(chapter.id)
+      }
+    });
+    totalPrice -= 5;
+    
+    let seller = await db.user.findUnique({ where: { id: sellerId } });
+
+    if (!(buyer && seller && manga)) return res.send("Falta informacion")
+
+    if ((buyer.coins - totalPrice < 0)) return res.send("Monedas insuficientes");
+
+    if (!(totalPrice > 0)) return  res.send("No hay mangas que comprar");
+ 
+    try {
+      for (const chapter of chaptersIds) {
+        let iOrder = new internalOrder(
+          sellerId,
+          //@ts-ignore
+          buyeruser.id,
+          chapter,
+          totalPrice
+        );
+        //console.log(iOrder2)
+        //@ts-ignore
+        const newIorder = await db.internalOrder.create({ data: iOrder });
+      }
+      
+      
+      const updatebuyer = await db.user.update({
+        where: {
+          username: buyer.username,
+        },
+        data: {
+          coins: buyer.coins - totalPrice,
+          chapters: [...buyer.chapters, ...chaptersIds],
+          library: [...buyer.library, manga.id],
+        },
+      });
+
+      const updateseller = await db.user.update({
+        where: {
+          username: seller.username,
+        },
+        data: {
+          coins: seller.coins + totalPrice,
+        },
+      });
+
+      res.send("exito");
+      // res.redirect("http://localhost:3000");
+
+    } catch (err: any) {
+      res.send(err.message)
+    }
+
+  }
+);
