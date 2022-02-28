@@ -607,6 +607,7 @@ export let addMangaWishList = (payload) => {
 export let postCheckout = (payload) => {
     return async (dispatch) => {
         try {
+            console.log("payload")
             console.log(payload);
             let checkout = await axios.post(
                 `http://localhost:3001/api/coins/sell`,

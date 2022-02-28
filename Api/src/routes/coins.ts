@@ -100,7 +100,9 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
 });
 
 externalOrderRouter.post<{}, {}>("/sell", async (req, res) => {
-  console.log('sell')
+  console.log("body")
+  console.log(req.body)
+  console.log("body")
   let { name, cbu, value } = req.body;
   let user2 = req.user;
   let nValue = Number(value);

@@ -104,7 +104,7 @@ export default function CreateChapters() {
             <div>
               <FormControl>
                 <Input 
-                  placeholder = 'TITLE' 
+                  placeholder = 'TÍTULO' 
                   sx = {{ 
                     width: '32rem', 
                     justifyContent:'center',
@@ -182,7 +182,7 @@ export default function CreateChapters() {
                 <Box sx={{ width: '100%', py: '0.2rem' }}>
                   <NavLink to="/">
                     <Button>
-                      Home
+                      Inicio
                     </Button>
                   </NavLink>
                 </Box>

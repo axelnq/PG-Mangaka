@@ -67,9 +67,9 @@ const Username = () => {
 				onSubmit={handleSubmit}
 				autoComplete="off"
 			>
-				<Typography variant="h4">Cambiar Username</Typography>
+				<Typography variant="h4">Cambiar Nombre de Usuario</Typography>
 				<Typography variant="h6">
-					Username Actual: {user.username}
+					Nombre de Usuario Actual: {user.username}
 				</Typography>
 				<TextField
 					fullWidth
@@ -78,7 +78,7 @@ const Username = () => {
 						borderRadius: "5px 5px 0 0",
 						my: 2,
 					}}
-					label="Nuevo Username"
+					label="Nuevo Nombre de Usuario"
 					variant="filled"
 					name="newUsername"
 					type="text"
@@ -119,7 +119,7 @@ const Username = () => {
 					/>
 				</FormControl>
 				<Button sx={{ mt: 3 }} type="submit" variant="contained">
-					Cambiar Username
+					Cambiar Nombre de Usuario
 				</Button>
 				{snack.message && (
 					<Snackbar type={snack.type} message={snack.message} />

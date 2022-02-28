@@ -110,7 +110,7 @@ export default function PerfilNavbar() {
           {user.name}
         </MenuItem>
         <Link to="/wishlist" style={{ textDecoration: "none", color: "white" }}>
-          <MenuItem>Wishlist</MenuItem>
+          <MenuItem>Deseados</MenuItem>
         </Link>
         <Link to="/favorite" style={{ textDecoration: "none", color: "white" }}>
           <MenuItem>Favoritos</MenuItem>

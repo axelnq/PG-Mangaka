@@ -133,7 +133,7 @@ function Profile(props) {
           style={{ textDecoration: "none", color: "white" }}
         >
           <ListItem button>
-            <ListItemText primary={"Name"} />
+            <ListItemText primary={"Nombre"} />
           </ListItem>
         </Link>
 
@@ -161,7 +161,7 @@ function Profile(props) {
               style={{ textDecoration: "none", color: "white" }}
             >
               <ListItem button>
-                <ListItemText primary={"Password"} />
+                <ListItemText primary={"Contraseña"} />
               </ListItem>
             </Link>
             <Link
@@ -179,7 +179,7 @@ function Profile(props) {
           style={{ textDecoration: "none", color: "white" }}
         >
           <ListItem button>
-            <ListItemText primary={"About"} />
+            <ListItemText primary={"Descripción"} />
           </ListItem>
         </Link>
       </List>
@@ -252,7 +252,7 @@ function Profile(props) {
             </Typography>
           </Link>
           <Link to="/" style={{ textDecoration: "none" }}>
-            <Button variant="outlined" sx={{ height: { xs: "90%" } }}>
+            <Button variant="contained" sx={{ height: { xs: "90%" } }}>
               Inicio
             </Button>
           </Link>

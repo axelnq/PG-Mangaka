@@ -116,7 +116,7 @@ export default function CreateForm() {
             <div>
               <FormControl>
                 <Input
-                  placeholder='TITLE'
+                  placeholder='TÍTULO'
                   sx={{ 
                     width: '32rem', 
                     justifyContent: 'center', 
@@ -162,7 +162,7 @@ export default function CreateForm() {
           <Box sx={{ mt: '2rem' }}>
             <div>
               <TextField
-                placeholder='SYNOPSIS'
+                placeholder='SINOPSIS'
                 id="filled-multiline-flexible"
                 multiline
                 sx={{
@@ -212,13 +212,16 @@ export default function CreateForm() {
           </Box>
 
           <div>
-            {input.genres?.map((genre, i) => 
-            <div key={i}>
-              <span>{genre}</span>
-              <button value={genre} onClick={(e) => handleDelete(e)}>X</button>
-            </div>
+            <Box sx={{py:'1rem', display: 'flex', flexDirection: 'column', ml:"3rem", alignItems: 'flex-start'}}>
+              {input.genres?.map((genre, i) => 
+
+              <div key={i}>
+                <span>{genre}</span>
+                <Button value={genre} onClick={(e) => handleDelete(e)}>X</Button>
+              </div>
             )
             }
+            </Box>
           </div>
 
           <div>
@@ -233,7 +236,7 @@ export default function CreateForm() {
             <Box sx={{ width: '100%', py: '0.2rem' }}>
               <NavLink to="/">
                 <Button>
-                  Home
+                  Inicio
                 </Button>
               </NavLink>
             </Box>

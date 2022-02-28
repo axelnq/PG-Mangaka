@@ -63,11 +63,11 @@ export default function CheckoutForm() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('coins', input.coins);
-    formData.append('id', input.id);
-    formData.append('cbu', input.cbu);
-    formData.append('alias', input.alias);
+    let formData = {
+      cbu: input.cbu,
+      value: input.value,
+      name: input.name,
+    }
     dispatch(postCheckout(formData));
     // axios.post('http://localhost:3001/api/coins/sell', input ,{ withCredentials:true })
     alert('Su solicitud esta siendo procesada');

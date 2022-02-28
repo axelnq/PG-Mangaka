@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Box, Card, CardContent, CardMedia, Typography, Alert } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,10 +21,15 @@ const MangaCard = ({ id, title, author, image, genre }) => {
     let buffer = _ArrayBufferToBase64 (image)
     const user = useSelector(state => state.user)
     const navigate = useNavigate()
+    const [flag, setFlag] = useState(false)
 
     function handleLogin(e) {
         e.preventDefault();
-        user ? navigate('/detail/'+id) : alert("Inicia sesión para poder agregarle un manga") 
+        if(user) navigate('/detail/'+id)
+        else{
+            setFlag(true)
+            setTimeout(() => setFlag(false), 5000)
+            }
     };
     
     return (
@@ -54,6 +60,7 @@ const MangaCard = ({ id, title, author, image, genre }) => {
                     </Card>
                 </div>
             </Link>
+            { flag ? <Alert severity="error">Debes estar logueado para acceder</Alert> : null}
         </div >
     )
 }

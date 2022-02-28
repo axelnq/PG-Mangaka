@@ -40,7 +40,7 @@ const About = () => {
 		} else {
 			setSnack({
 				type: "error",
-				message: "Es necesario completar el About",
+				message: "Es necesario completar tu descripción",
 			});
 		}
 	};
@@ -52,8 +52,8 @@ const About = () => {
 			onSubmit={handleSubmit}
 			autoComplete="off"
 		>
-			<Typography variant="h4">Modificar About</Typography>
-			<Typography variant="h6">About Actual</Typography>
+			<Typography variant="h4">Modificar descripción</Typography>
+			<Typography variant="h6">Descripción Actual</Typography>
 			<Typography variant="body1" gutterBottom>
 				{user.about}
 			</Typography>
@@ -68,7 +68,7 @@ const About = () => {
 				variant="filled"
 			/>
 			<Button type="submit" variant="contained">
-				Modificar About
+				Modificar descripción
 			</Button>
 			{snack.message && (
 				<Snackbar type={snack.type} message={snack.message} />

@@ -124,7 +124,7 @@ const Detail = () => {
                                     user.wishList.includes(mangaDetail.id) ?
                                         null
                                         :
-                                        <Button onClick={handleAddWishlist}>+ Wishlist</Button>
+                                        <Button onClick={handleAddWishlist}>+ Deseados</Button>
                                 }
                                 {
                                     user.favorites.includes(mangaDetail.id) ?

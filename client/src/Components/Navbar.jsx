@@ -158,7 +158,7 @@ export default function NavBar() {
               <Stack direction="column">
                 <Stack direction="row" sx={{ mt: { xs: 2, md: 0 } }}>
                   <Input
-                    placeholder="Search..."
+                    placeholder="Buscar..."
                     value={search}
                     onChange={handleFilter}
                   />

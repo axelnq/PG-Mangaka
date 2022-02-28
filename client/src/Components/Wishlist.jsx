@@ -41,7 +41,7 @@ const Wishlist = () => {
         <div>
             <Navbar />
             <Container maxWidth="sm" sx={{ backgroundColor: '#001B44', borderRadius: '5%', height: '35rem', width: '100%', padding: 0, my: '1rem' }}>
-                <Typography variant='h3' color='#357DED' sx={{ padding: '1rem' }}>My Wishlist</Typography>
+                <Typography variant='h3' color='#357DED' sx={{ padding: '1rem' }}>Mis Deseados:</Typography>
                 <List sx={{ width: '100%', color: '#fff' }} >
                     {
                         wishlist.data ? wishlist.data?.map((m, i) => {
