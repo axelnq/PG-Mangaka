@@ -4,9 +4,10 @@ import CoinsPackage from "../classes/CoinsPackage";
 import extractionOrder from "../classes/ExtractionOrder";
 import externalOrder from "../classes/ExternalOrder";
 export const externalOrderRouter = Router();
-const { 
+const  
   SERVER_URL
-} = process.env || 3001
+ = 'http://localhost:3001'
+const FRONT_URL = 'http://localhost:3000';
 
 const mercadopago = require("mercadopago");
 
@@ -89,10 +90,10 @@ externalOrderRouter.get("/pagos/:product", async (req, res) => {
         });
         //@ts-ignore
 
-        res.redirect(`${SERVER_URL}`);
+        res.redirect(`${FRONT_URL}`);
       } catch (error) {
         console.log(error);
-        res.redirect(`${SERVER_URL}/error`);
+        res.redirect(`${FRONT_URL}/error`);
       }
     }
   }

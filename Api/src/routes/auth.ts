@@ -1,9 +1,9 @@
 import { NextFunction, Router } from "express";
 import passport from "passport";
 import { db } from "../app";
-const { 
+const 
   SERVER_URL
-} = process.env || 3001
+ = 'http://localhost:3000';
 
 export const authRouter = Router();
 export async function isAuthenticated(req: any , res: any, next: any) {

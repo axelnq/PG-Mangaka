@@ -13,11 +13,7 @@ import { postCheckout} from "../Actions";
 
 function validate(input) {
   const error = {};
-<<<<<<< HEAD
   const { name, cbu, value } = input;
-=======
-  const { name, cbu, coins, price} = input;
->>>>>>> feature/ft-68
   
   error.name = name.length > 3 && isNaN(name) ? null : 'Ingrese nombre del titular de la cuenta';  
   error.cbu = cbu && cbu.length === 22 && !isNaN(cbu) ? null: 'El cbu debe tener 22 digitos';
